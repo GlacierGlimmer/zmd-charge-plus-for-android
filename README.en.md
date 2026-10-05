@@ -1,0 +1,195 @@
+# Endfield Charge Plus for Android
+
+**Endfield Charge Plus for Android** — a native Android implementation of Endfield Charge Plus.
+
+This is a real native Android application: Kotlin, Gradle Kotlin DSL, Jetpack Compose, Material 3,
+AndroidX, Coroutines/Flow, DataStore, and the platform `Service` / `Notification` / `WindowManager`
+APIs. It is not Avalonia Android, Flutter, React Native, MAUI, or a WebView shell.
+
+```
+Endfield Charge Plus
+├─ Windows
+├─ Linux
+├─ macOS
+└─ Android   ← this repository (an independent native implementation)
+```
+
+- Version: `0.1.0` (versionCode 1)
+- Package: `com.glacierglimmer.endfieldchargeplus`
+- `minSdk 26`, `compileSdk / targetSdk 36`
+- Author: GlacierGlimmer / 冰川雪貓
+- Website: zmd-bar.x-neko.com
+- Based on [QinAnze/zmd-charge](https://github.com/QinAnze/zmd-charge) (MIT)
+
+---
+
+## 1. Product structure
+
+The settings application and the on-screen HUD are deliberately two different things, exactly as on
+the desktop platforms:
+
+| | Surface | Implementation |
+| --- | --- | --- |
+| **Application** | A native Android settings app (Material 3, edge-to-edge, dark/light, portrait/landscape, cutouts, any DPI) | Jetpack Compose, seven pages: Home / Display / HUD Content / Data sources / Advanced / Variables / About |
+| **On-screen HUD** | The Endfield-style status HUD (geometric lines, `/// MEMORY` tagline, progress ring, left/right areas, icons) | Custom `View` + `Canvas`; the same renderer serves the overlay window and the settings preview |
+
+Two display modes:
+
+- **Overlay** — `SYSTEM_ALERT_WINDOW` with a `TYPE_APPLICATION_OVERLAY` window owned by a foreground
+  service. The window is only as large as the HUD itself (never a full-screen transparent layer), it
+  does not take focus, supports click-through, can be dragged, remembers its position per orientation,
+  and avoids display cutouts.
+- **Island interface** (experimental) — a single `IslandProvider` abstraction with
+  `AndroidLiveUpdateProvider` (Android's official promoted ongoing notification / Live Update) and
+  `XiaomiHyperIslandProvider` (Xiaomi HyperIsland). Settings show the real availability and
+  authorization state of 自动 / Android system / Xiaomi HyperIsland.
+
+### The honest state of the island layer
+
+- **Android system**: only marked available when the platform version, notification permission,
+  channel state and platform eligibility all pass. Arbitrary custom layouts are not permitted by the
+  platform, so the capability list states the limits (no custom layout, no left/right split, throttled
+  updates).
+- **Xiaomi HyperIsland**: requires an application on the Xiaomi developer platform, scenario review
+  and vendor authorization. This application does **not** have that authorization and therefore
+  reports `尚未授权 / Xiaomi HyperIsland permission required`. There is no reflection into private
+  system APIs anywhere in the code, and no fake success is ever reported.
+- A plain notification is never presented as a successful island connection, and Android limits are
+  never bypassed with hacks.
+
+---
+
+## 2. Features
+
+- **Data collection** — memory, battery, network rates, storage, time/day progress. A single
+  `MetricRepository` publishes Flow/StateFlow data to every output; the overlay and the island layer
+  share it, so switching display mode never rebuilds the collection system.
+- **Variable system** — ECP variable names are preserved (`memory.usage`, `battery.remaining_mwh`,
+  `probe.latency_ms`, `deepseek.balance`, …) with compatibility for legacy spellings such as `ping.*`
+  and `memory.usage_percent`. The Variables page browses and searches the registry with type, unit,
+  description and common formats.
+- **Templates and expressions** — `{variable}`, `{variable|format}`, `{= expression}` and
+  `{= expression | format}`. Formats are a chained `|` pipeline (`gb`/`mb`/`kb`/`bytes`/`speed` are
+  binary, `mbps`/`kbps` are decimal-SI, plus `math:`, `sub:`, `replace:`, `upper/lower`, `time:`,
+  `auto:n`, `duration`, `percent`). Expressions support arithmetic, `^`, comparisons, `&& || !`, `?:`,
+  `??` and `if/min/max/avg/sum/clamp/round/floor/ceil/abs/...`.
+- **Schemes** — built-in schemes (Battery / CPU / Memory / GPU / Network / System Disk / Day Progress
+  / DeepSeek balance & period / Packet Probe) plus custom schemes: create, save, copy, delete, rename,
+  save a modified built-in as a custom scheme, and preview. Auto-cycling supports reordering, an
+  interval and an animation mode, and deleting a referenced scheme cleans up the carousel queue.
+- **Animation** — the full animation (6 s baseline timeline: title, ripples, circle→square shape
+  morph, bounce) and the simple animation (5 s baseline, immediate reveal). Scheme switches always run
+  `hide → swap content → reveal`, and hiding is a fixed 180 ms collapse.
+- **Packet probe** — ICMP / TCP / UDP against IPv4, IPv6 or a hostname, with latency on the left of
+  the HUD and packet loss on the right. Since an unprivileged Android app cannot rely on raw ICMP,
+  TCP connect latency is the practical path; failures show a reason, never a fabricated `0 ms` / `0 %`.
+- **DeepSeek API** — balance, current peak/off-peak period, remaining time and progress. The API key is
+  stored with Android Keystore backed encryption, is never logged or exported, and requests are limited
+  to at most one per minute with failure backoff.
+- **Custom HTTP/JSON sources** — GET a JSON endpoint and map fields to
+  `custom.<source>.<field>` (the legacy `http.` prefix is mirrored), HTTPS-only except loopback, with
+  timeouts, a response size cap and failure backoff.
+- **Localization** — Simplified Chinese and English, defaulting to the system language (any `zh*`
+  locale uses Simplified Chinese, everything else English), switchable in the app and persisted. The UI,
+  dialogs, permission explanations, notification, foreground service, error messages, About page,
+  island states and diagnostics all use one localization path, so switching to English leaves no
+  Chinese text behind.
+- **Configuration** — DataStore persistence with sensitive values stored separately; schemes and
+  complex configuration are JSON with the same field names as the desktop editions, aiming at
+  cross-platform import/export. A corrupt import keeps the previous configuration
+  (`config_previous`) instead of destroying the user's settings.
+- **Diagnostics** — an in-app log viewer, a shareable diagnostics report, hardware capability
+  re-detection and a permission overview.
+
+---
+
+## 3. What Android actually allows (stated plainly)
+
+An unprivileged third-party Android app cannot read everything a desktop can. This application reports
+only data it really read; when a metric is unavailable it renders the platform sentinel `--` (the same
+marker the desktop editions use) and never substitutes `0` or a random value.
+
+| Metric | Android status |
+| --- | --- |
+| Memory total / available / usage | ✅ system API |
+| Battery level / temperature / voltage / charging state | ✅ system API |
+| Battery current | ⚠️ when the device supports `BATTERY_PROPERTY_CURRENT_NOW`, otherwise unavailable |
+| Network up/down rates, network type | ✅ `TrafficStats` + `ConnectivityManager` |
+| Storage total / used / free | ✅ `StatFs` / `StorageManager` |
+| Time / date / day progress / target time | ✅ |
+| Probe latency / packet loss | ✅ (TCP primary, ICMP best-effort) |
+| Memory detail (cached / swap) | ⚠️ when `/proc/meminfo` is readable |
+| CPU total and per-core usage | ⚠️ when `/proc/stat` is readable; restricted on some devices |
+| CPU frequency | ⚠️ unreadable on most retail devices since Android 10 |
+| CPU temperature | ⚠️ only when an identifiable thermal zone exists |
+| GPU load / frequency / temperature / VRAM | ❌ no public API; normally unsupported (unless a vendor node is genuinely readable) |
+| Wi-Fi SSID | ❌ requires location permission, which the app never requests on its own |
+
+Advanced → Re-detect hardware capabilities probes the device live and lists every verdict with its
+evidence (which API or sysfs node was probed and why it failed).
+
+---
+
+## 4. Building
+
+Requirements: JDK 17 and an Android SDK with `platforms;android-36`, `build-tools` and
+`platform-tools`.
+
+```powershell
+$env:JAVA_HOME="C:\Program Files\Java\jdk-17"
+$env:ANDROID_HOME="<your Android SDK>"
+# or set sdk.dir in local.properties
+.\gradlew.bat :core:test :app:testDebugUnitTest      # unit tests
+.\gradlew.bat :app:assembleDebug                     # debug APK
+.\gradlew.bat :app:lintDebug                         # Android lint
+.\gradlew.bat :app:assembleRelease                   # R8 release build
+```
+
+---
+
+## 5. Architecture
+
+```
+:core  (pure Kotlin/JVM, unit-testable without an emulator)
+  model / expression / template / metrics / i18n / json / product
+:app   (Android)
+  ui / overlay / service / island / metrics / network / deepseek / data / permission / diagnostics / di
+```
+
+The layering is enforced: UI ≠ data collection, UI ≠ system APIs, overlay ≠ data provider,
+island ≠ overlay, configuration ≠ Compose state. `EcpContainer` is the single object graph entry
+point. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+Sampling is driven by one `SamplingScheduler` per tier (fast / normal / slow / idle); collectors never
+own timers. The cadence drops automatically when the HUD is hidden, the screen is off or nothing is
+consuming data, and network requests have interval floors and failure backoff.
+
+---
+
+## 6. Test and verification status
+
+| Check | Result |
+| --- | --- |
+| `:core:test` | 74 passing |
+| `:app:testDebugUnitTest` | 354 passing |
+| `:app:lintDebug` | 0 errors (21 advisory warnings) |
+| `:app:assembleDebug` | success (app-debug.apk, ~19.7 MB) |
+| `:app:assembleRelease` (R8) | success (unsigned release APK, ~1.9 MB) |
+| Physical-device testing | **not done** (this environment has no Android device) |
+
+The device checklist (overlay grant/deny, permission revocation, rotation, cutout screens, DPI
+changes, Activity swipe-away, service restart, lock screen, screen off, Wi-Fi ↔ cellular, no network,
+IPv6, DeepSeek errors, HTTP timeouts, corrupt configuration, language switching, system language
+changes, Android background killing) is recorded in [docs/TESTING.md](docs/TESTING.md). Until that
+testing is done, this version must **not** be described as verified on real hardware.
+
+---
+
+## 7. Licence and attribution
+
+- This repository: MIT License (see [LICENSE](LICENSE)).
+- Derived from [QinAnze/zmd-charge](https://github.com/QinAnze/zmd-charge); the upstream project and
+  its authorship are preserved.
+- Third-party components and notices: [NOTICE.md](NOTICE.md).
+- The app does not upload user data; custom HTTP sources and the packet probe only contact
+  user-configured addresses.

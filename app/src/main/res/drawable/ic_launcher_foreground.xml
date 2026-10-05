@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Endfield Charge Plus launcher foreground: a geometric hexagon (Endfield style) holding a charge
+  bolt, drawn in the ECP accent colour. Kept inside the 66dp adaptive-icon safe zone.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- hexagon outline -->
+    <path
+        android:pathData="M54,24 L80,39 L80,69 L54,84 L28,69 L28,39 Z"
+        android:strokeColor="#C6CA4C"
+        android:strokeWidth="3" />
+    <!-- inner hexagon hairline -->
+    <path
+        android:pathData="M54,32 L73,43 L73,65 L54,76 L35,65 L35,43 Z"
+        android:strokeColor="#6E7340"
+        android:strokeWidth="1" />
+    <!-- charge bolt -->
+    <path
+        android:fillColor="#C6CA4C"
+        android:pathData="M57.5,36 L44,58 L52.5,58 L49,72 L64.5,48 L55.5,48 Z" />
+    <!-- corner markers -->
+    <path
+        android:fillColor="#8A8F52"
+        android:pathData="M22,22h8v2h-6v6h-2zM78,22h8v8h-2v-6h-6zM22,78h2v6h6v2h-8zM78,78h6v-6h2v8h-8z" />
+</vector>

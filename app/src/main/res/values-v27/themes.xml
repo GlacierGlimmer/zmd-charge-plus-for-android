@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  API 27 added `windowLayoutInDisplayCutoutMode`. It is declared only from v27 so the base theme stays
+  valid on Android 8.0 (minSdk 26). `shortEdges` lets the settings UI draw edge to edge on devices
+  with a cutout; every screen still applies the real insets through WindowInsets.
+-->
+<resources>
+    <style name="Theme.EndfieldChargePlus" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/ecp_window_background</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+    </style>
+</resources>

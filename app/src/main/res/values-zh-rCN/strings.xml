@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  简体中文启动器名称。应用内文本统一由 core.i18n.Strings / EcpMessages 渲染，
+  见 values/strings.xml 的说明。
+-->
+<resources>
+    <string name="app_name">终末地充电增强</string>
+</resources>

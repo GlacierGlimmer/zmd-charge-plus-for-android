@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Only the launcher label lives here: it is consumed by the Android system (launcher, task
+  switcher), so it must follow the framework locale.
+
+  Every in-app string — including the notification, the channel name and the island states — is
+  rendered through the shared core localization API (`core.i18n.Strings` + `EcpMessages`), because
+  the application supports switching language inside the app without recreating the Activity, and the
+  HUD/foreground service must use the same language as the UI.
+-->
+<resources>
+    <string name="app_name">Endfield Charge Plus</string>
+</resources>

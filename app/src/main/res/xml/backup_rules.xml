@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Backup rules. The exported configuration contains the DeepSeek API key in protected form, so the
+  configuration directory is excluded from cloud backup and device transfer.
+-->
+<full-backup-content>
+    <exclude domain="file" path="datastore/" />
+    <exclude domain="sharedpref" path="ecp_secure_secrets.xml" />
+</full-backup-content>
