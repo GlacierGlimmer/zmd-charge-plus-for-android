@@ -22,8 +22,7 @@ val LocalUiLanguage = compositionLocalOf { UiLanguage.ZH_CN }
 /** Bilingual text through the shared core table, recomposing when the language changes. */
 @Composable
 fun t(zh: String, en: String): String {
-    LocalUiLanguage.current
-    return Strings.t(zh, en)
+    return if (LocalUiLanguage.current == UiLanguage.EN) en else zh
 }
 
 /**
@@ -49,8 +48,8 @@ fun keyedText(key: String): String = EcpMessages.t(key)
  */
 @Composable
 fun keyed(key: String): String {
-    LocalUiLanguage.current
-    return EcpMessages.t(key)
+    return if (LocalUiLanguage.current == UiLanguage.EN) EcpMessages.en(key) ?: EcpMessages.t(key)
+        else EcpMessages.zh(key) ?: EcpMessages.t(key)
 }
 
 /**
@@ -65,6 +64,21 @@ object EcpMessages {
 
     private val table: Map<String, Pair<String, String>> = buildMap {
         // ---------------------------------------------------------------- permission classes
+        put("permission.overlay.granted", "已允许显示在其他应用上层。" to "Drawing over other apps is allowed.")
+        put("permission.overlay.required", "需要在系统设置中允许显示在其他应用上层。" to "Allow drawing over other apps in system settings.")
+        put("permission.notifications.granted", "已允许显示通知。" to "Notifications are allowed.")
+        put("permission.notifications.required", "需要开启应用通知权限。" to "Enable notification permission for the app.")
+        put("permission.foreground_service.declared", "已配置前台服务权限，运行 HUD 时使用。" to "Foreground service permission is declared for the HUD.")
+        put("permission.foreground_service.missing", "应用缺少前台服务权限。" to "The app is missing foreground service permission.")
+        put("permission.network.connected", "网络已连接。" to "The network is connected.")
+        put("permission.network.offline", "当前没有可用网络。" to "No network is currently available.")
+        put("permission.network.missing", "应用缺少网络访问权限。" to "The app is missing network access permission.")
+        put("permission.boot_start.declared", "已配置开机启动权限，可在设置中开启。" to "Boot permission is declared; enable startup in settings.")
+        put("permission.boot_start.missing", "应用缺少开机启动权限。" to "The app is missing boot permission.")
+        put("permission.live_update.granted", "系统允许实时通知接口。" to "The system allows live update notifications.")
+        put("permission.live_update.unavailable", "本设备暂不支持实时通知，或尚未授权。" to "Live updates are unsupported or not authorized on this device.")
+        put("permission.vendor_island.granted", "厂商灵动岛接口已授权。" to "The vendor island API is authorized.")
+        put("permission.vendor_island.required", "需要设备支持及厂商授权。" to "Device support and vendor authorization are required.")
         put("permission_overlay", "悬浮窗权限" to "Overlay permission")
         put("permission_notifications", "通知权限" to "Notification permission")
         put("permission_foreground_service", "前台服务" to "Foreground service")
@@ -300,6 +314,8 @@ object EcpMessages {
         "DURATION" -> Strings.t("时长", "Duration")
         "BYTES" -> Strings.t("字节", "Bytes")
         "PERCENT" -> Strings.t("百分比", "Percent")
+        "PROGRESS" -> Strings.t("进度", "Progress")
+        "UNAVAILABLE" -> Strings.t("不支持", "Not supported")
         "SPEED" -> Strings.t("速率", "Speed")
         else -> typeName
     }

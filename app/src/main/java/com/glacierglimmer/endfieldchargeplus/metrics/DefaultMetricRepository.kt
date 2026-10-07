@@ -108,7 +108,7 @@ class DefaultMetricRepository(
                             "throttleHidden=${config.android.throttleWhenHidden} " +
                             "throttleScreenOff=${config.android.throttleWhenScreenOff}",
                     )
-                    scheduler.requestImmediate()
+                    scheduler.configurationChanged()
                 }
             }
             scope.launch { detectCapabilities("start") }

@@ -22,6 +22,29 @@ import java.util.concurrent.atomic.AtomicInteger
 @OptIn(ExperimentalCoroutinesApi::class)
 class SamplingSchedulerTest {
 
+    @Test
+    fun `slowing sampling does not collect an extra sample or retain the old delay`() = runTest {
+        var current = config(fast = 100L)
+        val scheduler = SamplingScheduler({ current }, dispatcher = StandardTestDispatcher(testScheduler))
+        val collector = RecordingCollector("fast", SamplingTier.FAST) { into ->
+            into["test.fast"] = MetricValue.Number(1.0)
+        }
+        scheduler.register(collector)
+        scheduler.setDemand(MetricDemand(outputActive = true, hudVisible = true, foregroundUi = true, screenOn = true))
+        scheduler.start()
+        runCurrent()
+        val before = collector.invocations.get()
+        current = config(fast = 2_000L)
+        scheduler.configurationChanged()
+        runCurrent()
+        assertEquals(before, collector.invocations.get())
+        advanceTimeBy(200L); runCurrent()
+        assertEquals("the old 100ms delay must be cancelled", before, collector.invocations.get())
+        advanceTimeBy(1_801L); runCurrent()
+        assertTrue(collector.invocations.get() > before)
+        scheduler.stop()
+    }
+
     private fun config(
         fast: Long = 100L,
         normal: Long = 100L,

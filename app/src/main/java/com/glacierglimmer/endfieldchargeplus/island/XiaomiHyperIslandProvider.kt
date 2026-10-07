@@ -5,12 +5,18 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.drawable.Icon
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.provider.Settings
 import com.glacierglimmer.endfieldchargeplus.core.model.HudRenderData
 import com.glacierglimmer.endfieldchargeplus.core.model.IslandProviderKind
 import com.glacierglimmer.endfieldchargeplus.diagnostics.AppLog
+import com.glacierglimmer.endfieldchargeplus.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
@@ -19,14 +25,10 @@ import kotlinx.serialization.json.putJsonObject
 /**
  * Xiaomi HyperOS "超级岛 / HyperIsland" backend.
  *
- * Research summary (sources in `docs/audit/03-island-platforms.md`): HyperIsland is *not* an SDK.
- * An application publishes by posting an ordinary notification whose extras carry a JSON string
- * under `miui.focus.param`, and the ROM only honours it for applications that went through the
- * Xiaomi developer console (enterprise account, on-shelf app, activated 超级岛 service, signing
- * fingerprint, `com.xiaomi.xms.APP_ID` meta-data, scenario pre-review + formal review + on-device
- * verification). A normal third-party app can therefore never publish an island on its own, and this
- * project bundles no vendor SDK: the publishing path lives behind [XiaomiIslandBridge] and the only
- * implementation shipped here is [NotIntegratedBridge], which refuses to publish.
+ * The client API uses ordinary notifications carrying `miui.focus.param` and `miui.focus.pics`;
+ * no vendor SDK is needed. [NotificationXiaomiIslandBridge] implements that transport. The ROM
+ * separately authorizes the app ID, APK signature and reviewed scenario through Xiaomi's console.
+ * Posting a notification is not proof that SystemUI actually displayed an island.
  *
  * Device detection uses public build information only ([Build.MANUFACTURER], [Build.BRAND],
  * [Build.DISPLAY], [Build.VERSION.INCREMENTAL], [Build.VERSION.SDK_INT]) plus two documented public
@@ -36,7 +38,7 @@ import kotlinx.serialization.json.putJsonObject
 class XiaomiHyperIslandProvider(
     private val context: Context,
     private val notificationHost: IslandNotificationHost,
-    private val bridge: XiaomiIslandBridge = NotIntegratedBridge,
+    private val bridge: XiaomiIslandBridge = NotificationXiaomiIslandBridge(context),
 ) : IslandProvider {
 
     override val kind: IslandProviderKind = IslandProviderKind.XIAOMI_HYPER_ISLAND
@@ -57,6 +59,8 @@ class XiaomiHyperIslandProvider(
     @Volatile
     private var content: IslandContent = IslandContent()
 
+    private var lastPublishedAt: Long = 0L
+
     /** True on Xiaomi devices running a HyperOS build (see [HyperOsIslandPolicy]). */
     override fun isPreferred(): Boolean =
         HyperOsIslandPolicy.isXiaomiDevice(Build.MANUFACTURER ?: "", Build.BRAND ?: "")
@@ -64,27 +68,39 @@ class XiaomiHyperIslandProvider(
     override fun capabilities(): IslandCapabilities = CAPABILITIES
 
     override fun availability(): IslandAvailability =
-        lastAvailability ?: evaluate().also { lastAvailability = it }
+        evaluate().let {
+            if (it.usable && lastError.isNotEmpty()) {
+                IslandAvailability.unavailable("island_state_publish_failed", lastError)
+            } else it
+        }.also { lastAvailability = it }
 
     override suspend fun refreshAvailability(): IslandAvailability = evaluate().also { lastAvailability = it }
 
     /**
-     * HyperIsland authorization is granted in the Xiaomi developer console, not on the device, so
-     * there is no activity this app may launch. The method reports `false` and only logs the
-     * documented entry point instead of pretending an authorization flow exists.
+     * Opens the official application instructions when the vendor ID is missing, or notification
+     * settings when an integrated app needs the user's permission. Neither action grants permission.
      */
     override fun requestAuthorization(activity: Activity?): Boolean {
-        AppLog.i(
-            TAG,
-            "HyperIsland authorization cannot be requested from the app; it is granted in the Xiaomi " +
-                "developer console after scenario review (${XiaomiIslandBridge.DOCUMENTATION_ACCESS_URL})",
-        )
-        return false
+        if (activity == null) return false
+        val intent = if (evaluate().state == IslandAvailabilityState.VENDOR_PERMISSION_REQUIRED) {
+            Intent(Intent.ACTION_VIEW, Uri.parse(XiaomiIslandBridge.DOCUMENTATION_ACCESS_URL))
+        } else {
+            Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                .putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+        }
+        return try {
+            activity.startActivity(intent)
+            true
+        } catch (t: Throwable) {
+            AppLog.w(TAG, "cannot open HyperIsland authorization instructions/settings", t)
+            false
+        }
     }
 
     /** Publishes the first frame; refuses whenever the vendor bridge is not integrated. */
     override fun start(scope: CoroutineScope) {
         if (running) return
+        lastError = ""
         val availability = refreshAvailabilityBlocking()
         if (!availability.usable) {
             AppLog.w(TAG, "start refused: state=${availability.state} key=${availability.messageKey} ${availability.detail}")
@@ -102,26 +118,33 @@ class XiaomiHyperIslandProvider(
             AppLog.i(TAG, "HyperIsland frame published through the vendor bridge (id=$NOTIFICATION_ID)")
         } else {
             lastError = "vendor bridge refused to publish: ${bridge.integrationDetail()}"
-            lastAvailability = IslandAvailability.needsVendorPermission(lastError)
+            lastAvailability = IslandAvailability.unavailable("island_state_publish_failed", lastError)
             AppLog.w(TAG, "HyperIsland publish refused: $lastError")
         }
     }
 
     /** Pushes one HUD frame; dropped while not running, never reported as success when refused. */
     override fun update(data: HudRenderData) {
+        val hadContent = !content.isEmpty
         content = IslandHudMapper.map(data, capabilities())
         if (!running) return
+        if (hadContent && SystemClock.elapsedRealtime() - lastPublishedAt < 1_000L) return
         if (!publishFrame()) {
             running = false
             lastError = "vendor bridge refused to update: ${bridge.integrationDetail()}"
-            lastAvailability = IslandAvailability.needsVendorPermission(lastError)
+            lastAvailability = IslandAvailability.unavailable("island_state_publish_failed", lastError)
+            cancelNotification()
             AppLog.w(TAG, "HyperIsland update refused: $lastError")
         }
     }
 
     override fun stop() {
-        if (!running) return
         running = false
+        lastError = ""
+        cancelNotification()
+    }
+
+    private fun cancelNotification() {
         try {
             notificationHost.cancel(NOTIFICATION_ID)
         } catch (t: Throwable) {
@@ -135,10 +158,12 @@ class XiaomiHyperIslandProvider(
     fun lastError(): String = lastError
 
     private fun publishFrame(): Boolean {
-        val params = XiaomiIslandParams.build(content, BUSINESS)
-        val builder = newBuilder(content)
         return try {
-            bridge.publish(notificationHost, NOTIFICATION_ID, builder, params)
+            val params = XiaomiIslandParams.build(content, BUSINESS)
+            val builder = newBuilder(content)
+            bridge.publish(notificationHost, NOTIFICATION_ID, builder, params).also {
+                if (it) lastPublishedAt = SystemClock.elapsedRealtime()
+            }
         } catch (t: Throwable) {
             AppLog.e(TAG, "vendor bridge publish threw", t)
             false
@@ -157,9 +182,11 @@ class XiaomiHyperIslandProvider(
         val display = Build.DISPLAY ?: ""
         val incremental = Build.VERSION.INCREMENTAL ?: ""
         val xiaomi = HyperOsIslandPolicy.isXiaomiDevice(manufacturer, brand)
-        val hyperOs = xiaomi && HyperOsIslandPolicy.hasHyperOsMarker(display, incremental)
-        val protocol = if (hyperOs) focusProtocolVersion() else 0
-        val focusPermission = if (protocol >= HyperOsIslandPolicy.MIN_FOCUS_PROTOCOL_FOR_ISLAND) {
+        val hasAppId = appIdConfigured()
+        // The documented protocol is authoritative; some ROM build strings contain no OS marker.
+        val protocol = if (xiaomi) focusProtocolVersion() else 0
+        val focusPermission = if (hasAppId && bridge.isIntegrated()
+            && protocol >= HyperOsIslandPolicy.MIN_FOCUS_PROTOCOL_FOR_ISLAND) {
             focusPermissionGranted()
         } else {
             null
@@ -173,7 +200,19 @@ class XiaomiHyperIslandProvider(
             focusPermissionGranted = focusPermission,
             bridgeIntegrated = bridge.isIntegrated(),
             bridgeDetail = bridge.integrationDetail(),
+            appIdConfigured = hasAppId,
         )
+    }
+
+    @Suppress("DEPRECATION")
+    private fun appIdConfigured(): Boolean = try {
+        val info = context.packageManager.getApplicationInfo(context.packageName, PackageManager.GET_META_DATA)
+        val raw = info.metaData?.get(META_DATA_APP_ID)
+        val appId = if (raw is Int) context.getString(raw) else raw?.toString().orEmpty()
+        appId.isNotBlank()
+    } catch (t: Throwable) {
+        AppLog.d(TAG, "HyperIsland app ID unavailable: ${t.javaClass.simpleName}")
+        false
     }
 
     /**
@@ -211,6 +250,12 @@ class XiaomiHyperIslandProvider(
             .setOnlyAlertOnce(true)
             .setShowWhen(false)
             .setCategory(Notification.CATEGORY_PROGRESS)
+            .apply {
+                context.packageManager.getLaunchIntentForPackage(context.packageName)?.let { intent ->
+                    setContentIntent(android.app.PendingIntent.getActivity(context, 0, intent,
+                        android.app.PendingIntent.FLAG_UPDATE_CURRENT or android.app.PendingIntent.FLAG_IMMUTABLE))
+                }
+            }
 
     private fun smallIconRes(): Int =
         try {
@@ -235,7 +280,7 @@ class XiaomiHyperIslandProvider(
         /** Localization key of the provider name. */
         const val NAME_KEY: String = "island_provider_xiaomi_hyper_island"
 
-        /** Notification channel used for the (would-be) island notification. */
+        /** Notification channel used for the island notification. */
         const val CHANNEL_ID: String = "ecp_island_hyper"
 
         private const val CHANNEL_NAME: String = "HUD HyperIsland"
@@ -277,7 +322,8 @@ class XiaomiHyperIslandProvider(
         val CAPABILITIES: IslandCapabilities = IslandCapabilities(
             supportsTitle = true,
             supportsSubtitle = true,
-            supportsProgress = true,
+            // This client uses the official image/text template, not a progress-bar template.
+            supportsProgress = false,
             supportsIcons = true,
             supportsMultipleLines = true,
             supportsCustomLayout = false,
@@ -288,6 +334,7 @@ class XiaomiHyperIslandProvider(
                 "island_limit_vendor_review_required",
                 "island_limit_no_custom_layout",
                 "island_limit_scenario_restricted",
+                "island_limit_no_progress",
             ),
             supportsLeftRightSplit = false,
         )
@@ -304,7 +351,7 @@ class XiaomiHyperIslandProvider(
  */
 interface XiaomiIslandBridge {
 
-    /** True only when a vendor-authorized integration is present in this build. */
+    /** Whether client transport is implemented; vendor authorization is checked separately. */
     fun isIntegrated(): Boolean
 
     /** Human readable reason why publishing is or is not possible. */
@@ -342,12 +389,47 @@ interface XiaomiIslandBridge {
 }
 
 /**
+ * The documented local-client transport. Xiaomi performs final authorization and rendering;
+ * `true` means the host accepted the notification, never a claim that the island is visible.
+ */
+class NotificationXiaomiIslandBridge(private val context: Context) : XiaomiIslandBridge {
+    override fun isIntegrated(): Boolean = true
+
+    override fun integrationDetail(): String =
+        "Local notification transport is integrated; Xiaomi app ID, signature and scenario authorization are required"
+
+    override fun documentationUrl(): String = XiaomiIslandBridge.DOCUMENTATION_GUIDE_URL
+
+    override fun publish(
+        notificationHost: IslandNotificationHost,
+        notificationId: Int,
+        builder: Notification.Builder,
+        islandParamsJson: String,
+    ): Boolean {
+        if (!notificationHost.areNotificationsEnabled()) return false
+        return try {
+            val pics = Bundle().apply {
+                putParcelable(XiaomiIslandParams.PICTURE_KEY,
+                    Icon.createWithResource(context, R.drawable.ic_launcher_monochrome))
+            }
+            builder.addExtras(Bundle().apply {
+                putString(XiaomiHyperIslandProvider.EXTRA_FOCUS_PARAM, islandParamsJson)
+                putBundle("miui.focus.pics", pics)
+            })
+            notificationHost.publish(notificationId, builder)
+            true
+        } catch (t: Throwable) {
+            AppLog.e("IslandXiaomiBridge", "HyperIsland notification was not posted", t)
+            false
+        }
+    }
+}
+
+/**
  * The deliberately non-integrated [XiaomiIslandBridge].
  *
- * This project has no Xiaomi enterprise developer account, no activated 超级岛 service, no
- * `com.xiaomi.xms.APP_ID` issued for this package and no vendor SDK artifact to bundle, so the only
- * correct behaviour is to report "not integrated" and refuse to publish. It never fakes success and
- * uses no reflection.
+ * An explicit opt-out for tests or builds that disable client transport. The production default
+ * is [NotificationXiaomiIslandBridge].
  */
 object NotIntegratedBridge : XiaomiIslandBridge {
 
@@ -387,6 +469,8 @@ object NotIntegratedBridge : XiaomiIslandBridge {
  */
 object XiaomiIslandParams {
 
+    const val PICTURE_KEY: String = "miui.focus.pic_ecp"
+
     /** Serializes the island payload for one HUD frame. */
     fun build(content: IslandContent, business: String): String = buildJsonObject {
         putJsonObject("param_v2") {
@@ -394,12 +478,26 @@ object XiaomiIslandParams {
             put("business", business)
             put("updatable", true)
             put("enableFloat", false)
+            put("islandFirstFloat", false)
+            put("ticker", content.shortText.ifBlank { content.bodyText })
+            put("tickerPic", PICTURE_KEY)
             if (content.title.isNotBlank()) put("aodTitle", content.title)
+            put("aodPic", PICTURE_KEY)
+            putJsonObject("baseInfo") {
+                put("type", 2)
+                put("title", content.title)
+                put("content", content.bodyText)
+            }
             putJsonObject("param_island") {
                 put("islandProperty", 1)
-                if (content.accentColor.startsWith("#")) put("highlightColor", content.accentColor)
+                if (Regex("#[0-9a-fA-F]{6}").matches(content.accentColor)) put("highlightColor", content.accentColor)
                 putJsonObject("bigIslandArea") {
                     putJsonObject("imageTextInfoLeft") {
+                        put("type", 1)
+                        putJsonObject("picInfo") {
+                            put("type", 1)
+                            put("pic", PICTURE_KEY)
+                        }
                         putJsonObject("miui.focus.paramtextInfo") {
                             put("frontTitle", content.title)
                             put("title", content.shortText)
@@ -407,11 +505,15 @@ object XiaomiIslandParams {
                             put("useHighLight", false)
                         }
                     }
+                    putJsonObject("picInfo") {
+                        put("type", 1)
+                        put("pic", PICTURE_KEY)
+                    }
                 }
                 putJsonObject("smallIslandArea") {
                     putJsonObject("picInfo") {
                         put("type", 1)
-                        if (content.iconKey.isNotBlank()) put("pic", content.iconKey)
+                        put("pic", PICTURE_KEY)
                     }
                 }
             }
@@ -429,6 +531,7 @@ data class HyperOsIslandProbe(
     val focusPermissionGranted: Boolean?,
     val bridgeIntegrated: Boolean,
     val bridgeDetail: String = "",
+    val appIdConfigured: Boolean = false,
 )
 
 /**
@@ -472,21 +575,20 @@ object HyperOsIslandPolicy {
                     "brand=${probe.brand.ifBlank { "unknown" }} is not a Xiaomi HyperOS device",
             )
         }
-        if (!hasHyperOsMarker(probe.display, probe.incremental)) {
-            return IslandAvailability.unsupported(
-                "Xiaomi device without a HyperOS marker in Build.DISPLAY/Build.VERSION.INCREMENTAL; " +
-                    "MIUI has no HyperIsland API",
-            )
-        }
-        if (probe.focusProtocolVersion in 1 until MIN_FOCUS_PROTOCOL_FOR_ISLAND) {
+        if (probe.focusProtocolVersion < MIN_FOCUS_PROTOCOL_FOR_ISLAND) {
             return IslandAvailability.unsupported(
                 "HyperIsland needs OS3 (notification_focus_protocol=$MIN_FOCUS_PROTOCOL_FOR_ISLAND); " +
-                    "this ROM reports focus protocol ${probe.focusProtocolVersion} (OS1/OS2 focus notifications only)",
+                    "this ROM reports focus protocol ${probe.focusProtocolVersion} (MIUI/OS1/OS2 have no island)",
             )
         }
         if (!probe.bridgeIntegrated) {
             return IslandAvailability.needsVendorPermission(
                 probe.bridgeDetail.ifBlank { "Xiaomi vendor authorization and scenario review are required" },
+            )
+        }
+        if (!probe.appIdConfigured) {
+            return IslandAvailability.needsVendorPermission(
+                "Configure the Xiaomi-issued com.xiaomi.xms.APP_ID and authorize the APK signature and scenario",
             )
         }
         if (!notificationsEnabled) {
@@ -502,8 +604,14 @@ object HyperOsIslandPolicy {
                 "the user disabled focus notifications for this app; HyperIsland requires the focus permission",
             )
         }
+        if (probe.focusPermissionGranted == null) {
+            return IslandAvailability.unavailable(
+                "island_state_promotion_check_failed", "cannot verify the Xiaomi focus-notification permission",
+            )
+        }
         return IslandAvailability.available(
-            "HyperOS with focus protocol ${probe.focusProtocolVersion} and an integrated, authorized vendor bridge",
+            "HyperOS focus protocol ${probe.focusProtocolVersion}, app ID configured and focus permission granted; " +
+                "actual island rendering remains controlled by the ROM and scenario authorization",
         )
     }
 }

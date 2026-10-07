@@ -13,15 +13,15 @@ data class MetricSnapshot(
     val values: Map<String, MetricValue> = emptyMap(),
     val timestampMs: Long = 0L,
 ) {
-    operator fun get(name: String): MetricValue? = values[name]
+    operator fun get(name: String): MetricValue? = values[name] ?: values[VariableAliases.canonical(name)]
 
     /** Numeric reading for [name], or null when the metric is missing or unavailable. */
-    fun numberOrNull(name: String): Double? = (values[name] as? MetricValue.Number)?.value
+    fun numberOrNull(name: String): Double? = (this[name] as? MetricValue.Number)?.value
 
     /** True when [name] currently has a real reading. */
-    fun isAvailable(name: String): Boolean = values[name]?.isAvailable == true
+    fun isAvailable(name: String): Boolean = this[name]?.isAvailable == true
 
-    fun text(name: String): String? = when (val value = values[name]) {
+    fun text(name: String): String? = when (val value = this[name]) {
         is MetricValue.Text -> value.value
         is MetricValue.Number -> formatPlain(value.value)
         else -> null
@@ -29,7 +29,7 @@ data class MetricSnapshot(
 
     /** Reason a metric is unavailable, used by the diagnostics page. */
     fun unavailableReason(name: String): UnavailableReason? =
-        (values[name] as? MetricValue.Unavailable)?.reason
+        (this[name] as? MetricValue.Unavailable)?.reason
 
     fun merge(other: Map<String, MetricValue>): MetricSnapshot =
         MetricSnapshot(values + other, maxOf(timestampMs, System.currentTimeMillis()))

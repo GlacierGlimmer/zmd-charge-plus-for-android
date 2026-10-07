@@ -1,9 +1,44 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
     id("org.jetbrains.kotlin.plugin.serialization")
 }
+
+/**
+ * Release signing.
+ *
+ * The keystore and its credentials are deliberately kept OUT of this repository. The build looks
+ * for them in this order:
+ *   1. the file named by the `ECP_KEYSTORE_PROPERTIES` environment variable (absolute path), or
+ *   2. `keystore.properties` in the repository root (git-ignored).
+ *
+ * The properties file must define `storeFile`, `storePassword`, `keyAlias` and `keyPassword`.
+ * When neither exists the release build still succeeds, but it produces an unsigned APK, and the
+ * build prints a warning so an unsigned artifact can never be published by accident.
+ */
+val keystorePropertiesFile: File? = run {
+    val fromEnvironment = System.getenv("ECP_KEYSTORE_PROPERTIES")
+    when {
+        !fromEnvironment.isNullOrBlank() -> File(fromEnvironment)
+        rootProject.file("keystore.properties").exists() -> rootProject.file("keystore.properties")
+        else -> null
+    }
+}
+
+val keystoreProperties: Properties? = keystorePropertiesFile
+    ?.takeIf { it.isFile }
+    ?.let { file ->
+        Properties().apply { FileInputStream(file).use { load(it) } }
+    }
+
+// Xiaomi issues this ID when the HyperIsland service is activated. Never invent an ID.
+val xiaomiHyperIslandAppId = providers.gradleProperty("xiaomiHyperIslandAppId")
+    .orElse(providers.environmentVariable("ECP_XIAOMI_APP_ID"))
+    .getOrElse("").trim()
 
 android {
     namespace = "com.glacierglimmer.endfieldchargeplus"
@@ -16,6 +51,25 @@ android {
         versionCode = 1
         versionName = "0.1.0"
         vectorDrawables.useSupportLibrary = true
+        resValue("string", "xiaomi_hyper_island_app_id", xiaomiHyperIslandAppId)
+    }
+
+    signingConfigs {
+        if (keystoreProperties != null) {
+            create("release") {
+                storeFile = File(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+                // minSdk 26 means every supported device understands APK Signature Scheme v2;
+                // v1 (JAR signing) adds nothing here and only bloats the APK. v3 adds key rotation
+                // support. Verified after every release build with `apksigner verify`.
+                enableV1Signing = false
+                enableV2Signing = true
+                enableV3Signing = true
+                enableV4Signing = false
+            }
+        }
     }
 
     androidResources {
@@ -39,17 +93,31 @@ android {
 
     buildTypes {
         debug {
+            manifestPlaceholders["xiaomiBuildTypeDebug"] = "true"
             isMinifyEnabled = false
-            applicationIdSuffix = ".debug"
+            // Vendor authentication requires the package registered for the issued APP_ID.
+            // Keep test installs separate unless the release owner explicitly opts into that package.
+            if (!providers.gradleProperty("xiaomiHyperIslandUseRegisteredPackage").getOrElse("false").toBoolean()) {
+                applicationIdSuffix = ".debug"
+            }
             versionNameSuffix = "-debug"
         }
         release {
+            manifestPlaceholders["xiaomiBuildTypeDebug"] = "false"
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
+            if (keystoreProperties != null) {
+                signingConfig = signingConfigs.getByName("release")
+            } else {
+                logger.warn(
+                    "ECP: no release keystore configured (set ECP_KEYSTORE_PROPERTIES or add " +
+                        "keystore.properties); :app:assembleRelease will produce an UNSIGNED apk.",
+                )
+            }
         }
     }
 

@@ -207,7 +207,7 @@ fun HomeScreen(
                             } else {
                                 t("未授予", "Not granted")
                             },
-                            detail = state.detail.takeIf { it.isNotBlank() },
+                            detail = EcpMessages.t(state.messageKey),
                             actionLabel = if (state.granted) {
                                 t("打开系统设置", "Open system settings")
                             } else {

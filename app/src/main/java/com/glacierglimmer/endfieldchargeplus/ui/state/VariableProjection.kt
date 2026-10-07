@@ -29,7 +29,7 @@ object VariableProjection {
                 unit = descriptor.unit,
                 description = if (language.isEnglish) descriptor.descriptionEn else descriptor.descriptionZh,
                 formats = descriptor.commonFormats.joinToString(" / "),
-                androidNote = descriptor.androidNote,
+                androidNote = if (language.isEnglish) descriptor.androidNoteEn else descriptor.androidNote,
                 available = value?.isAvailable == true,
                 supportedOnAndroid = descriptor.isSupportedOnAndroid,
                 unavailableReason = snapshot.unavailableReason(descriptor.name)

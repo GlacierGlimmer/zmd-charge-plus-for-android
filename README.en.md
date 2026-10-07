@@ -50,10 +50,10 @@ Two display modes:
   channel state and platform eligibility all pass. Arbitrary custom layouts are not permitted by the
   platform, so the capability list states the limits (no custom layout, no left/right split, throttled
   updates).
-- **Xiaomi HyperIsland**: requires an application on the Xiaomi developer platform, scenario review
-  and vendor authorization. This application does **not** have that authorization and therefore
-  reports `尚未授权 / Xiaomi HyperIsland permission required`. There is no reflection into private
-  system APIs anywhere in the code, and no fake success is ever reported.
+- **Xiaomi HyperIsland**: the official local notification transport is implemented; no extra SDK is
+  needed. A Xiaomi-issued APP_ID, registered signing certificate and scenario authorization are still
+  required. Unconfigured builds report `Xiaomi HyperIsland permission required`. See the
+  [integration guide](docs/xiaomi-hyper-island.md) for build options and device verification.
 - A plain notification is never presented as a successful island connection, and Android limits are
   never bypassed with hacks.
 

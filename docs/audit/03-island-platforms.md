@@ -40,7 +40,8 @@ Exact commands are listed in §5 so every statement can be re-checked.
 | `NotificationCompat#EXTRA_REQUEST_PROMOTED_ONGOING` (`"android.requestPromotedOngoing"`) | androidx.core 1.17.0 | n/a | the extra key read by the platform |
 | `NotificationCompat#isRequestPromotedOngoing(Notification)` | androidx.core 1.17.0 | n/a | read back the opt-in |
 | `NotificationCompat#hasPromotableCharacteristics(Notification)` | androidx.core 1.17.0 | n/a | helper; delegates to an `Api36Impl` and returns `false` below API 36 |
-| `android.permission.POST_NOTIFICATIONS` | API 33 | yes | still required; **there is no dedicated promoted-notification permission in API 36** |
+| `android.permission.POST_NOTIFICATIONS` | API 33 | yes | required for ordinary notification posting |
+| `android.permission.POST_PROMOTED_NOTIFICATIONS` | newer live-update platforms | manifest declaration | added following the [current official guide](https://developer.android.com/develop/ui/views/notifications/live-update); not a runtime permission |
 
 `androidx.core:core:1.17.0` is the version pinned by `gradle/libs.versions.toml` (`coreKtx = "1.17.0"`),
 so the two request-side APIs above are available to this project without any new dependency.
@@ -173,28 +174,25 @@ unauthorized today, it is very likely to be **rejected** even if a submission we
 
 ### 2.3 How the Xiaomi backend is implemented (see `XiaomiHyperIslandProvider.kt`)
 
-* Detection uses public build information only: `Build.MANUFACTURER`, `Build.BRAND`,
-  `Build.DISPLAY`, `Build.VERSION.INCREMENTAL` (HyperOS markers `hyperos`, `os1.`…`os3.`, `v816.`,
-  `v817.`) and `Build.VERSION.SDK_INT`. No hidden property, no reflection.
+* Xiaomi manufacturer/brand and the documented `notification_focus_protocol >= 3` establish
+  platform support. Build-string markers do not override the protocol result. No hidden property or reflection.
 * State mapping (pure, unit-tested in `HyperOsIslandPolicy`):
   * not a Xiaomi device → `UNSUPPORTED_BY_PLATFORM` / `island_state_unsupported` (不支持);
-  * Xiaomi device without a HyperOS marker (MIUI) → `UNSUPPORTED_BY_PLATFORM`;
-  * HyperOS but `notification_focus_protocol` 1–2 → `UNSUPPORTED_BY_PLATFORM` (focus notification only,
+  * `notification_focus_protocol` 0–2 → `UNSUPPORTED_BY_PLATFORM` (unknown or focus notification only,
     no island);
-  * HyperOS with protocol 3 (or unknown) and no authorized vendor integration →
+  * HyperOS with protocol 3 and no configured Xiaomi APP_ID/client integration →
     `VENDOR_PERMISSION_REQUIRED` / `island_state_vendor_permission` (尚未授权 /
     需要申请小米超级岛权限);
   * authorized integration but notifications disabled → `UNAVAILABLE` /
     `island_state_notifications_disabled`; focus permission explicitly off → `NOT_AUTHORIZED` /
-    `island_state_not_authorized`; otherwise `AVAILABLE`.
-* Publishing sits behind `XiaomiIslandBridge`. This build ships exactly one implementation,
-  `NotIntegratedBridge`, which reports `isIntegrated() == false`, explains why, cites
-  <https://dev.mi.com/xiaomihyperos/documentation/detail?pId=2132> and returns `false` from `publish`
-  without touching the notification host. It never fakes a successful publish; the JSON payload builder
-  (`XiaomiIslandParams`) implements the documented `param_v2` shape for a future authorized bridge.
-* `requestAuthorization` returns `false`: there is no on-device authorization activity — authorization
-  exists only in the Xiaomi console. The call is logged with the documentation URL instead of pretending
-  a request flow exists.
+    `island_state_not_authorized`; unknown focus permission → `UNAVAILABLE`; otherwise `AVAILABLE`.
+* The default `NotificationXiaomiIslandBridge` posts the documented JSON plus referenced `Icon`
+  bundle through the service-owned host. `NotIntegratedBridge` remains an explicit opt-out only.
+  Transport integration does not grant vendor authorization, and successful posting does not prove
+  SystemUI rendered an island. Host failures are reported and notifications are cancelled on stop.
+* `requestAuthorization` opens the official console instructions for missing integration or the app's
+  notification settings for user permission. Opening either page does not grant permission.
+* The APP_ID and debug metadata are configured at build time. See [integration steps](../xiaomi-hyper-island.md).
 
 ---
 

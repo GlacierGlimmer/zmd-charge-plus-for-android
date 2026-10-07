@@ -56,7 +56,7 @@ internal class RegistryIslandOutput(
 
     override fun providerId(): String? = registry.activeProviderId()
 
-    override fun availability(): IslandAvailability? = registry.activeAvailability()
+    override fun availability(): IslandAvailability? = registry.activeAvailability() ?: registry.configuredAvailability()
 }
 
 /**
@@ -71,8 +71,7 @@ internal class ServiceIslandNotificationHost(context: Context) : IslandNotificat
     private val manager: NotificationManager? = context.getSystemService(NotificationManager::class.java)
 
     override fun publish(id: Int, builder: Notification.Builder) {
-        runCatching { manager?.notify(id, builder.build()) }
-            .onFailure { AppLog.w(TAG, "Could not publish island notification $id", it) }
+        checkNotNull(manager) { "NotificationManager is unavailable" }.notify(id, builder.build())
     }
 
     override fun update(id: Int, builder: Notification.Builder) {

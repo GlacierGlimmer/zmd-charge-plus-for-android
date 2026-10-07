@@ -10,6 +10,7 @@ import com.glacierglimmer.endfieldchargeplus.di.EcpContainer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.util.Locale
+import android.content.res.Resources
 
 /**
  * Applies the persisted language preference to the shared core string table and exposes the
@@ -22,9 +23,11 @@ class LanguageController(private val container: EcpContainer) {
 
     /** The language the application is currently rendering in. */
     var language: UiLanguage by mutableStateOf(
-        Strings.resolve(FALLBACK_PREFERENCE, Locale.getDefault().toLanguageTag()),
+        Strings.resolve(FALLBACK_PREFERENCE, systemLanguageTag()),
     )
         private set
+
+    init { Strings.setLanguage(language) }
 
     /**
      * Resolves [preference] (`Auto`, `zh-CN`, `en-US`) against the device locale and pushes the
@@ -33,7 +36,7 @@ class LanguageController(private val container: EcpContainer) {
     fun applyPreference(preference: String?) {
         val resolved = Strings.resolve(
             preference ?: FALLBACK_PREFERENCE,
-            Locale.getDefault().toLanguageTag(),
+            systemLanguageTag(),
         )
         if (Strings.current() != resolved) {
             Strings.setLanguage(resolved)
@@ -58,6 +61,10 @@ class LanguageController(private val container: EcpContainer) {
      */
     companion object {
         const val FALLBACK_PREFERENCE = "Auto"
+
+        fun systemLanguageTag(): String =
+            Resources.getSystem().configuration.locales.get(0)?.toLanguageTag()
+                ?: Locale.getDefault().toLanguageTag()
 
         /** Preferences offered by the selector, in display order. */
         val preferences: List<AppLanguage> = listOf(

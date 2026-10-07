@@ -10,6 +10,9 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.PlatformTextStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.LineHeightStyle
 
 /**
  * The Android-native Material 3 theme of the settings shell.
@@ -94,7 +97,19 @@ fun EcpTheme(
     }
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = MaterialTheme.typography,
+        typography = MaterialTheme.typography.let { base ->
+            fun padded(style: TextStyle) = style.copy(
+                platformStyle = PlatformTextStyle(includeFontPadding = true),
+                lineHeightStyle = LineHeightStyle(LineHeightStyle.Alignment.Center, LineHeightStyle.Trim.None),
+            )
+            base.copy(
+                titleLarge = padded(base.titleLarge), titleMedium = padded(base.titleMedium),
+                titleSmall = padded(base.titleSmall), bodyLarge = padded(base.bodyLarge),
+                bodyMedium = padded(base.bodyMedium), bodySmall = padded(base.bodySmall),
+                labelLarge = padded(base.labelLarge), labelMedium = padded(base.labelMedium),
+                labelSmall = padded(base.labelSmall),
+            )
+        },
         content = content,
     )
 }

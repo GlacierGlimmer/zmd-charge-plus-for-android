@@ -14,6 +14,13 @@ release/
 captures/
 .cxx/
 
+# Signing material — never commit keys or their credentials
+keystore.properties
+*.jks
+*.keystore
+*.p12
+*.pepk
+
 # IDE
 .idea/
 *.iml

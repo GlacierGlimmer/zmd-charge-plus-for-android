@@ -82,6 +82,7 @@ data class VariableDescriptor(
 
     /** English "recommended use" hint (`Right status / ring`). */
     val recommendedUseEn: String = "",
+    val androidNoteEn: String = "",
 ) {
     /** True when the Android app can really read this variable. */
     val isSupportedOnAndroid: Boolean get() = type != VariableType.UNAVAILABLE
@@ -637,7 +638,7 @@ object VariableRegistry {
     """.trimIndent()
 
     /** Every descriptor, in ECP category display order (`CPU`, `GPU`, `内存`, `磁盘`, ...). */
-    private val descriptors: List<VariableDescriptor> = parseTable(RAW_TABLE)
+    private val descriptors: List<VariableDescriptor> = parseTable(RAW_TABLE).map(AndroidVariableDescriptions::adapt)
 
     private val byLowerName: Map<String, VariableDescriptor> = buildMap {
         for (descriptor in descriptors) put(descriptor.name.lowercase(), descriptor)

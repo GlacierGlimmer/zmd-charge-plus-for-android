@@ -59,7 +59,12 @@ class SamplingScheduler(
 
     private val demand = MutableStateFlow(MetricDemand.Idle)
 
-    private val wakes = ConcurrentHashMap<SamplingTier, Channel<Unit>>()
+    private val wakes = ConcurrentHashMap<SamplingTier, Channel<Boolean>>()
+
+    /** Interrupt an old delay without taking an extra sample when cadence changes. */
+    fun configurationChanged() {
+        for (tier in SamplingTier.entries) wakes[tier]?.trySend(false)
+    }
 
     @Volatile
     private var running = false
@@ -92,7 +97,7 @@ class SamplingScheduler(
         for (tier in SamplingTier.entries) {
             val before = DemandThrottle.effectiveIntervalMs(tier, settings, previous)
             val after = DemandThrottle.effectiveIntervalMs(tier, settings, value)
-            if (after < before) wakes[tier]?.trySend(Unit)
+            if (after < before) wakes[tier]?.trySend(true)
         }
     }
 
@@ -107,7 +112,7 @@ class SamplingScheduler(
         val schedulerScope = CoroutineScope(job + dispatcher)
         scope = schedulerScope
         for (tier in SamplingTier.entries) {
-            val wake = Channel<Unit>(Channel.CONFLATED)
+            val wake = Channel<Boolean>(Channel.CONFLATED)
             wakes[tier] = wake
             schedulerScope.launch { runTier(tier, wake) }
         }
@@ -128,11 +133,11 @@ class SamplingScheduler(
     /** Wakes every tier now; the aligned tick schedule is preserved. */
     fun requestImmediate() {
         for (tier in SamplingTier.entries) {
-            wakes[tier]?.trySend(Unit)
+            wakes[tier]?.trySend(true)
         }
     }
 
-    private suspend fun runTier(tier: SamplingTier, wake: Channel<Unit>) {
+    private suspend fun runTier(tier: SamplingTier, wake: Channel<Boolean>) {
         val tick = TierTick()
         while (running && currentCoroutineContext().isActive) {
             val settings = configProvider().android
@@ -140,9 +145,10 @@ class SamplingScheduler(
             val delayMs = tick.delayUntilNext(intervalMs)
             if (delayMs > 0L) {
                 // A requested immediate pass must not consume the aligned tick.
-                val woke = withTimeoutOrNull(delayMs) { wake.receive() } != null
+                val woke = withTimeoutOrNull(delayMs) { wake.receive() }
                 if (!running) break
-                if (woke) {
+                if (woke != null) {
+                    if (!woke) continue
                     collectTier(tier)
                     continue
                 }

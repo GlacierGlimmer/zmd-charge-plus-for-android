@@ -78,6 +78,9 @@ class OverlayHudView @JvmOverloads constructor(
     private val titleTypeface: Typeface = Typeface.create("sans-serif", Typeface.BOLD)
 
     init {
+        // Keep rounded clipping and opacity consistent across vendor GPU implementations.
+        setLayerType(LAYER_TYPE_SOFTWARE, null)
+        setBackgroundColor(Color.TRANSPARENT)
         textPaint.textAlign = Paint.Align.LEFT
     }
 

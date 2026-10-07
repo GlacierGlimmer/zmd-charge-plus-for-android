@@ -75,7 +75,7 @@ class AndroidLiveUpdatePolicyTest {
         assertEquals(false, PromotableShape.ANDROID_16.requestPromoted)
         assertEquals(false, PromotableShape.ANDROID_16_QPR1.colorized)
         assertEquals(true, PromotableShape.ANDROID_16_QPR1.requestPromoted)
-        assertEquals(PromotableShape.ANDROID_16, PromotableShape.CANDIDATES.first())
+        assertEquals(PromotableShape.ANDROID_16_QPR1, PromotableShape.CANDIDATES.first())
     }
 
     private fun probe(

@@ -91,6 +91,13 @@ class IslandProviderRegistry private constructor(
     /** Availability of the currently running provider, or `null` when nothing is running. */
     fun activeAvailability(): IslandAvailability? = active?.availability()
 
+    fun configuredAvailability(): IslandAvailability? = when (val kind = configuredKind()) {
+        IslandProviderKind.NONE -> null
+        IslandProviderKind.AUTO -> autoSelect()?.availability()
+            ?: providerFor(IslandProviderKind.ANDROID_SYSTEM)?.availability()
+        else -> providerFor(kind)?.availability()
+    }
+
     /**
      * Starts the selected provider and returns it, or `null` when nothing usable is configured or the
      * provider refused to start. Starting an already running provider restarts it cleanly.

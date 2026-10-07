@@ -74,7 +74,7 @@ class AndroidLiveUpdateProvider(
     override fun capabilities(): IslandCapabilities = CAPABILITIES
 
     override fun availability(): IslandAvailability =
-        lastAvailability ?: evaluate().also { lastAvailability = it }
+        evaluate().also { lastAvailability = it }
 
     override suspend fun refreshAvailability(): IslandAvailability = evaluate().also { lastAvailability = it }
 
@@ -85,16 +85,18 @@ class AndroidLiveUpdateProvider(
      */
     override fun requestAuthorization(activity: Activity?): Boolean {
         if (activity == null || Build.VERSION.SDK_INT < MIN_PROMOTED_API_LEVEL) return false
-        val intent = Intent(Settings.ACTION_APP_NOTIFICATION_PROMOTION_SETTINGS)
-            .putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
-            .putExtra(Settings.EXTRA_CHANNEL_ID, CHANNEL_ID)
-        return try {
-            activity.startActivity(intent)
-            true
-        } catch (t: Throwable) {
-            AppLog.w(TAG, "cannot open promoted-notification settings", t)
-            false
+        val actions = listOf(Settings.ACTION_APP_NOTIFICATION_PROMOTION_SETTINGS, Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+        for (action in actions) {
+            try {
+                activity.startActivity(Intent(action)
+                    .putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                    .putExtra(Settings.EXTRA_CHANNEL_ID, CHANNEL_ID))
+                return true
+            } catch (t: Throwable) {
+                AppLog.w(TAG, "cannot open notification settings: $action", t)
+            }
         }
+        return false
     }
 
     /** Publishes the first frame. A no-op (with a log line) when the backend is not usable. */
@@ -340,7 +342,6 @@ class AndroidLiveUpdateProvider(
                 "island_limit_no_custom_layout",
                 "island_limit_no_left_right_split",
                 "island_limit_scenario_restricted",
-                "island_limit_platform_colorized_required",
                 "island_limit_throttled_updates",
             ),
             supportsLeftRightSplit = false,
@@ -367,8 +368,8 @@ data class PromotableShape(
         /** Android 16 QPR1 rule: plain notification plus the explicit promotion opt-in. */
         val ANDROID_16_QPR1: PromotableShape = PromotableShape(colorized = false, requestPromoted = true)
 
-        /** Probe order: the shipping Android 16 rule first, then the QPR1 rule. */
-        val CANDIDATES: List<PromotableShape> = listOf(ANDROID_16, ANDROID_16_QPR1)
+        /** Prefer the current opt-in shape; retain the original Android 16 rule as a fallback. */
+        val CANDIDATES: List<PromotableShape> = listOf(ANDROID_16_QPR1, ANDROID_16)
     }
 }
 

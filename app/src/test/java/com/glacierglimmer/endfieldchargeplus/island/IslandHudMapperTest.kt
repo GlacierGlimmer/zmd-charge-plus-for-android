@@ -2,6 +2,7 @@ package com.glacierglimmer.endfieldchargeplus.island
 
 import com.glacierglimmer.endfieldchargeplus.core.model.HudRenderData
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -111,7 +112,8 @@ class IslandHudMapperTest {
 
     @Test
     fun `hyper island capability advertises what the templates can show`() {
-        assertTrue(hyperCaps.supportsProgress)
+        assertFalse(hyperCaps.supportsProgress)
+        assertTrue(hyperCaps.limitationKeys.contains("island_limit_no_progress"))
         assertTrue(hyperCaps.supportsIcons)
         assertEquals(false, hyperCaps.supportsCustomLayout)
         assertEquals(false, hyperCaps.supportsLeftRightSplit)

@@ -381,7 +381,9 @@ private fun IslandStatusCard(
         }
         if (availability.detail.isNotBlank()) {
             Text(
-                text = availability.detail,
+                text = if (availability.state == IslandAvailabilityState.AVAILABLE)
+                    t("接口可用；是否显示灵动岛由系统决定。", "The API is available; the system decides whether to show the island.")
+                    else EcpMessages.t(availability.messageKey),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )

@@ -190,6 +190,8 @@ class DefaultOverlayController @JvmOverloads constructor(
         applyCutoutMode(params)
         params.gravity = Gravity.TOP or Gravity.START
         val size = hudSizePx(scale)
+        params.width = size[0]
+        params.height = size[1]
         val position = positions.resolve(config, size[0], size[1], hudView.rootWindowInsets)
         params.x = position.x
         params.y = position.y
@@ -259,6 +261,15 @@ class DefaultOverlayController @JvmOverloads constructor(
 
     private fun createView(): OverlayHudView {
         val created = OverlayHudView(appContext)
+        var previousInsets: android.view.WindowInsets? = null
+        created.setOnApplyWindowInsetsListener { _, insets ->
+            // updateViewLayout can redispatch unchanged insets on vendor ROMs.
+            if (insets != previousInsets) {
+                previousInsets = insets
+                created.post { if (view === created) applyConfig(config) }
+            }
+            insets
+        }
         created.setScaledDensity(effectiveScale())
         created.setRenderData(currentData ?: HudRenderData())
         created.applyAnimationState(HudAnimationStates.initial())
@@ -273,8 +284,8 @@ class DefaultOverlayController @JvmOverloads constructor(
         val size = hudSizePx(scale)
         val position = positions.resolve(config, size[0], size[1], hudView.rootWindowInsets)
         return WindowManager.LayoutParams(
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.WRAP_CONTENT,
+            size[0],
+            size[1],
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
             windowFlags(isDragging = false),
             PixelFormat.TRANSLUCENT,
@@ -382,7 +393,7 @@ class DefaultOverlayController @JvmOverloads constructor(
         val density = positions.density()
         return intArrayOf(
             OverlayHudView.hudWidthPx(density, scale),
-            OverlayHudView.hudHeightPx(density, scale),
+            (OverlayHudView.DESIGN_VIEW_HEIGHT * density * scale).roundToInt(),
         )
     }
 

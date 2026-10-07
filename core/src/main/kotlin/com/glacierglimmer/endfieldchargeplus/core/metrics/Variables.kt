@@ -172,6 +172,9 @@ object VariableAliases {
         "cpu.usage_percent" to Variables.CPU_USAGE,
         "battery.level" to Variables.BATTERY_PERCENT,
         "disk.system.free_bytes" to Variables.DISK_SYSTEM_AVAILABLE_BYTES,
+        "disk.free_bytes" to Variables.DISK_SYSTEM_AVAILABLE_BYTES,
+        "disk.available_bytes" to Variables.DISK_SYSTEM_AVAILABLE_BYTES,
+        "disk.data.free_bytes" to Variables.DISK_DATA_AVAILABLE_BYTES,
         "disk.system.free_percent" to "disk.system.free_percent",
     )
 

@@ -293,7 +293,7 @@ open class HudForegroundService : Service() {
     }
 
     private fun uiLanguage(): UiLanguage =
-        UiLanguage.fromAppLanguage(config.language, Locale.getDefault().toLanguageTag())
+        UiLanguage.fromAppLanguage(config.language, com.glacierglimmer.endfieldchargeplus.localization.LanguageController.systemLanguageTag())
 
     // ---- outputs -----------------------------------------------------------------------------
 

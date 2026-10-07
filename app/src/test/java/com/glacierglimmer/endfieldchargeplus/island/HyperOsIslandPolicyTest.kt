@@ -42,14 +42,13 @@ class HyperOsIslandPolicyTest {
     }
 
     @Test
-    fun `hyperos with an unknown focus protocol still reports the missing vendor authorization`() {
+    fun `an unknown focus protocol never reports island support`() {
         val availability = HyperOsIslandPolicy.evaluate(
             probe(focusProtocolVersion = 0, bridgeIntegrated = false),
             notificationsEnabled = true,
         )
 
-        assertEquals(IslandAvailabilityState.VENDOR_PERMISSION_REQUIRED, availability.state)
-        assertEquals("island_state_vendor_permission", availability.messageKey)
+        assertEquals(IslandAvailabilityState.UNSUPPORTED_BY_PLATFORM, availability.state)
     }
 
     @Test
@@ -100,7 +99,22 @@ class HyperOsIslandPolicyTest {
             notificationsEnabled = true,
         )
 
-        assertEquals(IslandAvailabilityState.AVAILABLE, availability.state)
+        assertEquals(IslandAvailabilityState.UNAVAILABLE, availability.state)
+        assertFalse(availability.usable)
+    }
+
+    @Test
+    fun `protocol three works even when public build strings have no hyperos marker`() {
+        val availability = HyperOsIslandPolicy.evaluate(probe(display = "REL", incremental = "12345"), true)
+        assertTrue(availability.usable)
+    }
+
+    @Test
+    fun `a working transport with no xiaomi app id still requires vendor integration`() {
+        val availability = HyperOsIslandPolicy.evaluate(probe(appIdConfigured = false), true)
+        assertEquals(IslandAvailabilityState.VENDOR_PERMISSION_REQUIRED, availability.state)
+        assertFalse(availability.usable)
+        assertTrue(availability.detail.contains("APP_ID"))
     }
 
     @Test
@@ -130,6 +144,7 @@ class HyperOsIslandPolicyTest {
         focusPermissionGranted: Boolean? = true,
         bridgeIntegrated: Boolean = true,
         bridgeDetail: String = "bridge detail",
+        appIdConfigured: Boolean = true,
     ) = HyperOsIslandProbe(
         manufacturer = manufacturer,
         brand = brand,
@@ -139,5 +154,6 @@ class HyperOsIslandPolicyTest {
         focusPermissionGranted = focusPermissionGranted,
         bridgeIntegrated = bridgeIntegrated,
         bridgeDetail = bridgeDetail,
+        appIdConfigured = appIdConfigured,
     )
 }

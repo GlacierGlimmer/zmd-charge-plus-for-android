@@ -63,7 +63,12 @@ class EcpContainer private constructor(private val appContext: Context) {
 
     val secretStore: SecretStore by lazy { EncryptedSecretStore(appContext) }
 
-    val permissionManager: PermissionManager by lazy { PermissionManagerImpl(appContext) }
+    val permissionManager: PermissionManager by lazy {
+        PermissionManagerImpl(appContext,
+            liveUpdateEligible = { islandRegistry.providerFor(com.glacierglimmer.endfieldchargeplus.core.model.IslandProviderKind.ANDROID_SYSTEM)?.availability()?.usable == true },
+            vendorIslandGranted = { islandRegistry.providerFor(com.glacierglimmer.endfieldchargeplus.core.model.IslandProviderKind.XIAOMI_HYPER_ISLAND)?.availability()?.usable == true },
+        )
+    }
 
     private val networkProbe: NetworkProbe by lazy { DefaultNetworkProbe() }
 
@@ -106,7 +111,7 @@ class EcpContainer private constructor(private val appContext: Context) {
         IslandProviderRegistry(
             context = appContext,
             configRepository = configRepository,
-            notificationHost = IslandNotificationHost.Disabled,
+            notificationHost = com.glacierglimmer.endfieldchargeplus.island.CapabilityNotificationHost(appContext),
         )
     }
 
