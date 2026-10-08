@@ -22,11 +22,12 @@ import java.text.SimpleDateFormat
 import java.time.ZonedDateTime
 import java.util.Date
 import java.util.Locale
+import java.io.File
 
 /**
  * IDLE-tier collector for the DeepSeek "余额 / 时段" scheme.
  *
- * The peak/off-peak half is pure local arithmetic (no HTTP): it is recomputed on every tick so the
+ * The peak/off-peak half uses a local calendar: it is recomputed on every tick so the
  * countdown stays live. The balance half is polled at most once per minute — the
  * `AppConfig.android.deepSeekRefreshSeconds` cadence clamped to >= 60 s, with exponential backoff on
  * failure — because a HUD rendering at 2 Hz must never be able to drive an API request rate.
@@ -52,6 +53,7 @@ class DeepSeekCollector(
     private val scope: CoroutineScope by lazy {
         CoroutineScope(SupervisorJob() + Dispatchers.IO)
     }
+    private val calendarUpdater by lazy { ChinaCalendarUpdater(File(context.filesDir, "holiday-calendar")) }
 
     @Volatile
     private var balance: DeepSeekBalance? = null
@@ -77,6 +79,7 @@ class DeepSeekCollector(
     override suspend fun collect(into: MutableMap<String, MetricValue>) {
         val config = environment.config()
         val english = useEnglish(config)
+        calendarUpdater.requestRefresh(scope, System.currentTimeMillis())
 
         val period = DeepSeekPeriodPolicy.evaluate(ZonedDateTime.now(PeakWindow.BEIJING))
         publishPeriod(into, period, english)

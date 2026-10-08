@@ -55,7 +55,7 @@ class DeepSeekPeriodPolicyTest {
 
     @Test
     fun `unknown calendar never fabricates a zero progress or peak status`() {
-        val state = DeepSeekPeriodPolicy.evaluate(ZonedDateTime.parse("2027-01-01T10:00:00+08:00"))
+        val state = DeepSeekPeriodPolicy.evaluate(ZonedDateTime.parse("2027-01-04T10:00:00+08:00"))
         assertNull(state.isPeak)
         assertNull(state.remainingSeconds)
         assertNull(state.progressPercent)
