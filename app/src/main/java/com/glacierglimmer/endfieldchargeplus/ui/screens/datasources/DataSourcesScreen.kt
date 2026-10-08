@@ -364,16 +364,13 @@ private fun DeepSeekCard(viewModel: DataSourcesViewModel, config: com.glaciergli
                 onValueChange = viewModel::setDeepSeekRefreshSeconds,
                 range = 30..86_400,
             )
-            StringSettingField(
-                label = t("高峰窗口（北京时间，分号分隔）", "Peak windows (Beijing time, semicolon separated)"),
-                value = config.customHud.deepSeekPeakWindows,
-                stateKey = "deepSeekPeakWindows",
-                onValueChange = viewModel::setDeepSeekPeakWindows,
-                isError = config.customHud.deepSeekPeakWindows.isBlank(),
-                supporting = t(
-                    "例如 09:00-12:00;14:00-18:00；仅工作日生效。",
-                    "For example 09:00-12:00;14:00-18:00; weekdays only.",
-                ),
+            InfoRow(
+                t("官方高峰窗口（北京时间）", "Official peak windows (Beijing time)"),
+                "09:00–12:00 / 14:00–18:00",
+            )
+            Text(
+                t("周一至周五，排除中国节假日；周末补班仍为低谷。", "Monday to Friday, excluding Chinese holidays; weekends remain off-peak even on makeup workdays."),
+                style = MaterialTheme.typography.bodySmall,
             )
             InfoRow(
                 t("当前时段", "Current period"),

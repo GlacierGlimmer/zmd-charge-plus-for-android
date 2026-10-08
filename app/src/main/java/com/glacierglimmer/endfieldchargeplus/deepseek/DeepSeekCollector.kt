@@ -78,8 +78,7 @@ class DeepSeekCollector(
         val config = environment.config()
         val english = useEnglish(config)
 
-        val windows = PeakWindow.parse(config.customHud.deepSeekPeakWindows)
-        val period = PeakWindow.currentPeriod(ZonedDateTime.now(PeakWindow.BEIJING), windows)
+        val period = DeepSeekPeriodPolicy.evaluate(ZonedDateTime.now(PeakWindow.BEIJING))
         publishPeriod(into, period, english)
 
         val key = secretStore.get(SecretStore.KEY_DEEPSEEK_API_KEY)?.trim().orEmpty()
@@ -173,11 +172,12 @@ class DeepSeekCollector(
 
     private fun publishPeriod(
         into: MutableMap<String, MetricValue>,
-        period: PeakWindow.PeriodState,
+        period: DeepSeekPeriodPolicy.State,
         english: Boolean,
     ) {
-        into[Variables.DEEPSEEK_IS_PEAK] = MetricValue.Number(if (period.isPeak) 1.0 else 0.0)
-        into[Variables.DEEPSEEK_PERIOD_PROGRESS] = MetricValue.Number(period.progressPercent)
+        into[Variables.DEEPSEEK_IS_PEAK] = period.isPeak?.let { MetricValue.Number(if (it) 1.0 else 0.0) }
+            ?: MetricValue.Unavailable(UnavailableReason.NO_DATA, "calendar_update_required")
+        into[Variables.DEEPSEEK_PERIOD_PROGRESS] = MetricValue.number(period.progressPercent)
         into[Variables.DEEPSEEK_PERIOD_NAME] = MetricValue.Text(period.nameEn)
         into[Variables.DEEPSEEK_PERIOD_NAME_ZH] =
             MetricValue.Text(if (english) period.nameEn else period.nameZh)
