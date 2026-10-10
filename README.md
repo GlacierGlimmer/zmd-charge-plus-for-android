@@ -141,23 +141,19 @@ HUD 隐藏、屏幕关闭或无人消费时会自动降频，网络请求有间�
 
 ---
 
-## 六、测试与验证状态
+## 六、发行检查
 
 | 项目 | 结果 |
 | --- | --- |
 | `:core:test` | v0.1.1：72 项通过 |
-| `:app:testDebugUnitTest` | v0.1.1：384 项通过 |
-| `:app:lintDebug` | v0.1.1：通过；详细诊断见构建报告 |
-| `:app:assembleDebug` | v0.1.1：成功，已签名测试 APK |
-| `:app:assembleRelease`（R8） | 旧基线已通过；v0.1.1 为 Debug 实机测试包 |
-| 真机验证 | **未完成**（本环境没有 Android 设备） |
+| `:app:testReleaseUnitTest` | v0.1.1：385 项通过，包含正式版日志开关检查 |
+| `:app:lintRelease` | 0 错误、26 个非阻断警告 |
+| `:app:assembleRelease` / `:app:bundleRelease` | R8 优化、资源压缩、正式密钥签名的 APK 与 AAB |
+| 应用身份 | `com.glacierglimmer.endfieldchargeplus`，版本 v0.1.1，versionCode 2 |
+| 签名一致性 | 与 v0.1.0 正式版相同，可覆盖升级 |
+| 正式版界面 | 不显示开发日志开关；旧配置也不能开启开发日志 |
 
-本轮修复与待实机验证清单见 [android-device-test-r5.md](docs/android-device-test-r5.md)。
-
-需要真机验证的清单（悬浮窗授权与拒绝、权限撤销、横竖屏、挖孔屏、不同 DPI、Activity 划走、
-Service 重启、锁屏、屏幕关闭、Wi-Fi ↔ 移动网络、无网络、IPv6、DeepSeek 错误、HTTP 超时、
-配置损坏、语言切换、系统语言切换、Android 杀后台）记录在 [docs/TESTING.md](docs/TESTING.md)。
-在真机验证完成前，**不要**把本版本描述为已通过设备测试。
+本轮已根据实机反馈修复启动、权限刷新、灵动岛显示、界面卡顿及横竖屏问题。发行构建检查与设备覆盖范围分别记录，设备检查项目见 [docs/TESTING.md](docs/TESTING.md)，发行说明见 [docs/RELEASE.md](docs/RELEASE.md)。
 
 ---
 

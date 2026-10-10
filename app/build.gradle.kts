@@ -92,6 +92,7 @@ android {
             // User-controlled product version: Debug and repeated test builds keep the same name.
         }
         release {
+            isDebuggable = false
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(

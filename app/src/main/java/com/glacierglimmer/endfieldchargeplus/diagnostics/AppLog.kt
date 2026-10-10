@@ -2,6 +2,7 @@ package com.glacierglimmer.endfieldchargeplus.diagnostics
 
 import android.content.Context
 import android.util.Log
+import com.glacierglimmer.endfieldchargeplus.BuildConfig
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -55,12 +56,12 @@ object AppLog {
         if (installed) return
         installed = true
         logDirectory = File(context.filesDir, "logs").apply { mkdirs() }
-        verbose = verboseProvider()
+        verbose = BuildConfig.DEBUG && verboseProvider()
         i("AppLog", "Diagnostics log started (verbose=$verbose)")
     }
 
     fun setVerbose(enabled: Boolean) {
-        verbose = enabled
+        verbose = BuildConfig.DEBUG && enabled
     }
 
     fun isVerbose(): Boolean = verbose

@@ -164,24 +164,19 @@ consuming data, and network requests have interval floors and failure backoff.
 
 ---
 
-## 6. Test and verification status
+## 6. Release checks
 
-| Check | Result |
+| Item | Result |
 | --- | --- |
-| `:core:test` | v0.1.1: 72 passing |
-| `:app:testDebugUnitTest` | v0.1.1: 384 passing |
-| `:app:lintDebug` | v0.1.1: passed; diagnostics in the build report |
-| `:app:assembleDebug` | v0.1.1: signed test APK built |
-| `:app:assembleRelease` (R8) | Older baseline passed; v0.1.1 is a Debug device-test build |
-| Physical-device testing | **not done** (this environment has no Android device) |
+| `:core:test` | v0.1.1: 72 tests passed |
+| `:app:testReleaseUnitTest` | v0.1.1: 385 tests passed, including the production logging guard |
+| `:app:lintRelease` | 0 errors and 26 non-blocking warnings |
+| `:app:assembleRelease` / `:app:bundleRelease` | R8 optimization, resource shrinking, APK and AAB signed with the production key |
+| Application identity | `com.glacierglimmer.endfieldchargeplus`, v0.1.1, versionCode 2 |
+| Signing continuity | Same certificate as the v0.1.0 production APK, allowing in-place upgrades |
+| Production UI | Development logging controls are hidden; imported settings cannot enable development logging |
 
-Current changes and pending device checks: [android-device-test-r5.md](docs/android-device-test-r5.md).
-
-The device checklist (overlay grant/deny, permission revocation, rotation, cutout screens, DPI
-changes, Activity swipe-away, service restart, lock screen, screen off, Wi-Fi ↔ cellular, no network,
-IPv6, DeepSeek errors, HTTP timeouts, corrupt configuration, language switching, system language
-changes, Android background killing) is recorded in [docs/TESTING.md](docs/TESTING.md). Until that
-testing is done, this version must **not** be described as verified on real hardware.
+Startup, permission refresh, Live Updates, UI stalls and orientation issues were corrected from device feedback. Build verification and device coverage are recorded separately. See [docs/TESTING.md](docs/TESTING.md) and [docs/RELEASE.md](docs/RELEASE.md).
 
 ---
 

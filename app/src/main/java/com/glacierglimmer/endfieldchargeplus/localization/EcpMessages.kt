@@ -175,7 +175,7 @@ object EcpMessages {
             "The authorization screen was opened; availability is re-checked on return.")
 
         // ---------------------------------------------------------------- misc keys
-        put("log_level_debug", "调试" to "Debug")
+        put("log_level_debug", "详细" to "Detailed")
         put("log_level_info", "信息" to "Info")
         put("log_level_warn", "警告" to "Warning")
         put("log_level_error", "错误" to "Error")

@@ -1,6 +1,7 @@
 package com.glacierglimmer.endfieldchargeplus.ui.screens.advanced
 
 import android.content.Intent
+import com.glacierglimmer.endfieldchargeplus.BuildConfig
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
@@ -320,15 +321,17 @@ fun AdvancedScreen(
                 },
             ) {
                 Column {
-                    SwitchRow(
-                        title = t("详细日志", "Verbose logging"),
-                        subtitle = t(
-                            "开启后会记录调试级别的信息。",
-                            "Records debug-level details when enabled.",
-                        ),
-                        checked = config.android.verboseLogging,
-                        onCheckedChange = viewModel::setVerboseLogging,
-                    )
+                    if (BuildConfig.DEBUG) {
+                        SwitchRow(
+                            title = t("详细日志", "Verbose logging"),
+                            subtitle = t(
+                                "记录更详细的运行信息。",
+                                "Records detailed activity when enabled.",
+                            ),
+                            checked = config.android.verboseLogging,
+                            onCheckedChange = viewModel::setVerboseLogging,
+                        )
+                    }
                     Row(
                         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                         verticalAlignment = Alignment.CenterVertically,
