@@ -14,6 +14,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -33,8 +34,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.glacierglimmer.endfieldchargeplus.core.i18n.UiLanguage
 import com.glacierglimmer.endfieldchargeplus.core.model.AnimationMode
+import com.glacierglimmer.endfieldchargeplus.core.model.DisplayMode
 import com.glacierglimmer.endfieldchargeplus.core.model.AppConfig
 import com.glacierglimmer.endfieldchargeplus.core.model.HudProfile
+import com.glacierglimmer.endfieldchargeplus.core.model.HudRenderData
+import com.glacierglimmer.endfieldchargeplus.island.IslandHudMapper
 import com.glacierglimmer.endfieldchargeplus.core.model.NetworkDisplayUnit
 import com.glacierglimmer.endfieldchargeplus.core.model.NetworkPercentMode
 import com.glacierglimmer.endfieldchargeplus.core.model.ProbeProtocol
@@ -140,14 +144,14 @@ fun ContentScreen(
                     .verticalScroll(rememberScrollState())
                     .padding(12.dp),
             ) {
-                HudPreviewCard(data = renderData, title = previewTitle, subtitle = previewSubtitle)
+                OutputPreviewCard(renderData, config, previewTitle, previewSubtitle)
             }
         }
     } else {
         LazyColumn(modifier = modifier.fillMaxSize()) {
             item {
                 Column(modifier = Modifier.padding(12.dp)) {
-                    HudPreviewCard(data = renderData, title = previewTitle, subtitle = previewSubtitle)
+                    OutputPreviewCard(renderData, config, previewTitle, previewSubtitle)
                 }
             }
             item {
@@ -161,6 +165,26 @@ fun ContentScreen(
                 )
             }
             item { Spacer(Modifier.height(24.dp)) }
+        }
+    }
+}
+
+@Composable
+private fun OutputPreviewCard(data: HudRenderData, config: AppConfig, title: String, subtitle: String) {
+    if (DisplayMode.fromWire(config.android.displayMode) == DisplayMode.OVERLAY) {
+        HudPreviewCard(data = data, title = title, subtitle = subtitle)
+        return
+    }
+    val content = remember(data) { IslandHudMapper.mapLiveUpdate(data) }
+    SectionCard(title = title, subtitle = subtitle) {
+        Column(modifier = Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(t("收起：", "Collapsed: ") + content.shortText.ifBlank { "—" })
+            Text(content.title, style = MaterialTheme.typography.titleMedium)
+            Text(content.bodyText)
+            LinearProgressIndicator(progress = { (content.progressPercent / 100).toFloat() }, modifier = Modifier.fillMaxWidth())
+            Text(t("这里预览通知内容，实际外观与位置由系统决定。",
+                "This previews notification content; the system controls its appearance and placement."),
+                style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }
@@ -195,6 +219,7 @@ private fun ContentEditor(
     val usesNetwork = ProfileNeeds.network(profile)
     val usesTime = ProfileNeeds.time(profile)
     val usesProbe = ProfileNeeds.probe(profile)
+    val overlayAppearance = DisplayMode.fromWire(config.android.displayMode) == DisplayMode.OVERLAY
 
     Column(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 4.dp),
@@ -287,31 +312,34 @@ private fun ContentEditor(
         }
 
         SectionCard(
-            title = t("图标与进度环", "Icons and progress ring"),
+            title = if (overlayAppearance) t("图标与进度环", "Icons and progress ring") else t("系统进度条", "System progress bar"),
             subtitle = t(
-                "图标来自与 HUD 渲染器相同的图标目录。",
-                "Icons come from the same catalog the HUD renderer uses.",
+                if (overlayAppearance) "图标来自与 HUD 渲染器相同的图标目录。" else "使用原生通知的进度条显示下方数值范围。",
+                if (overlayAppearance) "Icons come from the same catalog the HUD renderer uses." else "The native notification progress bar uses the value range below.",
             ),
         ) {
             Column {
-                DropdownRow(
-                    title = t("左侧图标", "Left icon"),
-                    options = HudIconCatalog.names,
-                    selectedIndex = HudIconCatalog.names.indexOf(profile.leftIcon).coerceAtLeast(0),
-                    onSelected = { index ->
-                        val icon = HudIconCatalog.names[index]
-                        viewModel.updateDraft { it.copy(leftIcon = icon) }
-                    },
-                )
-                DropdownRow(
-                    title = t("右侧图标", "Right icon"),
-                    options = HudIconCatalog.names,
-                    selectedIndex = HudIconCatalog.names.indexOf(profile.rightIcon).coerceAtLeast(0),
-                    onSelected = { index ->
-                        val icon = HudIconCatalog.names[index]
-                        viewModel.updateDraft { it.copy(rightIcon = icon) }
-                    },
-                )
+                if (overlayAppearance) {
+                    DropdownRow(
+                        title = t("左侧图标", "Left icon"),
+                        options = HudIconCatalog.names,
+                        selectedIndex = HudIconCatalog.names.indexOf(profile.leftIcon).coerceAtLeast(0),
+                        onSelected = { index ->
+                            val icon = HudIconCatalog.names[index]
+                            viewModel.updateDraft { it.copy(leftIcon = icon) }
+                        },
+                    )
+                    DropdownRow(
+                        title = t("右侧图标", "Right icon"),
+                        options = HudIconCatalog.names,
+                        selectedIndex = HudIconCatalog.names.indexOf(profile.rightIcon).coerceAtLeast(0),
+                        onSelected = { index ->
+                            val icon = HudIconCatalog.names[index]
+                            viewModel.updateDraft { it.copy(rightIcon = icon) }
+                        },
+                    )
+
+                }
                 TemplateField(
                     label = t("进度变量", "Progress value"),
                     value = profile.progressVariable,
@@ -348,46 +376,49 @@ private fun ContentEditor(
             }
         }
 
-        SectionCard(
-            title = t("颜色", "Colour"),
-            subtitle = t(
-                "默认强调色与条件变色规则。",
-                "Default accent colour and conditional colour rules.",
-            ),
-        ) {
-            Column {
-                ColourField(
-                    label = t("默认强调色", "Accent colour"),
-                    value = profile.accentColor,
-                    onValueChange = { value -> viewModel.updateDraft { it.copy(accentColor = value) } },
-                    stateKey = profile.id + ":accent",
-                )
-                ColorRuleEditor(
-                    rules = profile.colorRules,
-                    onRulesChange = { rules -> viewModel.updateDraft { it.copy(colorRules = rules) } },
-                    editorKey = profile.id,
-                    strings = ColorRuleStrings(
-                        help = t(
-                            "每行：变量 运算符 数值 => 颜色，例如 cpu.usage >= 90 => #FF4D4F",
-                            "One per line: variable operator value => colour, e.g. cpu.usage >= 90 => #FF4D4F",
+        if (overlayAppearance) {
+            SectionCard(
+                title = t("颜色", "Colour"),
+                subtitle = t(
+                    "默认强调色与条件变色规则。",
+                    "Default accent colour and conditional colour rules.",
+                ),
+            ) {
+                Column {
+                    ColourField(
+                        label = t("默认强调色", "Accent colour"),
+                        value = profile.accentColor,
+                        onValueChange = { value -> viewModel.updateDraft { it.copy(accentColor = value) } },
+                        stateKey = profile.id + ":accent",
+                    )
+                    ColorRuleEditor(
+                        rules = profile.colorRules,
+                        onRulesChange = { rules -> viewModel.updateDraft { it.copy(colorRules = rules) } },
+                        editorKey = profile.id,
+                        strings = ColorRuleStrings(
+                            help = t(
+                                "每行：变量 运算符 数值 => 颜色，例如 cpu.usage >= 90 => #FF4D4F",
+                                "One per line: variable operator value => colour, e.g. cpu.usage >= 90 => #FF4D4F",
+                            ),
+                            variable = t("变量", "Variable"),
+                            operator = t("运算符", "Operator"),
+                            threshold = t("数值", "Value"),
+                            color = t("颜色", "Colour"),
+                            add = t("添加", "Add"),
+                            empty = t("暂无规则。", "No rules yet."),
+                            invalidLines = { lines ->
+                                s(
+                                    "无法解析的行：" + lines.joinToString(", "),
+                                    "Unparsable lines: " + lines.joinToString(", "),
+                                )
+                            },
                         ),
-                        variable = t("变量", "Variable"),
-                        operator = t("运算符", "Operator"),
-                        threshold = t("数值", "Value"),
-                        color = t("颜色", "Colour"),
-                        add = t("添加", "Add"),
-                        empty = t("暂无规则。", "No rules yet."),
-                        invalidLines = { lines ->
-                            s(
-                                "无法解析的行：" + lines.joinToString(", "),
-                                "Unparsable lines: " + lines.joinToString(", "),
-                            )
-                        },
-                    ),
-                )
+                    )
+                }
             }
-        }
 
+
+        }
         if (usesNetwork) {
             SectionCard(
                 title = t("网络选项", "Network options"),
@@ -610,17 +641,19 @@ private fun SchemeCard(
                     displayName
                 },
             )
-            SegmentedRow(
-                options = AnimationMode.entries,
-                selected = AnimationMode.fromWire(profile.animationMode),
-                label = { mode ->
-                    when (mode) {
-                        AnimationMode.SIMPLE -> s("简洁", "Simple")
-                        AnimationMode.FULL -> s("完整", "Full")
-                    }
-                },
-                onSelect = { mode -> viewModel.updateDraft { it.copy(animationMode = mode.wire) } },
-            )
+            if (DisplayMode.fromWire(config.android.displayMode) == DisplayMode.OVERLAY) {
+                SegmentedRow(
+                    options = AnimationMode.entries,
+                    selected = AnimationMode.fromWire(profile.animationMode),
+                    label = { mode ->
+                        when (mode) {
+                            AnimationMode.SIMPLE -> s("简洁", "Simple")
+                            AnimationMode.FULL -> s("完整", "Full")
+                        }
+                    },
+                    onSelect = { mode -> viewModel.updateDraft { it.copy(animationMode = mode.wire) } },
+                )
+            }
             Row(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
@@ -713,17 +746,13 @@ private fun CarouselCard(viewModel: ContentViewModel, config: AppConfig, languag
                 isError = !(UiFormatting.parseInt(interval) in 3..3600),
                 supporting = t("范围 3 – 3600 秒。", "Range 3 – 3600 seconds."),
             )
-            SegmentedRow(
-                options = AnimationMode.entries,
-                selected = AnimationMode.fromWire(customHud.cycleAnimationMode),
-                label = { mode ->
-                    when (mode) {
-                        AnimationMode.SIMPLE -> s("简洁", "Simple")
-                        AnimationMode.FULL -> s("完整", "Full")
-                    }
-                },
-                onSelect = viewModel::setCycleAnimationMode,
-            )
+            if (DisplayMode.fromWire(config.android.displayMode) == DisplayMode.OVERLAY) {
+                Text(t("轮播切换动画", "Cycle transition animation"), modifier = Modifier.padding(horizontal = 16.dp))
+                SegmentedRow(options = AnimationMode.entries,
+                    selected = AnimationMode.fromWire(customHud.cycleAnimationMode),
+                    label = { if (it == AnimationMode.SIMPLE) s("简洁", "Simple") else s("完整", "Full") },
+                    onSelect = viewModel::setCycleAnimationMode)
+            }
             Spacer(Modifier.height(6.dp))
             Text(
                 text = t("轮播队列", "Cycle queue"),

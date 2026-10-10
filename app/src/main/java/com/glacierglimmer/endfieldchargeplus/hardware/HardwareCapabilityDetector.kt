@@ -25,7 +25,8 @@ import com.glacierglimmer.endfieldchargeplus.metrics.ProcStatParser
 import com.glacierglimmer.endfieldchargeplus.metrics.ThermalZone
 import com.glacierglimmer.endfieldchargeplus.metrics.ThermalZoneClassifier
 import com.glacierglimmer.endfieldchargeplus.metrics.ThermalZoneReader
-import java.io.File
+import com.glacierglimmer.endfieldchargeplus.metrics.KernelReader
+import com.glacierglimmer.endfieldchargeplus.metrics.FileKernelReader
 
 /** Probe verdicts for the three packet-probe protocols. */
 data class ProbeSupport(
@@ -37,17 +38,17 @@ data class ProbeSupport(
 /**
  * Probes what this specific device and Android version actually allow an unprivileged app to read.
  *
- * Every verdict comes from a real probe of the exact node/API named in the `detail` string â€?never
+ * Every verdict comes from a real probe of the exact node/API named in the `detail` string ï¿½?never
  * from a hardcoded assumption. This is the data behind the settings/diagnostics page and the
  * README table, so an optimistic "supported" here would become fabricated HUD data later.
  */
-class HardwareCapabilityDetector(private val context: Context) {
+class HardwareCapabilityDetector(private val context: Context, private val reader: KernelReader = FileKernelReader) {
 
     /** Runs a full probe. Safe to call from a background dispatcher; it performs file I/O. */
     fun detect(): HardwareCapabilities {
         val probeSupport = detectProbeSupport()
-        val procStat = NodeProbe.read(MetricPaths.PROC_STAT)
-        val thermalZones = ThermalZoneReader.readAll()
+        val procStat = NodeProbe.read(MetricPaths.PROC_STAT, reader)
+        val thermalZones = ThermalZoneReader.readAll(reader)
 
         return HardwareCapabilities(
             cpuTotalUsage = cpuTotalCapability(procStat),
@@ -138,7 +139,7 @@ class HardwareCapabilityDetector(private val context: Context) {
     private fun cpuFrequencyCapability(): Capability {
         val coreCount = Runtime.getRuntime().availableProcessors().coerceAtLeast(1)
         val nodes = (0 until coreCount).map { MetricPaths.scalingCurFreq(it) }
-        val readings = nodes.map { ProcFiles.readLong(it) }
+        val readings = nodes.map { reader.readLong(it) }
         val readable = readings.count { it != null && it > 0L }
         val average = CpuFrequencyMath.averageKhz(readings)
         return when {
@@ -189,7 +190,7 @@ class HardwareCapabilityDetector(private val context: Context) {
             add(MetricPaths.MALI_UTILIZATION)
         }
         for (path in candidates) {
-            val text = ProcFiles.readText(path) ?: continue
+            val text = reader.readText(path) ?: continue
             val value = GpuNodeParsers.parsePercent(text)
                 ?: GpuNodeParsers.parseBusyPair(text)
                 ?: GpuNodeParsers.parseDevfreqLoad(text)
@@ -209,7 +210,7 @@ class HardwareCapabilityDetector(private val context: Context) {
             addAll(devfreqNode("cur_freq"))
         }
         for (path in candidates) {
-            val text = ProcFiles.readText(path) ?: continue
+            val text = reader.readText(path) ?: continue
             val value = GpuNodeParsers.parseFrequencyHz(text)
             if (value != null) {
                 return Capability(supported = true, detail = "read $path (value=${value}Hz)")
@@ -266,7 +267,7 @@ class HardwareCapabilityDetector(private val context: Context) {
     }
 
     private fun memoryDetailCapability(): Capability {
-        val result = NodeProbe.read(MetricPaths.PROC_MEMINFO)
+        val result = NodeProbe.read(MetricPaths.PROC_MEMINFO, reader)
         if (result is NodeReadResult.Failure) {
             return Capability.partial(
                 "ActivityManager.MemoryInfo still works, but ${result.detail} (${result.reasonKey})",
@@ -335,7 +336,7 @@ class HardwareCapabilityDetector(private val context: Context) {
     }
 
     private fun cpuModel(): String {
-        val cpuInfo = ProcFiles.readText(MetricPaths.PROC_CPUINFO)
+        val cpuInfo = reader.readText(MetricPaths.PROC_CPUINFO)
         val fromProc = cpuInfo?.let(CpuInfoParser::model)
         if (fromProc != null) return fromProc
         val soc = if (Build.VERSION.SDK_INT >= 31) Build.SOC_MODEL else null
@@ -343,11 +344,7 @@ class HardwareCapabilityDetector(private val context: Context) {
     }
 
     private fun devfreqNode(fileName: String): List<String> {
-        val entries = try {
-            File(MetricPaths.DEV_FREQ_ROOT).list()?.toList().orEmpty()
-        } catch (error: Exception) {
-            emptyList()
-        }
+        val entries = reader.listNames(MetricPaths.DEV_FREQ_ROOT)
         return entries.filter { it.contains("gpu", ignoreCase = true) || it.contains("kgsl", ignoreCase = true) }
             .sorted()
             .map { "${MetricPaths.DEV_FREQ_ROOT}/$it/$fileName" }

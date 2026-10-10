@@ -7,6 +7,11 @@ import com.glacierglimmer.endfieldchargeplus.core.model.IslandProviderKind
 import com.glacierglimmer.endfieldchargeplus.data.ConfigRepository
 import com.glacierglimmer.endfieldchargeplus.diagnostics.AppLog
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 /**
  * Owns every island backend and answers the only two questions the rest of the app asks:
@@ -52,6 +57,11 @@ class IslandProviderRegistry private constructor(
     @Volatile
     private var active: IslandProvider? = null
 
+    private val refreshMutex = Mutex()
+    private val _statuses = MutableStateFlow<List<IslandProviderStatus>>(emptyList())
+    /** Shared by Home and Display; empty means detection has not completed yet. */
+    val statuses: StateFlow<List<IslandProviderStatus>> = _statuses.asStateFlow()
+
     /** Every provider this build ships, in preference order. */
     fun providers(): List<IslandProvider> = providerList.toList()
 
@@ -59,11 +69,14 @@ class IslandProviderRegistry private constructor(
     fun providerFor(kind: IslandProviderKind): IslandProvider? = providerList.firstOrNull { it.kind == kind }
 
     /** Re-evaluates every provider and returns their availability in provider order. */
-    suspend fun refreshAll(): List<IslandAvailability> = providerList.map { it.refreshAvailability() }
+    suspend fun refreshAll(): List<IslandAvailability> = refreshMutex.withLock {
+        val refreshed = providerList.map { it.refreshAvailability() }
+        _statuses.value = describe()
+        refreshed
+    }
 
     /**
-     * The best usable provider for this device: Xiaomi HyperIsland first (HyperOS devices), then the
-     * Android system live update, otherwise `null`.
+     * The usable Android system live-update provider for this device, otherwise `null`.
      */
     fun autoSelect(): IslandProvider? =
         providerList.sortedBy { preferenceRank(it.kind) }.firstOrNull { it.availability().usable }
@@ -100,11 +113,12 @@ class IslandProviderRegistry private constructor(
 
     /**
      * Starts the selected provider and returns it, or `null` when nothing usable is configured or the
-     * provider refused to start. Starting an already running provider restarts it cleanly.
+     * provider refused to start. Reapplying the same running provider is a no-op.
      */
     fun startSelected(scope: CoroutineScope): IslandProvider? {
-        stop()
         val provider = select()
+        if (provider != null && provider === active && provider.isRunning()) return provider
+        stop()
         if (provider == null) {
             AppLog.w(TAG, "no usable island provider for kind=${configuredKind()}")
             return null
@@ -146,7 +160,6 @@ class IslandProviderRegistry private constructor(
         IslandProviderKind.fromWire(configRepository.config.value.android.islandProvider)
 
     private fun preferenceRank(kind: IslandProviderKind): Int = when (kind) {
-        IslandProviderKind.XIAOMI_HYPER_ISLAND -> 0
         IslandProviderKind.ANDROID_SYSTEM -> 1
         else -> 2
     }
@@ -155,13 +168,10 @@ class IslandProviderRegistry private constructor(
         private const val TAG: String = "IslandRegistry"
 
         /**
-         * The providers in preference order. Xiaomi HyperIsland is only usable when its vendor bridge
-         * is integrated and the ROM is HyperOS, so on every other device [autoSelect] falls through to
-         * the Android live update.
+         * This build only ships the native Android live-update backend.
          */
         fun defaultProviders(context: Context, notificationHost: IslandNotificationHost): List<IslandProvider> =
             listOf(
-                XiaomiHyperIslandProvider(context, notificationHost),
                 AndroidLiveUpdateProvider(context, notificationHost),
             )
     }

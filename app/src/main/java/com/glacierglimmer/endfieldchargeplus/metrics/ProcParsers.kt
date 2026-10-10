@@ -53,7 +53,8 @@ internal object NodeProbe {
     const val REASON_SELINUX_DENIED = "capability_selinux_denied"
     const val REASON_READ_FAILED = "capability_not_available_on_device"
 
-    fun read(path: String): NodeReadResult {
+    fun read(path: String, reader: KernelReader = FileKernelReader): NodeReadResult {
+        reader.readText(path)?.takeIf { it.isNotBlank() }?.let { return NodeReadResult.Ok(path, it) }
         val file = File(path)
         if (!file.exists()) return NodeReadResult.Failure(path, REASON_NODE_MISSING, "node missing: $path")
         if (!file.canRead()) {
@@ -344,7 +345,7 @@ internal object GpuNodeParsers {
     fun parseFrequencyHz(raw: String): Double? {
         val token = raw.trim().split(' ', '\t').firstOrNull { it.isNotBlank() } ?: return null
         val value = token.removeSuffix("Hz").toDoubleOrNull() ?: return null
-        return value.takeIf { it > 0.0 }
+        return value.takeIf { it.isFinite() && it > 0.0 }
     }
 }
 

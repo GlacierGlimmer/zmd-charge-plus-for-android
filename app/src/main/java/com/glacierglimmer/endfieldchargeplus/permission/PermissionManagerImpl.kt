@@ -31,7 +31,6 @@ import java.util.Locale
  * @param liveUpdateEligible whether this device can use the promoted ongoing notification /
  *   live-update path (supplied by the island layer). Defaults to `false`: eligibility is never
  *   claimed without proof.
- * @param vendorIslandGranted whether Xiaomi HyperIsland has been authorised. Defaults to `false`.
  * @param foregroundServiceRunning whether the HUD foreground service is currently running. The
  *   default inspects this process' importance, which is `FOREGROUND_SERVICE` exactly while a
  *   foreground service owns it.
@@ -41,7 +40,6 @@ class PermissionManagerImpl(
     private val preferences: SharedPreferences =
         context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE),
     private val liveUpdateEligible: () -> Boolean = { false },
-    private val vendorIslandGranted: () -> Boolean = { false },
     private val foregroundServiceRunning: () -> Boolean = { isProcessForeground(context) },
 ) : PermissionManager {
 
@@ -118,20 +116,10 @@ class PermissionManagerImpl(
                 granted = granted,
                 messageKey = if (granted) KEY_LIVE_UPDATE_GRANTED else KEY_LIVE_UPDATE_UNAVAILABLE,
                 detail = "Promoted ongoing notification supported=$granted.",
-                canRequest = false,
+                canRequest = Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA,
             )
         }
 
-        EcpPermission.VENDOR_ISLAND -> {
-            val granted = safeCall(vendorIslandGranted, false)
-            PermissionState(
-                permission = permission,
-                granted = granted,
-                messageKey = if (granted) KEY_VENDOR_ISLAND_GRANTED else KEY_VENDOR_ISLAND_REQUIRED,
-                detail = "Vendor island backend authorised=$granted.",
-                canRequest = !granted,
-            )
-        }
     }
 
     override fun all(): List<PermissionState> = EcpPermission.entries.map { state(it) }
@@ -238,8 +226,6 @@ class PermissionManagerImpl(
         const val KEY_BOOT_START_MISSING = "permission.boot_start.missing"
         const val KEY_LIVE_UPDATE_GRANTED = "permission.live_update.granted"
         const val KEY_LIVE_UPDATE_UNAVAILABLE = "permission.live_update.unavailable"
-        const val KEY_VENDOR_ISLAND_GRANTED = "permission.vendor_island.granted"
-        const val KEY_VENDOR_ISLAND_REQUIRED = "permission.vendor_island.required"
     }
 }
 

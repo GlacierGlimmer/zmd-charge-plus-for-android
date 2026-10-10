@@ -21,6 +21,7 @@ internal interface IslandOutput {
 
     /** Starts the provider the user configured; true only when a provider actually started. */
     fun start(): Boolean
+    suspend fun refreshAvailability() {}
 
     /** Pushes one rendered frame. */
     fun update(data: HudRenderData)
@@ -39,6 +40,8 @@ internal class RegistryIslandOutput(
     private val registry: IslandProviderRegistry,
     private val scope: CoroutineScope,
 ) : IslandOutput {
+
+    override suspend fun refreshAvailability() { registry.refreshAll() }
 
     override fun start(): Boolean {
         // Selection is re-read from the configuration on every call; the provider is only started

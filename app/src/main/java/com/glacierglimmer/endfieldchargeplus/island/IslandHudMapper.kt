@@ -7,7 +7,7 @@ import kotlin.math.round
  * The reduced content model an island backend can express.
  *
  * It is intentionally much smaller than the overlay HUD: every real platform (Android promoted
- * ongoing notifications, Xiaomi HyperIsland templates) draws its own layout and only accepts a
+ * ongoing notifications) draws its own layout and only accepts a
  * handful of text slots plus progress. Keeping this model free of Android types makes the
  * degradation rules unit-testable and keeps the decision "what can this backend show" in one place.
  */
@@ -44,6 +44,26 @@ data class IslandContent(
  */
 object IslandHudMapper {
 
+    /** A chip has one very short slot; the expanded notification retains all metric fragments. */
+    fun mapLiveUpdate(data: HudRenderData): IslandContent {
+        val mapped = map(data, AndroidLiveUpdateProvider.CAPABILITIES)
+        val primary = data.primaryText.trim()
+        val secondary = data.secondaryText.trim()
+        val metric = when {
+            primary.isEmpty() -> secondary
+            secondary.isEmpty() -> primary
+            secondary.startsWith("/") || secondary.startsWith("%") -> primary + secondary
+            else -> "$primary $secondary"
+        }
+        val right = (data.rightText + data.rightSuffix).trim()
+        val body = listOf(metric, right).filter { it.isNotBlank() }.distinct().joinToString(SHORT_SEPARATOR)
+        val compact = listOf(right, metric, primary, mapped.title)
+            .map { it.replace(Regex("\\s+"), "").trim() }
+            .firstOrNull { it.isNotEmpty() && !it.startsWith("/") && it.codePointCount(0, it.length) <= 7 }
+            .orEmpty()
+        return mapped.copy(subtitle = body, shortText = compact)
+    }
+
     /** Separator used when several HUD fragments share one compact line. */
     const val SHORT_SEPARATOR: String = " · "
 
@@ -67,7 +87,7 @@ object IslandHudMapper {
             add(right)
         }.filter { it.isNotBlank() }.distinct()
 
-        val progress = if (capabilities.supportsProgress) {
+        val progress = if (capabilities.supportsProgress && data.progress.isFinite()) {
             round(data.progress.coerceIn(0.0, 1.0) * 1000.0) / 10.0
         } else {
             0.0

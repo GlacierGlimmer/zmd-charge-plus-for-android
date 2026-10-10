@@ -12,9 +12,23 @@ import org.junit.Test
  */
 class IslandHudMapperTest {
 
-    private val androidCaps: IslandCapabilities = AndroidLiveUpdateProvider.CAPABILITIES
+    @Test fun `memory chip keeps a complete short value and expanded content includes used total and percent`() {
+        val content = IslandHudMapper.mapLiveUpdate(HudRenderData(title = "内存", primaryText = "8.5",
+            secondaryText = "/14.9 GB", rightText = "56", rightSuffix = "%", progress = 0.56))
+        assertEquals("56%", content.shortText)
+        assertEquals("8.5/14.9 GB · 56%", content.bodyText)
+        assertEquals(56.0, content.progressPercent, 0.01)
+    }
 
-    private val hyperCaps: IslandCapabilities = XiaomiHyperIslandProvider.CAPABILITIES
+    @Test fun `long chip text is not made into a truncated total and zero or invalid progress is safe`() {
+        val content = IslandHudMapper.mapLiveUpdate(HudRenderData(title = "内存", primaryText = "--",
+            secondaryText = "/14.9 GB", rightText = "a very long reading", progress = Double.NaN))
+        assertEquals("--", content.shortText)
+        assertEquals(0.0, content.progressPercent, 0.01)
+        assertTrue(content.bodyText.contains("/14.9 GB"))
+    }
+
+    private val androidCaps: IslandCapabilities = AndroidLiveUpdateProvider.CAPABILITIES
 
     private val fullCaps = IslandCapabilities(
         supportsTitle = true,
@@ -108,17 +122,6 @@ class IslandHudMapperTest {
         assertEquals("", content.subtitle)
         assertEquals("", content.shortText)
         assertTrue(content.isEmpty)
-    }
-
-    @Test
-    fun `hyper island capability advertises what the templates can show`() {
-        assertFalse(hyperCaps.supportsProgress)
-        assertTrue(hyperCaps.limitationKeys.contains("island_limit_no_progress"))
-        assertTrue(hyperCaps.supportsIcons)
-        assertEquals(false, hyperCaps.supportsCustomLayout)
-        assertEquals(false, hyperCaps.supportsLeftRightSplit)
-        assertTrue(hyperCaps.experimental)
-        assertTrue(hyperCaps.limitationKeys.isNotEmpty())
     }
 
     @Test

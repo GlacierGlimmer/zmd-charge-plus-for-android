@@ -17,6 +17,16 @@ class ConfigNormalizerTest {
 
     private val memoryId = BuiltInProfiles.idOf(BuiltInProfiles.MEMORY)
 
+    @Test fun `hidden legacy backend choices migrate to the sole native backend without enabling HUD`() {
+        for (old in listOf("Auto", "None", "XiaomiHyperIsland", "AndroidSystem")) {
+            val normalized = ConfigNormalizer.normalize(AppConfig(hudEnabled = false,
+                android = AndroidSettings(displayMode = "Island", islandProvider = old)))
+            assertEquals("AndroidSystem", normalized.android.islandProvider)
+            assertEquals("Island", normalized.android.displayMode)
+            assertFalse(normalized.hudEnabled)
+        }
+    }
+
     @Test
     fun `built-ins are always re-created exactly once and custom schemes survive`() {
         val custom = HudProfile(id = "custom-1", name = "我的方案", category = "自定义")
@@ -266,7 +276,7 @@ class ConfigNormalizerTest {
         ).android
 
         assertEquals("Island", normalized.displayMode)
-        assertEquals("XiaomiHyperIsland", normalized.islandProvider)
+        assertEquals("AndroidSystem", normalized.islandProvider)
         assertEquals(ConfigNormalizer.DEFAULT_DEEPSEEK_BASE_URL, normalized.deepSeekBaseUrl)
         assertEquals(0L, normalized.capabilityScanAt)
         assertTrue(normalized.probeEnabled)

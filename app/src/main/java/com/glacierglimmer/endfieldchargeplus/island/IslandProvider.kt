@@ -74,9 +74,6 @@ data class IslandAvailability(
         fun needsAuthorization(detail: String = "") =
             IslandAvailability(IslandAvailabilityState.NOT_AUTHORIZED, "island_state_not_authorized", detail)
 
-        fun needsVendorPermission(detail: String = "") =
-            IslandAvailability(IslandAvailabilityState.VENDOR_PERMISSION_REQUIRED, "island_state_vendor_permission", detail)
-
         fun unavailable(messageKey: String, detail: String = "") =
             IslandAvailability(IslandAvailabilityState.UNAVAILABLE, messageKey, detail)
     }
@@ -92,9 +89,6 @@ enum class IslandAvailabilityState {
 
     /** The API exists but this application has not been authorized by the vendor/user. */
     NOT_AUTHORIZED,
-
-    /** The vendor requires a developer application/scenario review before the API unlocks. */
-    VENDOR_PERMISSION_REQUIRED,
 
     /** Temporarily unavailable (system busy, notifications disabled, ...). */
     UNAVAILABLE,

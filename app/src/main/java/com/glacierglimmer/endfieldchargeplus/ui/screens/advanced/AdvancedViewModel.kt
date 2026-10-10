@@ -35,6 +35,17 @@ enum class AdvancedMessage {
 class AdvancedViewModel(private val container: EcpContainer) : ViewModel() {
 
     val config: StateFlow<AppConfig> = container.configRepository.config
+    val rootStatus = container.rootAccess.status
+    fun setUseRoot(enabled: Boolean) { viewModelScope.launch {
+        container.configRepository.update { it.copy(android = it.android.copy(useRoot = enabled)) }
+        if (!enabled) container.rootAccess.configure(false)
+    } }
+    fun retryRoot() { viewModelScope.launch {
+        container.rootAccess.configure(config.value.android.useRoot)
+        container.kernelReader.invalidate()
+        container.metricRepository.refreshCapabilities()
+        container.metricRepository.refreshNow()
+    } }
 
     private val _capabilities = MutableStateFlow(container.metricRepository.capabilities.value)
     val capabilities: StateFlow<HardwareCapabilities> = _capabilities

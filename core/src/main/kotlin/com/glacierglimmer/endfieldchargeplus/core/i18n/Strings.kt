@@ -66,7 +66,7 @@ object Strings {
         "终末地风格状态栏 HUD" to "Endfield-style Status HUD",
         "构建日期  2026.09.23" to "Build  2026.09.23",
         "检查更新" to "Check Updates",
-        "当前版本：v0.1.0" to "Current: v0.1.0",
+        "当前版本：v0.1.1" to "Current: v0.1.1",
         "最新版本：尚未获取" to "Latest: not checked",
         "状态：尚未检查" to "Status: not checked",
         "项目与协议" to "Project & License",

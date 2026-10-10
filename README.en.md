@@ -14,7 +14,7 @@ Endfield Charge Plus
 └─ Android   ← this repository (an independent native implementation)
 ```
 
-- Version: `0.1.0` (versionCode 1)
+- Version: `v0.1.1` (versionCode 2); changed only on user request, with no automatic test suffix. See [version policy](docs/VERSIONING.md).
 - Package: `com.glacierglimmer.endfieldchargeplus`
 - `minSdk 26`, `compileSdk / targetSdk 36`
 - Author: GlacierGlimmer / 冰川雪貓
@@ -39,21 +39,17 @@ Two display modes:
   service. The window is only as large as the HUD itself (never a full-screen transparent layer), it
   does not take focus, supports click-through, can be dragged, remembers its position per orientation,
   and avoids display cutouts.
-- **Island interface** (experimental) — a single `IslandProvider` abstraction with
-  `AndroidLiveUpdateProvider` (Android's official promoted ongoing notification / Live Update) and
-  `XiaomiHyperIslandProvider` (Xiaomi HyperIsland). Settings show the real availability and
-  authorization state of 自动 / Android system / Xiaomi HyperIsland.
+- **Island interface** (experimental) — `AndroidLiveUpdateProvider` uses Android's official promoted
+  ongoing notification / Live Update. Settings show native Android availability and authorization.
+  The Xiaomi integration has been removed; old selections migrate to Android system.
 
 ### The honest state of the island layer
 
 - **Android system**: only marked available when the platform version, notification permission,
   channel state and platform eligibility all pass. Arbitrary custom layouts are not permitted by the
-  platform, so the capability list states the limits (no custom layout, no left/right split, throttled
-  updates).
-- **Xiaomi HyperIsland**: the official local notification transport is implemented; no extra SDK is
-  needed. A Xiaomi-issued APP_ID, registered signing certificate and scenario authorization are still
-  required. Unconfigured builds report `Xiaomi HyperIsland permission required`. See the
-  [integration guide](docs/xiaomi-hyper-island.md) for build options and device verification.
+  platform. Settings retain only supported notification content and progress options; devices below Android 16 offer overlay mode only.
+- The chip shows a short metric summary; expanded notifications keep all readings and a native
+  progress bar. Rapid changes are merged and published no more than once every five seconds.
 - A plain notification is never presented as a successful island connection, and Android limits are
   never bypassed with hacks.
 
@@ -61,13 +57,13 @@ Two display modes:
 
 ## 2. Features
 
-- **Data collection** — memory, battery, network rates, storage, time/day progress. A single
+- **Data collection** — CPU/GPU, memory, battery, network rates, storage, time/day progress. A single
   `MetricRepository` publishes Flow/StateFlow data to every output; the overlay and the island layer
   share it, so switching display mode never rebuilds the collection system.
 - **Variable system** — ECP variable names are preserved (`memory.usage`, `battery.remaining_mwh`,
   `probe.latency_ms`, `deepseek.balance`, …) with compatibility for legacy spellings such as `ping.*`
   and `memory.usage_percent`. The Variables page browses and searches the registry with type, unit,
-  description and common formats.
+  description and common formats. The fixed Android catalog contains 91 variables backed by collectors; per-core and HTTP fields come from actual snapshot keys. Desktop-only and unimplemented entries are omitted.
 - **Templates and expressions** — `{variable}`, `{variable|format}`, `{= expression}` and
   `{= expression | format}`. Formats are a chained `|` pipeline (`gb`/`mb`/`kb`/`bytes`/`speed` are
   binary, `mbps`/`kbps` are decimal-SI, plus `math:`, `sub:`, `replace:`, `upper/lower`, `time:`,
@@ -98,6 +94,8 @@ Two display modes:
   complex configuration are JSON with the same field names as the desktop editions, aiming at
   cross-platform import/export. A corrupt import keeps the previous configuration
   (`config_previous`) instead of destroying the user's settings.
+- **Update checks** — once per app process startup, plus a manual check in About. The Android repository latest Release/Tag is compared using numeric versions; a new release prompts in the app and posts a notification when allowed. Downloads open the stable Releases page.
+- **Root collection** — an opt-in switch in Advanced requests Root for a persistent read-only channel to restricted CPU/GPU/memory nodes. Missing hardware nodes still render `--`. The channel closes when both the app UI and HUD stop; temporary permission failures never erase scheme expressions.
 - **Diagnostics** — an in-app log viewer, a shareable diagnostics report, hardware capability
   re-detection and a permission overview.
 
@@ -120,13 +118,13 @@ marker the desktop editions use) and never substitutes `0` or a random value.
 | Probe latency / packet loss | ✅ (TCP primary, ICMP best-effort) |
 | Memory detail (cached / swap) | ⚠️ when `/proc/meminfo` is readable |
 | CPU total and per-core usage | ⚠️ when `/proc/stat` is readable; restricted on some devices |
-| CPU frequency | ⚠️ unreadable on most retail devices since Android 10 |
-| CPU temperature | ⚠️ only when an identifiable thermal zone exists |
-| GPU load / frequency / temperature / VRAM | ❌ no public API; normally unsupported (unless a vendor node is genuinely readable) |
-| Wi-Fi SSID | ❌ requires location permission, which the app never requests on its own |
+| CPU frequency / maximum frequency | ⚠️ real cpufreq nodes; authorized Root can supplement access |
+| CPU temperature | ⚠️ real CPU thermal zones, optionally via Root; never battery temperature |
+| GPU load / frequency / temperature / model | ⚠️ real KGSL/Mali/devfreq/thermal nodes, optionally via Root; unavailable when absent |
+| VRAM / Wi-Fi SSID / desktop-only metrics | Omitted from the library; this version has no applicable reader |
 
 Advanced → Re-detect hardware capabilities probes the device live and lists every verdict with its
-evidence (which API or sysfs node was probed and why it failed).
+evidence (which API or sysfs node was probed and why it failed). Root changes trigger a new scan. Selected overlay anchors remain stable during rotation; per-orientation coordinates apply only after a manual drag. Display offers a button to restore the selected anchor.
 
 ---
 
@@ -170,12 +168,14 @@ consuming data, and network requests have interval floors and failure backoff.
 
 | Check | Result |
 | --- | --- |
-| `:core:test` | 74 passing |
-| `:app:testDebugUnitTest` | 354 passing |
-| `:app:lintDebug` | 0 errors (21 advisory warnings) |
-| `:app:assembleDebug` | success (app-debug.apk, ~19.7 MB) |
-| `:app:assembleRelease` (R8) | success (unsigned release APK, ~1.9 MB) |
+| `:core:test` | v0.1.1: 72 passing |
+| `:app:testDebugUnitTest` | v0.1.1: 384 passing |
+| `:app:lintDebug` | v0.1.1: passed; diagnostics in the build report |
+| `:app:assembleDebug` | v0.1.1: signed test APK built |
+| `:app:assembleRelease` (R8) | Older baseline passed; v0.1.1 is a Debug device-test build |
 | Physical-device testing | **not done** (this environment has no Android device) |
+
+Current changes and pending device checks: [android-device-test-r5.md](docs/android-device-test-r5.md).
 
 The device checklist (overlay grant/deny, permission revocation, rotation, cutout screens, DPI
 changes, Activity swipe-away, service restart, lock screen, screen off, Wi-Fi ↔ cellular, no network,

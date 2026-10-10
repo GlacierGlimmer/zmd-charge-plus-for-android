@@ -33,6 +33,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Owns the whole HUD lifecycle and is the only place that wires the components together.
@@ -71,7 +72,8 @@ open class HudForegroundService : Service() {
     private var displayMode = DisplayMode.OVERLAY
     private var islandActive = false
     private var screenOn = true
-    private var displayedProfileId = ""
+    private lateinit var renderSession: HudRenderSession
+    private val displayedProfileId: String get() = if (::renderSession.isInitialized) renderSession.displayedProfileId else ""
     private var cycleIndex = 0
     private var cycleJob: Job? = null
     private var stopping = false
@@ -93,6 +95,12 @@ open class HudForegroundService : Service() {
             when (intent?.action) {
                 Intent.ACTION_SCREEN_ON -> screenOn = true
                 Intent.ACTION_SCREEN_OFF -> screenOn = false
+                Intent.ACTION_POWER_CONNECTED, Intent.ACTION_POWER_DISCONNECTED -> {
+                    if (config.hudEnabled && displayMode == DisplayMode.OVERLAY && !config.android.alwaysVisible) {
+                        metricRepository.refreshNow()
+                        render(animate = true)
+                    }
+                }
             }
             applyDemand()
         }
@@ -109,13 +117,15 @@ open class HudForegroundService : Service() {
         stateBuilder = container.hudStateBuilder
         overlay = container.overlayController
         (overlay as? DefaultOverlayController)?.setStateListener(overlayVisibilityListener)
+        renderSession = HudRenderSession(overlay,
+            buildData = { profile -> stateBuilder.build(profile, metricRepository.snapshot.value, uiLanguage()) },
+            selectSamplingProfile = metricRepository::setActiveProfile,
+            updateIsland = { data -> islandBridge?.update(data) })
 
         config = configRepository.config.value
         displayMode = DisplayMode.fromWire(config.android.displayMode)
         startAsForegroundService()
         registerScreenReceiver()
-        observeConfig()
-        observeSnapshot()
         metricRepository.start()
         HudRuntimeState.update {
             it.copy(
@@ -127,6 +137,8 @@ open class HudForegroundService : Service() {
                 lastError = null,
             )
         }
+        observeConfig()
+        observeSnapshot()
         AppLog.i(TAG, "HUD service started (mode=${displayMode.wire})")
     }
 
@@ -134,6 +146,12 @@ open class HudForegroundService : Service() {
         if (intent?.action == HudServiceController.ACTION_STOP) {
             stopHud()
             return START_NOT_STICKY
+        }
+        if (intent?.action == HudServiceController.ACTION_REFRESH && configObserved) {
+            serviceScope.launch {
+                withContext(Dispatchers.IO) { islandBridge?.refreshAvailability() }
+                if (!stopping) onConfigChanged(configRepository.config.value)
+            }
         }
         if (configObserved && !config.hudEnabled) {
             // The master switch is off: a restart (or a stale intent) must not resurrect the HUD.
@@ -196,6 +214,8 @@ open class HudForegroundService : Service() {
         val filter = IntentFilter().apply {
             addAction(Intent.ACTION_SCREEN_ON)
             addAction(Intent.ACTION_SCREEN_OFF)
+            addAction(Intent.ACTION_POWER_CONNECTED)
+            addAction(Intent.ACTION_POWER_DISCONNECTED)
         }
         ContextCompat.registerReceiver(this, screenReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
     }
@@ -222,7 +242,12 @@ open class HudForegroundService : Service() {
     private fun releaseOutputs() {
         runCatching { overlay.release() }.onFailure { AppLog.w(TAG, "Overlay release failed", it) }
         runCatching { islandBridge?.stop() }.onFailure { AppLog.w(TAG, "Island stop failed", it) }
-        runCatching { metricRepository.stop() }.onFailure { AppLog.w(TAG, "Repository stop failed", it) }
+        if (!container.foregroundUiActive) {
+            runCatching { metricRepository.stop() }.onFailure { AppLog.w(TAG, "Repository stop failed", it) }
+        } else {
+            metricRepository.setDemand(MetricDemand(false, false, true, screenOn))
+            metricRepository.setActiveProfile(config.customHud.activeProfile())
+        }
         islandActive = false
     }
 
@@ -230,6 +255,7 @@ open class HudForegroundService : Service() {
 
     private fun observeConfig() {
         serviceScope.launch {
+            configRepository.load()
             configRepository.config.collect { newConfig -> onConfigChanged(newConfig) }
         }
     }
@@ -241,6 +267,7 @@ open class HudForegroundService : Service() {
     }
 
     private fun onConfigChanged(newConfig: AppConfig) {
+        if (stopping) return
         val previous = config
         config = newConfig
         configObserved = true
@@ -250,6 +277,7 @@ open class HudForegroundService : Service() {
             stopHud()
             return
         }
+        renderSession.configure(newConfig)
 
         val mode = DisplayMode.fromWire(newConfig.android.displayMode)
         val modeChanged = mode != displayMode
@@ -259,7 +287,9 @@ open class HudForegroundService : Service() {
 
         overlay.applyConfig(newConfig)
         applyDisplayMode(mode)
-        restartCycleTimer(newConfig)
+        if (cycleJob == null || previous.customHud.autoCycle != newConfig.customHud.autoCycle ||
+            previous.customHud.cycleSeconds != newConfig.customHud.cycleSeconds ||
+            previous.customHud.effectiveCycleProfileIds() != newConfig.customHud.effectiveCycleProfileIds()) restartCycleTimer(newConfig)
         applyDemand()
         render(animate = modeChanged || profileChanged || displayedProfileId.isEmpty())
         publishStatus()
@@ -267,29 +297,16 @@ open class HudForegroundService : Service() {
 
     /** Builds and pushes the render data for the currently displayed scheme. */
     private fun render(animate: Boolean) {
+        if (stopping) return
         val profile = renderedProfile() ?: return
-        push(profile, animate)
-    }
-
-    private fun push(profile: HudProfile, animate: Boolean) {
-        val data = stateBuilder.build(profile, metricRepository.snapshot.value, uiLanguage())
-        displayedProfileId = profile.id
-        metricRepository.setActiveProfile(profile)
-        if (displayMode == DisplayMode.ISLAND) {
-            islandBridge?.update(data)
-        } else if (overlay.isShowing() || animate) {
-            // A hidden transient HUD is only re-summoned by an explicit content change.
-            overlay.update(data, animate)
-        }
+        renderSession.render(profile, animate)
         publishStatus()
     }
 
     /** The scheme that must be visible right now: the carousel entry, or the configured one. */
     private fun renderedProfile(): HudProfile? {
-        if (!config.customHud.autoCycle) return HudCycleOrder.activeProfile(config)
         cycleIndex = HudCycleOrder.clampIndex(config, cycleIndex)
-        return HudCycleOrder.resolve(config).getOrNull(cycleIndex)
-            ?: HudCycleOrder.activeProfile(config)
+        return HudCycleOrder.renderedProfile(config, cycleIndex)
     }
 
     private fun uiLanguage(): UiLanguage =
@@ -344,7 +361,7 @@ open class HudForegroundService : Service() {
                 // between two transient reveals.
                 outputActive = config.hudEnabled,
                 hudVisible = overlay.isShowing() || islandActive,
-                foregroundUi = false,
+                foregroundUi = container.foregroundUiActive,
                 screenOn = screenOn,
                 userPaused = !config.hudEnabled,
             ),

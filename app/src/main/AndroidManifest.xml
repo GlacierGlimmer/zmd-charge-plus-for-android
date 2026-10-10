@@ -31,11 +31,6 @@
         android:theme="@style/Theme.EndfieldChargePlus"
         tools:targetApi="34">
 
-        <meta-data android:name="com.xiaomi.xms.APP_ID"
-            android:value="@string/xiaomi_hyper_island_app_id" />
-        <meta-data android:name="com.xiaomi.xms.BUILD_TYPE_DEBUG"
-            android:value="${xiaomiBuildTypeDebug}" />
-
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|density|uiMode"

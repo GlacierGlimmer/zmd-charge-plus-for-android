@@ -44,6 +44,7 @@ class HudPositionMathTest {
             overlayYPortrait = portraitY,
             overlayXLandscape = landscapeX,
             overlayYLandscape = landscapeY,
+            useDraggedPosition = portraitX >= 0 || landscapeX >= 0,
         ),
     )
 
@@ -196,6 +197,106 @@ class HudPositionMathTest {
         assertEquals(2280, frame.safeBottom)
         assertEquals(1080, frame.safeWidth)
         assertEquals(2200, frame.safeHeight)
+    }
+
+    @Test fun `repeated rotations use a compact landscape HUD and stay inside the display`() {
+        val landscape = HudDisplayFrame(2400, 1080, HudInsets(left = 80, bottom = 120))
+        val config = AppConfig(globalScale = 0.9)
+        val portraitGeometry = HudPositionMath.geometry(config, frame, 3f)
+        repeat(1000) { index ->
+            val display = if (index % 2 == 0) landscape else frame
+            val geometry = HudPositionMath.geometry(config, display, 3f)
+            if (display.widthPx > display.heightPx) {
+                assertTrue(geometry.width < portraitGeometry.width * 0.75)
+                assertTrue(geometry.height < portraitGeometry.height)
+            } else assertEquals(portraitGeometry, geometry)
+            assertTrue(geometry.position.x >= display.safeLeft)
+            assertTrue(geometry.position.y >= display.safeTop)
+            assertTrue(geometry.position.x + geometry.width <= display.safeRight)
+            assertTrue(geometry.position.y + geometry.height <= display.safeBottom)
+        }
+    }
+
+    @Test fun `rotation uses independent portrait and landscape drag positions from the same geometry snapshot`() {
+        val config = config(portraitX = 100, portraitY = 200, landscapeX = 300, landscapeY = 400).copy(globalScale = 0.3)
+        val landscape = HudDisplayFrame(2400, 1080, HudInsets(left = 80, bottom = 120))
+        val portraitGeometry = HudPositionMath.geometry(config, frame, 3f)
+        val landscapeGeometry = HudPositionMath.geometry(config, landscape, 3f)
+        assertEquals(HudWindowPosition(100, 280), portraitGeometry.position)
+        assertEquals(HudWindowPosition(380, 400), landscapeGeometry.position)
+        assertEquals(portraitGeometry, HudPositionMath.geometry(config, frame, 3f))
+    }
+
+    @Test fun `display density changes update both window dimensions without changing the configured scale`() {
+        val config = AppConfig(globalScale = 0.3)
+        val original = HudPositionMath.geometry(config, frame, 3f)
+        val changed = HudPositionMath.geometry(config, frame, 2f)
+        assertEquals(original.scale, changed.scale, 1e-6f)
+        assertEquals(504, original.width)
+        assertEquals(81, original.height)
+        assertEquals(336, changed.width)
+        assertEquals(54, changed.height)
+        assertEquals(original, HudPositionMath.geometry(config, frame, 3f))
+    }
+
+    @Test fun `legacy landscape drag coordinates cannot move the selected top anchor into the middle`() {
+        val landscape=HudDisplayFrame(2400,1080,HudInsets(top=80,bottom=60))
+        val config=AppConfig(hudPosition="TopCenter",android=com.glacierglimmer.endfieldchargeplus.core.model.AndroidSettings(overlayXLandscape=900,overlayYLandscape=500))
+        val geometry=HudPositionMath.geometry(config,landscape,3f)
+        assertEquals(96,geometry.position.y)
+        assertEquals((landscape.safeWidth-geometry.width)/2,geometry.position.x)
+    }
+    @Test fun `top anchor remains at the safe top edge throughout repeated rotations`() {
+        val landscape=HudDisplayFrame(2400,1080,HudInsets(left=80,top=24,bottom=60))
+        repeat(1000) {
+            val display=if(it%2==0) frame else landscape
+            val geometry=HudPositionMath.geometry(AppConfig(hudPosition="TopCenter"),display,3f)
+            assertEquals(display.safeTop+16,geometry.position.y)
+        }
+    }
+
+    @Test fun `fullscreen game removes hidden portrait bars while retaining the rotated physical cutout`() {
+        val portraitInsets = HudSafeArea.resolve(HudInsets(top = 120), HudInsets(bottom = 70),
+            HudInsets(top = 110), true, true, true)
+        val portrait = HudDisplayFrame(1280, 2772, portraitInsets)
+        val portraitGeometry = HudPositionMath.geometry(AppConfig(), portrait, 3.25f)
+        val gameInsets = HudSafeArea.resolve(HudInsets(top = 120), HudInsets(right = 70),
+            HudInsets(left = 110), false, false, true)
+        val game = HudDisplayFrame(2772, 1280, gameInsets)
+        val landscapeGeometry = HudPositionMath.geometry(AppConfig(), game, 3.25f)
+        assertEquals(136, portraitGeometry.position.y)
+        assertEquals(16, landscapeGeometry.position.y)
+        assertEquals(110, game.safeLeft)
+        assertEquals(0, game.insets.top)
+        assertTrue(landscapeGeometry.width <= 896)
+        assertTrue(landscapeGeometry.height < portraitGeometry.height)
+        // Settled pill includes 15 design units of animation headroom, not a hidden status bar.
+        val visiblePillTop = landscapeGeometry.position.y +
+            (OverlayHudView.DESIGN_VIEW_HEIGHT - OverlayHudView.DESIGN_PILL_HEIGHT) *
+            landscapeGeometry.scale * landscapeGeometry.density / 2
+        assertTrue(visiblePillTop < 45f)
+        repeat(1000) {
+            assertEquals(if (it % 2 == 0) portraitGeometry else landscapeGeometry,
+                HudPositionMath.geometry(AppConfig(), if (it % 2 == 0) portrait else game, 3.25f))
+        }
+    }
+
+    @Test fun `showing bars again reserves only currently visible bars and optional cutout`() {
+        val status = HudInsets(top = 64); val navigation = HudInsets(right = 60)
+        val cutout = HudInsets(left = 110)
+        assertEquals(HudInsets(left = 110, top = 64, right = 60),
+            HudSafeArea.resolve(status, navigation, cutout, true, true, true))
+        assertEquals(HudInsets(left = 110), HudSafeArea.resolve(status, navigation, cutout, false, false, true))
+        assertEquals(HudInsets(top = 64), HudSafeArea.resolve(status, navigation, cutout, true, true, false))
+        assertEquals(HudInsets(), HudSafeArea.resolve(status, navigation, cutout, false, false, false))
+        val shownFrame = HudDisplayFrame(2772, 1280,
+            HudSafeArea.resolve(status, navigation, cutout, true, true, true))
+        val hiddenFrame = shownFrame.copy(insets = HudSafeArea.resolve(status, navigation, cutout, false, false, true))
+        val shown = HudPositionMath.geometry(AppConfig(), shownFrame, 3.25f)
+        val hidden = HudPositionMath.geometry(AppConfig(), hiddenFrame, 3.25f)
+        assertEquals(shown.width, hidden.width)
+        assertEquals(shown.height, hidden.height)
+        assertEquals(64, shown.position.y - hidden.position.y)
     }
 
     /**

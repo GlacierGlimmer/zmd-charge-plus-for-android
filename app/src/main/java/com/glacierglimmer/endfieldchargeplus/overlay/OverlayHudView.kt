@@ -3,6 +3,7 @@ package com.glacierglimmer.endfieldchargeplus.overlay
 import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -48,7 +49,9 @@ class OverlayHudView @JvmOverloads constructor(
     defStyleAttr: Int = 0,
 ) : View(context, attrs, defStyleAttr), HudAnimationTarget {
 
-    private val deviceDensity: Float = resources.displayMetrics.density
+    private var deviceDensity: Float = resources.displayMetrics.density
+
+    internal var onGeometryChanged: (() -> Unit)? = null
 
     /** `GlobalScale × HudScale` (or the settings preview's own scale), applied on top of density. */
     private var renderScale: Float = 1f
@@ -108,10 +111,11 @@ class OverlayHudView @JvmOverloads constructor(
      * `setScaledDensity(globalScale × AndroidSettings.hudScale)` reproduces the desktop
      * `GlobalScale` transform through the view's own density.
      */
-    fun setScaledDensity(scale: Float) {
+    fun setScaledDensity(scale: Float, density: Float = resources.displayMetrics.density) {
         val clamped = scale.coerceIn(MIN_RENDER_SCALE, MAX_RENDER_SCALE)
-        if (clamped == renderScale) return
+        if (clamped == renderScale && density == deviceDensity) return
         renderScale = clamped
+        deviceDensity = density
         iconCache.clear()
         requestLayout()
         invalidate()
@@ -119,6 +123,12 @@ class OverlayHudView @JvmOverloads constructor(
 
     /** The scale currently applied; exposed so the controller can keep the window in sync. */
     fun scaledDensity(): Float = renderScale
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        setScaledDensity(renderScale)
+        onGeometryChanged?.invoke()
+    }
 
     /** Applies one sampled animation frame. Called on the main thread by [HudAnimator]. */
     override fun applyAnimationState(state: HudAnimationState) {

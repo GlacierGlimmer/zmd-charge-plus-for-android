@@ -77,15 +77,12 @@ object EcpMessages {
         put("permission.boot_start.missing", "应用缺少开机启动权限。" to "The app is missing boot permission.")
         put("permission.live_update.granted", "系统允许实时通知接口。" to "The system allows live update notifications.")
         put("permission.live_update.unavailable", "本设备暂不支持实时通知，或尚未授权。" to "Live updates are unsupported or not authorized on this device.")
-        put("permission.vendor_island.granted", "厂商灵动岛接口已授权。" to "The vendor island API is authorized.")
-        put("permission.vendor_island.required", "需要设备支持及厂商授权。" to "Device support and vendor authorization are required.")
         put("permission_overlay", "悬浮窗权限" to "Overlay permission")
         put("permission_notifications", "通知权限" to "Notification permission")
         put("permission_foreground_service", "前台服务" to "Foreground service")
         put("permission_network", "网络访问" to "Network access")
         put("permission_boot_start", "开机自启" to "Start on boot")
         put("permission_live_update", "实时通知接口" to "Live update API")
-        put("permission_vendor_island", "超级岛授权" to "Vendor island authorization")
         put("permission_overlay_required", "启用悬浮 HUD 前需要授予“显示在其他应用上层”。" to
             "Turn on \"Display over other apps\" before enabling the floating HUD.")
         put("permission_notifications_required", "启动 HUD 时需要通知权限来显示常驻通知。" to
@@ -142,7 +139,6 @@ object EcpMessages {
         put("island_state_available", "可用" to "Available")
         put("island_state_unsupported", "不支持" to "Not supported")
         put("island_state_not_authorized", "尚未授权" to "Not authorized")
-        put("island_state_vendor_permission", "需要申请小米超级岛权限" to "Xiaomi HyperIsland permission required")
         put("island_state_notifications_disabled", "通知已关闭" to "Notifications are disabled")
         put("island_state_channel_disabled", "通知渠道已关闭" to "The notification channel is disabled")
         put("island_state_promotion_check_failed", "无法确认灵动岛资格" to "Could not verify island eligibility")
@@ -172,7 +168,6 @@ object EcpMessages {
         // ---------------------------------------------------------------- island providers
         put("island_provider_auto", "自动选择" to "Automatic")
         put("island_provider_android_system", "Android 系统" to "Android system")
-        put("island_provider_xiaomi_hyper_island", "小米超级岛" to "Xiaomi HyperIsland")
         put("island_provider_none", "不使用灵动岛" to "No island output")
         put("island_provider_preferred", "推荐" to "Recommended")
         put("island_provider_request_authorization", "申请授权" to "Request authorization")
@@ -248,10 +243,6 @@ object EcpMessages {
             "Android 的实时通知/灵动岛接口，用于在状态栏展示 HUD 内容。",
             "The Android live update / island API used to show HUD content around the status bar.",
         )
-        EcpPermission.VENDOR_ISLAND -> Strings.t(
-            "小米超级岛需要厂商授权；未授权时不会伪装已连接。",
-            "Xiaomi HyperIsland needs vendor authorization; the app never pretends it is connected.",
-        )
     }
 
     /** Stable key of one permission class. */
@@ -262,7 +253,6 @@ object EcpMessages {
         EcpPermission.NETWORK -> "permission_network"
         EcpPermission.BOOT_START -> "permission_boot_start"
         EcpPermission.LIVE_UPDATE -> "permission_live_update"
-        EcpPermission.VENDOR_ISLAND -> "permission_vendor_island"
     }
 
     /** Localized label for a value that the platform could not produce. */
@@ -281,7 +271,6 @@ object EcpMessages {
         IslandAvailabilityState.AVAILABLE -> t("island_state_available")
         IslandAvailabilityState.UNSUPPORTED_BY_PLATFORM -> t("island_state_unsupported")
         IslandAvailabilityState.NOT_AUTHORIZED -> t("island_state_not_authorized")
-        IslandAvailabilityState.VENDOR_PERMISSION_REQUIRED -> t("island_state_vendor_permission")
         IslandAvailabilityState.UNAVAILABLE -> t("island_state_unavailable")
     }
 

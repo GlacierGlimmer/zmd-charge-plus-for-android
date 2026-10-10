@@ -64,6 +64,7 @@ class StorageCollector(
         into["${prefix}available_bytes"] = MetricValue.Number(available.toDouble())
         into["${prefix}usage"] =
             MetricValue.Number((used.toDouble() * 100.0 / total.toDouble()).coerceIn(0.0, 100.0))
+        into["${prefix}free_percent"] = MetricValue.Number((available.toDouble() * 100.0 / total).coerceIn(0.0, 100.0))
     }
 
     private fun putVolumeUnavailable(into: MutableMap<String, MetricValue>, prefix: String, detail: String) {
@@ -71,6 +72,7 @@ class StorageCollector(
         into.putUnavailable("${prefix}used_bytes", UnavailableReason.NOT_AVAILABLE_ON_DEVICE, detail)
         into.putUnavailable("${prefix}available_bytes", UnavailableReason.NOT_AVAILABLE_ON_DEVICE, detail)
         into.putUnavailable("${prefix}usage", UnavailableReason.NOT_AVAILABLE_ON_DEVICE, detail)
+        into.putUnavailable("${prefix}free_percent", UnavailableReason.NOT_AVAILABLE_ON_DEVICE, detail)
     }
 
     /**

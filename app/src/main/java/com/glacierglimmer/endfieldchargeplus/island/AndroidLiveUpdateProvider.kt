@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -11,6 +12,8 @@ import android.os.Bundle
 import android.provider.Settings
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import com.glacierglimmer.endfieldchargeplus.MainActivity
+import com.glacierglimmer.endfieldchargeplus.R
 import com.glacierglimmer.endfieldchargeplus.core.model.HudRenderData
 import com.glacierglimmer.endfieldchargeplus.core.model.IslandProviderKind
 import com.glacierglimmer.endfieldchargeplus.diagnostics.AppLog
@@ -62,6 +65,14 @@ class AndroidLiveUpdateProvider(
     @Volatile
     private var content: IslandContent = IslandContent()
 
+    private var updates: IslandUpdateQueue? = null
+
+    private val openApp by lazy {
+        PendingIntent.getActivity(context, NOTIFICATION_ID,
+            Intent(context, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP),
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+    }
+
     /**
      * The notification shape the platform accepted as promotable. Android 16 requires a colourised
      * notification while Android 16 QPR1 forbids colourisation and requires the explicit
@@ -74,9 +85,12 @@ class AndroidLiveUpdateProvider(
     override fun capabilities(): IslandCapabilities = CAPABILITIES
 
     override fun availability(): IslandAvailability =
-        evaluate().also { lastAvailability = it }
+        lastAvailability ?: evaluate().also { lastAvailability = it }
 
-    override suspend fun refreshAvailability(): IslandAvailability = evaluate().also { lastAvailability = it }
+    override suspend fun refreshAvailability(): IslandAvailability {
+        ensureChannel()
+        return evaluate().also { lastAvailability = it }
+    }
 
     /**
      * Opens the system page that lets the user allow promoted notifications for this app
@@ -112,36 +126,35 @@ class AndroidLiveUpdateProvider(
             lastError = "publishing refused: API ${Build.VERSION.SDK_INT} has no promoted ongoing notification API"
             return
         }
-        val builder = buildApi36Notification(content, promotableShape ?: PromotableShape.ANDROID_16)
-        try {
-            notificationHost.publish(NOTIFICATION_ID, builder)
-            running = true
-            AppLog.i(TAG, "live-update notification published (id=$NOTIFICATION_ID, channel=$CHANNEL_ID)")
-        } catch (t: Throwable) {
-            running = false
-            lastError = "publish failed: ${describe(t)}"
-            lastAvailability = IslandAvailability.unavailable(KEY_PUBLISH_FAILED, lastError)
-            AppLog.e(TAG, "publishing the live-update notification failed", t)
-        }
+        running = true
+        lastError = ""
+        updates = IslandUpdateQueue(scope, intervalMs = 5_000L) { frame -> publishFrame(frame) }
+        AppLog.i(TAG, "live-update publisher started (id=$NOTIFICATION_ID, channel=$CHANNEL_ID)")
     }
 
     /** Pushes one HUD frame. Dropped when nothing is running or when the platform refuses it. */
     override fun update(data: HudRenderData) {
-        content = IslandHudMapper.map(data, capabilities())
-        if (!running) return
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.BAKLAVA) return
-        val builder = buildApi36Notification(content, promotableShape ?: PromotableShape.ANDROID_16)
+        content = IslandHudMapper.mapLiveUpdate(data)
+        if (running && !content.isEmpty) updates?.offer(content)
+    }
+
+    private fun publishFrame(frame: IslandContent) {
+        if (!running || Build.VERSION.SDK_INT < Build.VERSION_CODES.BAKLAVA) return
         try {
-            notificationHost.update(NOTIFICATION_ID, builder)
+            notificationHost.update(NOTIFICATION_ID, buildApi36Notification(frame, promotableShape ?: PromotableShape.ANDROID_16))
+            if (!running) notificationHost.cancel(NOTIFICATION_ID)
         } catch (t: Throwable) {
             running = false
             lastError = "update failed: ${describe(t)}"
             lastAvailability = IslandAvailability.unavailable(KEY_PUBLISH_FAILED, lastError)
             AppLog.e(TAG, "updating the live-update notification failed", t)
+            updates?.stop()
         }
     }
 
     override fun stop() {
+        updates?.stop()
+        updates = null
         if (!running) return
         running = false
         try {
@@ -250,6 +263,7 @@ class AndroidLiveUpdateProvider(
             .setOngoing(true)
             .setOnlyAlertOnce(true)
             .setShowWhen(false)
+            .setContentIntent(openApp)
             .setCategory(Notification.CATEGORY_PROGRESS)
             .setColorized(shape.colorized)
 
@@ -259,24 +273,16 @@ class AndroidLiveUpdateProvider(
             )
         }
 
-        val short = content.shortText.ifBlank { content.subtitle }
-        if (short.isNotBlank()) builder.setShortCriticalText(short)
-        if (content.progressPercent > 0.0) {
-            builder.setStyle(
-                Notification.ProgressStyle()
-                    .setProgress(content.progressPercent.roundToInt())
-                    .setStyledByProgress(true),
-            )
-        } else if (content.subtitle.isNotBlank()) {
-            builder.setStyle(Notification.BigTextStyle().bigText(content.subtitle))
-        }
+        builder.setShortCriticalText(content.shortText)
+        builder.setStyle(Notification.BigTextStyle().bigText(content.bodyText))
+        val progress = content.progressPercent.takeIf { it.isFinite() }?.coerceIn(0.0, 100.0) ?: 0.0
+        builder.setProgress(100, progress.roundToInt(), false)
         return builder
     }
 
     private fun smallIconRes(): Int =
         try {
-            val icon = context.applicationInfo.icon
-            if (icon != 0) icon else android.R.drawable.stat_sys_download
+            R.drawable.ic_launcher_monochrome
         } catch (t: Throwable) {
             android.R.drawable.stat_sys_download
         }

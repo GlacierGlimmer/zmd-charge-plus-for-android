@@ -160,6 +160,12 @@ object Variables {
  */
 object VariableAliases {
     private val aliases: Map<String, String> = mapOf(
+        "cpu.name" to Variables.CPU_MODEL,
+        "cpu.architecture" to Variables.CPU_ABI,
+        "gpu.name" to Variables.GPU_MODEL,
+        "cpu.temperature_max" to Variables.CPU_TEMPERATURE_C,
+        "gpu.temperature" to Variables.GPU_TEMPERATURE_C,
+        "system.uptime_seconds" to Variables.DEVICE_UPTIME_SECONDS,
         "ping.latency_ms" to Variables.PROBE_LATENCY_MS,
         "ping.loss_percent" to Variables.PROBE_LOSS_PERCENT,
         "ping.sent" to Variables.PROBE_SENT,
@@ -179,7 +185,11 @@ object VariableAliases {
     )
 
     /** Canonical name for [name]; returns [name] unchanged when it is not an alias. */
-    fun canonical(name: String): String = aliases[name] ?: name
+    fun canonical(name: String): String {
+        val key = name.trim().lowercase()
+        return aliases[key] ?: if (key.startsWith(Variables.HTTP_LEGACY_PREFIX))
+            Variables.HTTP_PREFIX + key.removePrefix(Variables.HTTP_LEGACY_PREFIX) else key
+    }
 
     fun all(): Map<String, String> = aliases
 }

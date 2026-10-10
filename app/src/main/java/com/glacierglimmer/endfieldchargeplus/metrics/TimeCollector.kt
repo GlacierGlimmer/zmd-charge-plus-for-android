@@ -6,6 +6,8 @@ import com.glacierglimmer.endfieldchargeplus.core.model.AppLanguage
 import com.glacierglimmer.endfieldchargeplus.core.model.MetricValue
 import com.glacierglimmer.endfieldchargeplus.core.model.SamplingTier
 import com.glacierglimmer.endfieldchargeplus.core.model.UnavailableReason
+import com.glacierglimmer.endfieldchargeplus.core.i18n.UiLanguage
+import com.glacierglimmer.endfieldchargeplus.localization.LanguageController
 import java.time.Clock
 import java.time.ZonedDateTime
 
@@ -32,7 +34,7 @@ class TimeCollector(
     override suspend fun collect(into: MutableMap<String, MetricValue>) {
         val now = ZonedDateTime.now(clock)
         val local = now.toLocalDateTime()
-        val chinese = environment.config().language != AppLanguage.ENGLISH
+        val chinese = !UiLanguage.fromAppLanguage(environment.config().language, LanguageController.systemLanguageTag()).isEnglish
 
         into[Variables.TIME_CURRENT] = MetricValue.Text(TimeMath.formatClock(local.toLocalTime()))
         into[Variables.TIME_DATE] = MetricValue.Text(TimeMath.formatDate(local.toLocalDate()))

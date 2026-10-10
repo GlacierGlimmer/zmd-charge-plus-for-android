@@ -117,4 +117,7 @@ internal object BatteryEnergyMath {
         val milliAmps = deltaMicroAmpHours * 3_600.0 / elapsedMs.toDouble()
         return milliAmps.takeIf { it >= 0.0 && it <= 20_000.0 }
     }
+
+    fun currentMagnitudeFromSignedCounterDelta(deltaMicroAmpHours: Double, elapsedMs: Long): Double? =
+        currentMilliAmpsFromCounterDelta(kotlin.math.abs(deltaMicroAmpHours), elapsedMs)
 }

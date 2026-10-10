@@ -1,3 +1,5 @@
+Current source: **v0.1.1**, versionCode **2**. Latest local checks and device-fix scopes are recorded in `android-device-test-r5.md`; Xiaomi HyperIsland has been removed. All test builds keep this product version until the user requests a version change.
+
 # Testing and verification — Endfield Charge Plus for Android
 
 This document records **what has actually been verified**, how to reproduce it, and — just as

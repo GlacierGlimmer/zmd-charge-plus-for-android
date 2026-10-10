@@ -69,6 +69,8 @@ data class AndroidSettings(
     @SerialName("OverlayYPortrait") val overlayYPortrait: Int = -1,
     @SerialName("OverlayXLandscape") val overlayXLandscape: Int = -1,
     @SerialName("OverlayYLandscape") val overlayYLandscape: Int = -1,
+    /** A new drag explicitly overrides the selected anchor; old stored coordinates stay inactive. */
+    @SerialName("UseDraggedPosition") val useDraggedPosition: Boolean = false,
 
     /** Extra HUD scale applied on top of [AppConfig.globalScale]. */
     @SerialName("HudScale") val hudScale: Double = 1.0,
@@ -82,8 +84,8 @@ data class AndroidSettings(
     /** Keep the HUD permanently visible instead of running the hide/reveal cycle. */
     @SerialName("AlwaysVisible") val alwaysVisible: Boolean = true,
 
-    /** Which island backend to try: `Auto`, `AndroidSystem`, `XiaomiHyperIsland`, `None`. */
-    @SerialName("IslandProvider") val islandProvider: String = "Auto",
+    /** Native Android live updates; legacy backend selections are migrated on load. */
+    @SerialName("IslandProvider") val islandProvider: String = "AndroidSystem",
 
     /** Sampling cadences in milliseconds. Fast covers latency, normal covers system counters. */
     @SerialName("FastRefreshMs") val fastRefreshMs: Long = 500L,
@@ -114,6 +116,9 @@ data class AndroidSettings(
 
     /** Verbose diagnostics logging in the in-app log viewer. */
     @SerialName("VerboseLogging") val verboseLogging: Boolean = false,
+
+    /** Explicit opt-in to read-only kernel collection through the user's existing su manager. */
+    @SerialName("UseRoot") val useRoot: Boolean = false,
 
     /** Remember the last hardware capability scan result timestamp (epoch millis, 0 = never). */
     @SerialName("CapabilityScanAt") val capabilityScanAt: Long = 0L,

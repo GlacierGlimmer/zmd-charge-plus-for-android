@@ -71,7 +71,7 @@ class ConfigCodecTest {
                 displayMode = "Island",
                 fastRefreshMs = 250,
                 probeEnabled = true,
-                islandProvider = "XiaomiHyperIsland",
+                islandProvider = "AndroidSystem",
             ),
         )
 

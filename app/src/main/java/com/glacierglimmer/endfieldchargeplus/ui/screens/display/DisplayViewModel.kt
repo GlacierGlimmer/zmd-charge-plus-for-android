@@ -22,6 +22,7 @@ import com.glacierglimmer.endfieldchargeplus.ui.state.ProfileEdits
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
@@ -34,18 +35,13 @@ class DisplayViewModel(private val container: EcpContainer) : ViewModel() {
 
     val config: StateFlow<AppConfig> = container.configRepository.config
 
-    private val _islands = MutableStateFlow(container.islandRegistry.describe())
-    val islands: StateFlow<List<IslandProviderStatus>> = _islands.asStateFlow()
+    val islands: StateFlow<List<IslandProviderStatus>> = container.islandRegistry.statuses
 
     private val _pendingIntent = MutableStateFlow<Intent?>(null)
     val pendingIntent: StateFlow<Intent?> = _pendingIntent.asStateFlow()
 
     private val _authorizationLaunched = MutableStateFlow(false)
     val authorizationLaunched: StateFlow<Boolean> = _authorizationLaunched.asStateFlow()
-
-    init {
-        refreshIslands()
-    }
 
     fun consumeIntent() {
         _pendingIntent.value = null
@@ -55,17 +51,16 @@ class DisplayViewModel(private val container: EcpContainer) : ViewModel() {
         _authorizationLaunched.value = false
     }
 
-    /** Re-evaluates every island provider (system version, vendor SDK, authorization). */
+    /** Re-evaluates native live-update support and authorization. */
     fun refreshIslands() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             runCatching { container.islandRegistry.refreshAll() }
-            _islands.value = runCatching { container.islandRegistry.describe() }.getOrDefault(emptyList())
         }
     }
 
     fun isOverlayGranted(): Boolean = container.permissionManager.state(EcpPermission.OVERLAY).granted
 
-    /** Opens the vendor authorization flow when the provider exposes one. */
+    /** Opens native notification authorization settings. */
     fun requestAuthorization(provider: IslandProvider, activity: Activity?) {
         val launched = runCatching { provider.requestAuthorization(activity) }.getOrDefault(false)
         _authorizationLaunched.value = launched
@@ -84,15 +79,10 @@ class DisplayViewModel(private val container: EcpContainer) : ViewModel() {
     }
 
     fun setDisplayMode(mode: DisplayMode) {
-        update { config -> config.copy(android = config.android.copy(displayMode = mode.wire)) }
+        update { config -> config.copy(android = config.android.copy(displayMode = mode.wire, islandProvider = IslandProviderKind.ANDROID_SYSTEM.wire)) }
         if (mode == DisplayMode.OVERLAY && !isOverlayGranted()) {
             _pendingIntent.value = container.permissionManager.overlaySettingsIntent()
         }
-    }
-
-    fun setIslandProvider(kind: IslandProviderKind) {
-        update { config -> config.copy(android = config.android.copy(islandProvider = kind.wire)) }
-        refreshIslands()
     }
 
     fun setAlwaysVisible(enabled: Boolean) =
@@ -113,17 +103,18 @@ class DisplayViewModel(private val container: EcpContainer) : ViewModel() {
     fun setHudOpacity(opacity: Double) =
         update { it.copy(hudOpacity = opacity.coerceIn(0.10, 1.0)) }
 
-    fun setPositionMode(mode: HudPositionMode) = update { it.copy(positionMode = mode.wire) }
+    fun setPositionMode(mode: HudPositionMode) = update { it.copy(positionMode = mode.wire, android = it.android.copy(useDraggedPosition = false)) }
 
-    fun setHudPosition(position: HudPosition) = update { it.copy(hudPosition = position.wire) }
+    fun setHudPosition(position: HudPosition) = update { it.copy(hudPosition = position.wire, android = it.android.copy(useDraggedPosition = false)) }
+    fun restoreAnchor() = update { it.copy(android = it.android.copy(useDraggedPosition = false)) }
 
-    fun setOffsetX(value: Int) = update { it.copy(hudOffsetX = value.coerceIn(-10_000, 10_000)) }
+    fun setOffsetX(value: Int) = update { it.copy(hudOffsetX = value.coerceIn(-10_000, 10_000), android = it.android.copy(useDraggedPosition = false)) }
 
-    fun setOffsetY(value: Int) = update { it.copy(hudOffsetY = value.coerceIn(-10_000, 10_000)) }
+    fun setOffsetY(value: Int) = update { it.copy(hudOffsetY = value.coerceIn(-10_000, 10_000), android = it.android.copy(useDraggedPosition = false)) }
 
-    fun setCustomX(value: Int) = update { it.copy(hudCustomX = value.coerceIn(-10_000, 20_000)) }
+    fun setCustomX(value: Int) = update { it.copy(hudCustomX = value.coerceIn(-10_000, 20_000), android = it.android.copy(useDraggedPosition = false)) }
 
-    fun setCustomY(value: Int) = update { it.copy(hudCustomY = value.coerceIn(-10_000, 20_000)) }
+    fun setCustomY(value: Int) = update { it.copy(hudCustomY = value.coerceIn(-10_000, 20_000), android = it.android.copy(useDraggedPosition = false)) }
 
     /** Animation mode of the active scheme (the per-scheme setting the desktop edition exposes). */
     fun setAnimationMode(mode: AnimationMode) {

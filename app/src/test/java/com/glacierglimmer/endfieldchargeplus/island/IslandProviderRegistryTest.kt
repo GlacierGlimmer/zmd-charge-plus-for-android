@@ -7,6 +7,7 @@ import com.glacierglimmer.endfieldchargeplus.core.model.HudRenderData
 import com.glacierglimmer.endfieldchargeplus.core.model.IslandProviderKind
 import com.glacierglimmer.endfieldchargeplus.data.ConfigRepository
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.junit.Assert.assertEquals
@@ -15,198 +16,80 @@ import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-/**
- * Selection and state reporting of [IslandProviderRegistry]: the Auto preference order, the explicit
- * provider kinds and the running-provider bookkeeping the foreground service relies on.
- */
 class IslandProviderRegistryTest {
-
-    @Test
-    fun `auto select prefers xiaomi hyper island when it is usable`() {
-        val fixture = Fixture(
-            configuredKind = IslandProviderKind.AUTO,
-            xiaomiState = IslandAvailabilityState.AVAILABLE,
-            androidState = IslandAvailabilityState.AVAILABLE,
-        )
-
-        assertSame(fixture.xiaomi, fixture.registry.autoSelect())
+    @Test fun `auto and explicit Android selection use the native provider only`() {
+        val f = Fixture(IslandProviderKind.AUTO, IslandAvailabilityState.AVAILABLE)
+        assertSame(f.android, f.registry.autoSelect())
+        assertSame(f.android, f.registry.select())
+        assertEquals(1, f.registry.providers().size)
     }
-
-    @Test
-    fun `auto select falls back to the android live update when xiaomi needs authorization`() {
-        val fixture = Fixture(
-            configuredKind = IslandProviderKind.AUTO,
-            xiaomiState = IslandAvailabilityState.VENDOR_PERMISSION_REQUIRED,
-            androidState = IslandAvailabilityState.AVAILABLE,
-        )
-
-        assertSame(fixture.android, fixture.registry.autoSelect())
+    @Test fun `legacy vendor selection migrates to native Android`() {
+        assertEquals(IslandProviderKind.ANDROID_SYSTEM, IslandProviderKind.fromWire("XiaomiHyperIsland"))
+        assertEquals(IslandProviderKind.ANDROID_SYSTEM, IslandProviderKind.fromWire("xiaomi_hyper_island"))
+        assertEquals(listOf("Auto", "AndroidSystem", "None"), IslandProviderKind.entries.map { it.wire })
     }
-
-    @Test
-    fun `auto select returns nothing when no backend is usable`() {
-        val fixture = Fixture(
-            configuredKind = IslandProviderKind.AUTO,
-            xiaomiState = IslandAvailabilityState.VENDOR_PERMISSION_REQUIRED,
-            androidState = IslandAvailabilityState.UNSUPPORTED_BY_PLATFORM,
-        )
-
-        assertNull(fixture.registry.autoSelect())
-        assertNull(fixture.registry.select())
+    @Test fun `unavailable and disabled providers cannot start`() {
+        val unavailable = Fixture(IslandProviderKind.ANDROID_SYSTEM, IslandAvailabilityState.UNSUPPORTED_BY_PLATFORM)
+        assertNull(unavailable.registry.select())
+        val disabled = Fixture(IslandProviderKind.NONE, IslandAvailabilityState.AVAILABLE)
+        assertNull(disabled.registry.select())
     }
-
-    @Test
-    fun `an explicitly configured provider is only selected while it is usable`() {
-        val usable = Fixture(
-            configuredKind = IslandProviderKind.XIAOMI_HYPER_ISLAND,
-            xiaomiState = IslandAvailabilityState.AVAILABLE,
-            androidState = IslandAvailabilityState.AVAILABLE,
-        )
-        val unusable = Fixture(
-            configuredKind = IslandProviderKind.XIAOMI_HYPER_ISLAND,
-            xiaomiState = IslandAvailabilityState.NOT_AUTHORIZED,
-            androidState = IslandAvailabilityState.AVAILABLE,
-        )
-
-        assertSame(usable.xiaomi, usable.registry.select())
-        assertNull(unusable.registry.select())
-        assertSame(unusable.xiaomi, unusable.registry.providerFor(IslandProviderKind.XIAOMI_HYPER_ISLAND))
+    @Test fun `describe reports native platform state accurately`() {
+        val f = Fixture(IslandProviderKind.AUTO, IslandAvailabilityState.UNSUPPORTED_BY_PLATFORM)
+        val rows = f.registry.describe()
+        assertEquals(1, rows.size)
+        assertEquals(IslandAvailabilityState.UNSUPPORTED_BY_PLATFORM, rows.single().availability.state)
+        assertTrue(!rows.single().usable)
     }
-
-    @Test
-    fun `the none kind never selects a provider even when one is usable`() {
-        val fixture = Fixture(
-            configuredKind = IslandProviderKind.NONE,
-            xiaomiState = IslandAvailabilityState.AVAILABLE,
-            androidState = IslandAvailabilityState.AVAILABLE,
-        )
-
-        assertNull(fixture.registry.select())
-    }
-
-    @Test
-    fun `describe reports the exact state and capabilities of every provider`() {
-        val fixture = Fixture(
-            configuredKind = IslandProviderKind.AUTO,
-            xiaomiState = IslandAvailabilityState.VENDOR_PERMISSION_REQUIRED,
-            androidState = IslandAvailabilityState.UNSUPPORTED_BY_PLATFORM,
-        )
-
-        val rows = fixture.registry.describe()
-
-        assertEquals(2, rows.size)
-        val xiaomiRow = rows.first { it.provider.kind == IslandProviderKind.XIAOMI_HYPER_ISLAND }
-        val androidRow = rows.first { it.provider.kind == IslandProviderKind.ANDROID_SYSTEM }
-        assertEquals(IslandAvailabilityState.VENDOR_PERMISSION_REQUIRED, xiaomiRow.availability.state)
-        assertEquals("island_state_vendor_permission", xiaomiRow.availability.messageKey)
-        assertEquals(IslandAvailabilityState.UNSUPPORTED_BY_PLATFORM, androidRow.availability.state)
-        assertEquals("island_state_unsupported", androidRow.availability.messageKey)
-        assertTrue(rows.none { it.usable })
-        assertTrue(rows.all { it.capabilities.maxUpdateHz > 0.0 })
-    }
-
-    @Test
-    fun `startSelected starts the chosen provider, forwards frames and stops it again`() {
-        val fixture = Fixture(
-            configuredKind = IslandProviderKind.AUTO,
-            xiaomiState = IslandAvailabilityState.VENDOR_PERMISSION_REQUIRED,
-            androidState = IslandAvailabilityState.AVAILABLE,
-        )
+    @Test fun `reapplying the same selection does not cancel or repost the notification`() {
+        val f = Fixture(IslandProviderKind.AUTO, IslandAvailabilityState.AVAILABLE)
         val scope = CoroutineScope(kotlin.coroutines.EmptyCoroutineContext)
-
-        val started = fixture.registry.startSelected(scope)
-
-        assertSame(fixture.android, started)
-        assertEquals(1, fixture.android.startCalls)
-        assertEquals("android_system_live_update", fixture.registry.activeProviderId())
-        assertEquals(IslandAvailabilityState.AVAILABLE, fixture.registry.activeAvailability()?.state)
-        assertTrue(fixture.registry.isRunning())
-
-        fixture.registry.update(HudRenderData(title = "Charging"))
-        assertEquals(1, fixture.android.updateCount)
-
-        fixture.registry.stop()
-        assertEquals(1, fixture.android.stopCalls)
-        assertNull(fixture.registry.activeProviderId())
-        assertNull(fixture.registry.activeAvailability())
-        assertTrue(!fixture.registry.isRunning())
+        repeat(1000) { assertSame(f.android, f.registry.startSelected(scope)) }
+        assertEquals(1, f.android.startCalls)
+        assertEquals(0, f.android.stopCalls)
+        f.registry.update(HudRenderData(title = "Memory"))
+        assertEquals(1, f.android.updateCount)
+        f.registry.stop(); assertEquals(1, f.android.stopCalls)
+        assertNull(f.registry.activeProviderId())
+    }
+    @Test fun `a backend that refuses to start is not reported as running`() {
+        val f = Fixture(IslandProviderKind.AUTO, IslandAvailabilityState.AVAILABLE, starts = false)
+        assertNull(f.registry.startSelected(CoroutineScope(kotlin.coroutines.EmptyCoroutineContext)))
+        assertTrue(!f.registry.isRunning())
+    }
+    @Test fun `updating without a running provider is a no-op`() {
+        val f = Fixture(IslandProviderKind.AUTO, IslandAvailabilityState.AVAILABLE)
+        f.registry.update(HudRenderData(title = "Memory"))
+        assertEquals(0, f.android.updateCount)
     }
 
-    @Test
-    fun `startSelected reports nothing when the provider refuses to start`() {
-        val fixture = Fixture(
-            configuredKind = IslandProviderKind.AUTO,
-            xiaomiState = IslandAvailabilityState.AVAILABLE,
-            androidState = IslandAvailabilityState.UNSUPPORTED_BY_PLATFORM,
-            xiaomiStarts = false,
-        )
-        val scope = CoroutineScope(kotlin.coroutines.EmptyCoroutineContext)
-
-        assertNull(fixture.registry.startSelected(scope))
-        assertNull(fixture.registry.activeProviderId())
-    }
-
-    @Test
-    fun `updating without a running provider is a harmless no-op`() {
-        val fixture = Fixture(IslandProviderKind.AUTO, IslandAvailabilityState.AVAILABLE, IslandAvailabilityState.AVAILABLE)
-
-        fixture.registry.update(HudRenderData(title = "Charging"))
-
-        assertEquals(0, fixture.android.updateCount)
-        assertEquals(0, fixture.xiaomi.updateCount)
-    }
-
-    @Test
-    fun `withNotificationHost rebinds the registry to the service host`() {
-        val fixture = Fixture(IslandProviderKind.AUTO, IslandAvailabilityState.AVAILABLE, IslandAvailabilityState.AVAILABLE)
-        val host = object : IslandNotificationHost {
-            override fun publish(id: Int, builder: android.app.Notification.Builder) = Unit
-            override fun update(id: Int, builder: android.app.Notification.Builder) = Unit
-            override fun cancel(id: Int) = Unit
-            override fun areNotificationsEnabled(): Boolean = true
+    @Test fun `shared Home and Display status publishes only the refreshed native verdict`() = runTest {
+        val f = Fixture(IslandProviderKind.ANDROID_SYSTEM, IslandAvailabilityState.UNSUPPORTED_BY_PLATFORM)
+        var cached = f.android.availability()
+        var actual = IslandAvailability(IslandAvailabilityState.AVAILABLE, "available")
+        val native = object : IslandProvider by f.android {
+            override fun availability() = cached
+            override suspend fun refreshAvailability(): IslandAvailability {
+                cached = actual
+                return cached
+            }
         }
-
-        val rebound = fixture.registry.withNotificationHost(host)
-
-        assertSame(host, rebound.notificationHost)
-        assertSame(fixture.registry.providers().first(), rebound.providers().first())
+        val registry = IslandProviderRegistry(FakeConfigRepository(config(IslandProviderKind.ANDROID_SYSTEM)), listOf(native))
+        assertTrue(registry.statuses.value.isEmpty())
+        assertTrue(!native.availability().usable)
+        registry.refreshAll()
+        assertTrue(registry.statuses.value.single().usable)
+        assertSame(native, registry.statuses.value.single().provider)
+        actual = IslandAvailability(IslandAvailabilityState.NOT_AUTHORIZED, "revoked")
+        registry.refreshAll()
+        assertEquals(IslandAvailabilityState.NOT_AUTHORIZED, registry.statuses.value.single().availability.state)
+        assertTrue(!registry.statuses.value.single().usable)
     }
-
-    private class Fixture(
-        configuredKind: IslandProviderKind,
-        xiaomiState: IslandAvailabilityState,
-        androidState: IslandAvailabilityState,
-        xiaomiStarts: Boolean = true,
-        androidStarts: Boolean = true,
-    ) {
-        val xiaomi = FakeProvider(
-            kind = IslandProviderKind.XIAOMI_HYPER_ISLAND,
-            id = "xiaomi_hyper_island",
-            state = xiaomiState,
-            messageKey = if (xiaomiState == IslandAvailabilityState.VENDOR_PERMISSION_REQUIRED) {
-                "island_state_vendor_permission"
-            } else {
-                "island_state_unsupported"
-            },
-            startsSuccessfully = xiaomiStarts,
-        )
-        val android = FakeProvider(
-            kind = IslandProviderKind.ANDROID_SYSTEM,
-            id = "android_system_live_update",
-            state = androidState,
-            messageKey = if (androidState == IslandAvailabilityState.AVAILABLE) {
-                "island_state_available"
-            } else {
-                "island_state_unsupported"
-            },
-            startsSuccessfully = androidStarts,
-        )
-        val registry = IslandProviderRegistry(
-            FakeConfigRepository(config(configuredKind)),
-            listOf(xiaomi, android),
-        )
+    private class Fixture(kind: IslandProviderKind, state: IslandAvailabilityState, starts: Boolean = true) {
+        val android = FakeProvider(IslandProviderKind.ANDROID_SYSTEM, "android_system_live_update", state,
+            if (state == IslandAvailabilityState.AVAILABLE) "island_state_available" else "island_state_unsupported", starts)
+        val registry = IslandProviderRegistry(FakeConfigRepository(config(kind)), listOf(android))
     }
-
     private class FakeProvider(
         override val kind: IslandProviderKind,
         override val id: String,

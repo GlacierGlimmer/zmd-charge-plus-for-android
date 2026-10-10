@@ -70,11 +70,9 @@ class EcpMessagesContractTest {
     fun frozenIslandKeysMatchTheIslandLayer() {
         val expectedEnglish = mapOf(
             "island_provider_android_system" to "Android system",
-            "island_provider_xiaomi_hyper_island" to "Xiaomi HyperIsland",
             "island_state_available" to "Available",
             "island_state_unsupported" to "Not supported",
             "island_state_not_authorized" to "Not authorized",
-            "island_state_vendor_permission" to "Xiaomi HyperIsland permission required",
             "island_state_notifications_disabled" to "Notifications are disabled",
             "island_state_channel_disabled" to "The notification channel is disabled",
             "island_state_promotion_check_failed" to "Could not verify island eligibility",
@@ -95,7 +93,5 @@ class EcpMessagesContractTest {
         Strings.setLanguage(UiLanguage.ZH_CN)
         assertEquals("不支持", EcpMessages.t("island_state_unsupported"))
         assertEquals("尚未授权", EcpMessages.t("island_state_not_authorized"))
-        assertEquals("需要申请小米超级岛权限", EcpMessages.t("island_state_vendor_permission"))
-        assertEquals("小米超级岛", EcpMessages.t("island_provider_xiaomi_hyper_island"))
     }
 }

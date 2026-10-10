@@ -6,6 +6,7 @@ import com.glacierglimmer.endfieldchargeplus.core.model.AndroidSettings
 import com.glacierglimmer.endfieldchargeplus.core.model.AppConfig
 import com.glacierglimmer.endfieldchargeplus.core.model.MetricValue
 import com.glacierglimmer.endfieldchargeplus.core.model.SamplingTier
+import com.glacierglimmer.endfieldchargeplus.core.model.UnavailableReason
 import com.glacierglimmer.endfieldchargeplus.diagnostics.AppLog
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
@@ -54,6 +55,7 @@ class SamplingScheduler(
     private val registrations = CopyOnWriteArrayList<Registration>()
 
     private val merged = LinkedHashMap<String, MetricValue>()
+    private val valuesByCollector = LinkedHashMap<String, Map<String, MetricValue>>()
 
     private val mergeLock = Mutex()
 
@@ -161,8 +163,9 @@ class SamplingScheduler(
     private suspend fun collectTier(tier: SamplingTier) {
         val due = registrations.filter { it.collector.tier == tier }
         if (due.isEmpty()) return
-        val result = LinkedHashMap<String, MetricValue>()
+        val updated = LinkedHashMap<String, Map<String, MetricValue>>()
         for (registration in due) {
+            val result = LinkedHashMap<String, MetricValue>()
             // runCatching isolates one broken collector from all the others; a coroutine
             // cancellation is rethrown so stop()/scope cancellation still works.
             val failure = runCatching {
@@ -175,11 +178,18 @@ class SamplingScheduler(
                     "collector ${registration.collector.id} failed; other collectors continue",
                     failure,
                 )
+                mergeLock.withLock {
+                    valuesByCollector[registration.collector.id].orEmpty().keys.forEach { key ->
+                        result[key] = MetricValue.Unavailable(UnavailableReason.NOT_AVAILABLE_ON_DEVICE, "collector ${registration.collector.id} failed")
+                    }
+                }
             }
+            updated[registration.collector.id] = result.toMap()
         }
-        if (result.isEmpty()) return
         mergeLock.withLock {
-            merged.putAll(result)
+            valuesByCollector.putAll(updated)
+            merged.clear()
+            valuesByCollector.values.forEach { merged.putAll(it) }
             val snapshot = MetricSnapshot(merged.toMap(), System.currentTimeMillis())
             _snapshot.value = snapshot
             onSnapshot?.invoke(snapshot)

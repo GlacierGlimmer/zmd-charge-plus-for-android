@@ -1,6 +1,8 @@
 package com.glacierglimmer.endfieldchargeplus.data
 
 import android.content.Context
+import android.os.Build
+import com.glacierglimmer.endfieldchargeplus.core.model.DisplayMode
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -12,6 +14,8 @@ import com.glacierglimmer.endfieldchargeplus.core.json.ConfigFormatException
 import com.glacierglimmer.endfieldchargeplus.core.json.ConfigNormalizer
 import com.glacierglimmer.endfieldchargeplus.core.model.AppConfig
 import com.glacierglimmer.endfieldchargeplus.diagnostics.AppLog
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -76,9 +80,9 @@ class DataStoreConfigRepository(
     @Volatile
     private var loaded = false
 
-    override suspend fun load(): AppConfig {
-        if (loaded) return mutableConfig.value
-        return loadMutex.withLock {
+    override suspend fun load(): AppConfig = withContext(Dispatchers.IO) {
+        if (loaded) return@withContext mutableConfig.value
+        loadMutex.withLock {
             if (loaded) return@withLock mutableConfig.value
             val restored = applyCapabilityFilter(normalize(readStored()))
             registerSecrets(restored)
@@ -89,20 +93,26 @@ class DataStoreConfigRepository(
     }
 
     override suspend fun update(transform: (AppConfig) -> AppConfig) {
-        load()
-        writeMutex.withLock {
-            val next = applyCapabilityFilter(normalize(transform(mutableConfig.value)))
-            persist(next)
-            mutableConfig.value = next
+        withContext(Dispatchers.IO) {
+            load()
+            writeMutex.withLock {
+                val next = applyCapabilityFilter(normalize(transform(mutableConfig.value)))
+                if (next == mutableConfig.value) return@withLock
+                persist(next)
+                mutableConfig.value = next
+            }
         }
     }
 
     override suspend fun replace(config: AppConfig) {
-        load()
-        writeMutex.withLock {
-            val next = applyCapabilityFilter(normalize(config))
-            persist(next)
-            mutableConfig.value = next
+        withContext(Dispatchers.IO) {
+            load()
+            writeMutex.withLock {
+                val next = applyCapabilityFilter(normalize(config))
+                if (next == mutableConfig.value) return@withLock
+                persist(next)
+                mutableConfig.value = next
+            }
         }
     }
 
@@ -127,8 +137,11 @@ class DataStoreConfigRepository(
             Result.failure(ConfigFormatException("Imported configuration could not be processed: ${t.message}", t))
         }
 
-    override fun normalize(config: AppConfig): AppConfig =
-        ConfigNormalizer.normalize(config) { note -> AppLog.d(TAG, note) }
+    override fun normalize(config: AppConfig): AppConfig {
+        val normalized = ConfigNormalizer.normalize(config) { note -> AppLog.d(TAG, note) }
+        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.BAKLAVA && DisplayMode.fromWire(normalized.android.displayMode) == DisplayMode.ISLAND)
+            normalized.copy(android = normalized.android.copy(displayMode = DisplayMode.OVERLAY.wire)) else normalized
+    }
 
     // ------------------------------------------------------------------------------------------
     // storage

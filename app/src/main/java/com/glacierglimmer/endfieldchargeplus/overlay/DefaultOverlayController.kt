@@ -32,8 +32,8 @@ interface OverlayStateListener {
  * large as the HUD and never steals focus.
  *
  * Window contract enforced here (hard product rules):
- *  * `WRAP_CONTENT` in **both** dimensions — the window is the HUD, never a full-screen transparent
- *    surface;
+ *  * explicit dimensions from the same display snapshot as the position, so the window occupies
+ *    only the HUD's bounds;
  *  * `PixelFormat.TRANSLUCENT` so the pill's translucency and the ripples composite correctly;
  *  * `FLAG_NOT_FOCUSABLE` always, so the HUD can never take input focus or break the keyboard;
  *  * `FLAG_NOT_TOUCHABLE` when `AndroidSettings.clickThrough` is on, plus `FLAG_NOT_TOUCH_MODAL`
@@ -58,9 +58,10 @@ class DefaultOverlayController @JvmOverloads constructor(
 
     private val appContext: Context = context.applicationContext
 
-    private val windowManager: WindowManager? = appContext.getSystemService(WindowManager::class.java)
+    private val windowContext = overlayWindowContext(appContext)
+    private val windowManager: WindowManager? = windowContext.getSystemService(WindowManager::class.java)
 
-    private val positions = OverlayPositionManager(appContext)
+    private val positions = OverlayPositionManager(windowContext)
 
     private var view: OverlayHudView? = null
 
@@ -73,6 +74,18 @@ class DefaultOverlayController @JvmOverloads constructor(
     private var currentData: HudRenderData? = null
 
     private var showing = false
+
+    private var layoutUpdateQueued = false
+    private val refreshLayout = Runnable {
+        layoutUpdateQueued = false
+        if (showing && !dragging) applyConfig(config)
+    }
+
+    private fun scheduleLayoutRefresh() {
+        if (layoutUpdateQueued) return
+        layoutUpdateQueued = true
+        mainHandler.post(refreshLayout)
+    }
 
     private var dragging = false
 
@@ -121,7 +134,7 @@ class DefaultOverlayController @JvmOverloads constructor(
         }
         showing = true
         clearError()
-        // Re-apply now that the window is attached: the insets are known only from this point on.
+        // Re-apply if the display changed while the window was being attached.
         applyConfig(config)
         notifyListener()
         val data = currentData
@@ -183,18 +196,26 @@ class DefaultOverlayController @JvmOverloads constructor(
         val params = layoutParams ?: return
         val manager = windowManager ?: return
 
-        val scale = effectiveScale()
-        hudView.setScaledDensity(scale)
-        params.alpha = config.hudOpacity.coerceIn(MIN_OPACITY, MAX_OPACITY).toFloat()
-        params.flags = windowFlags(isDragging = dragging)
+        val frame = displayFrame()
+        if (frame.widthPx <= 0 || frame.heightPx <= 0) return
+        val geometry = HudPositionMath.geometry(config, frame, positions.density())
+        hudView.setScaledDensity(geometry.scale, geometry.density)
+        val alpha = config.hudOpacity.coerceIn(MIN_OPACITY, MAX_OPACITY).toFloat()
+        val flags = windowFlags(isDragging = dragging)
+        val cutoutMode = cutoutMode()
+        val sameLayout = params.width == geometry.width && params.height == geometry.height &&
+            params.x == geometry.position.x && params.y == geometry.position.y &&
+            params.alpha == alpha && params.flags == flags &&
+            (Build.VERSION.SDK_INT < Build.VERSION_CODES.P || params.layoutInDisplayCutoutMode == cutoutMode)
+        if (sameLayout) return
+        params.alpha = alpha
+        params.flags = flags
         applyCutoutMode(params)
-        params.gravity = Gravity.TOP or Gravity.START
-        val size = hudSizePx(scale)
-        params.width = size[0]
-        params.height = size[1]
-        val position = positions.resolve(config, size[0], size[1], hudView.rootWindowInsets)
-        params.x = position.x
-        params.y = position.y
+        params.gravity = Gravity.TOP or Gravity.LEFT
+        params.width = geometry.width
+        params.height = geometry.height
+        params.x = geometry.position.x
+        params.y = geometry.position.y
         runCatching { manager.updateViewLayout(hudView, params) }
             .onFailure { AppLog.w(TAG, "Could not update the HUD window layout: ${it.message}") }
     }
@@ -206,15 +227,16 @@ class DefaultOverlayController @JvmOverloads constructor(
      * meaningful when the status bar or cutout size changes.
      */
     override fun persistPosition(x: Int, y: Int) {
-        val frame = positions.displayFrame(config, view?.rootWindowInsets)
+        val frame = displayFrame()
         val relativeX = x - frame.safeLeft
         val relativeY = y - frame.safeTop
-        val landscape = positions.isLandscape()
+        val landscape = frame.widthPx > frame.heightPx
         config = if (landscape) {
             config.copy(
                 android = config.android.copy(
                     overlayXLandscape = relativeX,
                     overlayYLandscape = relativeY,
+                    useDraggedPosition = true,
                 ),
             )
         } else {
@@ -222,6 +244,7 @@ class DefaultOverlayController @JvmOverloads constructor(
                 android = config.android.copy(
                     overlayXPortrait = relativeX,
                     overlayYPortrait = relativeY,
+                    useDraggedPosition = true,
                 ),
             )
         }
@@ -256,19 +279,18 @@ class DefaultOverlayController @JvmOverloads constructor(
     /** Rotation: the position manager reads the new orientation, so the right anchor is restored. */
     override fun onConfigurationChanged() {
         if (view == null) return
-        applyConfig(config)
+        dragging = false
+        scheduleLayoutRefresh()
     }
 
     private fun createView(): OverlayHudView {
-        val created = OverlayHudView(appContext)
-        var previousInsets: android.view.WindowInsets? = null
+        val created = OverlayHudView(windowContext)
         created.setOnApplyWindowInsetsListener { _, insets ->
-            // updateViewLayout can redispatch unchanged insets on vendor ROMs.
-            if (insets != previousInsets) {
-                previousInsets = insets
-                created.post { if (view === created) applyConfig(config) }
-            }
+            if (view === created) scheduleLayoutRefresh()
             insets
+        }
+        created.onGeometryChanged = {
+            if (view === created) { dragging = false; scheduleLayoutRefresh() }
         }
         created.setScaledDensity(effectiveScale())
         created.setRenderData(currentData ?: HudRenderData())
@@ -280,9 +302,10 @@ class DefaultOverlayController @JvmOverloads constructor(
     }
 
     private fun buildLayoutParams(hudView: OverlayHudView): WindowManager.LayoutParams {
-        val scale = effectiveScale()
-        val size = hudSizePx(scale)
-        val position = positions.resolve(config, size[0], size[1], hudView.rootWindowInsets)
+        val geometry = HudPositionMath.geometry(config, displayFrame(), positions.density())
+        hudView.setScaledDensity(geometry.scale, geometry.density)
+        val size = intArrayOf(geometry.width, geometry.height)
+        val position = geometry.position
         return WindowManager.LayoutParams(
             size[0],
             size[1],
@@ -290,7 +313,7 @@ class DefaultOverlayController @JvmOverloads constructor(
             windowFlags(isDragging = false),
             PixelFormat.TRANSLUCENT,
         ).apply {
-            gravity = Gravity.TOP or Gravity.START
+            gravity = Gravity.TOP or Gravity.LEFT
             x = position.x
             y = position.y
             alpha = config.hudOpacity.coerceIn(MIN_OPACITY, MAX_OPACITY).toFloat()
@@ -322,18 +345,20 @@ class DefaultOverlayController @JvmOverloads constructor(
                 }
 
                 MotionEvent.ACTION_MOVE -> {
+                    if (!dragging) return@setOnTouchListener false
                     params.x = dragStartX + (event.rawX - dragTouchX).roundToInt()
                     params.y = dragStartY + (event.rawY - dragTouchY).roundToInt()
                     runCatching { manager.updateViewLayout(touched, params) }
                 }
 
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    if (!dragging) return@setOnTouchListener false
                     dragging = false
                     val wasTap = params.x == dragStartX && params.y == dragStartY
                     params.flags = windowFlags(isDragging = false)
                     val scale = (touched as? OverlayHudView)?.scaledDensity() ?: effectiveScale()
                     clampIntoPlace(touched, params, scale)
-                    persistPosition(params.x, params.y)
+                    if (!wasTap) persistPosition(params.x, params.y)
                     // Accessibility: a tap that did not move the HUD is reported as a click so
                     // assistive technology and the platform see a consistent interaction.
                     if (wasTap) touched.performClick()
@@ -348,7 +373,7 @@ class DefaultOverlayController @JvmOverloads constructor(
         params: WindowManager.LayoutParams,
         scale: Float,
     ) {
-        val frame = positions.displayFrame(config, hudView.rootWindowInsets)
+        val frame = displayFrame()
         val size = hudSizePx(scale)
         val clamped = HudPositionMath.clamp(frame, params.x, params.y, size[0], size[1])
         params.x = clamped.x
@@ -373,19 +398,24 @@ class DefaultOverlayController @JvmOverloads constructor(
         return flags
     }
 
+    private fun cutoutMode(): Int = when {
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS
+        config.android.avoidCutout -> WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER
+        else -> WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+    }
+
     private fun applyCutoutMode(params: WindowManager.LayoutParams) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) return
-        params.layoutInDisplayCutoutMode = if (config.android.avoidCutout) {
-            WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER
-        } else {
-            WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
-        }
+        // Coordinates already include the display safe area; do not add a second system inset offset.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) params.setFitInsetsTypes(0)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) params.layoutInDisplayCutoutMode = cutoutMode()
     }
 
     /** `GlobalScale × AndroidSettings.hudScale`, fitted so the HUD always fits the screen width. */
+    private fun displayFrame(): HudDisplayFrame = positions.displayFrame(config, view?.rootWindowInsets)
+
     private fun effectiveScale(): Float = HudPositionMath.fitScale(
         rawScale = config.globalScale * config.android.hudScale,
-        frame = positions.displayFrame(config, view?.rootWindowInsets),
+        frame = displayFrame(),
         density = positions.density(),
     )
 
@@ -407,6 +437,8 @@ class DefaultOverlayController @JvmOverloads constructor(
     }
 
     private fun detachWindow() {
+        mainHandler.removeCallbacks(refreshLayout)
+        layoutUpdateQueued = false
         animator?.cancel()
         animator = null
         val hudView = view
@@ -414,6 +446,7 @@ class DefaultOverlayController @JvmOverloads constructor(
         layoutParams = null
         dragging = false
         if (hudView != null) {
+            hudView.onGeometryChanged = null
             runCatching { windowManager?.removeViewImmediate(hudView) }
                 .onFailure { AppLog.w(TAG, "Could not remove the HUD overlay window: ${it.message}") }
         }

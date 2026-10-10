@@ -48,6 +48,7 @@ import com.glacierglimmer.endfieldchargeplus.ui.screens.advanced.AdvancedViewMod
 import com.glacierglimmer.endfieldchargeplus.ui.state.CapabilityPresentation
 import com.glacierglimmer.endfieldchargeplus.ui.state.UiFormatting
 import kotlinx.coroutines.launch
+import com.glacierglimmer.endfieldchargeplus.root.RootStatus
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -66,6 +67,7 @@ fun AdvancedScreen(
     viewModel: AdvancedViewModel = viewModel(factory = advancedViewModelFactory(container)),
 ) {
     val config by viewModel.config.collectAsStateWithLifecycle()
+    val rootStatus by viewModel.rootStatus.collectAsStateWithLifecycle()
     val capabilities by viewModel.capabilities.collectAsStateWithLifecycle()
     val logLines by viewModel.logLines.collectAsStateWithLifecycle()
     val reDetecting by viewModel.reDetecting.collectAsStateWithLifecycle()
@@ -141,6 +143,27 @@ fun AdvancedScreen(
     }
 
     LazyColumn(modifier = modifier.fillMaxSize()) {
+        item {
+            SectionCard(title = t("Root 硬件采集", "Root hardware readings"), subtitle = t(
+                "需要手机已有 Root；允许后补充读取受限的 CPU、GPU、温度和内存节点。",
+                "Requires an already rooted phone; enables readings from restricted CPU, GPU, thermal and memory nodes.")) {
+                Column {
+                    SwitchRow(title = t("使用 Root 采集", "Use Root for readings"), checked = config.android.useRoot,
+                        onCheckedChange = viewModel::setUseRoot,
+                        subtitle = t("仅执行只读采集，不修改系统参数。Root 管理器弹出时请自行选择是否允许。",
+                            "Read-only collection; no system settings are modified. Choose whether to allow ECP in your Root manager."))
+                    Text(when (rootStatus) {
+                        RootStatus.DISABLED -> t("已关闭", "Disabled")
+                        RootStatus.CHECKING -> t("正在等待 Root 授权…", "Waiting for Root authorization…")
+                        RootStatus.GRANTED -> t("已获得 Root，按设备实际节点采集。", "Root granted; readings depend on this device's nodes.")
+                        RootStatus.UNAVAILABLE -> t("Root 不可用或未授权；普通指标继续采集。", "Root unavailable or denied; ordinary readings remain active.")
+                    }, modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp))
+                    if (config.android.useRoot && rootStatus == RootStatus.UNAVAILABLE) {
+                        TextButton(onClick = viewModel::retryRoot) { Text(t("重新授权", "Retry authorization")) }
+                    }
+                }
+            }
+        }
         item {
             SectionCard(
                 title = t("采样与刷新", "Sampling and refresh"),

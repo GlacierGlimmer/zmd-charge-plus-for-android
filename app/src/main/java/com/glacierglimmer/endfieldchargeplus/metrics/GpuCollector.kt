@@ -5,7 +5,6 @@ import com.glacierglimmer.endfieldchargeplus.core.metrics.Variables
 import com.glacierglimmer.endfieldchargeplus.core.model.MetricValue
 import com.glacierglimmer.endfieldchargeplus.core.model.SamplingTier
 import com.glacierglimmer.endfieldchargeplus.core.model.UnavailableReason
-import java.io.File
 
 /**
  * GPU metrics — probed honestly rather than invented.
@@ -17,8 +16,9 @@ import java.io.File
  * capability report and the diagnostics page stay truthful.
  */
 class GpuCollector(
-    @Suppress("UNUSED_PARAMETER") context: Context,
-    @Suppress("UNUSED_PARAMETER") environment: MetricEnvironment,
+    @Suppress("UNUSED_PARAMETER") context: Context?,
+    @Suppress("UNUSED_PARAMETER") environment: MetricEnvironment?,
+    private val reader: KernelReader = FileKernelReader,
 ) : MetricCollector {
 
     override val id: String = "gpu"
@@ -40,7 +40,7 @@ class GpuCollector(
             into[Variables.GPU_FREQUENCY_GHZ] = MetricValue.Number(frequencyHz / 1_000_000_000.0)
         }
 
-        val temperature = ThermalZoneClassifier.hottestGpuCelsius(ThermalZoneReader.readAll())
+        val temperature = ThermalZoneClassifier.hottestGpuCelsius(ThermalZoneReader.readAll(reader))
         if (temperature == null) {
             into.putUnavailable(
                 Variables.GPU_TEMPERATURE_C,
@@ -50,11 +50,6 @@ class GpuCollector(
         } else {
             into[Variables.GPU_TEMPERATURE_C] = MetricValue.Number(temperature)
         }
-
-        val memoryDetail = "no public Android API exposes GPU memory; probed " +
-            "${MetricPaths.KGSL_ROOT} (gpu_model/gpumem) and ${MetricPaths.DEV_FREQ_ROOT}"
-        into.putUnavailable(Variables.GPU_MEMORY_USED_BYTES, UnavailableReason.NOT_SUPPORTED, memoryDetail)
-        into.putUnavailable(Variables.GPU_MEMORY_TOTAL_BYTES, UnavailableReason.NOT_SUPPORTED, memoryDetail)
 
         val model = probeModel()
         if (model == null) {
@@ -88,7 +83,7 @@ class GpuCollector(
     }
 
     private fun probeModel(): String? {
-        val raw = ProcFiles.readText(MetricPaths.KGSL_MODEL)?.trim()
+        val raw = reader.readText(MetricPaths.KGSL_MODEL)?.trim()
         return raw?.takeIf { it.isNotEmpty() }
     }
 
@@ -97,18 +92,14 @@ class GpuCollector(
     private fun devfreqCurFreqNodes(): List<String> = devfreqGpuDirectories().map { "$it/cur_freq" }
 
     private fun devfreqGpuDirectories(): List<String> {
-        val entries = try {
-            File(MetricPaths.DEV_FREQ_ROOT).list()?.toList().orEmpty()
-        } catch (error: Exception) {
-            emptyList()
-        }
+        val entries = reader.listNames(MetricPaths.DEV_FREQ_ROOT)
         return entries.filter { it.contains("gpu", ignoreCase = true) || it.contains("kgsl", ignoreCase = true) }
             .sorted()
             .map { "${MetricPaths.DEV_FREQ_ROOT}/$it" }
     }
 
     private fun readFirst(path: String, parse: (String) -> Double?): Probe? {
-        val text = ProcFiles.readText(path) ?: return null
+        val text = reader.readText(path) ?: return null
         val value = parse(text) ?: return null
         return Probe(value, path)
     }

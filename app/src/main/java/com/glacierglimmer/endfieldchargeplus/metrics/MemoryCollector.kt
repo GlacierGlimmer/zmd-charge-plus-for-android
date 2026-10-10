@@ -21,6 +21,7 @@ import com.glacierglimmer.endfieldchargeplus.core.model.UnavailableReason
 class MemoryCollector(
     private val context: Context,
     @Suppress("UNUSED_PARAMETER") environment: MetricEnvironment,
+    private val reader: KernelReader = FileKernelReader,
 ) : MetricCollector {
 
     override val id: String = "memory"
@@ -32,7 +33,7 @@ class MemoryCollector(
         val memoryInfo = activityManager?.let { manager ->
             runCatching { ActivityManager.MemoryInfo().also(manager::getMemoryInfo) }.getOrNull()
         }
-        val memInfo = ProcFiles.readText(MetricPaths.PROC_MEMINFO)?.let(MemInfoParser::parse)
+        val memInfo = reader.readText(MetricPaths.PROC_MEMINFO)?.let(MemInfoParser::parse)
 
         val total = memoryInfo?.totalMem?.takeIf { it > 0L } ?: memInfo?.totalBytes
         if (total == null || total <= 0L) {

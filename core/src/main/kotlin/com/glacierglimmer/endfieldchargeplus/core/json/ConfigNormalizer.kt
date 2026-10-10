@@ -428,11 +428,8 @@ object ConfigNormalizer {
                 DisplayMode.entries.map { it.wire },
                 DisplayMode.OVERLAY.wire,
             ),
-            islandProvider = tolerantWire(
-                settings.islandProvider,
-                IslandProviderKind.entries.map { it.wire },
-                IslandProviderKind.AUTO.wire,
-            ),
+            // The native Android output is now the only backend; the master switch controls it.
+            islandProvider = IslandProviderKind.ANDROID_SYSTEM.wire,
             overlayXPortrait = clampInt(settings.overlayXPortrait),
             overlayYPortrait = clampInt(settings.overlayYPortrait),
             overlayXLandscape = clampInt(settings.overlayXLandscape),
@@ -520,8 +517,8 @@ object ConfigNormalizer {
     private fun idKey(id: String?): String = EcpJson.normalizeWord(id).orEmpty()
 
     /**
-     * Tolerant enum reading: `"xiaomi_hyper_island"`, `"Xiaomi-Hyper-Island"` and
-     * `"XiaomiHyperIsland"` all resolve to the same wire word; anything unrecognized falls back to
+     * Tolerant enum reading: `"android_system"`, `"Android-System"` and
+     * `"AndroidSystem"` all resolve to the same wire word; anything unrecognized falls back to
      * [fallback] instead of inventing a value.
      */
     private fun tolerantWire(raw: String?, allowed: List<String>, fallback: String): String =

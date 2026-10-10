@@ -1,6 +1,8 @@
 package com.glacierglimmer.endfieldchargeplus.ui.screens.about
 
 import android.content.Intent
+import com.glacierglimmer.endfieldchargeplus.BuildConfig
+import com.glacierglimmer.endfieldchargeplus.ui.components.UpdateCard
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -45,15 +47,19 @@ fun AboutScreen(
         item {
             SectionCard(
                 title = ProductInfo.NAME,
-                subtitle = "${t("版本", "Version")} ${ProductInfo.VERSION_NAME} (${ProductInfo.VERSION_CODE})",
+                subtitle = "${t("版本", "Version")} ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
             ) {
                 Column {
                     InfoRow(t("简称", "Short name"), ProductInfo.SHORT_NAME)
                     InfoRow(t("作者", "Author"), ProductInfo.AUTHOR)
                     InfoRow(t("项目网站", "Website"), ProductInfo.WEBSITE)
-                    InfoRow(t("应用包名", "Package"), ProductInfo.ANDROID_PACKAGE_NAME)
+                    InfoRow(t("应用包名", "Package"), BuildConfig.APPLICATION_ID)
                 }
             }
+        }
+
+        item {
+            UpdateCard(container.updateChecker)
         }
 
         item {
@@ -73,7 +79,7 @@ fun AboutScreen(
                         onClick = {
                             shareText(
                                 context,
-                                "${ProductInfo.NAME} ${ProductInfo.VERSION_NAME}\n" +
+                                "${ProductInfo.NAME} ${BuildConfig.VERSION_NAME}\n" +
                                     "https://${ProductInfo.WEBSITE}\n" +
                                     "https://github.com/${ProductInfo.GITHUB_REPOSITORY}\n" +
                                     "upstream: https://github.com/${ProductInfo.UPSTREAM_PROJECT}",

@@ -15,7 +15,8 @@ import com.glacierglimmer.endfieldchargeplus.localization.EcpMessages
 object VariableProjection {
 
     fun rows(snapshot: MetricSnapshot, language: UiLanguage): List<VariableRow> =
-        VariableRegistry.all().map { descriptor ->
+        (VariableRegistry.all() + snapshot.values.keys.filter { it.startsWith("custom.") || it.matches(Regex("cpu\\.core[0-9]+\\.usage")) }
+            .sorted().mapNotNull(VariableRegistry::byName)).distinctBy { it.name }.map { descriptor ->
             val value = snapshot[descriptor.name]
             VariableRow(
                 name = descriptor.name,

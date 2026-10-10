@@ -6,7 +6,6 @@ import com.glacierglimmer.endfieldchargeplus.core.metrics.Variables
 import com.glacierglimmer.endfieldchargeplus.core.model.MetricValue
 import com.glacierglimmer.endfieldchargeplus.core.model.SamplingTier
 import com.glacierglimmer.endfieldchargeplus.core.model.UnavailableReason
-import java.io.File
 
 /**
  * CPU load, frequency, temperature and identity.
@@ -24,104 +23,18 @@ import java.io.File
 class CpuCollector(
     @Suppress("UNUSED_PARAMETER") context: Context,
     @Suppress("UNUSED_PARAMETER") environment: MetricEnvironment,
+    private val reader: KernelReader = FileKernelReader,
 ) : MetricCollector {
 
     override val id: String = "cpu"
 
     override val tier: SamplingTier = SamplingTier.NORMAL
 
-    private var previous: ProcStatSnapshot? = null
+    private val nodes = CpuNodeMetrics(reader) { Runtime.getRuntime().availableProcessors().coerceAtLeast(1) }
 
     override suspend fun collect(into: MutableMap<String, MetricValue>) {
-        collectUsage(into)
-        collectFrequency(into)
-        collectTemperature(into)
+        nodes.collect(into)
         collectIdentity(into)
-    }
-
-    private fun collectUsage(into: MutableMap<String, MetricValue>) {
-        val text = ProcFiles.readText(MetricPaths.PROC_STAT)
-        if (text == null) {
-            val detail = "${MetricPaths.PROC_STAT} is not readable"
-            into.putUnavailable(Variables.CPU_USAGE, UnavailableReason.NOT_AVAILABLE_ON_DEVICE, detail)
-            return
-        }
-        val snapshot = ProcStatParser.parse(text)
-        val previousSnapshot = previous
-        previous = snapshot
-
-        val current = snapshot.totalCpu
-        val previousTicks = previousSnapshot?.totalCpu
-        when {
-            current == null -> into.putUnavailable(
-                Variables.CPU_USAGE,
-                UnavailableReason.NO_DATA,
-                "${MetricPaths.PROC_STAT} has no aggregate cpu line",
-            )
-
-            previousTicks == null -> into.putUnavailable(
-                Variables.CPU_USAGE,
-                UnavailableReason.NO_DATA,
-                "first ${MetricPaths.PROC_STAT} sample; a CPU rate requires two samples",
-            )
-
-            else -> {
-                val usage = CpuUsageMath.usagePercent(previousTicks, current)
-                if (usage == null) {
-                    into.putUnavailable(
-                        Variables.CPU_USAGE,
-                        UnavailableReason.NO_DATA,
-                        "CPU tick counters reset or did not advance; re-priming",
-                    )
-                } else {
-                    into[Variables.CPU_USAGE] = MetricValue.Number(usage)
-                }
-            }
-        }
-
-        for ((index, ticks) in snapshot.cores) {
-            val name = "${Variables.CPU_PER_CORE_PREFIX}$index.usage"
-            val corePrevious = previousSnapshot?.cores?.get(index)
-            if (corePrevious == null) {
-                into.putUnavailable(name, UnavailableReason.NO_DATA, "first sample for cpu$index")
-                continue
-            }
-            val usage = CpuUsageMath.usagePercent(corePrevious, ticks)
-            if (usage == null) {
-                into.putUnavailable(name, UnavailableReason.NO_DATA, "cpu$index counters reset; re-priming")
-            } else {
-                into[name] = MetricValue.Number(usage)
-            }
-        }
-    }
-
-    private fun collectFrequency(into: MutableMap<String, MetricValue>) {
-        val coreCount = Runtime.getRuntime().availableProcessors().coerceAtLeast(1)
-        val nodes = (0 until coreCount).map { MetricPaths.scalingCurFreq(it) }
-        val readings = nodes.map { ProcFiles.readLong(it) }
-        val averageKhz = CpuFrequencyMath.averageKhz(readings)
-        if (averageKhz == null) {
-            val detail = "no readable cpufreq scaling_cur_freq node among $coreCount cores " +
-                "(probed ${nodes.firstOrNull() ?: MetricPaths.CPU_SYS_ROOT})"
-            into.putUnavailable(Variables.CPU_FREQUENCY_MHZ, UnavailableReason.NOT_AVAILABLE_ON_DEVICE, detail)
-            into.putUnavailable(Variables.CPU_FREQUENCY_GHZ, UnavailableReason.NOT_AVAILABLE_ON_DEVICE, detail)
-            return
-        }
-        val megahertz = CpuFrequencyMath.megahertz(averageKhz)
-        into[Variables.CPU_FREQUENCY_MHZ] = MetricValue.Number(megahertz)
-        into[Variables.CPU_FREQUENCY_GHZ] = MetricValue.Number(megahertz / 1000.0)
-    }
-
-    private fun collectTemperature(into: MutableMap<String, MetricValue>) {
-        val zones = ThermalZoneReader.readAll()
-        val celsius = ThermalZoneClassifier.hottestCpuCelsius(zones)
-        if (celsius == null) {
-            val detail = "no CPU-type thermal zone with a plausible reading under " +
-                "${MetricPaths.THERMAL_CLASS_ROOT} (zones=${zones.size})"
-            into.putUnavailable(Variables.CPU_TEMPERATURE_C, UnavailableReason.NOT_AVAILABLE_ON_DEVICE, detail)
-        } else {
-            into[Variables.CPU_TEMPERATURE_C] = MetricValue.Number(celsius)
-        }
     }
 
     private fun collectIdentity(into: MutableMap<String, MetricValue>) {
@@ -132,7 +45,7 @@ class CpuCollector(
             into.putUnavailable(Variables.CPU_CORES, UnavailableReason.NO_DATA, "availableProcessors() returned 0")
         }
 
-        val cpuInfo = ProcFiles.readText(MetricPaths.PROC_CPUINFO)
+        val cpuInfo = reader.readText(MetricPaths.PROC_CPUINFO)
         val model = cpuInfo?.let(CpuInfoParser::model)
             ?: socModelFallback()
         if (model == null) {
@@ -163,16 +76,10 @@ class CpuCollector(
 /** Shared thermal zone reader used by the CPU and GPU collectors. */
 internal object ThermalZoneReader {
 
-    fun readAll(): List<ThermalZone> {
-        val names = try {
-            File(MetricPaths.THERMAL_CLASS_ROOT).list()?.toList().orEmpty()
-        } catch (error: Exception) {
-            emptyList()
-        }
-        return names.filter { it.startsWith("thermal_zone") }.sorted().map { name ->
-            val type = ProcFiles.readText(MetricPaths.thermalZoneType(name))?.trim().orEmpty()
-            val raw = ProcFiles.readLong(MetricPaths.thermalZoneTemp(name))
-            ThermalZone(type = type, rawMilliCelsius = raw, path = MetricPaths.thermalZoneTemp(name))
+    fun readAll(reader: KernelReader = FileKernelReader): List<ThermalZone> =
+        reader.listNames(MetricPaths.THERMAL_CLASS_ROOT).filter { it.matches(Regex("thermal_zone[0-9]+")) }.sorted().map { name ->
+            val type = reader.readText(MetricPaths.thermalZoneType(name))?.trim().orEmpty()
+            val raw = reader.readLong(MetricPaths.thermalZoneTemp(name))
+            ThermalZone(type, raw, MetricPaths.thermalZoneTemp(name))
         }.filter { it.type.isNotEmpty() }
-    }
 }

@@ -1,12 +1,9 @@
 package com.glacierglimmer.endfieldchargeplus.metrics
 
-import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.TrafficStats
-import android.net.wifi.WifiManager
 import android.os.SystemClock
 import com.glacierglimmer.endfieldchargeplus.core.metrics.Variables
 import com.glacierglimmer.endfieldchargeplus.core.model.MetricValue
@@ -215,39 +212,6 @@ class NetworkCollector(
             into[Variables.NETWORK_INTERFACE] = MetricValue.Text(interfaceName)
         }
 
-        publishWifiSsid(into)
-    }
-
-    /**
-     * `WifiInfo.getSSID()` requires the location runtime permission on Android 8.1+. The collector
-     * never requests it: without the permission the variable is `PERMISSION_REQUIRED` so the UI can
-     * explain and ask.
-     */
-    private fun publishWifiSsid(into: MutableMap<String, MetricValue>) {
-        val granted = context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) ==
-            PackageManager.PERMISSION_GRANTED
-        if (!granted) {
-            into.putUnavailable(
-                Variables.NETWORK_WIFI_SSID,
-                UnavailableReason.PERMISSION_REQUIRED,
-                "reading the Wi-Fi SSID requires ACCESS_FINE_LOCATION; the app never requests it itself",
-            )
-            return
-        }
-        val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as? WifiManager
-        @Suppress("DEPRECATION")
-        val ssid = runCatching { wifiManager?.connectionInfo?.ssid }.getOrNull()
-            ?.removeSurrounding("\"")
-            ?.takeIf { it.isNotEmpty() && it != WifiManager.UNKNOWN_SSID }
-        if (ssid == null) {
-            into.putUnavailable(
-                Variables.NETWORK_WIFI_SSID,
-                UnavailableReason.NOT_AVAILABLE_ON_DEVICE,
-                "WifiManager.connectionInfo.ssid is unknown or redacted",
-            )
-        } else {
-            into[Variables.NETWORK_WIFI_SSID] = MetricValue.Text(ssid)
-        }
     }
 
     private companion object {

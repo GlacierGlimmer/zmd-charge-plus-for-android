@@ -24,8 +24,6 @@ enum class EcpPermission {
     /** Android promoted ongoing notification / live update eligibility. */
     LIVE_UPDATE,
 
-    /** Xiaomi HyperIsland authorization. */
-    VENDOR_ISLAND,
 }
 
 /** Current state of one permission, with a localization key explaining it. */

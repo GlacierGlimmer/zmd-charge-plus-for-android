@@ -101,7 +101,9 @@ object UrlConnectionTransport : HttpTransport {
         timeoutMs: Int,
         maxBytes: Int,
     ): HttpResponse = withContext(Dispatchers.IO) {
+        HttpUrlPolicy.rejectionReason(url)?.let { throw IOException(it) }
         var currentUrl = url
+        var forwardedHeaders = headers
         var redirects = 0
         var result: HttpResponse? = null
 
@@ -118,7 +120,7 @@ object UrlConnectionTransport : HttpTransport {
                 connection.readTimeout = timeoutMs
                 connection.useCaches = false
                 connection.setRequestProperty("Accept-Encoding", "gzip")
-                for ((name, value) in headers) {
+                for ((name, value) in forwardedHeaders) {
                     runCatching { connection.setRequestProperty(name, value) }
                 }
 
@@ -131,6 +133,7 @@ object UrlConnectionTransport : HttpTransport {
                         throw IOException("bad_redirect")
                     }
                     HttpUrlPolicy.rejectionReason(next)?.let { throw IOException(it) }
+                    forwardedHeaders = HttpRedirectHeaders.forHop(currentUrl, next, forwardedHeaders)
                     currentUrl = next
                     redirects++
                 } else {
@@ -168,5 +171,18 @@ object UrlConnectionTransport : HttpTransport {
             }
             return output.toString(Charsets.UTF_8.name())
         }
+    }
+}
+
+/** Request secrets belong to one origin, even when the next HTTPS hop is otherwise allowed. */
+object HttpRedirectHeaders {
+    fun forHop(from: String, to: String, headers: Map<String, String>): Map<String, String> {
+        fun origin(url: String): String {
+            val uri = URI(url)
+            val port = if (uri.port >= 0) uri.port else if (uri.scheme.equals("https", true)) 443 else 80
+            return "${uri.scheme.lowercase()}://${uri.host.lowercase()}:$port"
+        }
+        if (origin(from) == origin(to)) return headers
+        return headers.filterKeys { it.lowercase() in setOf("accept", "accept-language", "user-agent") }
     }
 }

@@ -7,8 +7,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.glacierglimmer.endfieldchargeplus.core.i18n.UiLanguage
 import com.glacierglimmer.endfieldchargeplus.core.metrics.MetricSnapshot
-import com.glacierglimmer.endfieldchargeplus.core.model.AnimationMode
 import com.glacierglimmer.endfieldchargeplus.core.model.AppConfig
+import com.glacierglimmer.endfieldchargeplus.core.model.AnimationMode
 import com.glacierglimmer.endfieldchargeplus.core.model.HudProfile
 import com.glacierglimmer.endfieldchargeplus.core.model.HudRenderData
 import com.glacierglimmer.endfieldchargeplus.di.EcpContainer
@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import com.glacierglimmer.endfieldchargeplus.service.HudRuntimeState
 
 /** Result feedback of a scheme edit. */
 enum class ContentMessage {
@@ -63,6 +64,10 @@ class ContentViewModel(private val container: EcpContainer) : ViewModel() {
         _message.value = null
     }
 
+    fun setCycleAnimationMode(mode: AnimationMode) = update { config ->
+        config.copy(customHud = config.customHud.copy(cycleAnimationMode = mode.wire))
+    }
+
     // ------------------------------------------------------------------ sampling demand
 
     /**
@@ -71,25 +76,17 @@ class ContentViewModel(private val container: EcpContainer) : ViewModel() {
      * itself, which is exactly what [MetricDemand] is for.
      */
     fun onScreenVisible() {
-        container.metricRepository.setDemand(
-            MetricDemand(
-                outputActive = false,
-                hudVisible = false,
-                foregroundUi = true,
-                screenOn = true,
-            ),
-        )
+        container.setForegroundUi(true)
         if (!container.metricRepository.running.value) {
             runCatching { container.metricRepository.start() }
-            samplingRequested = true
         }
-        container.metricRepository.setActiveProfile(_draft.value)
+        samplingRequested = true
+        if (!HudRuntimeState.status.value.serviceRunning) container.metricRepository.setActiveProfile(_draft.value)
         container.metricRepository.refreshNow()
     }
 
     fun onScreenHidden() {
-        container.metricRepository.setDemand(MetricDemand.Idle)
-        container.metricRepository.setActiveProfile(config.value.customHud.activeProfile())
+        if (!HudRuntimeState.status.value.serviceRunning) container.metricRepository.setActiveProfile(config.value.customHud.activeProfile())
         samplingRequested = false
     }
 
@@ -108,6 +105,7 @@ class ContentViewModel(private val container: EcpContainer) : ViewModel() {
             ?: current.customHud.activeProfile()
         _draft.value = selected?.copy(colorRules = selected.colorRules.toList())
         if (selected != null) _selectedId.value = selected.id
+        if (samplingRequested && !HudRuntimeState.status.value.serviceRunning) container.metricRepository.setActiveProfile(selected)
     }
 
     fun updateDraft(transform: (HudProfile) -> HudProfile) {
@@ -205,10 +203,6 @@ class ContentViewModel(private val container: EcpContainer) : ViewModel() {
 
     fun setCycleSeconds(seconds: Int) = update { config ->
         config.copy(customHud = config.customHud.copy(cycleSeconds = seconds.coerceIn(3, 3600)))
-    }
-
-    fun setCycleAnimationMode(mode: AnimationMode) = update { config ->
-        config.copy(customHud = config.customHud.copy(cycleAnimationMode = mode.wire))
     }
 
     fun addCycleEntry(profileId: String) = update { ProfileEdits.addCycleEntry(it, profileId) }

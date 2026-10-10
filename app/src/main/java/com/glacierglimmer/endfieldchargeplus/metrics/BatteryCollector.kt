@@ -66,12 +66,8 @@ class BatteryCollector(
         }
 
         val status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, BatteryManager.BATTERY_STATUS_UNKNOWN)
-        val plugged = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0)
-        val charging = when (status) {
-            BatteryManager.BATTERY_STATUS_CHARGING, BatteryManager.BATTERY_STATUS_FULL -> true
-            BatteryManager.BATTERY_STATUS_DISCHARGING, BatteryManager.BATTERY_STATUS_NOT_CHARGING -> false
-            else -> plugged != 0
-        }
+        val plugged = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
+        val charging = BatteryText.charging(status)
 
         publishPercent(into, intent)
         publishTemperature(into, intent)
@@ -81,8 +77,8 @@ class BatteryCollector(
         publishEnumerations(into, status, plugged, intent)
         publishChargeCounter(into)
 
-        into[Variables.BATTERY_CHARGING] = MetricValue.Number(if (charging) 1.0 else 0.0)
-        into[Variables.BATTERY_PLUGGED] = MetricValue.Number(if (plugged != 0) 1.0 else 0.0)
+        into[Variables.BATTERY_CHARGING] = charging?.let { MetricValue.Number(if (it) 1.0 else 0.0) } ?: MetricValue.NoData
+        into[Variables.BATTERY_PLUGGED] = if (plugged < 0) MetricValue.NoData else MetricValue.Number(if (plugged != 0) 1.0 else 0.0)
     }
 
     private fun publishPercent(into: MutableMap<String, MetricValue>, intent: Intent) {
@@ -133,7 +129,7 @@ class BatteryCollector(
         }
     }
 
-    private fun publishCurrent(into: MutableMap<String, MetricValue>, charging: Boolean) {
+    private fun publishCurrent(into: MutableMap<String, MetricValue>, charging: Boolean?) {
         val microAmps = batteryProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW)
         if (microAmps != null) {
             val milliAmps = kotlin.math.abs(microAmps) / 1000.0
@@ -164,8 +160,7 @@ class BatteryCollector(
         previousChargeCounterAtMs = nowMs
         if (previous == null || previousAt <= 0L) return null
         val delta = counter - previous
-        if (delta < 0L) return null
-        return BatteryEnergyMath.currentMilliAmpsFromCounterDelta(delta.toDouble(), nowMs - previousAt)
+        return BatteryEnergyMath.currentMagnitudeFromSignedCounterDelta(delta.toDouble(), nowMs - previousAt)
     }
 
     private fun publishEnergy(into: MutableMap<String, MetricValue>, intent: Intent) {
@@ -232,7 +227,7 @@ class BatteryCollector(
             into[Variables.BATTERY_HEALTH] = MetricValue.Text(healthName)
         }
 
-        into[Variables.BATTERY_POWER_SOURCE] = MetricValue.Text(BatteryText.powerSourceName(plugged))
+        into.putText(Variables.BATTERY_POWER_SOURCE, BatteryText.powerSourceName(plugged))
     }
 
     private fun publishChargeCounter(into: MutableMap<String, MetricValue>) {
@@ -316,6 +311,12 @@ class BatteryCollector(
 /** Text renderings of the `ACTION_BATTERY_CHANGED` enumerations. */
 internal object BatteryText {
 
+    fun charging(status: Int): Boolean? = when (status) {
+        BatteryManager.BATTERY_STATUS_CHARGING, BatteryManager.BATTERY_STATUS_FULL -> true
+        BatteryManager.BATTERY_STATUS_DISCHARGING, BatteryManager.BATTERY_STATUS_NOT_CHARGING -> false
+        else -> null
+    }
+
     /** `BATTERY_PLUGGED_DOCK` is not exposed as a public constant on Android; the extra uses 8. */
     private const val PLUGGED_DOCK = 8
 
@@ -337,12 +338,12 @@ internal object BatteryText {
         else -> null
     }
 
-    fun powerSourceName(plugged: Int): String = when (plugged) {
+    fun powerSourceName(plugged: Int): String? = when (plugged) {
         0 -> "Battery"
         BatteryManager.BATTERY_PLUGGED_AC -> "AC"
         BatteryManager.BATTERY_PLUGGED_USB -> "USB"
         BatteryManager.BATTERY_PLUGGED_WIRELESS -> "Wireless"
         PLUGGED_DOCK -> "Dock"
-        else -> "Battery"
+        else -> null
     }
 }

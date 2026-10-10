@@ -14,7 +14,7 @@ Endfield Charge Plus
 └─ Android   ← 本仓库（独立原生实现）
 ```
 
-- 版本：`0.1.0`（versionCode 1）
+- 版本：`v0.1.1`（versionCode 2）；仅在用户要求时修改，测试构建不自动追加版本后缀。详见 [版本约定](docs/VERSIONING.md)。
 - 包名：`com.glacierglimmer.endfieldchargeplus`
 - `minSdk 26`，`compileSdk / targetSdk 36`
 - 作者：GlacierGlimmer / 冰川雪貓
@@ -36,27 +36,25 @@ Endfield Charge Plus
 
 - **悬浮窗**：`SYSTEM_ALERT_WINDOW` + `TYPE_APPLICATION_OVERLAY`，由前台服务维护。窗口尺寸只等于
   HUD 本身，不是全屏透明层；不抢焦点、可点击穿透、可拖动、横竖屏分别记忆位置、避让刘海。
-- **灵动岛接口**（实验性）：统一 `IslandProvider` 抽象，当前提供 `AndroidLiveUpdateProvider`
-  （Android 官方 promoted ongoing notification / Live Update）与 `XiaomiHyperIslandProvider`
-  （小米超级岛）。设置页如实显示 自动 / Android 系统 / 小米超级岛 的可用与授权状态。
+- **灵动岛接口**（实验性）：提供 `AndroidLiveUpdateProvider`，使用 Android 官方 promoted ongoing
+  notification / Live Update。设置页显示 Android 原生接口的可用与授权状态；已移除小米超级岛接入，旧选项自动迁移。
 
 ### 灵动岛的真实状态（重要）
 
 - **Android 系统**：只有系统版本、通知权限、通知渠道与平台资格全部满足时才会标为可用；平台
-  不允许任意自定义布局，因此能力列表会明确写出限制（无自定义布局、无左右分区、更新频率受限）。
-- **小米超级岛**：已实现官方本地通知桥接，无需额外 SDK。仍需小米签发的 APP_ID、签名登记与场景授权；
-  未配置时显示 `需要申请小米超级岛权限`。构建参数和真机验证步骤见[接入说明](docs/xiaomi-hyper-island.md)。
+  不允许任意自定义布局，设置页仅保留系统通知实际支持的内容和进度选项。Android 16 以下仅显示悬浮窗模式。
+- 收起时显示短数值摘要，展开时显示完整指标及系统进度条；合并高频变化，最多每 5 秒更新一次。
 - 不会把普通通知伪装成灵动岛接入成功，也不会通过 Hack 绕过 Android 限制。
 
 ---
 
 ## 二、功能
 
-- **数据采集**：内存、电池、网络速率、存储、时间 / 日进程，统一由 `MetricRepository` 通过
+- **数据采集**：CPU / GPU、内存、电池、网络速率、存储、时间 / 日进程，统一由 `MetricRepository` 通过
   Flow/StateFlow 提供给输出层；悬浮窗与灵动岛共享同一份数据，切换显示方式不会重建采集系统。
 - **变量系统**：沿用 ECP 变量命名（`memory.usage`、`battery.remaining_mwh`、`probe.latency_ms`、
   `deepseek.balance` …），并兼容旧的 `ping.*` 与 `memory.usage_percent` 等写法。变量库页面可按分类
-  与关键字检索，查看类型、单位、说明与常用格式。
+  与关键字检索，查看类型、单位、说明与常用格式。固定目录仅保留 91 个有采集代码的 Android 变量；逐核和 HTTP 字段按实际采样加入，桌面专属及无读取实现的目录项已移除。
 - **模板与表达式**：`{变量}`、`{变量|格式}`、`{= 表达式}`、`{= 表达式|格式}`。格式是 `|` 串联管道
   （`gb`/`mb`/`kb`/`bytes`/`speed` 为 1024 进制，`mbps`/`kbps` 为十进制，另有 `math:`、`sub:`、
   `replace:`、`upper/lower`、`time:`、`auto:n`、`duration`、`percent` 等）。表达式支持四则运算、
@@ -78,6 +76,8 @@ Endfield Charge Plus
   与诊断信息都走同一套本地化通道，切到 English 后不会残留中文。
 - **配置**：DataStore 持久化，敏感内容单独加密存储；方案与复杂配置使用 JSON，字段与桌面版本保持一致，
   目标是跨平台导入导出。导入非法文件时保留上一份配置（`config_previous`）而不是破坏现有设置。
+- **更新检查**：每次应用进程启动自动检查一次；关于页可手动检查。按本 Android 仓库的最新 Release／Tag 与当前数值版本比较，新版本弹窗提醒，有通知权限时同时发通知，下载跳转到稳定的 Releases 页面。
+- **Root 采集**：高级页可自愿开启并授予 Root，用持久只读通道补充受限的 CPU / GPU / 内存节点；未提供的硬件节点仍显示 `--`。应用和 HUD 都停止后关闭通道，不因暂时权限失败删除方案表达式。
 - **诊断**：应用内日志查看器、可分享的诊断报告、硬件能力重新检测、权限状态总览。
 
 ---
@@ -98,13 +98,13 @@ Android 普通第三方应用（无 Root）无法像桌面那样读取全部硬�
 | 网络探测延迟 / 丢包 | ✅（TCP 为主，ICMP 尽力而为） |
 | 进程内存明细（缓存 / Swap） | ⚠️ `/proc/meminfo` 可读时提供 |
 | CPU 总占用率、每核心占用 | ⚠️ `/proc/stat` 可读时提供，部分设备受限 |
-| CPU 频率 | ⚠️ 多数零售设备自 Android 10 起不可读 |
-| CPU 温度 | ⚠️ 仅当存在可识别的 thermal zone |
-| GPU 占用 / 频率 / 温度 / 显存 | ❌ 无公开 API，通常不支持（除非厂商节点真实可读） |
-| Wi-Fi SSID | ❌ 需要位置权限，应用不会自行申请 |
+| CPU 频率 / 最大频率 | ⚠️ 真实 cpufreq 节点；授权 Root 可补充受限节点 |
+| CPU 温度 | ⚠️ 真实 CPU thermal zone；可使用授权 Root，不以电池温度代替 |
+| GPU 占用 / 频率 / 温度 / 型号 | ⚠️ KGSL / Mali / devfreq / thermal 真实节点，Root 可补充；机型无节点则不可用 |
+| 显存 / Wi-Fi SSID / 桌面专属指标 | 不在变量库中列出；本版没有适用的读取实现 |
 
 设置中的「高级 → 重新检测硬件能力」会现场探测并列出每一项的结论与依据（探测了哪个 API 或 sysfs 节点、
-为什么失败）。
+为什么失败）。Root 开关变化后会重新检测。悬浮窗选定顶部等锚点时旋转保持锚点；只有实际自由拖动后才启用分方向位置，可在显示页恢复所选锚点。
 
 ---
 
@@ -145,12 +145,14 @@ HUD 隐藏、屏幕关闭或无人消费时会自动降频，网络请求有间�
 
 | 项目 | 结果 |
 | --- | --- |
-| `:core:test` | 74 项通过 |
-| `:app:testDebugUnitTest` | 354 项通过 |
-| `:app:lintDebug` | 0 error（21 warning，均为建议类） |
-| `:app:assembleDebug` | 成功（app-debug.apk，约 19.7 MB） |
-| `:app:assembleRelease`（R8） | 成功（未签名发行包，约 1.9 MB） |
+| `:core:test` | v0.1.1：72 项通过 |
+| `:app:testDebugUnitTest` | v0.1.1：384 项通过 |
+| `:app:lintDebug` | v0.1.1：通过；详细诊断见构建报告 |
+| `:app:assembleDebug` | v0.1.1：成功，已签名测试 APK |
+| `:app:assembleRelease`（R8） | 旧基线已通过；v0.1.1 为 Debug 实机测试包 |
 | 真机验证 | **未完成**（本环境没有 Android 设备） |
+
+本轮修复与待实机验证清单见 [android-device-test-r5.md](docs/android-device-test-r5.md)。
 
 需要真机验证的清单（悬浮窗授权与拒绝、权限撤销、横竖屏、挖孔屏、不同 DPI、Activity 划走、
 Service 重启、锁屏、屏幕关闭、Wi-Fi ↔ 移动网络、无网络、IPv6、DeepSeek 错误、HTTP 超时、

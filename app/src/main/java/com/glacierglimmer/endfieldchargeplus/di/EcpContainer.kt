@@ -1,6 +1,12 @@
 package com.glacierglimmer.endfieldchargeplus.di
 
 import android.content.Context
+import com.glacierglimmer.endfieldchargeplus.BuildConfig
+import com.glacierglimmer.endfieldchargeplus.update.GitHubUpdateClient
+import com.glacierglimmer.endfieldchargeplus.update.UpdateChecker
+import com.glacierglimmer.endfieldchargeplus.update.UpdateNotification
+import com.glacierglimmer.endfieldchargeplus.core.i18n.UiLanguage
+import com.glacierglimmer.endfieldchargeplus.localization.LanguageController
 import com.glacierglimmer.endfieldchargeplus.data.CapabilityProfileFilter
 import com.glacierglimmer.endfieldchargeplus.data.ConfigRepository
 import com.glacierglimmer.endfieldchargeplus.data.DataStoreConfigRepository
@@ -30,6 +36,16 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import com.glacierglimmer.endfieldchargeplus.metrics.RootKernelReader
+import com.glacierglimmer.endfieldchargeplus.root.RootAccessManager
+import com.glacierglimmer.endfieldchargeplus.metrics.MetricDemand
+import com.glacierglimmer.endfieldchargeplus.service.HudRuntimeState
+import android.os.PowerManager
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 
 /**
  * Process-wide service locator.
@@ -43,30 +59,43 @@ class EcpContainer private constructor(private val appContext: Context) {
 
     /** Application-scoped coroutines for work that must outlive an Activity. */
     val applicationScope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    private val foregroundUi = MutableStateFlow(false)
+    val foregroundUiActive: Boolean get() = foregroundUi.value
 
-    val configRepository: ConfigRepository by lazy {
-        DataStoreConfigRepository(appContext).apply {
-            // The normalizer strips `{variable}` references this device cannot really produce
-            // (for example gpu.* or cpu.temperature_c) using a real capability scan.
-            capabilityVariableProvider = { unsupportedVariables }
+    fun setForegroundUi(active: Boolean) {
+        foregroundUi.value = active
+        applicationScope.launch {
+            configRepository.load()
+            withContext(Dispatchers.Main.immediate) {
+            val uiActive = foregroundUiActive
+            val runtime = HudRuntimeState.status.value
+            if (uiActive) metricRepository.start()
+            if (!runtime.serviceRunning) metricRepository.setActiveProfile(configRepository.config.value.customHud.activeProfile())
+            metricRepository.setDemand(MetricDemand(runtime.serviceRunning, runtime.overlayShowing || runtime.islandProviderId != null,
+                uiActive, appContext.getSystemService(PowerManager::class.java)?.isInteractive == true))
+            if (!uiActive && !runtime.serviceRunning) metricRepository.stop()
+            }
         }
     }
 
-    private val capabilityDetector: HardwareCapabilityDetector by lazy { HardwareCapabilityDetector(appContext) }
-
-    /** Unsupported-variable patterns of this device, derived once from a real capability scan. */
-    private val unsupportedVariables: Set<String> by lazy {
-        runCatching { CapabilityProfileFilter.unsupportedVariables(capabilityDetector.detect()) }
-            .onFailure { AppLog.w(TAG, "Hardware capability scan failed; keeping all profile variables", it) }
-            .getOrDefault(emptySet())
+    val updateChecker by lazy {
+        UpdateChecker(applicationScope, BuildConfig.VERSION_NAME, GitHubUpdateClient()::check) { result ->
+            val english = UiLanguage.fromAppLanguage(configRepository.config.value.language, LanguageController.systemLanguageTag()).isEnglish
+            UpdateNotification.post(appContext, result, english)
+        }
     }
+
+    // A temporary permission failure must never destroy saved expressions or Root-capable schemes.
+    val configRepository: ConfigRepository by lazy { DataStoreConfigRepository(appContext) }
+
+    val rootAccess by lazy { RootAccessManager() }
+    val kernelReader by lazy { RootKernelReader(rootAccess) }
 
     val secretStore: SecretStore by lazy { EncryptedSecretStore(appContext) }
 
     val permissionManager: PermissionManager by lazy {
         PermissionManagerImpl(appContext,
             liveUpdateEligible = { islandRegistry.providerFor(com.glacierglimmer.endfieldchargeplus.core.model.IslandProviderKind.ANDROID_SYSTEM)?.availability()?.usable == true },
-            vendorIslandGranted = { islandRegistry.providerFor(com.glacierglimmer.endfieldchargeplus.core.model.IslandProviderKind.XIAOMI_HYPER_ISLAND)?.availability()?.usable == true },
         )
     }
 
@@ -96,6 +125,7 @@ class EcpContainer private constructor(private val appContext: Context) {
             configRepository = configRepository,
             environment = metricEnvironment,
             externalCollectors = externalCollectors,
+            kernelReader = kernelReader,
         )
     }
 
@@ -117,7 +147,18 @@ class EcpContainer private constructor(private val appContext: Context) {
 
     /** Starts the asynchronous part of the graph (config load, singleton warm-up). */
     fun warmUp() {
-        applicationScope.launch { runCatching { configRepository.load() } }
+        applicationScope.launch { runCatching { configRepository.load(); islandRegistry.refreshAll() } }
+        applicationScope.launch {
+            configRepository.load()
+            combine(configRepository.config.map { it.android.useRoot }, foregroundUi,
+                HudRuntimeState.status.map { it.serviceRunning }) { requested, ui, output -> requested && (ui || output) }
+                .distinctUntilChanged().collect { enabled ->
+                rootAccess.configure(enabled)
+                kernelReader.invalidate()
+                metricRepository.refreshCapabilities()
+                metricRepository.refreshNow()
+            }
+        }
     }
 
     companion object {

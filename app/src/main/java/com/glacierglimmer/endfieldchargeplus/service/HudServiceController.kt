@@ -30,12 +30,13 @@ object HudServiceController {
 
     /** Action that stops the HUD service and removes the window. */
     const val ACTION_STOP = "com.glacierglimmer.endfieldchargeplus.action.STOP_HUD"
+    const val ACTION_REFRESH = "com.glacierglimmer.endfieldchargeplus.action.REFRESH_HUD_PERMISSIONS"
 
     private const val RESTART_DELAY_MS = 300L
     private const val TAG = "HudServiceController"
 
     /** Starts the foreground HUD service when the selected output is allowed to run. */
-    fun start(context: Context) {
+    fun start(context: Context): Boolean {
         val appContext = context.applicationContext
         val config = EcpContainer.of(appContext).configRepository.config.value
         val mode = DisplayMode.fromWire(config.android.displayMode)
@@ -49,11 +50,12 @@ object HudServiceController {
                     lastError = DefaultOverlayController.ERROR_OVERLAY_PERMISSION,
                 )
             }
-            return
+            return false
         }
         val intent = Intent(appContext, HudForegroundService::class.java).setAction(ACTION_START)
         try {
             ContextCompat.startForegroundService(appContext, intent)
+            return true
         } catch (throwable: Throwable) {
             AppLog.e(TAG, "The system refused to start the HUD service", throwable)
             HudRuntimeState.update {
@@ -62,7 +64,14 @@ object HudServiceController {
                     lastError = throwable.message ?: "The system refused to start the HUD service",
                 )
             }
+            return false
         }
+    }
+
+    fun refreshPermissions(context: Context) {
+        if (!HudRuntimeState.status.value.serviceRunning) return
+        runCatching { context.startService(Intent(context, HudForegroundService::class.java).setAction(ACTION_REFRESH)) }
+            .onFailure { AppLog.w(TAG, "Could not refresh running HUD permissions", it) }
     }
 
     /** Asks the HUD service to stop, detach the window and stop itself. */

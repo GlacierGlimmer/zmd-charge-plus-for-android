@@ -1,7 +1,6 @@
 package com.glacierglimmer.endfieldchargeplus.overlay
 
 import android.content.Context
-import android.content.res.Configuration
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.WindowInsets
@@ -10,6 +9,8 @@ import com.glacierglimmer.endfieldchargeplus.core.model.AppConfig
 import com.glacierglimmer.endfieldchargeplus.core.model.HudPosition
 import com.glacierglimmer.endfieldchargeplus.core.model.HudPositionMode
 import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.roundToInt
 
 /**
  * The insets of one display that the overlay must stay clear of.
@@ -26,6 +27,18 @@ data class HudInsets(
     val right: Int = 0,
     val bottom: Int = 0,
 )
+
+/** Global inset sizes plus current visibility, never the small window's clipped inset distances. */
+internal object HudSafeArea {
+    fun resolve(status: HudInsets, navigation: HudInsets, cutout: HudInsets,
+                statusVisible: Boolean, navigationVisible: Boolean, avoidCutout: Boolean): HudInsets {
+        val top = if (statusVisible) status.top else 0
+        if (!avoidCutout) return HudInsets(top = top)
+        val bars = if (navigationVisible) navigation else HudInsets()
+        return HudInsets(max(bars.left, cutout.left), max(max(top, bars.top), cutout.top),
+            max(bars.right, cutout.right), max(bars.bottom, cutout.bottom))
+    }
+}
 
 /** The display rectangle the overlay lives in, plus the insets that form its safe area. */
 data class HudDisplayFrame(
@@ -46,8 +59,11 @@ data class HudDisplayFrame(
     }
 }
 
-/** A resolved window position for `Gravity.TOP or Gravity.START`, in screen pixels. */
+/** A resolved window position for `Gravity.TOP or Gravity.LEFT`, in screen pixels. */
 data class HudWindowPosition(val x: Int, val y: Int)
+
+/** One immutable display snapshot drives both the view size and the window position. */
+data class HudWindowGeometry(val scale: Float, val density: Float, val width: Int, val height: Int, val position: HudWindowPosition)
 
 /**
  * Pure position resolution: AppConfig + display frame + HUD size → window coordinates.
@@ -69,6 +85,14 @@ data class HudWindowPosition(val x: Int, val y: Int)
  */
 object HudPositionMath {
 
+    fun geometry(config: AppConfig, frame: HudDisplayFrame, density: Float): HudWindowGeometry {
+        val scale = fitScale(config.globalScale * config.android.hudScale, frame, density)
+        val width = (OverlayHudView.DESIGN_VIEW_WIDTH * density * scale).roundToInt()
+        val height = (OverlayHudView.DESIGN_VIEW_HEIGHT * density * scale).roundToInt()
+        return HudWindowGeometry(scale, density, width, height,
+            resolve(config, frame, frame.widthPx > frame.heightPx, width, height))
+    }
+
     /** The desktop edge margin for preset anchors. */
     const val MARGIN = 16
 
@@ -78,6 +102,8 @@ object HudPositionMath {
 
     /** The HUD may occupy at most this fraction of the safe width before it is scaled down. */
     const val MAX_WIDTH_FRACTION = 0.94f
+    /** Landscape phones need a compact HUD; cap width against available screen height. */
+    const val MAX_LANDSCAPE_WIDTH_TO_HEIGHT = 0.70f
 
     /** Resolves the window position for the current orientation. */
     fun resolve(
@@ -92,7 +118,7 @@ object HudPositionMath {
 
         val offsetX: Int
         val offsetY: Int
-        if (freeX >= 0 && freeY >= 0) {
+        if (config.android.useDraggedPosition && freeX >= 0 && freeY >= 0) {
             offsetX = freeX
             offsetY = freeY
         } else if (config.positionModeEnum == HudPositionMode.CUSTOM_COORDINATES) {
@@ -157,117 +183,70 @@ object HudPositionMath {
         density: Float,
         designWidth: Float = OverlayHudView.DESIGN_PILL_WIDTH,
     ): Float {
-        var scale = rawScale.coerceIn(MIN_SCALE.toDouble(), MAX_SCALE.toDouble()).toFloat()
-        val maxWidth = frame.safeWidth * MAX_WIDTH_FRACTION
+        var scale = (rawScale.takeIf { it.isFinite() } ?: 1.0).coerceIn(MIN_SCALE.toDouble(), MAX_SCALE.toDouble()).toFloat()
+        // Portrait can use the phone width. Landscape leaves more of the shorter game viewport free.
+        val maxWidth = if (frame.widthPx > frame.heightPx)
+            min(frame.safeWidth.toFloat(), frame.heightPx * MAX_LANDSCAPE_WIDTH_TO_HEIGHT)
+        else min(frame.safeWidth, min(frame.widthPx, frame.heightPx)) * MAX_WIDTH_FRACTION
         if (maxWidth > 0f && density > 0f) {
             val width = designWidth * density * scale
             if (width > maxWidth) scale *= maxWidth / width
         }
+        val maxHeight = frame.safeHeight * MAX_WIDTH_FRACTION
+        val height = OverlayHudView.DESIGN_VIEW_HEIGHT * density * scale
+        if (maxHeight > 0f && height > maxHeight) scale *= maxHeight / height
         return scale
     }
 }
 
-/**
- * Reads the display size, insets and orientation for the overlay window.
- *
- * Insets are taken from the attached overlay view's `rootWindowInsets` whenever the caller can
- * provide them, because that is the only source that is correct on every supported API level
- * (the window's own insets, including the display cutout). `WindowManager.currentWindowMetrics`
- * (API 30+) is the fallback and also provides the display size.
- */
-class OverlayPositionManager(context: Context) {
+/** Full-display metrics: attached HUD insets are window-relative and cannot position that window. */
+class OverlayPositionManager(private val windowContext: Context) {
+    fun density(): Float = windowContext.resources.displayMetrics.density
 
-    private val appContext: Context = context.applicationContext
-
-    /** True when the device is currently in landscape. */
-    fun isLandscape(): Boolean =
-        appContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-
-    /** The display density used to convert the HUD design units into pixels. */
-    fun density(): Float = appContext.resources.displayMetrics.density
-
-    /** The display frame, including the safe-area insets for [config]. */
-    fun displayFrame(config: AppConfig, windowInsets: WindowInsets? = null): HudDisplayFrame {
-        val windowManager = appContext.getSystemService(WindowManager::class.java)
-            ?: return HudDisplayFrame.Unknown
-        val size = displaySize(windowManager)
-        if (size[0] <= 0 || size[1] <= 0) return HudDisplayFrame.Unknown
-        return HudDisplayFrame(size[0], size[1], insetsFor(config, windowInsets))
-    }
-
-    /**
-     * Resolves the window position with the insets currently known to the overlay window.
-     *
-     * @param windowInsets the attached view's `rootWindowInsets`, or null before the window is
-     *   attached.
-     */
-    fun resolve(
-        config: AppConfig,
-        hudWidthPx: Int,
-        hudHeightPx: Int,
-        windowInsets: WindowInsets? = null,
-    ): HudWindowPosition = HudPositionMath.resolve(
-        config = config,
-        frame = displayFrame(config, windowInsets),
-        landscape = isLandscape(),
-        hudWidthPx = hudWidthPx,
-        hudHeightPx = hudHeightPx,
-    )
-
-    private fun displaySize(windowManager: WindowManager): IntArray {
+    fun displayFrame(config: AppConfig, observedInsets: WindowInsets? = null): HudDisplayFrame {
+        val manager = windowContext.getSystemService(WindowManager::class.java) ?: return HudDisplayFrame.Unknown
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val bounds = windowManager.currentWindowMetrics.bounds
-            return intArrayOf(bounds.width(), bounds.height())
+            // MATCH_PARENT metrics and insets remain independent of the small HUD's current origin.
+            // The overlay covers the display, independently of Activity multi-window/compat bounds
+            // or its own small attached window. Current-window bounds can represent those containers.
+            val metrics = manager.maximumWindowMetrics
+            val bounds = metrics.bounds
+            val status = metrics.windowInsets.getInsetsIgnoringVisibility(WindowInsets.Type.statusBars())
+            val navigation = metrics.windowInsets.getInsetsIgnoringVisibility(WindowInsets.Type.navigationBars())
+            val cutout = metrics.windowInsets.getInsetsIgnoringVisibility(WindowInsets.Type.displayCutout())
+            // Visibility describes the screen regardless of overlap with this window (API contract).
+            // A fullscreen game hiding its bars must not retain the portrait status-bar reservation.
+            val visibility = observedInsets ?: metrics.windowInsets
+            val safe = HudSafeArea.resolve(
+                HudInsets(status.left, status.top, status.right, status.bottom),
+                HudInsets(navigation.left, navigation.top, navigation.right, navigation.bottom),
+                HudInsets(cutout.left, cutout.top, cutout.right, cutout.bottom),
+                visibility.isVisible(WindowInsets.Type.statusBars()),
+                visibility.isVisible(WindowInsets.Type.navigationBars()), config.android.avoidCutout)
+            return HudDisplayFrame(bounds.width(), bounds.height(), safe)
         }
         val metrics = DisplayMetrics()
         @Suppress("DEPRECATION")
-        windowManager.defaultDisplay.getRealMetrics(metrics)
-        return intArrayOf(metrics.widthPixels, metrics.heightPixels)
+        val display = manager.defaultDisplay
+        @Suppress("DEPRECATION")
+        display.getRealMetrics(metrics)
+        val bottom = if (config.android.avoidCutout) dimensionPx("navigation_bar_height") else 0
+        var safe = HudInsets(top = dimensionPx("status_bar_height"), bottom = bottom)
+        if (config.android.avoidCutout && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            display.cutout?.let { cutout -> safe = HudInsets(
+                left = cutout.safeInsetLeft, top = max(safe.top, cutout.safeInsetTop),
+                right = cutout.safeInsetRight, bottom = max(safe.bottom, cutout.safeInsetBottom)) }
+        }
+        return HudDisplayFrame(metrics.widthPixels, metrics.heightPixels, safe)
     }
 
-    private fun insetsFor(config: AppConfig, windowInsets: WindowInsets?): HudInsets {
-        val avoidCutout = config.android.avoidCutout
-        if (windowInsets != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val bars = windowInsets.getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
-            var left = 0
-            var top = bars.top
-            var right = 0
-            val bottom = if (avoidCutout) bars.bottom else 0
-            if (avoidCutout) {
-                val cutout = windowInsets.getInsetsIgnoringVisibility(WindowInsets.Type.displayCutout())
-                left = max(left, cutout.left)
-                top = max(top, cutout.top)
-                right = max(right, cutout.right)
-            }
-            return HudInsets(left = left, top = top, right = right, bottom = bottom)
-        }
-        if (windowInsets != null) {
-            @Suppress("DEPRECATION")
-            val bars = windowInsets.systemWindowInsets
-            @Suppress("DEPRECATION")
-            var top = bars.top
-            var left = 0
-            var right = 0
-            val bottom = if (avoidCutout) bars.bottom else 0
-            if (avoidCutout && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                val cutout = windowInsets.displayCutout
-                if (cutout != null) {
-                    left = max(left, cutout.safeInsetLeft)
-                    top = max(top, cutout.safeInsetTop)
-                    right = max(right, cutout.safeInsetRight)
-                }
-            }
-            return HudInsets(left = left, top = top, right = right, bottom = bottom)
-        }
-        // The window is not attached yet: fall back to the platform's own bar dimensions.
-        return HudInsets(
-            top = dimensionPx("status_bar_height"),
-            bottom = if (avoidCutout) dimensionPx("navigation_bar_height") else 0,
-        )
+    fun resolve(config: AppConfig, hudWidthPx: Int, hudHeightPx: Int): HudWindowPosition {
+        val frame = displayFrame(config)
+        return HudPositionMath.resolve(config, frame, frame.widthPx > frame.heightPx, hudWidthPx, hudHeightPx)
     }
 
     private fun dimensionPx(name: String): Int {
-        val resources = appContext.resources
+        val resources = windowContext.resources
         val id = resources.getIdentifier(name, "dimen", "android")
         return if (id > 0) resources.getDimensionPixelSize(id) else 0
     }

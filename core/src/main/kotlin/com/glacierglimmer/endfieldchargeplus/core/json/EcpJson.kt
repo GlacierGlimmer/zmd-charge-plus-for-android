@@ -236,7 +236,7 @@ object EcpJson {
             "IslandProvider", "FastRefreshMs", "NormalRefreshMs", "SlowRefreshMs", "IdleRefreshMs",
             "ThrottleWhenHidden", "ThrottleWhenScreenOff", "ScreenOffRefreshMs", "ProbeEnabled",
             "ProbeIntervalSeconds", "ProbeTimeoutMs", "ProbeSampleWindow", "DeepSeekRefreshSeconds",
-            "DeepSeekBaseUrl", "StartOnBoot", "AvoidCutout", "VerboseLogging", "CapabilityScanAt",
+            "DeepSeekBaseUrl", "StartOnBoot", "AvoidCutout", "VerboseLogging", "CapabilityScanAt", "UseRoot", "UseDraggedPosition",
         )
         // CustomHudSettings
         put(
@@ -285,7 +285,7 @@ object EcpJson {
     private val BOOLEAN_KEYS: Set<String> = setOf(
         "HudEnabled", "IsBuiltIn", "AutoCycle", "ClickThrough", "AlwaysVisible",
         "ThrottleWhenHidden", "ThrottleWhenScreenOff", "ProbeEnabled", "StartOnBoot",
-        "AvoidCutout", "VerboseLogging", "TimeTargetEnabled", "Enabled",
+        "AvoidCutout", "VerboseLogging", "TimeTargetEnabled", "Enabled", "UseRoot", "UseDraggedPosition",
     )
 
     private val INT_KEYS: Set<String> = setOf(

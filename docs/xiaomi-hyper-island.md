@@ -1,3 +1,5 @@
+> 历史资料：2026-10-09 已按用户要求移除小米超级岛。当前 v0.1.1 仅保留 Android 原生 Live Update 和悬浮窗，以下内容不代表当前功能。
+
 # 小米超级岛客户端接入
 
 本版本已实现本地客户端发送：使用原生通知携带 `miui.focus.param` JSON 和 `miui.focus.pics` 图标 Bundle，固定通知 ID 更新同一条通知，停止服务时取消通知。无需另加小米 SDK 或 MiPush。模板来自[小米官方开发指南](https://dev.mi.com/xiaomihyperos/documentation/detail?pId=2131)。通知投递成功表示通知栈接受了请求；是否实际显示超级岛由 ROM 决定。

@@ -2,6 +2,7 @@ package com.glacierglimmer.endfieldchargeplus.overlay
 
 import com.glacierglimmer.endfieldchargeplus.core.model.AppConfig
 import com.glacierglimmer.endfieldchargeplus.core.model.HudProfile
+import com.glacierglimmer.endfieldchargeplus.core.model.AnimationMode
 
 /**
  * Resolves the ordered carousel queue ("自动轮播") of the HUD.
@@ -22,6 +23,13 @@ import com.glacierglimmer.endfieldchargeplus.core.model.HudProfile
  * Everything here is pure so the whole cycle policy is covered by JVM tests.
  */
 object HudCycleOrder {
+
+    /** Cycling overrides the scheme's animation exactly as the PC runtime does. */
+    fun renderedProfile(config: AppConfig, index: Int): HudProfile? {
+        if (!config.customHud.autoCycle) return activeProfile(config)
+        val profile = resolve(config).getOrNull(clampIndex(config, index)) ?: activeProfile(config)
+        return profile?.copy(animationMode = AnimationMode.fromWire(config.customHud.cycleAnimationMode).wire)
+    }
 
     /** The queue in display order, never empty when the configuration has any scheme at all. */
     fun resolve(config: AppConfig): List<HudProfile> {

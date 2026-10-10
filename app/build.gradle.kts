@@ -35,11 +35,6 @@ val keystoreProperties: Properties? = keystorePropertiesFile
         Properties().apply { FileInputStream(file).use { load(it) } }
     }
 
-// Xiaomi issues this ID when the HyperIsland service is activated. Never invent an ID.
-val xiaomiHyperIslandAppId = providers.gradleProperty("xiaomiHyperIslandAppId")
-    .orElse(providers.environmentVariable("ECP_XIAOMI_APP_ID"))
-    .getOrElse("").trim()
-
 android {
     namespace = "com.glacierglimmer.endfieldchargeplus"
     compileSdk = 36
@@ -48,10 +43,9 @@ android {
         applicationId = "com.glacierglimmer.endfieldchargeplus"
         minSdk = 26
         targetSdk = 36
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = 2
+        versionName = "v0.1.1"
         vectorDrawables.useSupportLibrary = true
-        resValue("string", "xiaomi_hyper_island_app_id", xiaomiHyperIslandAppId)
     }
 
     signingConfigs {
@@ -93,17 +87,11 @@ android {
 
     buildTypes {
         debug {
-            manifestPlaceholders["xiaomiBuildTypeDebug"] = "true"
             isMinifyEnabled = false
-            // Vendor authentication requires the package registered for the issued APP_ID.
-            // Keep test installs separate unless the release owner explicitly opts into that package.
-            if (!providers.gradleProperty("xiaomiHyperIslandUseRegisteredPackage").getOrElse("false").toBoolean()) {
-                applicationIdSuffix = ".debug"
-            }
-            versionNameSuffix = "-debug"
+            applicationIdSuffix = ".debug"
+            // User-controlled product version: Debug and repeated test builds keep the same name.
         }
         release {
-            manifestPlaceholders["xiaomiBuildTypeDebug"] = "false"
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(

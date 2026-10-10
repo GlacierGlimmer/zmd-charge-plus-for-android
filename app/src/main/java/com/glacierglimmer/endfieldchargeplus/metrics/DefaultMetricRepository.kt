@@ -33,6 +33,7 @@ class DefaultMetricRepository(
     private val configRepository: ConfigRepository,
     private val environment: MetricEnvironment,
     externalCollectors: List<MetricCollector> = emptyList(),
+    private val kernelReader: KernelReader = FileKernelReader,
 ) : MetricRepository {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
@@ -57,7 +58,7 @@ class DefaultMetricRepository(
 
     override val running: StateFlow<Boolean> = _running.asStateFlow()
 
-    private val detector = HardwareCapabilityDetector(context)
+    private val detector = HardwareCapabilityDetector(context, kernelReader)
 
     private val scheduler = SamplingScheduler(
         configProvider = { configRepository.config.value },
@@ -65,13 +66,13 @@ class DefaultMetricRepository(
     )
 
     private val collectors: List<MetricCollector> = buildList {
-        add(MemoryCollector(context, environmentView))
+        add(MemoryCollector(context, environmentView, kernelReader))
         add(BatteryCollector(context, environmentView))
         add(NetworkCollector(context, environmentView))
         add(StorageCollector(context, environmentView))
         add(TimeCollector(context, environmentView))
-        add(CpuCollector(context, environmentView))
-        add(GpuCollector(context, environmentView))
+        add(CpuCollector(context, environmentView, kernelReader))
+        add(GpuCollector(context, environmentView, kernelReader))
         add(DeviceCollector(context, environmentView))
         addAll(
             runCatching { externalCollectors.toList() }.getOrElse { error ->
@@ -92,7 +93,7 @@ class DefaultMetricRepository(
         AppLog.d(TAG, "repository created with collectors=${scheduler.registeredIds()}")
     }
 
-    override fun start() {
+    @Synchronized override fun start() {
         if (_running.value) return
         _running.value = true
         scheduler.start()
@@ -116,7 +117,7 @@ class DefaultMetricRepository(
         AppLog.i(TAG, "metric repository started")
     }
 
-    override fun stop() {
+    @Synchronized override fun stop() {
         if (!_running.value && lifecycleJob == null) return
         _running.value = false
         scheduler.stop()
@@ -134,10 +135,7 @@ class DefaultMetricRepository(
     }
 
     override fun setActiveProfile(profile: HudProfile?) {
-        profileOverride.value = profile
-        // The network/time collectors read the profile at collection time; one immediate pass makes
-        // a scheme switch visible without waiting for the next aligned tick.
-        scheduler.requestImmediate()
+        updateSamplingProfile(profileOverride, profile, scheduler::requestImmediate)
     }
 
     override suspend fun refreshCapabilities(): HardwareCapabilities = detectCapabilities("manual")
@@ -164,4 +162,15 @@ class DefaultMetricRepository(
     private companion object {
         const val TAG = "MetricRepository"
     }
+}
+
+/** Rendering an existing profile must not feed another immediate sample back into the renderer. */
+internal fun updateSamplingProfile(
+    current: MutableStateFlow<HudProfile?>,
+    profile: HudProfile?,
+    requestImmediate: () -> Unit,
+) {
+    if (current.value == profile) return
+    current.value = profile
+    requestImmediate()
 }

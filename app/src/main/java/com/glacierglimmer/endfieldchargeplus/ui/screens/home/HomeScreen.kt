@@ -1,6 +1,7 @@
 package com.glacierglimmer.endfieldchargeplus.ui.screens.home
 
 import android.app.Activity
+import com.glacierglimmer.endfieldchargeplus.BuildConfig
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -36,6 +37,7 @@ import com.glacierglimmer.endfieldchargeplus.core.model.AppLanguage
 import com.glacierglimmer.endfieldchargeplus.core.model.DisplayMode
 import com.glacierglimmer.endfieldchargeplus.core.product.ProductInfo
 import com.glacierglimmer.endfieldchargeplus.di.EcpContainer
+import com.glacierglimmer.endfieldchargeplus.permission.EcpPermission
 import com.glacierglimmer.endfieldchargeplus.localization.EcpMessages
 import com.glacierglimmer.endfieldchargeplus.localization.LanguageController
 import com.glacierglimmer.endfieldchargeplus.localization.LocalUiLanguage
@@ -68,6 +70,8 @@ fun HomeScreen(
     val config by viewModel.config.collectAsStateWithLifecycle()
     val runtime by viewModel.runtime.collectAsStateWithLifecycle()
     val permissions by viewModel.permissions.collectAsStateWithLifecycle()
+    val permissionsLoading by viewModel.permissionsLoading.collectAsStateWithLifecycle()
+    val starting by viewModel.starting.collectAsStateWithLifecycle()
     val message by viewModel.message.collectAsStateWithLifecycle()
     val pendingIntent by viewModel.pendingIntent.collectAsStateWithLifecycle()
     val language = LocalUiLanguage.current
@@ -95,7 +99,7 @@ fun HomeScreen(
         }
 
         item {
-            SectionCard(title = ProductInfo.NAME, subtitle = t("版本", "Version") + " " + ProductInfo.VERSION_NAME) {
+            SectionCard(title = ProductInfo.NAME, subtitle = t("版本", "Version") + " " + BuildConfig.VERSION_NAME) {
                 Column {
                     InfoRow(t("作者", "Author"), ProductInfo.AUTHOR)
                     InfoRow(t("项目网站", "Website"), ProductInfo.WEBSITE)
@@ -129,7 +133,10 @@ fun HomeScreen(
                             tone = if (running) ChipTone.OK else ChipTone.OFF,
                         )
                         Text(
-                            text = if (runtime.overlayShowing) {
+                            text = if (displayMode == DisplayMode.ISLAND) {
+                                if (runtime.islandProviderId != null) t("原生实时通知已启动", "Native live update started")
+                                else t("原生实时通知未启动", "Native live update stopped")
+                            } else if (runtime.overlayShowing) {
                                 t("悬浮窗已显示", "Overlay visible")
                             } else {
                                 t("悬浮窗未显示", "Overlay hidden")
@@ -143,7 +150,7 @@ fun HomeScreen(
                         t("显示方式", "Display mode"),
                         when (displayMode) {
                             DisplayMode.OVERLAY -> t("悬浮窗", "Overlay")
-                            DisplayMode.ISLAND -> t("灵动岛接口", "Island")
+                            DisplayMode.ISLAND -> t("原生灵动岛", "Native live update")
                         },
                     )
                     InfoRow(
@@ -168,7 +175,7 @@ fun HomeScreen(
                     ) {
                         Button(
                             onClick = { (context as? Activity)?.let(viewModel::startHud) },
-                            enabled = !running,
+                            enabled = !running && !starting && !permissionsLoading,
                         ) {
                             Icon(Icons.Filled.PlayArrow, contentDescription = null)
                             Spacer(Modifier.width(6.dp))
@@ -197,24 +204,40 @@ fun HomeScreen(
                 ),
             ) {
                 Column {
+                    if (permissions.isEmpty()) {
+                        Text(
+                            if (permissionsLoading) t("正在检测权限与原生灵动岛支持…", "Checking permissions and native live updates…")
+                            else t("无法完成权限检测，请重新打开此页。", "Permission detection failed; reopen this page."),
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                        )
+                    }
                     permissions.forEach { state ->
+                        val canOpenSettings = state.permission == EcpPermission.OVERLAY ||
+                            state.permission == EcpPermission.NOTIFICATIONS ||
+                            (state.permission == EcpPermission.LIVE_UPDATE && state.canRequest)
                         PermissionRow(
                             title = EcpMessages.permissionTitle(state.permission),
                             explanation = EcpMessages.permissionExplanation(state.permission),
                             granted = state.granted,
-                            statusText = if (state.granted) {
+                            statusText = if (state.permission == EcpPermission.LIVE_UPDATE) {
+                                if (state.granted) t("支持", "Supported") else t("不可用", "Unavailable")
+                            } else if (state.granted) {
                                 t("已授予", "Granted")
                             } else {
                                 t("未授予", "Not granted")
                             },
                             detail = EcpMessages.t(state.messageKey),
-                            actionLabel = if (state.granted) {
+                            actionLabel = if (!canOpenSettings) null else if (state.granted) {
                                 t("打开系统设置", "Open system settings")
                             } else {
                                 t("去授权", "Grant access")
                             },
-                            onAction = {
-                                runCatching { context.startActivity(viewModel.settingsIntentFor(state.permission)) }
+                            onAction = if (!canOpenSettings) null else {
+                                {
+                                    (context as? Activity)?.let { activity ->
+                                        runCatching { viewModel.openPermissionSettings(activity, state.permission) }
+                                    }
+                                }
                             },
                         )
                     }

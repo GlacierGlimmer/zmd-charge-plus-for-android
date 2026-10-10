@@ -38,7 +38,9 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -151,7 +153,11 @@ fun SliderRow(
     subtitle: String? = null,
     steps: Int = 0,
     enabled: Boolean = true,
+    formatValue: ((Float) -> String)? = null,
 ) {
+    var draft by remember { mutableFloatStateOf(value) }
+    var dragging by remember { mutableStateOf(false) }
+    LaunchedEffect(value) { if (!dragging) draft = value }
     Column(modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(modifier = Modifier.weight(1f)) {
@@ -164,11 +170,12 @@ fun SliderRow(
                     )
                 }
             }
-            Text(valueLabel, style = MaterialTheme.typography.labelLarge)
+            Text(formatValue?.invoke(draft) ?: valueLabel, style = MaterialTheme.typography.labelLarge)
         }
         Slider(
-            value = value,
-            onValueChange = onValueChange,
+            value = draft.coerceIn(valueRange.start, valueRange.endInclusive),
+            onValueChange = { draft = it; dragging = true },
+            onValueChangeFinished = { dragging = false; onValueChange(draft) },
             valueRange = valueRange,
             steps = steps,
             enabled = enabled,

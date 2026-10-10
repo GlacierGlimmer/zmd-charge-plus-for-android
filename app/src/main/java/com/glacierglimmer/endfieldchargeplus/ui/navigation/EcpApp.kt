@@ -34,6 +34,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.glacierglimmer.endfieldchargeplus.di.EcpContainer
+import com.glacierglimmer.endfieldchargeplus.ui.components.UpdatePrompt
 import com.glacierglimmer.endfieldchargeplus.localization.LanguageController
 import com.glacierglimmer.endfieldchargeplus.localization.LocalUiLanguage
 import com.glacierglimmer.endfieldchargeplus.localization.t
@@ -69,6 +70,7 @@ fun EcpApp(
     val wide = LocalConfiguration.current.screenWidthDp >= 720
 
     CompositionLocalProvider(LocalUiLanguage provides languageController.language) {
+        UpdatePrompt(container.updateChecker)
         ModalNavigationDrawer(
             drawerState = drawerState,
             drawerContent = {

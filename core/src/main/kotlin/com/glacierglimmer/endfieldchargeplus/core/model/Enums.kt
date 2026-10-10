@@ -83,16 +83,17 @@ enum class IslandProviderKind(val wire: String) {
     /** The official Android promoted ongoing notification / live update path. */
     ANDROID_SYSTEM("AndroidSystem"),
 
-    /** Xiaomi HyperOS HyperIsland (超级岛). */
-    XIAOMI_HYPER_ISLAND("XiaomiHyperIsland"),
-
     /** No island output. */
     NONE("None"),
     ;
 
     companion object {
-        fun fromWire(value: String?): IslandProviderKind =
-            entries.firstOrNull { it.wire.equals(value, ignoreCase = true) } ?: AUTO
+        fun fromWire(value: String?): IslandProviderKind {
+            val word = value.orEmpty().replace(Regex("[\\s_-]"), "")
+            // Migrate old local/imported settings after removal of the vendor integration.
+            if (word.equals("XiaomiHyperIsland", ignoreCase = true)) return ANDROID_SYSTEM
+            return entries.firstOrNull { it.wire.equals(word, ignoreCase = true) } ?: AUTO
+        }
     }
 }
 

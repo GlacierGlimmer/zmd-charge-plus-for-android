@@ -22,6 +22,27 @@ import java.util.concurrent.atomic.AtomicInteger
 @OptIn(ExperimentalCoroutinesApi::class)
 class SamplingSchedulerTest {
 
+    @Test fun `removed HTTP fields disappear and failed reads invalidate old numbers`() = runTest {
+        var state=0
+        val scheduler=SamplingScheduler({ config() },dispatcher=StandardTestDispatcher(testScheduler))
+        scheduler.register(RecordingCollector("http",SamplingTier.NORMAL) { into ->
+            when(state) {
+                0 -> into["custom.api.temp"]=MetricValue.Number(42.0)
+                1 -> Unit
+                2 -> into["custom.api.other"]=MetricValue.Number(99.0)
+                else -> throw IllegalStateException("failed")
+            }
+        })
+        scheduler.start(); runCurrent()
+        assertEquals(42.0,scheduler.snapshot.value.numberOrNull("custom.api.temp")!!,0.0)
+        state=1; scheduler.requestImmediate(); runCurrent(); assertTrue(scheduler.snapshot.value.values.isEmpty())
+        state=2; scheduler.requestImmediate(); runCurrent()
+        assertEquals(99.0,scheduler.snapshot.value.numberOrNull("custom.api.other")!!,0.0)
+        state=3; scheduler.requestImmediate(); runCurrent()
+        assertTrue(scheduler.snapshot.value.values["custom.api.other"] is MetricValue.Unavailable)
+        scheduler.stop()
+    }
+
     @Test
     fun `slowing sampling does not collect an extra sample or retain the old delay`() = runTest {
         var current = config(fast = 100L)
