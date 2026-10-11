@@ -205,5 +205,7 @@ object BuiltInProfiles {
                 HudColorRule(variable = "probe.loss_percent", operator = ">=", value = 10.0, color = "#FFB84D"),
             ),
         ),
+        HudProfile(id=idOf("system.display-fps"),isBuiltIn=true,builtInKey="system.display-fps",category="系统",name="显示器帧率",taglineTemplate="/// DISPLAY FPS",titleTemplate="显示器帧率",primaryTemplate="{frame.display.fps|0.0}",secondaryTemplate=" FPS",rightTemplate="{frame.display.percent|0}",rightSuffix="%",progressVariable="frame.display.percent",leftIcon="memory",rightIcon="memory"),
+        HudProfile(id=idOf("system.window-fps"),isBuiltIn=true,builtInKey="system.window-fps",category="系统",name="窗口帧率",taglineTemplate="/// WINDOW FPS",titleTemplate="窗口帧率",primaryTemplate="{frame.window.fps|0.0}",secondaryTemplate=" FPS",rightTemplate="{frame.window.percent|0}",rightSuffix="%",progressVariable="frame.window.percent",leftIcon="memory",rightIcon="memory"),
     )
 }

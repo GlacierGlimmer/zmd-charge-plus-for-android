@@ -419,6 +419,23 @@ private fun ContentEditor(
 
 
         }
+        val frameKeys=com.glacierglimmer.endfieldchargeplus.core.template.TemplateEngine.extractKeys(profile.taglineTemplate,profile.titleTemplate,profile.primaryTemplate,profile.secondaryTemplate,profile.rightTemplate,profile.rightSuffix)+com.glacierglimmer.endfieldchargeplus.core.template.TemplateEngine.extractExpressionKeys(profile.progressVariable)+profile.colorRules.flatMap { com.glacierglimmer.endfieldchargeplus.core.template.TemplateEngine.extractExpressionKeys(it.variable) }
+        for(window in listOf(false,true)) if(frameKeys.any { it.startsWith(if(window) "frame.window." else "frame.display.") }) {
+            val targets by (if(window) viewModel.frameWindowTargets else viewModel.frameDisplayTargets).collectAsStateWithLifecycle()
+            androidx.compose.runtime.LaunchedEffect(window) { viewModel.refreshFrameTargets(window) }
+            val selected=if(window) profile.frameWindowId else profile.frameDisplayId
+            val options=listOf(com.glacierglimmer.endfieldchargeplus.metrics.FrameTarget("",t("自动／请选择目标", "Auto / select target")))+targets+
+                if(selected.isNotBlank() && targets.none { it.id==selected }) listOf(com.glacierglimmer.endfieldchargeplus.metrics.FrameTarget(selected,t("目标已关闭", "Target unavailable"))) else emptyList()
+            SectionCard(title=if(window) t("窗口帧率选项", "Window frame-rate options") else t("显示器帧率选项", "Display frame-rate options"),subtitle=t("读取实际 FPS，不使用刷新率代替。窗口对应 SurfaceFlinger 图层，需要 ROOT；显示器需厂商帧计数接口支持，多屏无法区分时会提示不可用。", "Reads actual FPS, never a refresh-rate substitute. Windows correspond to SurfaceFlinger layers and need ROOT; displays need vendor frame-counter support. Ambiguous multi-display counters are unavailable.")) {
+                Column {
+                    DropdownRow(title=t("采集目标", "Capture target"),options=options.map { it.name },selectedIndex=options.indexOfFirst { it.id==selected }.coerceAtLeast(0),onSelected={ index ->
+                        viewModel.updateDraft { if(window) it.copy(frameWindowId=options[index].id) else it.copy(frameDisplayId=options[index].id) }
+                    })
+                    TextButton(onClick={ viewModel.refreshFrameTargets(window) }) { Text(t("刷新目标列表", "Refresh targets")) }
+                    NumericDraftField(label=t("100% 对应帧率 / FPS", "Frame rate at 100% / FPS"),value=profile.frameFullScaleFps,onValueChange={ fps -> viewModel.updateDraft { it.copy(frameFullScaleFps=fps.coerceIn(1.0,1000.0)) } },stateKey=profile.id+":frameFullScale")
+                }
+            }
+        }
         if (usesNetwork) {
             SectionCard(
                 title = t("网络选项", "Network options"),

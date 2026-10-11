@@ -43,6 +43,13 @@ class ContentViewModel(private val container: EcpContainer) : ViewModel() {
 
     val config: StateFlow<AppConfig> = container.configRepository.config
 
+    private val _frameWindowTargets = kotlinx.coroutines.flow.MutableStateFlow<List<com.glacierglimmer.endfieldchargeplus.metrics.FrameTarget>>(emptyList())
+    val frameWindowTargets: StateFlow<List<com.glacierglimmer.endfieldchargeplus.metrics.FrameTarget>> = _frameWindowTargets
+    private val _frameDisplayTargets=kotlinx.coroutines.flow.MutableStateFlow<List<com.glacierglimmer.endfieldchargeplus.metrics.FrameTarget>>(emptyList())
+    val frameDisplayTargets: StateFlow<List<com.glacierglimmer.endfieldchargeplus.metrics.FrameTarget>> = _frameDisplayTargets
+    fun refreshFrameTargets(window: Boolean) { viewModelScope.launch {
+        if(window) _frameWindowTargets.value=container.frameRateReader.windows() else _frameDisplayTargets.value=container.frameRateReader.displays()
+    } }
     val snapshot: StateFlow<MetricSnapshot> = container.metricRepository.snapshot
 
     private val _draft = MutableStateFlow<HudProfile?>(null)

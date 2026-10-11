@@ -188,6 +188,14 @@ object VariableRegistry {
         deepseek.is_peak|DeepSeek API|BOOLEAN||是否高峰时段|Peak Period|当前是否处于 DeepSeek 高峰计费时段；桌面同义键是 deepseek.period.is_peak。|Whether the current time is a DeepSeek peak window.||标题 / 条件|Title / condition|HTTPS + 1 分钟缓存；未配置 API Key 或请求失败时发布明确状态文字，不返回伪造余额。
         deepseek.status|DeepSeek API|TEXT||API 状态|API Status|余额查询状态文字；未配置 Key 或请求失败时给出明确原因。|Balance query status; a missing key or failed request yields an explicit status.||右侧状态|Right status|HTTPS + 1 分钟缓存；未配置 API Key 或请求失败时发布明确状态文字，不返回伪造余额。
         deepseek.updated_at|DeepSeek API|TEXT||余额更新时间|Updated At|最近一次成功查询余额的本地时间。|Local time of the last successful balance query.||左侧信息|Left info|HTTPS + 1 分钟缓存；未配置 API Key 或请求失败时发布明确状态文字，不返回伪造余额。
+        frame.display.fps|系统|NUMBER|FPS|显示器帧率|Display FPS|ROOT 下 SurfaceFlinger 实际合成帧计数的变化率，不是刷新率；无法区分多显示器时不可用。|Actual SurfaceFlinger composition-frame counter rate with ROOT; unavailable when multiple displays cannot be attributed.|0.0|左侧主值|Primary|需要 ROOT 和厂商 SurfaceFlinger timestats 支持。
+        frame.window.fps|系统|NUMBER|FPS|窗口帧率|Window FPS|选定 SurfaceFlinger 图层实际显示帧时间计算的 FPS。|FPS computed from real displayed-frame timestamps of the selected SurfaceFlinger layer.|0.0|左侧主值|Primary|需要 ROOT 和有效的帧时间记录。
+        frame.display.percent|系统|PROGRESS|%|显示器帧率比例|Display FPS share|相对方案中 100% 帧率的比例。|FPS divided by the profile's full-scale frame rate.|0|右侧状态 / 圆环|Right status / Ring|由真实 FPS 计算。
+        frame.window.percent|系统|PROGRESS|%|窗口帧率比例|Window FPS share|相对方案中 100% 帧率的比例。|FPS divided by the profile's full-scale frame rate.|0|右侧状态 / 圆环|Right status / Ring|由真实 FPS 计算。
+        frame.display.name|系统|TEXT||帧率显示器名称|FPS display name|选定显示器。|Selected display.||左侧信息|Left info|DisplayManager。
+        frame.window.name|系统|TEXT||帧率窗口名称|FPS window name|选定的 SurfaceFlinger 图层。|Selected SurfaceFlinger layer.||左侧信息|Left info|ROOT 图层列表。
+        frame.display.status|系统|TEXT||显示器帧率状态|Display FPS status|真实采集状态。|Actual collection status.||右侧状态|Right status|采集器。
+        frame.window.status|系统|TEXT||窗口帧率状态|Window FPS status|真实采集状态。|Actual collection status.||右侧状态|Right status|采集器。
         disk.data.free_percent|磁盘|PROGRESS|%|分区可用比例|Available share|通过 StatFs 读取可用空间并除以总容量。|Available bytes divided by total capacity from StatFs.|0.0|右侧状态|Right status|StatFs
     """.trimIndent()
 

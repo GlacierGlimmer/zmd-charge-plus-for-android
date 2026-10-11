@@ -224,6 +224,7 @@ object ProfileEdits {
             a.leftIcon.equals(b.leftIcon, ignoreCase = true) &&
             a.rightIcon.equals(b.rightIcon, ignoreCase = true) &&
             a.accentColor.equals(b.accentColor, ignoreCase = true) &&
+            a.frameDisplayId == b.frameDisplayId && a.frameWindowId == b.frameWindowId && a.frameFullScaleFps == b.frameFullScaleFps &&
             a.timeTargetEnabled == b.timeTargetEnabled &&
             a.timeTarget == b.timeTarget &&
             a.gpuAdapterId.equals(b.gpuAdapterId, ignoreCase = true) &&

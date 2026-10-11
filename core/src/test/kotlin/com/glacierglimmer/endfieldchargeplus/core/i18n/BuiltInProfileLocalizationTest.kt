@@ -93,7 +93,11 @@ class BuiltInProfileLocalizationTest {
     fun `every built-in renders without the sentinel in both languages`() {
         val snapshot = MetricSnapshot(
             mapOf(
-                "battery.remaining_mwh" to MetricValue.Number(45000.0),
+                "frame.display.fps" to MetricValue.Number(90.0),
+            "frame.window.fps" to MetricValue.Number(60.0),
+            "frame.display.percent" to MetricValue.Number(75.0),
+            "frame.window.percent" to MetricValue.Number(50.0),
+            "battery.remaining_mwh" to MetricValue.Number(45000.0),
                 "battery.full_mwh" to MetricValue.Number(60000.0),
                 "battery.percent" to MetricValue.Number(75.0),
                 "cpu.frequency_ghz" to MetricValue.Number(3.45),

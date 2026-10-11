@@ -71,6 +71,7 @@ fun EcpApp(
 
     CompositionLocalProvider(LocalUiLanguage provides languageController.language) {
         UpdatePrompt(container.updateChecker)
+        com.glacierglimmer.endfieldchargeplus.ui.components.ProfileDataPrompt(container)
         ModalNavigationDrawer(
             drawerState = drawerState,
             drawerContent = {

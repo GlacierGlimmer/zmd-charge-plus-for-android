@@ -180,6 +180,7 @@ open class HudForegroundService : Service() {
         runCatching { unregisterReceiver(screenReceiver) }
         (overlay as? DefaultOverlayController)?.setStateListener(null)
         releaseOutputs()
+        container.dataWarnings.stop()
         serviceScope.cancel()
         HudRuntimeState.publish(
             HudRuntimeStatus(
@@ -299,6 +300,7 @@ open class HudForegroundService : Service() {
     private fun render(animate: Boolean) {
         if (stopping) return
         val profile = renderedProfile() ?: return
+        if(config.hudEnabled && screenOn && container.rootAccess.status.value!=com.glacierglimmer.endfieldchargeplus.root.RootStatus.CHECKING) container.dataWarnings.check(profile,metricRepository.snapshot.value)
         renderSession.render(profile, animate)
         publishStatus()
     }

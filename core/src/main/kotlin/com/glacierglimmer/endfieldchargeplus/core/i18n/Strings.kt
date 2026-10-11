@@ -64,7 +64,7 @@ object Strings {
         "波纹强度" to "Ripple Strength",
         "波纹幅度" to "Ripple Spread",
         "终末地风格状态栏 HUD" to "Endfield-style Status HUD",
-        "构建日期  2026.09.23" to "Build  2026.09.23",
+        "构建日期  2026.10.11" to "Build  2026.10.11",
         "检查更新" to "Check Updates",
         "当前版本：v0.1.1" to "Current: v0.1.1",
         "最新版本：尚未获取" to "Latest: not checked",

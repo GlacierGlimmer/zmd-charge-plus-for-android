@@ -69,7 +69,7 @@ class EcpContainer private constructor(private val appContext: Context) {
             withContext(Dispatchers.Main.immediate) {
             val uiActive = foregroundUiActive
             val runtime = HudRuntimeState.status.value
-            if (uiActive) metricRepository.start()
+            if (uiActive) { dataWarnings.onForegroundOpened(); metricRepository.start() }
             if (!runtime.serviceRunning) metricRepository.setActiveProfile(configRepository.config.value.customHud.activeProfile())
             metricRepository.setDemand(MetricDemand(runtime.serviceRunning, runtime.overlayShowing || runtime.islandProviderId != null,
                 uiActive, appContext.getSystemService(PowerManager::class.java)?.isInteractive == true))
@@ -78,6 +78,7 @@ class EcpContainer private constructor(private val appContext: Context) {
         }
     }
 
+    val dataWarnings by lazy { com.glacierglimmer.endfieldchargeplus.service.HudDataWarnings(appContext) { foregroundUiActive } }
     val updateChecker by lazy {
         UpdateChecker(applicationScope, BuildConfig.VERSION_NAME, GitHubUpdateClient()::check) { result ->
             val english = UiLanguage.fromAppLanguage(configRepository.config.value.language, LanguageController.systemLanguageTag()).isEnglish
@@ -90,6 +91,7 @@ class EcpContainer private constructor(private val appContext: Context) {
 
     val rootAccess by lazy { RootAccessManager() }
     val kernelReader by lazy { RootKernelReader(rootAccess) }
+    val frameRateReader by lazy { com.glacierglimmer.endfieldchargeplus.metrics.FrameRateReader(appContext,rootAccess) }
 
     val secretStore: SecretStore by lazy { EncryptedSecretStore(appContext) }
 
@@ -125,7 +127,7 @@ class EcpContainer private constructor(private val appContext: Context) {
             configRepository = configRepository,
             environment = metricEnvironment,
             externalCollectors = externalCollectors,
-            kernelReader = kernelReader,
+            kernelReader = kernelReader, frameReader = frameRateReader,
         )
     }
 

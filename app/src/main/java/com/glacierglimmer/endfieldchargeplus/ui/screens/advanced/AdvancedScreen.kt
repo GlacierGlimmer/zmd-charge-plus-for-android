@@ -175,7 +175,7 @@ fun AdvancedScreen(
             ) {
                 Column {
                     IntField(t("快速采样（延迟类）", "Fast (latency)"), config.android.fastRefreshMs.toInt(), "fast", 100..60_000, viewModel::setFastRefreshMs)
-                    IntField(t("常规采样", "Normal"), config.android.normalRefreshMs.toInt(), "normal", 200..300_000, viewModel::setNormalRefreshMs)
+                    IntField(t("数据采样间隔 / 毫秒", "Data sampling interval / ms"), config.android.normalRefreshMs.toInt(), "normal", 200..300_000, viewModel::setNormalRefreshMs)
                     IntField(t("慢速采样", "Slow"), config.android.slowRefreshMs.toInt(), "slow", 500..600_000, viewModel::setSlowRefreshMs)
                     IntField(t("空闲采样", "Idle"), config.android.idleRefreshMs.toInt(), "idle", 1_000..3_600_000, viewModel::setIdleRefreshMs)
                     IntField(t("息屏采样", "Screen off"), config.android.screenOffRefreshMs.toInt(), "screenOff", 1_000..3_600_000, viewModel::setScreenOffRefreshMs)

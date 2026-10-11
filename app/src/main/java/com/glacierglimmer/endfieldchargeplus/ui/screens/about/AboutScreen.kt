@@ -50,6 +50,7 @@ fun AboutScreen(
                 subtitle = "${t("版本", "Version")} ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
             ) {
                 Column {
+                    InfoRow(t("构建日期", "Build date"), ProductInfo.BUILD_DATE)
                     InfoRow(t("简称", "Short name"), ProductInfo.SHORT_NAME)
                     InfoRow(t("作者", "Author"), ProductInfo.AUTHOR)
                     InfoRow(t("项目网站", "Website"), ProductInfo.WEBSITE)

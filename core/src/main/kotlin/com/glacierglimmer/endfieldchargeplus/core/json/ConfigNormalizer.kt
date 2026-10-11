@@ -178,6 +178,8 @@ object ConfigNormalizer {
                 id = canonicalId,
                 isBuiltIn = true,
                 builtInKey = builtIn.builtInKey,
+                frameDisplayId=existing?.frameDisplayId.orEmpty(), frameWindowId=existing?.frameWindowId.orEmpty(),
+                frameFullScaleFps=existing?.frameFullScaleFps?.takeIf { it.isFinite() }?.coerceIn(1.0,1000.0) ?: 120.0,
                 timeTargetEnabled = if (dayProgress) {
                     existing?.timeTargetEnabled ?: builtIn.timeTargetEnabled
                 } else {
@@ -263,7 +265,7 @@ object ConfigNormalizer {
         val explicit = settings.cycleProfileIds
         if (explicit == null) {
             val queue = profiles
-                .filter { it.category.equals("系统", ignoreCase = true) || it.builtInKey.equals(BuiltInProfiles.TIME_DAY_PROGRESS, true) }
+                .filter { (it.category.equals("系统", ignoreCase = true) || it.builtInKey.equals(BuiltInProfiles.TIME_DAY_PROGRESS, true)) && !it.builtInKey.endsWith("-fps") }
                 .map { it.id }
             note("legacy CycleProfileIds was null; migrated to the default carousel queue (${queue.size} entries)")
             return queue
@@ -307,6 +309,7 @@ object ConfigNormalizer {
         val (progressMin, progressMax) = normalizeProgressRange(profile, note)
 
         return profile.copy(
+            frameFullScaleFps=profile.frameFullScaleFps.takeIf { it.isFinite() }?.coerceIn(1.0,1000.0) ?: 120.0,
             animationMode = tolerantWire(
                 profile.animationMode,
                 AnimationMode.entries.map { it.wire },

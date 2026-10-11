@@ -34,6 +34,7 @@ class DefaultMetricRepository(
     private val environment: MetricEnvironment,
     externalCollectors: List<MetricCollector> = emptyList(),
     private val kernelReader: KernelReader = FileKernelReader,
+    private val frameReader: FrameRateReader? = null,
 ) : MetricRepository {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
@@ -74,6 +75,7 @@ class DefaultMetricRepository(
         add(CpuCollector(context, environmentView, kernelReader))
         add(GpuCollector(context, environmentView, kernelReader))
         add(DeviceCollector(context, environmentView))
+        frameReader?.let { add(FrameRateCollector(it,environmentView)) }
         addAll(
             runCatching { externalCollectors.toList() }.getOrElse { error ->
                 AppLog.w(TAG, "external collectors could not be registered; continuing with system metrics", error)
@@ -121,6 +123,7 @@ class DefaultMetricRepository(
         if (!_running.value && lifecycleJob == null) return
         _running.value = false
         scheduler.stop()
+        frameReader?.let { scope.launch { it.stop() } }
         lifecycleJob?.cancel()
         lifecycleJob = null
         AppLog.i(TAG, "metric repository stopped")

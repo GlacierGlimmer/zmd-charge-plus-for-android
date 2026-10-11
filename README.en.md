@@ -15,6 +15,7 @@ Endfield Charge Plus
 ```
 
 - Version: `v0.1.1` (versionCode 2); changed only on user request, with no automatic test suffix. See [version policy](docs/VERSIONING.md).
+- Build date: `2026.10.11`; [changes from v0.1.0-beta to v0.1.1](docs/release-notes.md).
 - Package: `com.glacierglimmer.endfieldchargeplus`
 - `minSdk 26`, `compileSdk / targetSdk 36`
 - Author: GlacierGlimmer / 冰川雪貓
@@ -63,14 +64,14 @@ Two display modes:
 - **Variable system** — ECP variable names are preserved (`memory.usage`, `battery.remaining_mwh`,
   `probe.latency_ms`, `deepseek.balance`, …) with compatibility for legacy spellings such as `ping.*`
   and `memory.usage_percent`. The Variables page browses and searches the registry with type, unit,
-  description and common formats. The fixed Android catalog contains 91 variables backed by collectors; per-core and HTTP fields come from actual snapshot keys. Desktop-only and unimplemented entries are omitted.
+  description and common formats. The fixed Android catalog contains 99 variables backed by collectors; per-core and HTTP fields come from actual snapshot keys. Desktop-only and unimplemented entries are omitted.
 - **Templates and expressions** — `{variable}`, `{variable|format}`, `{= expression}` and
   `{= expression | format}`. Formats are a chained `|` pipeline (`gb`/`mb`/`kb`/`bytes`/`speed` are
   binary, `mbps`/`kbps` are decimal-SI, plus `math:`, `sub:`, `replace:`, `upper/lower`, `time:`,
   `auto:n`, `duration`, `percent`). Expressions support arithmetic, `^`, comparisons, `&& || !`, `?:`,
   `??` and `if/min/max/avg/sum/clamp/round/floor/ceil/abs/...`.
 - **Schemes** — built-in schemes (Battery / CPU / Memory / GPU / Network / System Disk / Day Progress
-  / DeepSeek balance & period / Packet Probe) plus custom schemes: create, save, copy, delete, rename,
+  / DeepSeek balance & period / Packet Probe / Display FPS / Window FPS) plus custom schemes: create, save, copy, delete, rename,
   save a modified built-in as a custom scheme, and preview. Auto-cycling supports reordering, an
   interval and an animation mode, and deleting a referenced scheme cleans up the carousel queue.
 - **Animation** — the full animation (6 s baseline timeline: title, ripples, circle→square shape
@@ -79,6 +80,8 @@ Two display modes:
 - **Packet probe** — ICMP / TCP / UDP against IPv4, IPv6 or a hostname, with latency on the left of
   the HUD and packet loss on the right. Since an unprivileged Android app cannot rely on raw ICMP,
   TCP connect latency is the practical path; failures show a reason, never a fabricated `0 ms` / `0 %`.
+- **Sampling and data feedback** — configurable actual sampling interval, missing-variable feedback and duplicate suppression during the same ongoing failure.
+- **Actual FPS** — selectable display or SurfaceFlinger window/layer and full-scale FPS. ROOT and valid vendor frame timestamps/counters are required; unavailable readings remain unavailable.
 - **DeepSeek API** — balance, current peak/off-peak period, remaining time and progress. The API key is
   stored with Android Keystore backed encryption, is never logged or exported, and requests are limited
   to at most one per minute with failure backoff.
@@ -168,7 +171,7 @@ consuming data, and network requests have interval floors and failure backoff.
 
 | Item | Result |
 | --- | --- |
-| `:core:test` | v0.1.1: 72 tests passed |
+| `:core:test` | v0.1.1: 84 tests passed |
 | `:app:testReleaseUnitTest` | v0.1.1: 385 tests passed, including the production logging guard |
 | `:app:lintRelease` | 0 errors and 26 non-blocking warnings |
 | `:app:assembleRelease` / `:app:bundleRelease` | R8 optimization, resource shrinking, APK and AAB signed with the production key |

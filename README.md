@@ -15,6 +15,7 @@ Endfield Charge Plus
 ```
 
 - 版本：`v0.1.1`（versionCode 2）；仅在用户要求时修改，测试构建不自动追加版本后缀。详见 [版本约定](docs/VERSIONING.md)。
+- 构建日期：`2026.10.11`；[v0.1.0-beta → v0.1.1 更新说明](docs/release-notes.md)。
 - 包名：`com.glacierglimmer.endfieldchargeplus`
 - `minSdk 26`，`compileSdk / targetSdk 36`
 - 作者：GlacierGlimmer / 冰川雪貓
@@ -54,19 +55,21 @@ Endfield Charge Plus
   Flow/StateFlow 提供给输出层；悬浮窗与灵动岛共享同一份数据，切换显示方式不会重建采集系统。
 - **变量系统**：沿用 ECP 变量命名（`memory.usage`、`battery.remaining_mwh`、`probe.latency_ms`、
   `deepseek.balance` …），并兼容旧的 `ping.*` 与 `memory.usage_percent` 等写法。变量库页面可按分类
-  与关键字检索，查看类型、单位、说明与常用格式。固定目录仅保留 91 个有采集代码的 Android 变量；逐核和 HTTP 字段按实际采样加入，桌面专属及无读取实现的目录项已移除。
+  与关键字检索，查看类型、单位、说明与常用格式。固定目录仅保留 99 个有采集代码的 Android 变量；逐核和 HTTP 字段按实际采样加入，桌面专属及无读取实现的目录项已移除。
 - **模板与表达式**：`{变量}`、`{变量|格式}`、`{= 表达式}`、`{= 表达式|格式}`。格式是 `|` 串联管道
   （`gb`/`mb`/`kb`/`bytes`/`speed` 为 1024 进制，`mbps`/`kbps` 为十进制，另有 `math:`、`sub:`、
   `replace:`、`upper/lower`、`time:`、`auto:n`、`duration`、`percent` 等）。表达式支持四则运算、
   `^`、比较、`&& || !`、`?:`、`??` 以及 `if/min/max/avg/sum/clamp/round/floor/ceil/abs/...`。
 - **方案系统**：内置方案（电池 / CPU / 内存 / GPU / 网络 / 系统盘 / 日进程 / DeepSeek 余额时段 /
-  网络包探测器）+ 自定义方案；新建、保存、复制、删除、重命名、修改内置后另存为自定义、方案预览；
+  网络包探测器 / 显示器帧率 / 窗口帧率）+ 自定义方案；新建、保存、复制、删除、重命名、修改内置后另存为自定义、方案预览；
   自动轮播支持顺序调整、间隔设置与动画模式，删除被引用方案时自动清理轮播队列。
 - **动画**：完整动画（6 秒基线时间轴：标题、波纹、圆形→方形形态切换、回弹）与简洁动画（5 秒基线，
   快速展开），方案切换统一走 `隐去 → 内容切换 → 唤出`，隐藏为固定 180ms 收起。
 - **网络包探测器**：ICMP / TCP / UDP、IPv4 / IPv6 / 域名，HUD 左侧显示延迟、右侧显示丢包率。
   Android 普通应用无法可靠使用原始 ICMP，因此 TCP 连接延迟是主要路径，探测失败时显示原因而**不是**
   假的 `0ms` / `0%`。
+- **采样与数据提示**：可自定义实际数据采样间隔；方案数据不可用时列出缺失变量，同一持续故障抑制重复提醒。
+- **真实帧率**：可选择显示器或 SurfaceFlinger 窗口/图层，以及 100% 对应帧率。需要 ROOT 和设备帧时间/计数支持，未捕获到数据时明确显示不可用。
 - **DeepSeek API**：余额、当前高峰 / 低谷时段、时段剩余与进度，密钥使用 Android Keystore 加密保存，
   永不写入日志或诊断导出，请求频率不低于 60 秒并带失败退避。
 - **自定义 HTTP / JSON 数据源**：GET 一个 JSON 接口并把字段映射为 `custom.<数据源>.<字段>`
@@ -145,12 +148,12 @@ HUD 隐藏、屏幕关闭或无人消费时会自动降频，网络请求有间�
 
 | 项目 | 结果 |
 | --- | --- |
-| `:core:test` | v0.1.1：72 项通过 |
+| `:core:test` | v0.1.1：84 项通过 |
 | `:app:testReleaseUnitTest` | v0.1.1：385 项通过，包含正式版日志开关检查 |
 | `:app:lintRelease` | 0 错误、26 个非阻断警告 |
 | `:app:assembleRelease` / `:app:bundleRelease` | R8 优化、资源压缩、正式密钥签名的 APK 与 AAB |
 | 应用身份 | `com.glacierglimmer.endfieldchargeplus`，版本 v0.1.1，versionCode 2 |
-| 签名一致性 | 与 v0.1.0 正式版相同，可覆盖升级 |
+| 签名一致性 | 与 v0.1.0-beta 已发行包相同，可覆盖升级 |
 | 正式版界面 | 不显示开发日志开关；旧配置也不能开启开发日志 |
 
 本轮已根据实机反馈修复启动、权限刷新、灵动岛显示、界面卡顿及横竖屏问题。发行构建检查与设备覆盖范围分别记录，设备检查项目见 [docs/TESTING.md](docs/TESTING.md)，发行说明见 [docs/RELEASE.md](docs/RELEASE.md)。

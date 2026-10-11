@@ -70,6 +70,8 @@ object BuiltInProfileLocalization {
     fun forLanguage(profile: HudProfile, language: UiLanguage): HudProfile {
         if (language != UiLanguage.EN || profile.builtInKey.isBlank()) return profile
         return when (profile.builtInKey.lowercase()) {
+            "system.display-fps" -> profile.copy(category="System",name="Display FPS",titleTemplate="Display FPS")
+            "system.window-fps" -> profile.copy(category="System",name="Window FPS",titleTemplate="Window FPS")
             "system.battery" -> profile.copy(category = "System", name = "Battery", titleTemplate = "Battery")
             "system.cpu" -> profile.copy(category = "System", name = "CPU", titleTemplate = "CPU")
             "system.memory" -> profile.copy(category = "System", name = "Memory", titleTemplate = "Memory")

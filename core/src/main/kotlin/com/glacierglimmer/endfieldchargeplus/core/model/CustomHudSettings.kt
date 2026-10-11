@@ -50,7 +50,7 @@ data class CustomHudSettings(
             return known
         }
         return profiles
-            .filter { it.category == "系统" || it.builtInKey.equals("time.day-progress", ignoreCase = true) }
+            .filter { (it.category == "系统" || it.builtInKey.equals("time.day-progress", ignoreCase = true)) && !it.builtInKey.endsWith("-fps") }
             .map { it.id }
     }
 
@@ -63,7 +63,7 @@ data class CustomHudSettings(
                 profiles = profiles,
                 activeProfileId = defaultProfile.id,
                 cycleProfileIds = profiles
-                    .filter { it.category == "系统" || it.builtInKey.equals("time.day-progress", ignoreCase = true) }
+                    .filter { (it.category == "系统" || it.builtInKey.equals("time.day-progress", ignoreCase = true)) && !it.builtInKey.endsWith("-fps") }
                     .map { it.id },
                 cycleAnimationMode = "Simple",
             )

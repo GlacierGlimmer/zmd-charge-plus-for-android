@@ -57,6 +57,9 @@ data class HudProfile(
 
     /** Optional per-profile GPU target. Empty means the first available adapter. */
     @SerialName("GpuAdapterId") val gpuAdapterId: String = "",
+    @SerialName("FrameDisplayId") val frameDisplayId: String = "",
+    @SerialName("FrameWindowId") val frameWindowId: String = "",
+    @SerialName("FrameFullScaleFps") val frameFullScaleFps: Double = 120.0,
 
     /** `AutoBytes` or `Mbps`. */
     @SerialName("NetworkDisplayUnit") val networkDisplayUnit: String = "AutoBytes",

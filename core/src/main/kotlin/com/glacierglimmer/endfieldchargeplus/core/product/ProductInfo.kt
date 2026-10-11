@@ -11,6 +11,7 @@ object ProductInfo {
     // Change the product version only when the user requests it.
     const val VERSION_NAME = "v0.1.1"
     const val VERSION_CODE = 2
+    const val BUILD_DATE = "2026.10.11"
     const val AUTHOR = "GlacierGlimmer / 冰川雪貓"
     const val WEBSITE = "zmd-bar.x-neko.com"
     const val GITHUB_REPOSITORY = "GlacierGlimmer/zmd-charge-plus-for-android"
