@@ -14,6 +14,7 @@ object Variables {
 
     // ---- time -------------------------------------------------------------------------------
     const val TIME_CURRENT = "time.current"
+    const val TIME_UTC_OFFSET = "time.utc_offset"
     const val TIME_DATE = "time.date"
     const val TIME_WEEKDAY = "time.weekday"
     const val TIME_TIMESTAMP = "time.timestamp"

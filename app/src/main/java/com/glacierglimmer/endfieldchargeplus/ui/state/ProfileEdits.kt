@@ -227,6 +227,7 @@ object ProfileEdits {
             a.frameDisplayId == b.frameDisplayId && a.frameWindowId == b.frameWindowId && a.frameFullScaleFps == b.frameFullScaleFps &&
             a.timeTargetEnabled == b.timeTargetEnabled &&
             a.timeTarget == b.timeTarget &&
+            a.timeUtcOffsetMinutes == b.timeUtcOffsetMinutes &&
             a.gpuAdapterId.equals(b.gpuAdapterId, ignoreCase = true) &&
             a.networkDisplayUnit.equals(b.networkDisplayUnit, ignoreCase = true) &&
             a.networkPercentMode.equals(b.networkPercentMode, ignoreCase = true) &&

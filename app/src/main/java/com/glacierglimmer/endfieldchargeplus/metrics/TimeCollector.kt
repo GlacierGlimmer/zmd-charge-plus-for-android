@@ -2,6 +2,8 @@ package com.glacierglimmer.endfieldchargeplus.metrics
 
 import android.content.Context
 import com.glacierglimmer.endfieldchargeplus.core.metrics.Variables
+import com.glacierglimmer.endfieldchargeplus.core.metrics.WorldClockValues
+import com.glacierglimmer.endfieldchargeplus.core.model.WorldClockTimeZones
 import com.glacierglimmer.endfieldchargeplus.core.model.AppLanguage
 import com.glacierglimmer.endfieldchargeplus.core.model.MetricValue
 import com.glacierglimmer.endfieldchargeplus.core.model.SamplingTier
@@ -32,11 +34,18 @@ class TimeCollector(
     override val tier: SamplingTier = SamplingTier.FAST
 
     override suspend fun collect(into: MutableMap<String, MetricValue>) {
+        val profile = environment.activeProfile()
+        val language = UiLanguage.fromAppLanguage(environment.config().language, LanguageController.systemLanguageTag())
+        if (profile != null && WorldClockTimeZones.usesUtcOffset(profile)) {
+            into.putAll(WorldClockValues.values(profile, clock.instant(), language))
+            return
+        }
         val now = ZonedDateTime.now(clock)
         val local = now.toLocalDateTime()
         val chinese = !UiLanguage.fromAppLanguage(environment.config().language, LanguageController.systemLanguageTag()).isEnglish
 
         into[Variables.TIME_CURRENT] = MetricValue.Text(TimeMath.formatClock(local.toLocalTime()))
+        into[Variables.TIME_UTC_OFFSET] = MetricValue.Text(WorldClockTimeZones.offsetText(now.offset.totalSeconds / 60))
         into[Variables.TIME_DATE] = MetricValue.Text(TimeMath.formatDate(local.toLocalDate()))
         into[Variables.TIME_WEEKDAY] = MetricValue.Text(TimeMath.weekdayText(local.dayOfWeek, chinese))
         // Unix epoch seconds (the Android edition has no `time.unix_milliseconds` variable).
@@ -45,7 +54,6 @@ class TimeCollector(
         val dayProgress = TimeMath.dayProgressPercent(local.toLocalTime())
         into[Variables.TIME_DAY_PROGRESS] = MetricValue.Number(dayProgress)
 
-        val profile = environment.activeProfile()
         if (profile?.timeTargetEnabled == true) {
             val target = TimeMath.targetMetrics(local, profile.timeTarget, chinese)
             into[Variables.TIME_TARGET] = MetricValue.Text(TimeMath.formatClock(target.target))

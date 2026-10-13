@@ -1,5 +1,9 @@
 # Endfield Charge Plus for Android
 
+下载与每版更新说明请查看本仓库 [Releases](https://github.com/GlacierGlimmer/zmd-charge-plus-for-android/releases)。README 保留通用安装和使用说明。
+
+内置世界时钟支持固定 UTC 偏移和原有目标时间模式；采样间隔、轮播动画与 ROOT 数据读取按 Android 能力配置。
+
 **Endfield Charge Plus for Android** — Endfield Charge Plus 的 Android 原生实现。
 
 这是一个真正的 Android 原生应用：Kotlin、Gradle Kotlin DSL、Jetpack Compose、Material 3、
@@ -14,8 +18,6 @@ Endfield Charge Plus
 └─ Android   ← 本仓库（独立原生实现）
 ```
 
-- 版本：`v0.1.1`（versionCode 2）；仅在用户要求时修改，测试构建不自动追加版本后缀。详见 [版本约定](docs/VERSIONING.md)。
-- 构建日期：`2026.10.11`；[v0.1.0-beta → v0.1.1 更新说明](docs/release-notes.md)。
 - 包名：`com.glacierglimmer.endfieldchargeplus`
 - `minSdk 26`，`compileSdk / targetSdk 36`
 - 作者：GlacierGlimmer / 冰川雪貓
@@ -145,16 +147,6 @@ HUD 隐藏、屏幕关闭或无人消费时会自动降频，网络请求有间�
 ---
 
 ## 六、发行检查
-
-| 项目 | 结果 |
-| --- | --- |
-| `:core:test` | v0.1.1：84 项通过 |
-| `:app:testReleaseUnitTest` | v0.1.1：385 项通过，包含正式版日志开关检查 |
-| `:app:lintRelease` | 0 错误、26 个非阻断警告 |
-| `:app:assembleRelease` / `:app:bundleRelease` | R8 优化、资源压缩、正式密钥签名的 APK 与 AAB |
-| 应用身份 | `com.glacierglimmer.endfieldchargeplus`，版本 v0.1.1，versionCode 2 |
-| 签名一致性 | 与 v0.1.0-beta 已发行包相同，可覆盖升级 |
-| 正式版界面 | 不显示开发日志开关；旧配置也不能开启开发日志 |
 
 本轮已根据实机反馈修复启动、权限刷新、灵动岛显示、界面卡顿及横竖屏问题。发行构建检查与设备覆盖范围分别记录，设备检查项目见 [docs/TESTING.md](docs/TESTING.md)，发行说明见 [docs/RELEASE.md](docs/RELEASE.md)。
 

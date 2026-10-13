@@ -54,6 +54,8 @@ data class HudProfile(
     /** Time category: day progress by default, or the remaining proportion to a daily target. */
     @SerialName("TimeTargetEnabled") val timeTargetEnabled: Boolean = false,
     @SerialName("TimeTarget") val timeTarget: String = "10:00:00",
+    /** Null keeps local time; world-clock offsets are stored in minutes. */
+    @SerialName("TimeUtcOffsetMinutes") val timeUtcOffsetMinutes: Int? = null,
 
     /** Optional per-profile GPU target. Empty means the first available adapter. */
     @SerialName("GpuAdapterId") val gpuAdapterId: String = "",

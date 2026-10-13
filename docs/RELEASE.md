@@ -1,6 +1,6 @@
-# Android v0.1.1 发行说明
+# Android v0.1.2 发行说明
 
-发行版本固定为 v0.1.1，versionCode 2。只有用户要求修改版本时才递增。
+发行版本固定为 v0.1.2，versionCode 3。只有用户要求修改版本时才递增。
 
 正式 APK 为覆盖四个 Android ABI 的通用安装包，最低 Android 8.0（API 26），目标 API 36。AAB 用于应用商店提交，不能直接安装。两者使用工作目录提供的正式密钥签名，证书与旧版正式 APK 一致；构建脚本通过 ECP_KEYSTORE_PROPERTIES 指定密钥配置，密钥及密码不进入源码或发行档案。
 

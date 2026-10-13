@@ -24,10 +24,10 @@ class HudCycleOrderTest {
         val expected = listOf(
             BuiltInProfiles.idOf(BuiltInProfiles.BATTERY),
             BuiltInProfiles.idOf(BuiltInProfiles.CPU),
-            BuiltInProfiles.idOf(BuiltInProfiles.MEMORY),
             BuiltInProfiles.idOf(BuiltInProfiles.GPU),
-            BuiltInProfiles.idOf(BuiltInProfiles.NETWORK),
+            BuiltInProfiles.idOf(BuiltInProfiles.MEMORY),
             BuiltInProfiles.idOf(BuiltInProfiles.DISK),
+            BuiltInProfiles.idOf(BuiltInProfiles.NETWORK),
             BuiltInProfiles.idOf(BuiltInProfiles.TIME_DAY_PROGRESS),
         )
         assertEquals(expected, HudCycleOrder.resolve(config()).map { it.id })

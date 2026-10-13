@@ -4,12 +4,14 @@ import com.glacierglimmer.endfieldchargeplus.core.i18n.BuiltInProfileLocalizatio
 import com.glacierglimmer.endfieldchargeplus.core.i18n.UiLanguage
 import com.glacierglimmer.endfieldchargeplus.core.metrics.MetricSnapshot
 import com.glacierglimmer.endfieldchargeplus.core.metrics.VariableAliases
+import com.glacierglimmer.endfieldchargeplus.core.metrics.WorldClockValues
 import com.glacierglimmer.endfieldchargeplus.core.model.HudColorRule
 import com.glacierglimmer.endfieldchargeplus.core.model.HudProfile
 import com.glacierglimmer.endfieldchargeplus.core.model.HudRenderData
 import com.glacierglimmer.endfieldchargeplus.core.model.MetricValue
 import com.glacierglimmer.endfieldchargeplus.core.template.TemplateEngine
 import kotlin.math.abs
+import java.time.Clock
 
 /**
  * Dependency-free [HudStateBuilder]: the Android port of `HudProfileRenderer.Render`.
@@ -33,7 +35,7 @@ import kotlin.math.abs
  *  * Colour rules are evaluated in order, the first match wins; a rule whose variable is missing,
  *    unavailable or textual never matches (a status string is not coerced to a number).
  */
-class HudStateBuilderImpl : HudStateBuilder {
+class HudStateBuilderImpl(private val clock: Clock = Clock.systemUTC()) : HudStateBuilder {
 
     /** Renders one frame of HUD text, ring progress and accent colour. */
     override fun build(
@@ -42,7 +44,8 @@ class HudStateBuilderImpl : HudStateBuilder {
         language: UiLanguage,
     ): HudRenderData {
         val localized = BuiltInProfileLocalization.forLanguage(profile, language)
-        val resolver = resolverFor(snapshot)
+        val effective = WorldClockValues.effectiveSnapshot(profile, snapshot, language, clock.instant())
+        val resolver = resolverFor(effective)
         return HudRenderData(
             tagline = TemplateEngine.render(localized.taglineTemplate, resolver),
             title = TemplateEngine.render(localized.titleTemplate, resolver),
@@ -50,16 +53,19 @@ class HudStateBuilderImpl : HudStateBuilder {
             secondaryText = TemplateEngine.render(localized.secondaryTemplate, resolver),
             rightText = TemplateEngine.render(localized.rightTemplate, resolver),
             rightSuffix = TemplateEngine.render(localized.rightSuffix, resolver),
-            progress = resolveProgress(localized, snapshot),
+            progress = progressFrom(localized, effective),
             leftIcon = localized.leftIcon,
             rightIcon = localized.rightIcon,
-            accentColor = resolveAccent(localized, snapshot),
+            accentColor = ruleFrom(localized, effective)?.color ?: localized.accentColor,
             simpleAnimation = !localized.animationMode.equals("Full", ignoreCase = true),
         )
     }
 
     /** The 0..1 progress-ring fraction, clamped into the profile's configured span. */
-    override fun resolveProgress(profile: HudProfile, snapshot: MetricSnapshot): Double {
+    override fun resolveProgress(profile: HudProfile, snapshot: MetricSnapshot): Double =
+        progressFrom(profile, WorldClockValues.effectiveSnapshot(profile, snapshot, instant = clock.instant()))
+
+    private fun progressFrom(profile: HudProfile, snapshot: MetricSnapshot): Double {
         val raw = TemplateEngine.evaluateNumber(
             profile.progressVariable,
             resolverFor(snapshot),
@@ -75,7 +81,10 @@ class HudStateBuilderImpl : HudStateBuilder {
         matchingRule(profile, snapshot)?.color ?: profile.accentColor
 
     /** The first rule whose numeric comparison succeeds, or `null`. */
-    override fun matchingRule(profile: HudProfile, snapshot: MetricSnapshot): HudColorRule? {
+    override fun matchingRule(profile: HudProfile, snapshot: MetricSnapshot): HudColorRule? =
+        ruleFrom(profile, WorldClockValues.effectiveSnapshot(profile, snapshot, instant = clock.instant()))
+
+    private fun ruleFrom(profile: HudProfile, snapshot: MetricSnapshot): HudColorRule? {
         for (rule in profile.colorRules) {
             if (rule.variable.isBlank()) continue
             val reading = snapshot[VariableAliases.canonical(rule.variable)] as? MetricValue.Number ?: continue

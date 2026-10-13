@@ -249,7 +249,7 @@ object EcpJson {
             "TaglineTemplate", "TitleTemplate", "PrimaryTemplate", "SecondaryTemplate",
             "RightTemplate", "RightSuffix", "ProgressVariable", "ProgressMin", "ProgressMax",
             "LeftIcon", "RightIcon", "AccentColor", "ColorRules", "TimeTargetEnabled",
-            "TimeTarget", "GpuAdapterId", "NetworkDisplayUnit", "NetworkPercentMode",
+            "TimeTarget", "TimeUtcOffsetMinutes", "GpuAdapterId", "NetworkDisplayUnit", "NetworkPercentMode",
             "NetworkReferenceValue", "NetworkReferenceUnit", "PingTarget", "ProbeProtocol",
             "ProbePort",
         )
@@ -292,7 +292,7 @@ object EcpJson {
         "SchemaVersion", "CycleSeconds", "ProbePort", "RefreshSeconds", "HudOffsetX", "HudOffsetY",
         "HudCustomX", "HudCustomY", "OverlayXPortrait", "OverlayYPortrait", "OverlayXLandscape",
         "OverlayYLandscape", "ProbeIntervalSeconds", "ProbeTimeoutMs", "ProbeSampleWindow",
-        "DeepSeekRefreshSeconds",
+        "DeepSeekRefreshSeconds", "TimeUtcOffsetMinutes",
     )
 
     private val LONG_KEYS: Set<String> = setOf(

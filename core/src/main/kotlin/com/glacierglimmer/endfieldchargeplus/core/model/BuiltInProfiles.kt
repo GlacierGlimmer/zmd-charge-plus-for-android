@@ -17,6 +17,7 @@ object BuiltInProfiles {
     const val GPU = "system.gpu"
     const val NETWORK = "system.network"
     const val DISK = "system.disk"
+    const val TIME_WORLD_CLOCK = "time.world-clock"
     const val TIME_DAY_PROGRESS = "time.day-progress"
     const val DEEPSEEK_BALANCE = "deepseek.balance-period"
     const val NETWORK_PROBE = "network.ping"
@@ -161,6 +162,28 @@ object BuiltInProfiles {
             timeTarget = "10:00:00",
         ),
         HudProfile(
+            id = idOf(TIME_WORLD_CLOCK),
+            isBuiltIn = true,
+            builtInKey = TIME_WORLD_CLOCK,
+            category = "时间",
+            name = "世界时钟",
+            animationMode = "Full",
+            taglineTemplate = "/// WORLD CLOCK",
+            titleTemplate = "世界时钟",
+            primaryTemplate = "{time.current}",
+            secondaryTemplate = " {time.utc_offset}",
+            rightTemplate = "{time.display.status_text}",
+            rightSuffix = "",
+            progressVariable = "time.display.progress",
+            progressMin = 0.0,
+            progressMax = 100.0,
+            leftIcon = "clock",
+            rightIcon = "clock",
+            timeTargetEnabled = false,
+            timeTarget = "10:00:00",
+            timeUtcOffsetMinutes = 0,
+        ),
+        HudProfile(
             id = idOf(DEEPSEEK_BALANCE),
             isBuiltIn = true,
             builtInKey = DEEPSEEK_BALANCE,
@@ -207,5 +230,5 @@ object BuiltInProfiles {
         ),
         HudProfile(id=idOf("system.display-fps"),isBuiltIn=true,builtInKey="system.display-fps",category="系统",name="显示器帧率",taglineTemplate="/// DISPLAY FPS",titleTemplate="显示器帧率",primaryTemplate="{frame.display.fps|0.0}",secondaryTemplate=" FPS",rightTemplate="{frame.display.percent|0}",rightSuffix="%",progressVariable="frame.display.percent",leftIcon="memory",rightIcon="memory"),
         HudProfile(id=idOf("system.window-fps"),isBuiltIn=true,builtInKey="system.window-fps",category="系统",name="窗口帧率",taglineTemplate="/// WINDOW FPS",titleTemplate="窗口帧率",primaryTemplate="{frame.window.fps|0.0}",secondaryTemplate=" FPS",rightTemplate="{frame.window.percent|0}",rightSuffix="%",progressVariable="frame.window.percent",leftIcon="memory",rightIcon="memory"),
-    )
+    ).sortedBy { BuiltInProfileOrder.rank(it.builtInKey) }
 }

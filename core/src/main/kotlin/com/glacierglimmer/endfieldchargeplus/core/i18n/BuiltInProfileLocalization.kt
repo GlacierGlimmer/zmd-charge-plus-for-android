@@ -79,6 +79,7 @@ object BuiltInProfileLocalization {
             "system.network" -> profile.copy(category = "System", name = "Network", titleTemplate = "Network")
             "system.disk" -> profile.copy(category = "System", name = "System Disk", titleTemplate = "System Disk")
             "time.day-progress" -> profile.copy(category = "Time", name = "Day Progress", titleTemplate = "Day Progress")
+            "time.world-clock" -> profile.copy(category = "Time", name = "World Clock", titleTemplate = "World Clock")
             "deepseek.balance-period" -> profile.copy(
                 category = "DeepSeek API",
                 name = "Balance / Period",

@@ -168,6 +168,7 @@ object VariableRegistry {
         device.screen_state|系统|TEXT||屏幕状态|Screen State|PowerManager.isInteractive / KEYGUARD：ON / OFF / LOCKED。|Screen state: ON / OFF / LOCKED.||标题 / 条件|Title / condition|Android Build / PowerManager / Settings 只读系统属性。
         device.brightness|系统|NUMBER||屏幕亮度|Screen Brightness|Settings.System.SCREEN_BRIGHTNESS（0-255）；不假设百分比。|Settings.System.SCREEN_BRIGHTNESS (0-255).|0|左侧信息|Left info|Android Build / PowerManager / Settings 只读系统属性。
         time.current|时间|TEXT||当前时间（24 小时）|Current|本地当前时间，格式 HH:mm:ss。|Current Current.||左侧主值|Primary value|纯本地计算，无需权限。
+        time.utc_offset|时间|TEXT||UTC 时区偏移|UTC Offset|当前 UTC 偏移；世界时钟中为所选固定偏移。|Current UTC offset; the selected fixed offset in World Clock.||左侧信息|Secondary value|纯本地计算，无需权限。
         time.date|时间|TEXT||当前日期|Date|本地当前日期，格式 yyyy-MM-dd。|Current Date.||标题 / 左侧信息|Title / Left info|纯本地计算，无需权限。
         time.display.progress|时间|PROGRESS|%|时间方案显示进度|Display Progress|时间方案用于圆环的进度；目标时间模式下为剩余比例。|Current Display Progress, reported in %.|0;0.0|右侧状态 / 圆环|Right status / Ring|纯本地计算，无需权限。
         time.display.status_text|时间|TEXT||时间方案状态文字|Display Status Text|普通模式显示当天进程；目标时间模式显示“剩余??%”。|Current Display Status Text.||右侧状态|Right status|纯本地计算，无需权限。

@@ -1,5 +1,6 @@
 package com.glacierglimmer.endfieldchargeplus.ui.screens.content
 
+import com.glacierglimmer.endfieldchargeplus.core.model.WorldClockTimeZones
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -520,6 +521,19 @@ private fun ContentEditor(
                 ),
             ) {
                 Column {
+                    if (WorldClockTimeZones.usesUtcOffset(profile)) {
+                        val minutes=WorldClockTimeZones.normalize(profile.timeUtcOffsetMinutes ?: 0)
+                        val zones=remember(minutes) {
+                            val known=WorldClockTimeZones.all
+                            if(known.any { it.minutes==minutes }) known else (known+com.glacierglimmer.endfieldchargeplus.core.model.WorldClockZone(minutes,"自定义偏移","Custom offset")).sortedBy { it.minutes }
+                        }
+                        DropdownRow(title=t("UTC 时区","UTC time zone"),options=zones.map { it.label(language) },
+                            selectedIndex=zones.indexOfFirst { it.minutes==minutes },
+                            onSelected={ index -> viewModel.updateDraft { it.copy(timeUtcOffsetMinutes=zones[index].minutes) } })
+                        Text(t("使用固定 UTC 偏移，不自动跟随夏令时。目标时间也按所选时区计算。",
+                            "Uses a fixed UTC offset without daylight-saving changes. The daily target uses this zone too."),
+                            style=MaterialTheme.typography.bodySmall,color=MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
                     SwitchRow(
                         title = t("目标时间模式", "Target-time mode"),
                         checked = profile.timeTargetEnabled,
@@ -606,10 +620,14 @@ private fun SchemeCard(
     val profiles = config.customHud.profiles
     val activeId = config.customHud.activeProfileId
     val displayName = EcpMessages.profileDisplayName(profile, language)
+    val clockPreset = builtIn && profile.builtInKey in listOf("time.day-progress", "time.world-clock")
 
     SectionCard(
         title = t("方案管理", "Scheme management"),
-        subtitle = t(
+        subtitle = if (clockPreset) t(
+            "时间选项直接保存；修改方案内容或名称时创建副本。",
+            "Time options save directly; editing content or the name creates a copy.",
+        ) else t(
             "选择当前显示的方案；内置方案保存时会创建副本。",
             "Choose the displayed scheme; saving a built-in creates a copy.",
         ),

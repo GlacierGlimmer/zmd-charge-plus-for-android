@@ -1,5 +1,9 @@
 # Endfield Charge Plus for Android
 
+See this repository’s [Releases](https://github.com/GlacierGlimmer/zmd-charge-plus-for-android/releases) for current downloads and per-version changes. This README covers installation and general usage.
+
+The built-in World clock supports fixed UTC offsets and target-time modes; sampling, rotation transitions and ROOT data adapt to Android capabilities.
+
 **Endfield Charge Plus for Android** — a native Android implementation of Endfield Charge Plus.
 
 This is a real native Android application: Kotlin, Gradle Kotlin DSL, Jetpack Compose, Material 3,
@@ -14,8 +18,6 @@ Endfield Charge Plus
 └─ Android   ← this repository (an independent native implementation)
 ```
 
-- Version: `v0.1.1` (versionCode 2); changed only on user request, with no automatic test suffix. See [version policy](docs/VERSIONING.md).
-- Build date: `2026.10.11`; [changes from v0.1.0-beta to v0.1.1](docs/release-notes.md).
 - Package: `com.glacierglimmer.endfieldchargeplus`
 - `minSdk 26`, `compileSdk / targetSdk 36`
 - Author: GlacierGlimmer / 冰川雪貓
@@ -169,15 +171,7 @@ consuming data, and network requests have interval floors and failure backoff.
 
 ## 6. Release checks
 
-| Item | Result |
-| --- | --- |
-| `:core:test` | v0.1.1: 84 tests passed |
-| `:app:testReleaseUnitTest` | v0.1.1: 385 tests passed, including the production logging guard |
-| `:app:lintRelease` | 0 errors and 26 non-blocking warnings |
-| `:app:assembleRelease` / `:app:bundleRelease` | R8 optimization, resource shrinking, APK and AAB signed with the production key |
-| Application identity | `com.glacierglimmer.endfieldchargeplus`, v0.1.1, versionCode 2 |
-| Signing continuity | Same certificate as the v0.1.0 production APK, allowing in-place upgrades |
-| Production UI | Development logging controls are hidden; imported settings cannot enable development logging |
+Release checks and device coverage are recorded in [the release notes](docs/release-notes.md) and [TESTING](docs/TESTING.md).
 
 Startup, permission refresh, Live Updates, UI stalls and orientation issues were corrected from device feedback. Build verification and device coverage are recorded separately. See [docs/TESTING.md](docs/TESTING.md) and [docs/RELEASE.md](docs/RELEASE.md).
 

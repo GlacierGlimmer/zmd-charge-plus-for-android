@@ -11,6 +11,7 @@ import com.glacierglimmer.endfieldchargeplus.core.model.DisplayMode
 import com.glacierglimmer.endfieldchargeplus.core.model.HudColorRule
 import com.glacierglimmer.endfieldchargeplus.core.model.HudPosition
 import com.glacierglimmer.endfieldchargeplus.core.model.HudPositionMode
+import com.glacierglimmer.endfieldchargeplus.core.model.WorldClockTimeZones
 import com.glacierglimmer.endfieldchargeplus.core.model.HudProfile
 import com.glacierglimmer.endfieldchargeplus.core.model.IslandProviderKind
 import com.glacierglimmer.endfieldchargeplus.core.model.NetworkDisplayUnit
@@ -172,7 +173,7 @@ object ConfigNormalizer {
                 }
             }
 
-            val dayProgress = builtIn.builtInKey.equals(BuiltInProfiles.TIME_DAY_PROGRESS, ignoreCase = true)
+            val dayProgress = builtIn.builtInKey.equals(BuiltInProfiles.TIME_DAY_PROGRESS, ignoreCase = true) || builtIn.builtInKey.equals(BuiltInProfiles.TIME_WORLD_CLOCK, ignoreCase = true)
             val gpu = builtIn.builtInKey.equals(BuiltInProfiles.GPU, ignoreCase = true)
             val canonical = builtIn.copy(
                 id = canonicalId,
@@ -180,6 +181,7 @@ object ConfigNormalizer {
                 builtInKey = builtIn.builtInKey,
                 frameDisplayId=existing?.frameDisplayId.orEmpty(), frameWindowId=existing?.frameWindowId.orEmpty(),
                 frameFullScaleFps=existing?.frameFullScaleFps?.takeIf { it.isFinite() }?.coerceIn(1.0,1000.0) ?: 120.0,
+                timeUtcOffsetMinutes = if(builtIn.builtInKey==BuiltInProfiles.TIME_WORLD_CLOCK) WorldClockTimeZones.normalize(existing?.timeUtcOffsetMinutes ?: 0) else null,
                 timeTargetEnabled = if (dayProgress) {
                     existing?.timeTargetEnabled ?: builtIn.timeTargetEnabled
                 } else {
@@ -321,6 +323,7 @@ object ConfigNormalizer {
             progressMin = progressMin,
             progressMax = progressMax,
             timeTarget = sanitizeTimeTarget(profile.timeTarget),
+            timeUtcOffsetMinutes = profile.timeUtcOffsetMinutes?.let(WorldClockTimeZones::normalize),
             pingTarget = profile.pingTarget.trim().ifBlank { DEFAULT_PING_TARGET },
             probeProtocol = tolerantWire(
                 profile.probeProtocol,

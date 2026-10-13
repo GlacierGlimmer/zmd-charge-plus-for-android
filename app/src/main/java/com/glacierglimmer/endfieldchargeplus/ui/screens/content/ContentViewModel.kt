@@ -149,6 +149,20 @@ class ContentViewModel(private val container: EcpContainer) : ViewModel() {
                 _message.value = ContentMessage.NOTHING_CHANGED
                 return
             }
+            if (!renamed && stored.builtInKey in listOf("time.day-progress","time.world-clock") &&
+                ProfileEdits.functionallyEquals(stored,current.copy(timeTargetEnabled=stored.timeTargetEnabled,timeTarget=stored.timeTarget,timeUtcOffsetMinutes=stored.timeUtcOffsetMinutes))) {
+                viewModelScope.launch {
+                    container.configRepository.update { config ->
+                        ProfileEdits.updateProfile(config, stored.id) {
+                            it.copy(timeTargetEnabled=current.timeTargetEnabled,
+                                timeTarget=current.timeTarget,timeUtcOffsetMinutes=current.timeUtcOffsetMinutes)
+                        }
+                    }
+                    loadDraft()
+                    _message.value=ContentMessage.SAVED
+                }
+                return
+            }
             val copyName = if (renamed) name else stored.name + modifiedSuffix
             update { ProfileEdits.saveBuiltInAsCustom(it, stored.id, current, copyName) }
             _message.value = ContentMessage.SAVED_AS_COPY
