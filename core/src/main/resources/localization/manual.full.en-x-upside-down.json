@@ -1,0 +1,388 @@
+[
+  {
+    "id": "start",
+    "title": "ᵷuᴉʇʇǝ⅁ pǝʇɹɐʇs",
+    "summary": "Home → HUD",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "uO Android, ʍoꞁꞁɐ sʎɐꞁɹǝʌo puɐ suoᴉʇɐɔᴉɟᴉʇou, uǝɥʇ ʇɹɐʇs ǝɥʇ HUD ɯoɹɟ ǝɯoH. sᵷuᴉʇʇǝS ǝʌɐs ʎꞁꞁɐɔᴉʇɐɯoʇnɐ. ǝɹɐʍpɹɐH sᵷuᴉpɐǝɹ puǝdǝp uo ɯǝʇsʎs ssǝɔɔɐ. PawnIO puɐ ǝɥʇ AIDA64 doʇʞsǝp ǝɔɐɟɹǝʇuᴉ ǝɹɐ Windows-ʎꞁuo. Android sꞁoɹʇuoɔ uoᴉʇɐɔᴉɟᴉʇou ʇnoʎɐꞁ puɐ ʇxǝʇ ǝzᴉs.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "HUD ʇuǝʇuoƆ → Built-in Profiles → ǝʌɐS",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      }
+    ]
+  },
+  {
+    "id": "display",
+    "title": "ʎɐꞁdsᴉᗡ, uoᴉʇᴉsod & ǝɔuɐɹɐǝddɐ",
+    "summary": "puɐʇsɹǝpu∩ ʎɐꞁdsᴉp sǝpoɯ puɐ uǝǝɹɔs sǝʇɐuᴉpɹooɔ.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "ʎɐꞁdsᴉᗡ & uoᴉʇᴉsoԀ → sʎɐʍꞁ∀ ǝꞁqᴉsᴉΛ / ʎɐꞁdsᴉᗡ ǝpoɯ / uoᴉʇᴉsoԀ / Opacity",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "ꞁɐqoꞁ⅁ ʇuoɟ ǝzᴉs puɐ UI ǝꞁɐɔs",
+        "body": "sǝᴉꞁdd∀ oʇ ꞁꞁɐ sᵷuᴉʇʇǝs puɐ ʎɹǝʌǝ HUD. ꞁɐnpᴉʌᴉpuI HUD ǝzᴉs sᴉ pǝᴉꞁdᴉʇꞁnɯ ʎq ꞁɐqoꞁᵷ UI ǝꞁɐɔs.",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "uO Android, ʍoꞁꞁɐ sʎɐꞁɹǝʌo puɐ suoᴉʇɐɔᴉɟᴉʇou, uǝɥʇ ʇɹɐʇs ǝɥʇ HUD ɯoɹɟ ǝɯoH. sᵷuᴉʇʇǝS ǝʌɐs ʎꞁꞁɐɔᴉʇɐɯoʇnɐ. ǝɹɐʍpɹɐH sᵷuᴉpɐǝɹ puǝdǝp uo ɯǝʇsʎs ssǝɔɔɐ. PawnIO puɐ ǝɥʇ AIDA64 doʇʞsǝp ǝɔɐɟɹǝʇuᴉ ǝɹɐ Windows-ʎꞁuo. Android sꞁoɹʇuoɔ uoᴉʇɐɔᴉɟᴉʇou ʇnoʎɐꞁ puɐ ʇxǝʇ ǝzᴉs.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "profiles",
+    "title": "sǝꞁᴉɟoɹԀ & HUD ʇuǝʇuoɔ",
+    "summary": "ǝsooɥƆ ʇɐɥʍ ǝɥʇ HUD sʍoɥs puɐ ʍoɥ ʇᴉ sʞooꞁ.",
+    "blocks": [
+      {
+        "id": "profile-actions",
+        "title": "ǝʇɐǝɹƆ, ǝʌɐs, ǝʇǝꞁǝp puɐ ʍǝᴉʌǝɹd",
+        "body": "ʇɹɐʇS ɯoɹɟ ɐ ʇꞁᴉnq-uᴉ ǝꞁᴉɟoɹd puɐ ǝʌɐS oʇ ǝʇɐǝɹɔ ɐ ɯoʇsnɔ ʎdoɔ, ɹo ǝʇɐǝɹɔ ɐ ʍǝu ǝꞁᴉɟoɹd. ǝʇǝꞁǝᗡ sǝʌoɯǝɹ ɯoʇsnɔ sǝꞁᴉɟoɹd ǝꞁᴉɥʍ ꞁɐuᴉᵷᴉɹo sʇǝsǝɹd uᴉɐɯǝɹ. ʍǝᴉʌǝɹԀ sǝsn ǝɥʇ ʇuǝɹɹnɔ ʇᴉpǝ puɐ ꞁɐǝɹ ɐʇɐp; ǝʌɐS sʇᴉɯɯoɔ ʇᴉ oʇ ǝɥʇ ᵷuᴉuunɹ HUD.",
+        "kind": "text",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "text-fields",
+        "title": "ʇxǝ⊥ suoᴉᵷǝɹ puɐ suoɔᴉ",
+        "body": "ǝuᴉꞁᵷɐ⊥, ǝꞁʇᴉʇ, ʎɹɐɯᴉɹd/ʎɹɐpuoɔǝs ʇxǝʇ puɐ ǝɥʇ ʇɥᵷᴉɹ-ǝpᴉs ǝnꞁɐʌ uɐɔ xᴉɯ ꞁɐɹǝʇᴉꞁ ʇxǝʇ puɐ ǝꞁqɐᴉɹɐʌ suǝʞoʇ. ǝs∩ ǝɥʇ ʇɥᵷᴉɹ xᴉɟɟns ɹoɟ sʇᴉun ɥɔns sɐ %, °Ɔ ɹo zH⅁. suoɔI ʎɟᴉʇuǝpᴉ ǝɥʇ ʇuǝʇuoɔ; ǝɥʇ ʇuǝɔɔɐ ɹoꞁoɔ sʇǝs ǝɥʇ ǝꞁnsdɐɔ puɐ ᵷuᴉɹ ɹoꞁoɔ.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "progress",
+        "title": "ᵷuᴉᴚ ǝꞁqɐᴉɹɐʌ puɐ ǝᵷuɐɹ",
+        "body": "ǝɥ⊥ ᵷuᴉɹ sdɐɯ (ǝnꞁɐʌ − ɯnɯᴉuᴉɯ) ɹǝʌo ǝɥʇ pǝɹnᵷᴉɟuoɔ ǝᵷuɐɹ, pǝdɯɐꞁɔ oʇ 0–100%. ǝs∩ ɐ ǝꞁqɐᴉɹɐʌ ʎǝʞ ɹo ɐ ɔᴉɹǝɯnu uoᴉssǝɹdxǝ ᵷuᴉuuᴉᵷǝq ɥʇᴉʍ =. ʇǝS ɐ ǝꞁqᴉsuǝs ꞁꞁnɟ-ǝꞁɐɔs ǝnꞁɐʌ ɹoɟ ǝɹnʇɐɹǝdɯǝʇ, ɔᴉɟɟɐɹʇ ɹo SԀℲ. ǝɥ⊥ ǝᵷuɐɹ sǝop ʇou ǝᵷuɐɥɔ ǝɥʇ ʍɐɹ ʇxǝʇ ᵷuᴉpɐǝɹ.",
+        "kind": "text",
+        "code": "cpu.usage\n= (cpu.usage + gpu.usage) / 2",
+        "target": null
+      },
+      {
+        "id": "color-rules",
+        "title": "ꞁɐuoᴉʇᴉpuoƆ sɹoꞁoɔ",
+        "body": "pp∀ ǝuo ǝꞁqɐᴉɹɐʌ/ɹoʇɐɹǝdo/pꞁoɥsǝɹɥʇ => ɹoꞁoɔ ǝꞁnɹ ɹǝd ǝuᴉꞁ. sǝꞁnᴚ ǝᵷuɐɥɔ ǝɥʇ ʇuǝɔɔɐ pǝsɐq uo pɐoꞁ, ǝɹnʇɐɹǝdɯǝʇ puɐ ɹǝɥʇo sǝnꞁɐʌ. spꞁoɥsǝɹɥ⊥ ǝsn ǝɥʇ ǝꞁqɐᴉɹɐʌ's ꞁɐuᴉᵷᴉɹo ʇᴉun. ǝs∩ pᴉꞁɐʌ ɹoꞁoɔ sǝnꞁɐʌ; ᵷuᴉssᴉɯ sʇuǝɯǝɹnsɐǝɯ ǝɹɐ ʇou pǝʇɐǝɹʇ sɐ oɹǝz.",
+        "kind": "text",
+        "code": "cpu.usage >= 90 => #FF4D4F\ncpu.usage >= 75 => #FFB84D",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "variables",
+    "title": "sǝꞁqɐᴉɹɐΛ, suǝʞoʇ & suoᴉssǝɹdxǝ",
+    "summary": "ʎdoƆ ɯoɹɟ ǝɥʇ ʎɹɐɹqᴉꞁ, uǝɥʇ pꞁᴉnq ǝꞁqɐpɐǝɹ HUD ʇxǝʇ.",
+    "blocks": [
+      {
+        "id": "library",
+        "title": "puᴉℲ puɐ ʎdoɔ ɐ ǝꞁqɐᴉɹɐʌ",
+        "body": "ɥɔɹɐǝS ʎq ǝɯɐu, ʎǝʞ ɹo ʎɹoᵷǝʇɐɔ ɹǝpun ɐʇɐᗡ ʇuǝɯǝᵷɐuɐW → ǝꞁqɐᴉɹɐΛ ʎɹɐɹqᴉ⅂. ʇɔǝꞁǝS ɐ ǝꞁqɐᴉɹɐʌ oʇ ǝǝs sʇᴉ ᵷuᴉuɐǝɯ, ǝdʎʇ, ʇᴉun puɐ sʇɐɯɹoɟ. ʎdoƆ ǝꞁqɐᴉɹɐΛ ʎǝ⋊ sᴉ ꞁnɟǝsn ɹoɟ sᵷuᴉɹ puɐ sǝꞁnɹ; ʎdoƆ ǝʇɐꞁdɯǝ⊥ sǝpnꞁɔuᴉ sǝɔɐɹq ɹoɟ ʇxǝʇ spꞁǝᴉɟ.",
+        "kind": "text",
+        "code": "",
+        "target": "variables"
+      },
+      {
+        "id": "format",
+        "title": "uoɯɯoƆ uǝʞoʇ sʇɐɯɹoɟ",
+        "body": "ǝɔɐꞁԀ ǝɥʇ ʎǝʞ uᴉ sǝɔɐɹq, pǝʍoꞁꞁoɟ ʎq | puɐ ɐ ʎɐꞁdsᴉp ʇɐɯɹoɟ. ǝs∩ 0 ɹoɟ sɹǝᵷǝʇuᴉ puɐ 0.0 / 0.00 ɹoɟ pǝxᴉɟ sꞁɐɯᴉɔǝp. ꞁɐɹǝʇᴉ⅂ ʇxǝʇ ʎɐɯ punoɹɹns suǝʞoʇ. ᵷuᴉʇʇɐɯɹoℲ sǝᵷuɐɥɔ ʎɐꞁdsᴉp ʎꞁuo.",
+        "kind": "text",
+        "code": "CPU {cpu.usage|0.0}%\n{cpu.frequency_ghz|0.00} GHz\n{= (cpu.usage + gpu.usage) / 2 |0.0}%",
+        "target": null
+      },
+      {
+        "id": "pipelines",
+        "title": "ɔᴉʇɐɯoʇn∀ sʇᴉun puɐ sǝuᴉꞁǝdᴉd",
+        "body": "auto:1 sǝsooɥɔ sʇᴉun pǝsɐq uo ǝɥʇ ǝꞁqɐᴉɹɐʌ; pᴉoʌɐ ᵷuᴉppɐ ǝɥʇ ǝɯɐs ʇᴉun ǝɔᴉʍʇ. ʇɐɯɹoℲ sǝuᴉꞁǝdᴉd unɹ ʇɟǝꞁ oʇ ʇɥᵷᴉɹ puɐ uɐɔ ɯɹoɟsuɐɹʇ sɹǝqɯnu ɹo uǝʇɹoɥs ʇxǝʇ. ǝs∩ {= ...} ɹoɟ ǝuᴉꞁuᴉ suoᴉssǝɹdxǝ, ɹo ʇɹɐʇs ɐ ᵷuᴉɹ uoᴉssǝɹdxǝ ɥʇᴉʍ =.",
+        "kind": "text",
+        "code": "{network.download_bps|auto:1}\n{cpu.usage|math:round:1|0.0}",
+        "target": null
+      },
+      {
+        "id": "operators",
+        "title": "sɹoʇɐɹǝdO puɐ suoᴉʇᴉpuoɔ",
+        "body": "ǝs∩ +, -, *, /, % ɹǝpuᴉɐɯǝɹ, ^ ɹǝʍod puɐ sǝsǝɥʇuǝɹɐd. suosᴉɹɐdɯoƆ ʇɹoddns >, >=, <, <=, == puɐ !=. uɐǝꞁoo𐐒 sɹoʇɐɹǝdo ǝpnꞁɔuᴉ &&, ||, ! puɐ puɐ/ɹo/ʇou. suoᴉʇᴉpuoƆ ǝsn ʇsǝʇ ? sǝʎ : ou ɹo ɟᴉ(ʇsǝʇ, sǝʎ, ou). ?? sǝᴉꞁddns ɐ ʞɔɐqꞁꞁɐɟ ɹoɟ ꞁꞁnu/ʎʇdɯǝ sǝnꞁɐʌ.",
+        "kind": "text",
+        "code": "{= cpu.usage >= 90 ? 'HIGH' : 'NORMAL'}\n{= clamp(cpu.usage, 0, 100)|0.0}",
+        "target": null
+      },
+      {
+        "id": "numeric-functions",
+        "title": "ɔᴉɹǝɯnN uoᴉʇɔunɟ ǝɔuǝɹǝɟǝɹ",
+        "body": "sǝʇɐᵷǝɹᵷᵷ∀: uᴉɯ, xɐɯ, ᵷʌɐ puɐ ɯns. ǝᵷuɐᴚ/uoᴉsᴉɔǝɹd: dɯɐꞁɔ(ǝnꞁɐʌ, uᴉɯ, xɐɯ), punoɹ(ǝnꞁɐʌ, sʇᴉᵷᴉp), ɹooꞁɟ, ꞁᴉǝɔ, sqɐ puɐ uᵷᴉs. ɥʇɐW: ʇɹბs, ʍod, ᵷoꞁ, ᵷoꞁ10, dxǝ, uᴉs, soɔ puɐ uɐʇ. ʇuǝɔɹǝd(ǝnꞁɐʌ, ꞁɐʇoʇ) suɹnʇǝɹ ɐ ǝᵷɐʇuǝɔɹǝd; uǝǝʍʇǝq(ǝnꞁɐʌ, uᴉɯ, xɐɯ) sʇsǝʇ uɐ ǝʌᴉsnꞁɔuᴉ ǝᵷuɐɹ.",
+        "kind": "text",
+        "code": "{= avg(cpu.usage, gpu.usage)|0.0}\n{= percent(memory.used_bytes, memory.total_bytes)|0.0}",
+        "target": null
+      },
+      {
+        "id": "text-functions",
+        "title": "ʇxǝ⊥, sǝdʎʇ puɐ ǝuᴉꞁǝdᴉd ǝɔuǝɹǝɟǝɹ",
+        "body": "uoᴉssǝɹdxƎ suoᴉʇɔunɟ: uǝꞁ, suᴉɐʇuoɔ, ɥʇᴉʍsʇɹɐʇs, ɥʇᴉʍspuǝ, upper, lower puɐ ʇɐɔuoɔ. ʇɹǝʌuoƆ sǝdʎʇ ɥʇᴉʍ ɹǝqɯnu, ᵷuᴉɹʇs ɹo ꞁooq; ʇɔǝdsuᴉ ɯǝɥʇ ɥʇᴉʍ ꞁꞁnusᴉ, ʎʇdɯǝsᴉ puɐ uɐusᴉ. uǝʞo⊥ sǝuᴉꞁǝdᴉd ʇɹoddns upper/lower, oɹǝz-pǝsɐq qns:ʇɹɐʇs:ɥʇᵷuǝꞁ, replace:old:new puɐ math:add/qns/ꞁnɯ/ʌᴉp/punoɹ/ɹooꞁɟ/ꞁᴉǝɔ/sqɐ.",
+        "kind": "text",
+        "code": "{media.title|sub:0:24}\n{cpu.usage|math:div:100|0.00}",
+        "target": null
+      },
+      {
+        "id": "units-time",
+        "title": "ʎʇᴉɔɐdɐƆ puɐ ǝɯᴉʇ sʇɐɯɹoɟ",
+        "body": "bytes / speed ppɐ ɔᴉʇɐɯoʇnɐ ǝʇʎq-ǝzᴉs ɹo ǝʇʎq-ǝʇɐɹ sʇᴉun. qʞ:u, qɯ:u, qᵷ:u puɐ qʇ:u ǝpᴉʌᴉp ʎq sɹǝʍod ɟo 1024 ɥʇᴉʍ u sꞁɐɯᴉɔǝp; ppɐ ǝɥʇ pǝɹᴉsǝp ʇᴉun uᴉ ǝɥʇ ǝꞁᴉɟoɹd. duration / duration-long ʇɐɯɹoɟ spuoɔǝs. ǝʇɐᗡ/ǝɯᴉʇ spꞁǝᴉɟ ʇɹoddns ǝɯᴉʇ:<ǝʇɐp ʇɐɯɹoɟ>; time:relative sʇɐɯɹoɟ ǝʌᴉʇɐꞁǝɹ ǝɯᴉʇ ɹo duration.",
+        "kind": "text",
+        "code": "{memory.used_bytes|gb:2} GiB\n{battery.time_remaining_seconds|duration}",
+        "target": null
+      },
+      {
+        "id": "duplicates",
+        "title": "ǝɹɐʍpɹɐH sǝꞁqɐᴉɹɐʌ puɐ ʎɔɐᵷǝꞁ sʎǝʞ",
+        "body": "ǝɔuO ʇuǝꞁɐʌᴉnბǝ ǝɹɐʍpɹɐɥ spꞁǝᴉɟ ǝɹɐ pǝɹǝʌoɔsᴉp, ǝʇɐɔᴉꞁdnp ʎɔɐᵷǝꞁ sǝᴉɹʇuǝ ǝʌɐǝꞁ ǝɥʇ ʎɹɐɹqᴉꞁ ǝꞁᴉɥʍ ᵷuᴉʇsᴉxǝ sǝꞁᴉɟoɹd dǝǝʞ ᵷuᴉʞɹoʍ. ʍǝN sʎǝʞ ʎɟᴉʇuǝpᴉ ɐ ɔᴉɟᴉɔǝds ǝɔᴉʌǝp puɐ ɹosuǝs. ʇsǝɥᵷᴉH/ǝᵷɐɹǝʌɐ sǝᴉɹɐɯɯns ǝʌɐɥ ʇuǝɹǝɟɟᴉp sᵷuᴉuɐǝɯ puɐ uᴉɐɯǝɹ ǝʇɐɹɐdǝs. -- suɐǝɯ ou pᴉꞁɐʌ ǝnꞁɐʌ sᴉ ʎꞁʇuǝɹɹnɔ ǝꞁqɐꞁᴉɐʌɐ.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "hardware",
+    "title": "ǝɹɐʍpɹɐH sɹosuǝs & sɹǝʌᴉɹp",
+    "summary": "ǝɹɐʍpɹɐH ɐʇɐᗡ",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "sʍoɥS sᵷuᴉpɐǝɹ ʎꞁꞁɐnʇɔɐ pǝpᴉʌoɹd ʎq ǝɥʇ ǝɔᴉʌǝp puɐ ɯǝʇsʎs. ǝꞁqɐꞁᴉɐʌɐu∩ sɯǝʇᴉ ʍoɥs -- puɐ ɹᴉǝɥʇ uosɐǝɹ.\n\nuO Android, ʍoꞁꞁɐ sʎɐꞁɹǝʌo puɐ suoᴉʇɐɔᴉɟᴉʇou, uǝɥʇ ʇɹɐʇs ǝɥʇ HUD ɯoɹɟ ǝɯoH. sᵷuᴉʇʇǝS ǝʌɐs ʎꞁꞁɐɔᴉʇɐɯoʇnɐ. ǝɹɐʍpɹɐH sᵷuᴉpɐǝɹ puǝdǝp uo ɯǝʇsʎs ssǝɔɔɐ. PawnIO puɐ ǝɥʇ AIDA64 doʇʞsǝp ǝɔɐɟɹǝʇuᴉ ǝɹɐ Windows-ʎꞁuo. Android sꞁoɹʇuoɔ uoᴉʇɐɔᴉɟᴉʇou ʇnoʎɐꞁ puɐ ʇxǝʇ ǝzᴉs.",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "ɐʇɐᗡ ʇuǝɯǝᵷɐuɐW → ǝɹɐʍpɹɐH ɐʇɐᗡ → ʎdoƆ ǝʇɐꞁdɯǝʇ",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      }
+    ]
+  },
+  {
+    "id": "sources",
+    "title": "ɐʇɐᗡ ǝɔɹnos uoᴉʇɐɹnᵷᴉɟuoɔ",
+    "summary": "ɐʇɐᗡ ǝɔɹnoS uoᴉʇɐɹnᵷᴉɟuoƆ",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "uO Android, ʍoꞁꞁɐ sʎɐꞁɹǝʌo puɐ suoᴉʇɐɔᴉɟᴉʇou, uǝɥʇ ʇɹɐʇs ǝɥʇ HUD ɯoɹɟ ǝɯoH. sᵷuᴉʇʇǝS ǝʌɐs ʎꞁꞁɐɔᴉʇɐɯoʇnɐ. ǝɹɐʍpɹɐH sᵷuᴉpɐǝɹ puǝdǝp uo ɯǝʇsʎs ssǝɔɔɐ. PawnIO puɐ ǝɥʇ AIDA64 doʇʞsǝp ǝɔɐɟɹǝʇuᴉ ǝɹɐ Windows-ʎꞁuo. Android sꞁoɹʇuoɔ uoᴉʇɐɔᴉɟᴉʇou ʇnoʎɐꞁ puɐ ʇxǝʇ ǝzᴉs.\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "deepseek",
+        "title": "DeepSeek ǝɔuɐꞁɐq puɐ ʞɐǝd spoᴉɹǝd",
+        "body": "ɹǝʇuƎ ɐ DeepSeek API ʎǝʞ ɹǝpun ɐʇɐᗡ ʇuǝɯǝᵷɐuɐW → ɐʇɐᗡ ǝɔɹnoS uoᴉʇɐɹnᵷᴉɟuoƆ, uǝɥʇ ǝʌɐS & ʎꞁdd∀. sʎǝ⋊ ǝɹɐ pǝʇdʎɹɔuǝ ɹoɟ ǝɥʇ ʇuǝɹɹnɔ Android ɹǝsn puɐ ʎɐɯ pǝǝu ǝɹ-ʎɹʇuǝ ɹoɟ ɹǝɥʇouɐ ʇunoɔɔɐ ɹo ǝuᴉɥɔɐɯ. ʞɐǝԀ sʍopuᴉʍ ǝsn ᵷuᴉɾᴉǝ𐐒 ǝɯᴉʇ puɐ ǝɥʇ ǝsǝuᴉɥƆ ʎɐpᴉꞁoɥ ɹɐpuǝꞁɐɔ; puǝʞǝǝʍ ǝʞɐɯ-dn sʎɐpʞɹoʍ uᴉɐɯǝɹ ɟɟo-ʞɐǝd.",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "http",
+        "title": "ǝɹnᵷᴉɟuoƆ HTTP / JSON",
+        "body": "ɹǝʇuƎ uɐ HTTP/SԀ⊥⊥H ⊥Ǝ⅁ ⅂ᴚ∩ ʇɐɥʇ suɹnʇǝɹ JSON puɐ ǝɯɐu ǝɥʇ ǝɔɹnos.\ndɐW ǝsuodsǝɹ sɥʇɐd ɥɔns sɐ data.value ɹo sɹǝʎɐꞁd[0].ǝɯɐu oʇ ǝꞁqɐᴉɹɐʌ sǝɯɐu.\nʇǝS pǝɹᴉnბǝɹ sɹǝpɐǝɥ puɐ ɥsǝɹɟǝɹ spuoɔǝs, ǝꞁqɐuǝ ǝɥʇ ǝɔɹnos, uǝɥʇ ǝʌɐS & ʎꞁdd∀.\npuᴉℲ custom.<source>.<variable> uᴉ ǝɥʇ ʎɹɐɹqᴉꞁ puɐ ǝsn ʇᴉ uᴉ ɐ ǝꞁᴉɟoɹd.",
+        "kind": "steps",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "http-example",
+        "title": "ǝꞁqɐʎdoƆ JSON ǝɹnʇɔnɹʇs",
+        "body": "sᴉɥ⊥ ǝɹnʇɔnɹʇs sᴉ pǝꞁqɐsᴉp. ǝɔɐꞁdǝᴚ ǝɥʇ ⅂ᴚ∩ ɥʇᴉʍ ɹnoʎ ꞁɐǝɹ ʇuᴉodpuǝ, ʇsnɾpɐ sɥʇɐd oʇ ǝɥʇ ǝsuodsǝɹ puɐ ʇǝs pǝꞁqɐuǝ oʇ ǝnɹʇ uǝɥʍ ʎpɐǝɹ. ${env:MY_API_KEY} spɐǝɹ ɐ ssǝɔoɹd ʇuǝɯuoɹᴉʌuǝ ǝꞁqɐᴉɹɐʌ pɐǝʇsuᴉ ɟo ᵷuᴉʇʇnd ɐ ʇǝɹɔǝs ʎꞁʇɔǝɹᴉp uᴉ JSON.",
+        "kind": "text",
+        "code": "[\n  {\n    \"name\": \"demo\",\n    \"enabled\": false,\n    \"url\": \"https://example.com/status\",\n    \"refreshSeconds\": 10,\n    \"headers\": { \"Authorization\": \"Bearer ${env:MY_API_KEY}\" },\n    \"fields\": [\n      { \"variable\": \"value\", \"jsonPath\": \"data.value\" },\n      { \"variable\": \"name\", \"jsonPath\": \"players[0].name\" }\n    ]\n  }\n]",
+        "target": null
+      },
+      {
+        "id": "http-errors",
+        "title": "snʇɐʇS, ǝɥɔɐɔ puɐ sɹoɹɹǝ",
+        "body": "ǝs∩ custom.<source>.status / ɹoɹɹǝ ɹoɟ ǝɔɹnos ǝʇɐʇs puɐ sǝɹnꞁᴉɐɟ. ǝɥ⊥ ɥsǝɹɟǝɹ ꞁɐʌɹǝʇuᴉ sꞁoɹʇuoɔ ᵷuᴉɥɔɐɔ, uǝʌǝ ɥʇᴉʍ ɹǝʇsɐɟ ꞁɐqoꞁᵷ ᵷuᴉꞁdɯɐs. ɹoℲ 401/403, ʞɔǝɥɔ uoᴉʇɐɔᴉʇuǝɥʇnɐ puɐ ssǝɔɔɐ. JSON sɥʇɐd ʇsnɯ ɥɔʇɐɯ ǝɥʇ ꞁɐnʇɔɐ ǝsuodsǝɹ ǝɹnʇɔnɹʇs.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "cycle",
+    "title": "ᵷuᴉꞁɔʎƆ, sʞɔᴉꞁɔ & suoᴉʇɐɯᴉuɐ",
+    "summary": "ꞁoɹʇuoƆ ʍoɥ sǝꞁᴉɟoɹd ǝʇɐuɹǝʇꞁɐ.",
+    "blocks": [
+      {
+        "id": "queue",
+        "title": "pꞁᴉn𐐒 ɐ ꞁǝsnoɹɐɔ ǝnǝnბ",
+        "body": "pp∀ sǝꞁᴉɟoɹd oʇ ǝɥʇ ǝnǝnბ puɐ ǝsn ǝʌoW d∩/uʍoᗡ oʇ ɹǝpɹo ɯǝɥʇ. ᵷuᴉʌoɯǝᴚ ɯoɹɟ ǝɥʇ ǝnǝnბ sǝop ʇou ǝʇǝꞁǝp ǝɥʇ ǝꞁᴉɟoɹd. ɔᴉʇɐɯoʇn∀ ᵷuᴉꞁɔʎɔ sǝɔuɐʌpɐ ʇɐ ǝɥʇ pǝɹnᵷᴉɟuoɔ ꞁɐʌɹǝʇuᴉ. u∀ ʎʇdɯǝ ǝnǝnბ sǝsn ǝɥʇ ǝʌᴉʇɔɐ ǝꞁᴉɟoɹd; ɐ ǝꞁᵷuᴉs-ɯǝʇᴉ ǝnǝnბ ʇouuɐɔ ɥɔʇᴉʍs oʇ ɐ ʇuǝɹǝɟɟᴉp ɯǝʇᴉ.",
+        "kind": "text",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "animation",
+        "title": "ǝǝɹɥ⊥ ǝꞁɔʎɔ suoᴉʇɐɯᴉuɐ",
+        "body": "ǝꞁdɯᴉS suǝʇɹoɥs ǝɥʇ uoᴉʇɐʇuǝsǝɹd; ꞁꞁnℲ sǝsn ǝɥʇ ǝʇǝꞁdɯoɔ uoɯɯns. ꞁꞁoᴚ d∩ sǝʌoɯ suoɔᴉ, sǝnꞁɐʌ puɐ ǝɥʇ ᵷuᴉɹ ǝpᴉsuᴉ ɐ ʇuǝʇsᴉsɹǝd ǝꞁnsdɐɔ ǝꞁᴉɥʍ ᵷuᴉuᴉɐʇǝɹ sʇᴉ ʍopuᴉʍ puɐ ɹǝʎɐꞁ. ꞁꞁoᴚ sǝᴉꞁddɐ oʇ ʇuǝʇsᴉsɹǝd sǝɥɔʇᴉʍs; ꞁɐᴉʇᴉuᴉ puɐ ʇuǝᴉsuɐɹʇ suoᴉʇɐʇuǝsǝɹd dǝǝʞ ɹᴉǝɥʇ ꞁɐɯɹou ʍoɥs/ʇɔɐɹʇǝɹ ǝꞁɔʎɔǝɟᴉꞁ. DeepSeek ʞɐǝd suoᴉʇᴉsuɐɹʇ dǝǝʞ ꞁꞁnℲ uoᴉʇɐɯᴉuɐ.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "click-cycle",
+        "title": "ʞɔᴉꞁƆ ɐ ʇuǝʇsᴉsɹǝd HUD oʇ ɥɔʇᴉʍs",
+        "body": "ǝꞁqɐuƎ ʞɔᴉꞁɔ ᵷuᴉꞁɔʎɔ oʇ ǝɔuɐʌpɐ ɥᵷnoɹɥʇ ǝɥʇ ǝnǝnბ uǝʌǝ ɥʇᴉʍ ɔᴉʇɐɯoʇnɐ ᵷuᴉꞁɔʎɔ ɟɟo. ɥɔɐƎ HUD sǝɔuɐʌpɐ sʇᴉ uʍo ǝɔuɐʇsuᴉ puɐ sʇǝsǝɹ sʇᴉ ǝꞁɔʎɔ ɹǝɯᴉʇ. ʇuǝɹɐdsuɐɹ⊥ sɐǝɹɐ uᴉɐɯǝɹ ʞɔᴉꞁɔ-ɥᵷnoɹɥʇ. ʎʇdɯƎ ɹo ǝꞁᵷuᴉs-ɯǝʇᴉ sǝnǝnბ op ʇou ɥɔʇᴉʍs.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "summons",
+    "title": "sʇnɔʇɹoɥS & ǝsnoɯ ʇoɥ sǝuoz",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "sʇnɔʇɹoɥS & ǝsnoɯ ʇoɥ sǝuoz · Unsupported\n\nuO Android, ʍoꞁꞁɐ sʎɐꞁɹǝʌo puɐ suoᴉʇɐɔᴉɟᴉʇou, uǝɥʇ ʇɹɐʇs ǝɥʇ HUD ɯoɹɟ ǝɯoH. sᵷuᴉʇʇǝS ǝʌɐs ʎꞁꞁɐɔᴉʇɐɯoʇnɐ. ǝɹɐʍpɹɐH sᵷuᴉpɐǝɹ puǝdǝp uo ɯǝʇsʎs ssǝɔɔɐ. PawnIO puɐ ǝɥʇ AIDA64 doʇʞsǝp ǝɔɐɟɹǝʇuᴉ ǝɹɐ Windows-ʎꞁuo. Android sꞁoɹʇuoɔ uoᴉʇɐɔᴉɟᴉʇou ʇnoʎɐꞁ puɐ ʇxǝʇ ǝzᴉs.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "triggers",
+    "title": "ʇuǝʌƎ ɹǝᵷᵷᴉɹʇ sǝꞁnɹ",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "ʇuǝʌƎ ɹǝᵷᵷᴉɹʇ sǝꞁnɹ · Unsupported\n\nuO Android, ʍoꞁꞁɐ sʎɐꞁɹǝʌo puɐ suoᴉʇɐɔᴉɟᴉʇou, uǝɥʇ ʇɹɐʇs ǝɥʇ HUD ɯoɹɟ ǝɯoH. sᵷuᴉʇʇǝS ǝʌɐs ʎꞁꞁɐɔᴉʇɐɯoʇnɐ. ǝɹɐʍpɹɐH sᵷuᴉpɐǝɹ puǝdǝp uo ɯǝʇsʎs ssǝɔɔɐ. PawnIO puɐ ǝɥʇ AIDA64 doʇʞsǝp ǝɔɐɟɹǝʇuᴉ ǝɹɐ Windows-ʎꞁuo. Android sꞁoɹʇuoɔ uoᴉʇɐɔᴉɟᴉʇou ʇnoʎɐꞁ puɐ ʇxǝʇ ǝzᴉs.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "special",
+    "title": "ǝɯᴉ⊥, ʞɹoʍʇǝu & SԀℲ sǝꞁᴉɟoɹd",
+    "summary": "ʇsnɾp∀ ǝɥʇ suoᴉʇdo ɔᴉɟᴉɔǝds oʇ ɥɔɐǝ ǝꞁᴉɟoɹd.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "pꞁɹoM ʞɔoꞁƆ → UTC\nʞɹoʍʇǝN → Mbps / MB/s\nʇǝʞɔɐԀ ǝqoɹԀ → ICMP / TCP / UDP",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "sʍoɥS sᵷuᴉpɐǝɹ ʎꞁꞁɐnʇɔɐ pǝpᴉʌoɹd ʎq ǝɥʇ ǝɔᴉʌǝp puɐ ɯǝʇsʎs. ǝꞁqɐꞁᴉɐʌɐu∩ sɯǝʇᴉ ʍoɥs -- puɐ ɹᴉǝɥʇ uosɐǝɹ.\n\nuO Android, ʍoꞁꞁɐ sʎɐꞁɹǝʌo puɐ suoᴉʇɐɔᴉɟᴉʇou, uǝɥʇ ʇɹɐʇs ǝɥʇ HUD ɯoɹɟ ǝɯoH. sᵷuᴉʇʇǝS ǝʌɐs ʎꞁꞁɐɔᴉʇɐɯoʇnɐ. ǝɹɐʍpɹɐH sᵷuᴉpɐǝɹ puǝdǝp uo ɯǝʇsʎs ssǝɔɔɐ. PawnIO puɐ ǝɥʇ AIDA64 doʇʞsǝp ǝɔɐɟɹǝʇuᴉ ǝɹɐ Windows-ʎꞁuo. Android sꞁoɹʇuoɔ uoᴉʇɐɔᴉɟᴉʇou ʇnoʎɐꞁ puɐ ʇxǝʇ ǝzᴉs.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "media",
+    "title": "ɐᴉpǝW uoᴉʇɐɯɹoɟuᴉ & ssǝɹᵷoɹd",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "ɐᴉpǝW uoᴉʇɐɯɹoɟuᴉ & ssǝɹᵷoɹd · Unsupported\n\nuO Android, ʍoꞁꞁɐ sʎɐꞁɹǝʌo puɐ suoᴉʇɐɔᴉɟᴉʇou, uǝɥʇ ʇɹɐʇs ǝɥʇ HUD ɯoɹɟ ǝɯoH. sᵷuᴉʇʇǝS ǝʌɐs ʎꞁꞁɐɔᴉʇɐɯoʇnɐ. ǝɹɐʍpɹɐH sᵷuᴉpɐǝɹ puǝdǝp uo ɯǝʇsʎs ssǝɔɔɐ. PawnIO puɐ ǝɥʇ AIDA64 doʇʞsǝp ǝɔɐɟɹǝʇuᴉ ǝɹɐ Windows-ʎꞁuo. Android sꞁoɹʇuoɔ uoᴉʇɐɔᴉɟᴉʇou ʇnoʎɐꞁ puɐ ʇxǝʇ ǝzᴉs.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "instances",
+    "title": "ꞁɐʇuǝɯᴉɹǝdxƎ ǝꞁdᴉʇꞁnɯ sᗡ∩H",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "ꞁɐʇuǝɯᴉɹǝdxƎ ǝꞁdᴉʇꞁnɯ sᗡ∩H · Unsupported\n\nuO Android, ʍoꞁꞁɐ sʎɐꞁɹǝʌo puɐ suoᴉʇɐɔᴉɟᴉʇou, uǝɥʇ ʇɹɐʇs ǝɥʇ HUD ɯoɹɟ ǝɯoH. sᵷuᴉʇʇǝS ǝʌɐs ʎꞁꞁɐɔᴉʇɐɯoʇnɐ. ǝɹɐʍpɹɐH sᵷuᴉpɐǝɹ puǝdǝp uo ɯǝʇsʎs ssǝɔɔɐ. PawnIO puɐ ǝɥʇ AIDA64 doʇʞsǝp ǝɔɐɟɹǝʇuᴉ ǝɹɐ Windows-ʎꞁuo. Android sꞁoɹʇuoɔ uoᴉʇɐɔᴉɟᴉʇou ʇnoʎɐꞁ puɐ ʇxǝʇ ǝzᴉs.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "maintenance",
+    "title": "uoᴉʇɐɹnᵷᴉɟuoƆ, dnʞɔɐq & ǝɔuɐuǝʇuᴉɐɯ",
+    "summary": "dǝǝ⋊ ɹnoʎ uoᴉʇɐɹnᵷᴉɟuoɔ puɐ ʇɔǝdsuᴉ sǝɹnꞁᴉɐɟ.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "ꞁɐʇuǝɯᴉɹǝdxƎ sǝɹnʇɐǝℲ → ʇɹodxƎ / ʇɹodɯI\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "advanced"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "uO Android, ʍoꞁꞁɐ sʎɐꞁɹǝʌo puɐ suoᴉʇɐɔᴉɟᴉʇou, uǝɥʇ ʇɹɐʇs ǝɥʇ HUD ɯoɹɟ ǝɯoH. sᵷuᴉʇʇǝS ǝʌɐs ʎꞁꞁɐɔᴉʇɐɯoʇnɐ. ǝɹɐʍpɹɐH sᵷuᴉpɐǝɹ puǝdǝp uo ɯǝʇsʎs ssǝɔɔɐ. PawnIO puɐ ǝɥʇ AIDA64 doʇʞsǝp ǝɔɐɟɹǝʇuᴉ ǝɹɐ Windows-ʎꞁuo. Android sꞁoɹʇuoɔ uoᴉʇɐɔᴉɟᴉʇou ʇnoʎɐꞁ puɐ ʇxǝʇ ǝzᴉs.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "troubleshooting",
+    "title": "ᵷuᴉʇooɥsǝꞁqnoɹ⊥ & sᵷuᴉuɹɐʍ",
+    "summary": "ǝs∩ ǝɥʇ ɯoʇdɯʎs oʇ puᴉɟ ǝɥʇ ʇɥᵷᴉɹ ᵷuᴉʇʇǝs.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Home → Permissions\nʎɐꞁdsᴉᗡ & uoᴉʇᴉsoԀ → sʎɐʍꞁ∀ ǝꞁqᴉsᴉΛ\nɐʇɐᗡ ʇuǝɯǝᵷɐuɐW → ǝɹɐʍpɹɐH ɐʇɐᗡ\n\nuO Android, ʍoꞁꞁɐ sʎɐꞁɹǝʌo puɐ suoᴉʇɐɔᴉɟᴉʇou, uǝɥʇ ʇɹɐʇs ǝɥʇ HUD ɯoɹɟ ǝɯoH. sᵷuᴉʇʇǝS ǝʌɐs ʎꞁꞁɐɔᴉʇɐɯoʇnɐ. ǝɹɐʍpɹɐH sᵷuᴉpɐǝɹ puǝdǝp uo ɯǝʇsʎs ssǝɔɔɐ. PawnIO puɐ ǝɥʇ AIDA64 doʇʞsǝp ǝɔɐɟɹǝʇuᴉ ǝɹɐ Windows-ʎꞁuo. Android sꞁoɹʇuoɔ uoᴉʇɐɔᴉɟᴉʇou ʇnoʎɐꞁ puɐ ʇxǝʇ ǝzᴉs.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  }
+]

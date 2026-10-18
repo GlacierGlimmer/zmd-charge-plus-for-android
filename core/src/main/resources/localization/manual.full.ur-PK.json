@@ -1,0 +1,380 @@
+[
+  {
+    "id": "start",
+    "title": "آغاز",
+    "summary": "Home → HUD",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android میں دوسری ایپس کے اوپر دکھانے اور اطلاعات کی اجازت دیں، پھر ہوم سے HUD شروع کریں۔ ترتیبات خود محفوظ ہوتی ہیں۔ ہارڈویئر کی ریڈنگ سسٹم کی اجازت پر منحصر ہے۔ PawnIO اور AIDA64 کا ڈیسک ٹاپ انٹرفیس صرف Windows کے لیے ہے۔ اطلاعات کی ترتیب اور متن کا حجم Android طے کرتا ہے۔",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "HUD کا مواد → Built-in Profiles → محفوظ کریں",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      }
+    ]
+  },
+  {
+    "id": "display",
+    "title": "نمائش، مقام اور شکل",
+    "summary": "اسکرین اور نمائش کا طریقہ چنیں۔",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "نمائش اور مقام → ہمیشہ دکھائیں / نمائش کی حالت / مقام / Opacity",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "مجموعی فونٹ سائز اور UI پیمانہ",
+        "body": "تمام ترتیبات اور ہر HUD پر لاگو ہوتا ہے۔ ہر HUD کے سائز کو مجموعی UI پیمانے سے ضرب دی جاتی ہے۔",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android میں دوسری ایپس کے اوپر دکھانے اور اطلاعات کی اجازت دیں، پھر ہوم سے HUD شروع کریں۔ ترتیبات خود محفوظ ہوتی ہیں۔ ہارڈویئر کی ریڈنگ سسٹم کی اجازت پر منحصر ہے۔ PawnIO اور AIDA64 کا ڈیسک ٹاپ انٹرفیس صرف Windows کے لیے ہے۔ اطلاعات کی ترتیب اور متن کا حجم Android طے کرتا ہے۔",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "profiles",
+    "title": "پروفائل اور HUD مواد",
+    "summary": "متن، آئیکن اور حلقہ ترتیب دیں۔",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "استعمال کے مراحل",
+        "body": "پروفائل بنائیں یا پہلے سے موجود کی نقل بدلیں۔\nعنوان، مرکزی و اضافی قدر، لاحقہ، آئیکن اور رنگ لکھیں۔\nحلقے کا متغیر اور حدود چنیں، پیش منظر دیکھیں اور لاگو کریں۔",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "تفصیل اور پیرامیٹر",
+        "body": "عام متن کے ساتھ خم دار قوسین میں متغیر لکھ سکتے ہیں۔ حلقہ منتخب حد کو 0–100% میں دکھاتا ہے، متنی عدد نہیں بدلتا۔ رنگ کی شرط اصل اکائی استعمال کرتی ہے۔ ذاتی پروفائل مٹانے سے پہلے سے موجود پروفائل نہیں مٹتے۔",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "progress",
+        "title": "مثال 1",
+        "body": "مثال نقل کرکے قدریں اپنی ترتیبات کے مطابق بدلیں۔ متغیرات، فنکشن کے نام اور کوڈ کی ترکیب تبدیل نہیں ہوتی۔",
+        "kind": "text",
+        "code": "cpu.usage\n= (cpu.usage + gpu.usage) / 2",
+        "target": null
+      },
+      {
+        "id": "color-rules",
+        "title": "مثال 2",
+        "body": "مثال نقل کرکے قدریں اپنی ترتیبات کے مطابق بدلیں۔ متغیرات، فنکشن کے نام اور کوڈ کی ترکیب تبدیل نہیں ہوتی۔",
+        "kind": "text",
+        "code": "cpu.usage >= 90 => #FF4D4F\ncpu.usage >= 75 => #FFB84D",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "variables",
+    "title": "متغیرات، سانچے اور عبارتیں",
+    "summary": "ڈیٹا ڈھونڈیں اور اس کا فارمیٹ طے کریں۔",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "استعمال کے مراحل",
+        "body": "ڈیٹا انتظام میں متغیر تلاش کرکے تفصیل اور اکائی پڑھیں۔\nقاعدے یا حلقے کے لیے نام، متن کے لیے سانچہ نقل کریں۔\nنیچے مثالیں اور حوالہ دیکھیں۔",
+        "kind": "steps",
+        "code": "",
+        "target": "variables"
+      },
+      {
+        "id": "details",
+        "title": "تفصیل اور پیرامیٹر",
+        "body": "فارمیٹ بائیں سے دائیں چلتے ہیں۔ 0.0 ایک اعشاری ہندسہ دیتا ہے؛ auto:1 اکائی خود چنتا ہے، اس لیے اکائی دوبارہ نہ لکھیں۔ فنکشن کے نام وہی رہتے اور پرانے متغیر نام کام کرتے ہیں۔ دہرائے گئے اندراج چھپتے ہیں، خلاصے باقی رہتے ہیں۔ -- کا مطلب درست قدر دستیاب نہیں۔",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "format",
+        "title": "مثال 1",
+        "body": "مثال نقل کرکے قدریں اپنی ترتیبات کے مطابق بدلیں۔ متغیرات، فنکشن کے نام اور کوڈ کی ترکیب تبدیل نہیں ہوتی۔",
+        "kind": "text",
+        "code": "CPU {cpu.usage|0.0}%\n{cpu.frequency_ghz|0.00} GHz\n{= (cpu.usage + gpu.usage) / 2 |0.0}%",
+        "target": null
+      },
+      {
+        "id": "pipelines",
+        "title": "مثال 2",
+        "body": "مثال نقل کرکے قدریں اپنی ترتیبات کے مطابق بدلیں۔ متغیرات، فنکشن کے نام اور کوڈ کی ترکیب تبدیل نہیں ہوتی۔",
+        "kind": "text",
+        "code": "{network.download_bps|auto:1}\n{cpu.usage|math:round:1|0.0}",
+        "target": null
+      },
+      {
+        "id": "operators",
+        "title": "مثال 3",
+        "body": "مثال نقل کرکے قدریں اپنی ترتیبات کے مطابق بدلیں۔ متغیرات، فنکشن کے نام اور کوڈ کی ترکیب تبدیل نہیں ہوتی۔",
+        "kind": "text",
+        "code": "{= cpu.usage >= 90 ? 'HIGH' : 'NORMAL'}\n{= clamp(cpu.usage, 0, 100)|0.0}",
+        "target": null
+      },
+      {
+        "id": "numeric-functions",
+        "title": "مثال 4",
+        "body": "مثال نقل کرکے قدریں اپنی ترتیبات کے مطابق بدلیں۔ متغیرات، فنکشن کے نام اور کوڈ کی ترکیب تبدیل نہیں ہوتی۔",
+        "kind": "text",
+        "code": "{= avg(cpu.usage, gpu.usage)|0.0}\n{= percent(memory.used_bytes, memory.total_bytes)|0.0}",
+        "target": null
+      },
+      {
+        "id": "text-functions",
+        "title": "مثال 5",
+        "body": "مثال نقل کرکے قدریں اپنی ترتیبات کے مطابق بدلیں۔ متغیرات، فنکشن کے نام اور کوڈ کی ترکیب تبدیل نہیں ہوتی۔",
+        "kind": "text",
+        "code": "{media.title|sub:0:24}\n{cpu.usage|math:div:100|0.00}",
+        "target": null
+      },
+      {
+        "id": "units-time",
+        "title": "مثال 6",
+        "body": "مثال نقل کرکے قدریں اپنی ترتیبات کے مطابق بدلیں۔ متغیرات، فنکشن کے نام اور کوڈ کی ترکیب تبدیل نہیں ہوتی۔",
+        "kind": "text",
+        "code": "{memory.used_bytes|gb:2} GiB\n{battery.time_remaining_seconds|duration}",
+        "target": null
+      },
+      {
+        "id": "function-reference",
+        "title": "فنکشن اور فارمیٹ کا حوالہ",
+        "body": "مثال نقل کرکے قدریں اپنی ترتیبات کے مطابق بدلیں۔ متغیرات، فنکشن کے نام اور کوڈ کی ترکیب تبدیل نہیں ہوتی۔",
+        "kind": "text",
+        "code": "+ - * / % ^    > >= < <= == !=    && || !    ?:    ??\nif(condition, yes, no)     between(value, min, max)\nmin(...) max(...) avg(...) sum(...) clamp(value, min, max)\nround(value, digits) floor(value) ceil(value) abs(value) sign(value)\nsqrt(value) pow(value, exponent) log(value) log10(value) exp(value)\nsin(value) cos(value) tan(value) percent(value, total)\nlen(text) contains(text, part) startswith(text, part) endswith(text, part)\nupper(text) lower(text) concat(...) number(value) string(value) bool(value)\nisnull(value) isempty(value) isnan(value)\n\n0 | 0.0 | 0.00 | auto:1 | bytes | speed | kb:1 | mb:1 | gb:2 | tb:2\nduration | duration-long | time:HH:mm:ss | time:relative\nupper | lower | sub:0:24 | replace:old:new | math:round:1\nmath:add:1 | math:sub:1 | math:mul:2 | math:div:2 | math:floor | math:ceil | math:abs",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "hardware",
+    "title": "سینسر اور ڈرائیور",
+    "summary": "ہارڈویئر کا ڈیٹا",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "آلے اور نظام کی جانب سے واقعی فراہم کردہ ریڈنگ دکھاتا ہے۔ غیر دستیاب اندراجات میں -- اور وجہ دکھائی جاتی ہے۔\n\nAndroid میں دوسری ایپس کے اوپر دکھانے اور اطلاعات کی اجازت دیں، پھر ہوم سے HUD شروع کریں۔ ترتیبات خود محفوظ ہوتی ہیں۔ ہارڈویئر کی ریڈنگ سسٹم کی اجازت پر منحصر ہے۔ PawnIO اور AIDA64 کا ڈیسک ٹاپ انٹرفیس صرف Windows کے لیے ہے۔ اطلاعات کی ترتیب اور متن کا حجم Android طے کرتا ہے۔",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "ڈیٹا کا انتظام → ہارڈویئر کا ڈیٹا → سانچہ کاپی کریں",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      }
+    ]
+  },
+  {
+    "id": "sources",
+    "title": "ڈیٹا ذرائع کی ترتیب",
+    "summary": "ڈیٹا ذرائع کی ترتیبات",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android میں دوسری ایپس کے اوپر دکھانے اور اطلاعات کی اجازت دیں، پھر ہوم سے HUD شروع کریں۔ ترتیبات خود محفوظ ہوتی ہیں۔ ہارڈویئر کی ریڈنگ سسٹم کی اجازت پر منحصر ہے۔ PawnIO اور AIDA64 کا ڈیسک ٹاپ انٹرفیس صرف Windows کے لیے ہے۔ اطلاعات کی ترتیب اور متن کا حجم Android طے کرتا ہے۔\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "guide",
+        "title": "استعمال کے مراحل",
+        "body": "DeepSeek کلید لکھ کر لاگو کریں۔\nHTTP کے لیے نام، GET URL، ہیڈر، وقفہ اور JSON راستے دے کر ذریعہ فعال کریں۔\nپروفائل میں custom.<source>.<variable> استعمال کریں۔",
+        "kind": "steps",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "details",
+        "title": "تفصیل اور پیرامیٹر",
+        "body": "",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "http-example",
+        "title": "مثال 1",
+        "body": "مثال نقل کرکے قدریں اپنی ترتیبات کے مطابق بدلیں۔ متغیرات، فنکشن کے نام اور کوڈ کی ترکیب تبدیل نہیں ہوتی۔",
+        "kind": "text",
+        "code": "[\n  {\n    \"name\": \"demo\",\n    \"enabled\": false,\n    \"url\": \"https://example.com/status\",\n    \"refreshSeconds\": 10,\n    \"headers\": { \"Authorization\": \"Bearer ${env:MY_API_KEY}\" },\n    \"fields\": [\n      { \"variable\": \"value\", \"jsonPath\": \"data.value\" },\n      { \"variable\": \"name\", \"jsonPath\": \"players[0].name\" }\n    ]\n  }\n]",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "cycle",
+    "title": "باری باری دکھانا اور حرکت",
+    "summary": "پروفائل ترتیب سے بدلیں۔",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "استعمال کے مراحل",
+        "body": "پروفائل فہرست میں ڈال کر ترتیب دیں۔\nچاہیں تو خودکار تبدیلی اور وقفہ فعال کریں۔\nسادہ، مکمل یا اوپر اسکرول حرکت چنیں۔\nہاتھ سے آگے بڑھنے کے لیے کلک سے تبدیلی فعال کریں۔",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "تفصیل اور پیرامیٹر",
+        "body": "فہرست سے نکالنا پروفائل مٹانا نہیں۔ خالی فہرست موجودہ پروفائل استعمال کرتی ہے؛ ایک اندراج دوسرے پر نہیں جاتا۔ اسکرول مستقل HUD کا مواد ہلاتا ہے۔ ہر HUD کی اپنی فہرست ہے؛ کلک اس کا ٹائمر دوبارہ شروع کرتا ہے۔ DeepSeek دور بدلنے پر مکمل حرکت ہوتی ہے۔",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "summons",
+    "title": "شارٹ کٹ اور ماؤس علاقے",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "شارٹ کٹ اور ماؤس علاقے · Unsupported\n\nAndroid میں دوسری ایپس کے اوپر دکھانے اور اطلاعات کی اجازت دیں، پھر ہوم سے HUD شروع کریں۔ ترتیبات خود محفوظ ہوتی ہیں۔ ہارڈویئر کی ریڈنگ سسٹم کی اجازت پر منحصر ہے۔ PawnIO اور AIDA64 کا ڈیسک ٹاپ انٹرفیس صرف Windows کے لیے ہے۔ اطلاعات کی ترتیب اور متن کا حجم Android طے کرتا ہے۔",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "triggers",
+    "title": "فعال کرنے کے قواعد",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "فعال کرنے کے قواعد · Unsupported\n\nAndroid میں دوسری ایپس کے اوپر دکھانے اور اطلاعات کی اجازت دیں، پھر ہوم سے HUD شروع کریں۔ ترتیبات خود محفوظ ہوتی ہیں۔ ہارڈویئر کی ریڈنگ سسٹم کی اجازت پر منحصر ہے۔ PawnIO اور AIDA64 کا ڈیسک ٹاپ انٹرفیس صرف Windows کے لیے ہے۔ اطلاعات کی ترتیب اور متن کا حجم Android طے کرتا ہے۔",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "special",
+    "title": "گھڑی، نیٹ ورک اور FPS",
+    "summary": "پروفائل کی خاص سہولتیں ترتیب دیں۔",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "عالمی گھڑی → UTC\nنیٹ ورک → Mbps / MB/s\nنیٹ ورک کی جانچ → ICMP / TCP / UDP",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "آلے اور نظام کی جانب سے واقعی فراہم کردہ ریڈنگ دکھاتا ہے۔ غیر دستیاب اندراجات میں -- اور وجہ دکھائی جاتی ہے۔\n\nAndroid میں دوسری ایپس کے اوپر دکھانے اور اطلاعات کی اجازت دیں، پھر ہوم سے HUD شروع کریں۔ ترتیبات خود محفوظ ہوتی ہیں۔ ہارڈویئر کی ریڈنگ سسٹم کی اجازت پر منحصر ہے۔ PawnIO اور AIDA64 کا ڈیسک ٹاپ انٹرفیس صرف Windows کے لیے ہے۔ اطلاعات کی ترتیب اور متن کا حجم Android طے کرتا ہے۔",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "media",
+    "title": "میڈیا اور پیش رفت",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "میڈیا اور پیش رفت · Unsupported\n\nAndroid میں دوسری ایپس کے اوپر دکھانے اور اطلاعات کی اجازت دیں، پھر ہوم سے HUD شروع کریں۔ ترتیبات خود محفوظ ہوتی ہیں۔ ہارڈویئر کی ریڈنگ سسٹم کی اجازت پر منحصر ہے۔ PawnIO اور AIDA64 کا ڈیسک ٹاپ انٹرفیس صرف Windows کے لیے ہے۔ اطلاعات کی ترتیب اور متن کا حجم Android طے کرتا ہے۔",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "instances",
+    "title": "تجرباتی متعدد HUD",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "تجرباتی متعدد HUD · Unsupported\n\nAndroid میں دوسری ایپس کے اوپر دکھانے اور اطلاعات کی اجازت دیں، پھر ہوم سے HUD شروع کریں۔ ترتیبات خود محفوظ ہوتی ہیں۔ ہارڈویئر کی ریڈنگ سسٹم کی اجازت پر منحصر ہے۔ PawnIO اور AIDA64 کا ڈیسک ٹاپ انٹرفیس صرف Windows کے لیے ہے۔ اطلاعات کی ترتیب اور متن کا حجم Android طے کرتا ہے۔",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "maintenance",
+    "title": "ترتیبات اور دیکھ بھال",
+    "summary": "بیک اپ رکھیں اور تشخیص دیکھیں۔",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "تجرباتی خصوصیات → برآمد / درآمد\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "advanced"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android میں دوسری ایپس کے اوپر دکھانے اور اطلاعات کی اجازت دیں، پھر ہوم سے HUD شروع کریں۔ ترتیبات خود محفوظ ہوتی ہیں۔ ہارڈویئر کی ریڈنگ سسٹم کی اجازت پر منحصر ہے۔ PawnIO اور AIDA64 کا ڈیسک ٹاپ انٹرفیس صرف Windows کے لیے ہے۔ اطلاعات کی ترتیب اور متن کا حجم Android طے کرتا ہے۔",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "troubleshooting",
+    "title": "مسائل اور تنبیہات",
+    "summary": "نمائش اور ڈیٹا ذرائع دیکھیں۔",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Home → Permissions\nنمائش اور مقام → ہمیشہ دکھائیں\nڈیٹا کا انتظام → ہارڈویئر کا ڈیٹا\n\nAndroid میں دوسری ایپس کے اوپر دکھانے اور اطلاعات کی اجازت دیں، پھر ہوم سے HUD شروع کریں۔ ترتیبات خود محفوظ ہوتی ہیں۔ ہارڈویئر کی ریڈنگ سسٹم کی اجازت پر منحصر ہے۔ PawnIO اور AIDA64 کا ڈیسک ٹاپ انٹرفیس صرف Windows کے لیے ہے۔ اطلاعات کی ترتیب اور متن کا حجم Android طے کرتا ہے۔",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  }
+]

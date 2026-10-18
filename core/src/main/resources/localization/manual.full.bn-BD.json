@@ -1,0 +1,380 @@
+[
+  {
+    "id": "start",
+    "title": "শুরু করুন",
+    "summary": "Home → HUD",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android-এ অন্য অ্যাপের উপর দেখানো ও বিজ্ঞপ্তির অনুমতি দিন, তারপর হোম থেকে HUD চালু করুন। সেটিংস নিজে থেকেই সংরক্ষিত হয়। হার্ডওয়্যারের পাঠ সিস্টেমের অনুমতির উপর নির্ভর করে। PawnIO এবং AIDA64 ডেস্কটপ ইন্টারফেস শুধু Windows-এর জন্য। বিজ্ঞপ্তির বিন্যাস ও লেখার আকার Android নিয়ন্ত্রণ করে।",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "HUD-এর বিষয়বস্তু → Built-in Profiles → সংরক্ষণ",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      }
+    ]
+  },
+  {
+    "id": "display",
+    "title": "প্রদর্শন, অবস্থান ও চেহারা",
+    "summary": "মনিটর ও প্রদর্শন পদ্ধতি ঠিক করুন।",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "প্রদর্শন ও অবস্থান → সবসময় দেখান / প্রদর্শন মোড / অবস্থান / Opacity",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "সামগ্রিক ফন্টের আকার ও UI স্কেল",
+        "body": "সব সেটিং ও প্রতিটি HUD-তে প্রযোজ্য। প্রতিটি HUD-এর আকারকে সামগ্রিক UI স্কেল দিয়ে গুণ করা হয়।",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android-এ অন্য অ্যাপের উপর দেখানো ও বিজ্ঞপ্তির অনুমতি দিন, তারপর হোম থেকে HUD চালু করুন। সেটিংস নিজে থেকেই সংরক্ষিত হয়। হার্ডওয়্যারের পাঠ সিস্টেমের অনুমতির উপর নির্ভর করে। PawnIO এবং AIDA64 ডেস্কটপ ইন্টারফেস শুধু Windows-এর জন্য। বিজ্ঞপ্তির বিন্যাস ও লেখার আকার Android নিয়ন্ত্রণ করে।",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "profiles",
+    "title": "প্রোফাইল ও HUD বিষয়বস্তু",
+    "summary": "লেখা, আইকন ও বলয় সাজান।",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "ব্যবহারের ধাপ",
+        "body": "প্রোফাইল তৈরি করুন বা অন্তর্নির্মিতটির কপি সম্পাদনা করুন।\nশিরোনাম, প্রধান ও সহায়ক মান, প্রত্যয়, আইকন ও রং দিন।\nবলয়ের ভেরিয়েবল ও সীমা বেছে পূর্বরূপ দেখে প্রয়োগ করুন।",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "বিবরণ ও পরামিতি",
+        "body": "সাধারণ লেখার সঙ্গে বন্ধনীর ভেরিয়েবল মেশানো যায়। বলয় নির্বাচিত সীমাকে ০–১০০ শতাংশে দেখায়, লিখিত মান বদলায় না। রঙের শর্ত মূল একক ব্যবহার করে। নিজস্ব প্রোফাইল মুছলে অন্তর্নির্মিতটি মুছে না।",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "progress",
+        "title": "উদাহরণ 1",
+        "body": "উদাহরণ কপি করে নিজের সেটিং অনুযায়ী মান বদলান। ভেরিয়েবল, ফাংশনের নাম ও কোডের গঠন অনুবাদ করা হয় না।",
+        "kind": "text",
+        "code": "cpu.usage\n= (cpu.usage + gpu.usage) / 2",
+        "target": null
+      },
+      {
+        "id": "color-rules",
+        "title": "উদাহরণ 2",
+        "body": "উদাহরণ কপি করে নিজের সেটিং অনুযায়ী মান বদলান। ভেরিয়েবল, ফাংশনের নাম ও কোডের গঠন অনুবাদ করা হয় না।",
+        "kind": "text",
+        "code": "cpu.usage >= 90 => #FF4D4F\ncpu.usage >= 75 => #FFB84D",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "variables",
+    "title": "ভেরিয়েবল, টেমপ্লেট ও অভিব্যক্তি",
+    "summary": "তথ্য খুঁজে প্রদর্শনের রূপ ঠিক করুন।",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "ব্যবহারের ধাপ",
+        "body": "তথ্য ব্যবস্থাপনায় ভেরিয়েবল খুঁজে বিবরণ ও একক পড়ুন।\nনিয়ম বা বলয়ের জন্য নাম, লেখার জন্য টেমপ্লেট কপি করুন।\nনিচের উদাহরণ ও নির্দেশিকা দেখুন।",
+        "kind": "steps",
+        "code": "",
+        "target": "variables"
+      },
+      {
+        "id": "details",
+        "title": "বিবরণ ও পরামিতি",
+        "body": "ফরম্যাট বাঁ থেকে ডানে চলে। 0.0 এক ঘর দশমিক দেখায়; auto:1 নিজে একক বেছে নেয়, তাই একক আবার যোগ করবেন না। ফাংশনের নাম অপরিবর্তিত, পুরোনো ভেরিয়েবলও কাজ করে। সদৃশগুলো লুকানো হয়, সারাংশ থাকে। -- মানে বৈধ তথ্য নেই।",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "format",
+        "title": "উদাহরণ 1",
+        "body": "উদাহরণ কপি করে নিজের সেটিং অনুযায়ী মান বদলান। ভেরিয়েবল, ফাংশনের নাম ও কোডের গঠন অনুবাদ করা হয় না।",
+        "kind": "text",
+        "code": "CPU {cpu.usage|0.0}%\n{cpu.frequency_ghz|0.00} GHz\n{= (cpu.usage + gpu.usage) / 2 |0.0}%",
+        "target": null
+      },
+      {
+        "id": "pipelines",
+        "title": "উদাহরণ 2",
+        "body": "উদাহরণ কপি করে নিজের সেটিং অনুযায়ী মান বদলান। ভেরিয়েবল, ফাংশনের নাম ও কোডের গঠন অনুবাদ করা হয় না।",
+        "kind": "text",
+        "code": "{network.download_bps|auto:1}\n{cpu.usage|math:round:1|0.0}",
+        "target": null
+      },
+      {
+        "id": "operators",
+        "title": "উদাহরণ 3",
+        "body": "উদাহরণ কপি করে নিজের সেটিং অনুযায়ী মান বদলান। ভেরিয়েবল, ফাংশনের নাম ও কোডের গঠন অনুবাদ করা হয় না।",
+        "kind": "text",
+        "code": "{= cpu.usage >= 90 ? 'HIGH' : 'NORMAL'}\n{= clamp(cpu.usage, 0, 100)|0.0}",
+        "target": null
+      },
+      {
+        "id": "numeric-functions",
+        "title": "উদাহরণ 4",
+        "body": "উদাহরণ কপি করে নিজের সেটিং অনুযায়ী মান বদলান। ভেরিয়েবল, ফাংশনের নাম ও কোডের গঠন অনুবাদ করা হয় না।",
+        "kind": "text",
+        "code": "{= avg(cpu.usage, gpu.usage)|0.0}\n{= percent(memory.used_bytes, memory.total_bytes)|0.0}",
+        "target": null
+      },
+      {
+        "id": "text-functions",
+        "title": "উদাহরণ 5",
+        "body": "উদাহরণ কপি করে নিজের সেটিং অনুযায়ী মান বদলান। ভেরিয়েবল, ফাংশনের নাম ও কোডের গঠন অনুবাদ করা হয় না।",
+        "kind": "text",
+        "code": "{media.title|sub:0:24}\n{cpu.usage|math:div:100|0.00}",
+        "target": null
+      },
+      {
+        "id": "units-time",
+        "title": "উদাহরণ 6",
+        "body": "উদাহরণ কপি করে নিজের সেটিং অনুযায়ী মান বদলান। ভেরিয়েবল, ফাংশনের নাম ও কোডের গঠন অনুবাদ করা হয় না।",
+        "kind": "text",
+        "code": "{memory.used_bytes|gb:2} GiB\n{battery.time_remaining_seconds|duration}",
+        "target": null
+      },
+      {
+        "id": "function-reference",
+        "title": "ফাংশন ও ফরম্যাট নির্দেশিকা",
+        "body": "উদাহরণ কপি করে নিজের সেটিং অনুযায়ী মান বদলান। ভেরিয়েবল, ফাংশনের নাম ও কোডের গঠন অনুবাদ করা হয় না।",
+        "kind": "text",
+        "code": "+ - * / % ^    > >= < <= == !=    && || !    ?:    ??\nif(condition, yes, no)     between(value, min, max)\nmin(...) max(...) avg(...) sum(...) clamp(value, min, max)\nround(value, digits) floor(value) ceil(value) abs(value) sign(value)\nsqrt(value) pow(value, exponent) log(value) log10(value) exp(value)\nsin(value) cos(value) tan(value) percent(value, total)\nlen(text) contains(text, part) startswith(text, part) endswith(text, part)\nupper(text) lower(text) concat(...) number(value) string(value) bool(value)\nisnull(value) isempty(value) isnan(value)\n\n0 | 0.0 | 0.00 | auto:1 | bytes | speed | kb:1 | mb:1 | gb:2 | tb:2\nduration | duration-long | time:HH:mm:ss | time:relative\nupper | lower | sub:0:24 | replace:old:new | math:round:1\nmath:add:1 | math:sub:1 | math:mul:2 | math:div:2 | math:floor | math:ceil | math:abs",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "hardware",
+    "title": "সেন্সর ও ড্রাইভার",
+    "summary": "হার্ডওয়্যার ডেটা",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "ডিভাইস ও সিস্টেম প্রকৃতপক্ষে যে পাঠ দেয় তা দেখায়। অনুপলব্ধ ক্ষেত্রে -- ও কারণ দেখায়।\n\nAndroid-এ অন্য অ্যাপের উপর দেখানো ও বিজ্ঞপ্তির অনুমতি দিন, তারপর হোম থেকে HUD চালু করুন। সেটিংস নিজে থেকেই সংরক্ষিত হয়। হার্ডওয়্যারের পাঠ সিস্টেমের অনুমতির উপর নির্ভর করে। PawnIO এবং AIDA64 ডেস্কটপ ইন্টারফেস শুধু Windows-এর জন্য। বিজ্ঞপ্তির বিন্যাস ও লেখার আকার Android নিয়ন্ত্রণ করে।",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "ডেটা ব্যবস্থাপনা → হার্ডওয়্যার ডেটা → টেমপ্লেট কপি করুন",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      }
+    ]
+  },
+  {
+    "id": "sources",
+    "title": "তথ্য উৎসের সেটিং",
+    "summary": "ডেটা উৎসের সেটিংস",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android-এ অন্য অ্যাপের উপর দেখানো ও বিজ্ঞপ্তির অনুমতি দিন, তারপর হোম থেকে HUD চালু করুন। সেটিংস নিজে থেকেই সংরক্ষিত হয়। হার্ডওয়্যারের পাঠ সিস্টেমের অনুমতির উপর নির্ভর করে। PawnIO এবং AIDA64 ডেস্কটপ ইন্টারফেস শুধু Windows-এর জন্য। বিজ্ঞপ্তির বিন্যাস ও লেখার আকার Android নিয়ন্ত্রণ করে।\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "guide",
+        "title": "ব্যবহারের ধাপ",
+        "body": "DeepSeek কী লিখে প্রয়োগ করুন।\nHTTP-এর নাম, GET URL, হেডার, বিরতি ও JSON পথ দিয়ে উৎস চালু করুন।\nপ্রোফাইলে custom.<source>.<variable> ব্যবহার করুন।",
+        "kind": "steps",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "details",
+        "title": "বিবরণ ও পরামিতি",
+        "body": "",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "http-example",
+        "title": "উদাহরণ 1",
+        "body": "উদাহরণ কপি করে নিজের সেটিং অনুযায়ী মান বদলান। ভেরিয়েবল, ফাংশনের নাম ও কোডের গঠন অনুবাদ করা হয় না।",
+        "kind": "text",
+        "code": "[\n  {\n    \"name\": \"demo\",\n    \"enabled\": false,\n    \"url\": \"https://example.com/status\",\n    \"refreshSeconds\": 10,\n    \"headers\": { \"Authorization\": \"Bearer ${env:MY_API_KEY}\" },\n    \"fields\": [\n      { \"variable\": \"value\", \"jsonPath\": \"data.value\" },\n      { \"variable\": \"name\", \"jsonPath\": \"players[0].name\" }\n    ]\n  }\n]",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "cycle",
+    "title": "পালাবদল ও অ্যানিমেশন",
+    "summary": "প্রোফাইলগুলো পর্যায়ক্রমে দেখান।",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "ব্যবহারের ধাপ",
+        "body": "তালিকায় প্রোফাইল যোগ করে ক্রম ঠিক করুন।\nপ্রয়োজনে স্বয়ংক্রিয় পরিবর্তন ও বিরতি দিন।\nসরল, পূর্ণ বা ওপরের দিকে স্ক্রল বাছুন।\nহাতে এগোতে ক্লিকে পরিবর্তন চালু করুন।",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "বিবরণ ও পরামিতি",
+        "body": "তালিকা থেকে সরালে প্রোফাইল মোছে না। ফাঁকা তালিকা বর্তমান প্রোফাইল নেয়; একটিমাত্র আইটেম অন্য প্রোফাইলে যায় না। স্ক্রল স্থায়ী HUD-এর বিষয়বস্তু সরায়। প্রতি HUD-এর নিজস্ব তালিকা; ক্লিক তার সময়গণনা আবার শুরু করে। DeepSeek সময়কাল বদলালে পূর্ণ অ্যানিমেশন চলে।",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "summons",
+    "title": "শর্টকাট ও মাউস এলাকা",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "শর্টকাট ও মাউস এলাকা · Unsupported\n\nAndroid-এ অন্য অ্যাপের উপর দেখানো ও বিজ্ঞপ্তির অনুমতি দিন, তারপর হোম থেকে HUD চালু করুন। সেটিংস নিজে থেকেই সংরক্ষিত হয়। হার্ডওয়্যারের পাঠ সিস্টেমের অনুমতির উপর নির্ভর করে। PawnIO এবং AIDA64 ডেস্কটপ ইন্টারফেস শুধু Windows-এর জন্য। বিজ্ঞপ্তির বিন্যাস ও লেখার আকার Android নিয়ন্ত্রণ করে।",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "triggers",
+    "title": "সক্রিয়করণের নিয়ম",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "সক্রিয়করণের নিয়ম · Unsupported\n\nAndroid-এ অন্য অ্যাপের উপর দেখানো ও বিজ্ঞপ্তির অনুমতি দিন, তারপর হোম থেকে HUD চালু করুন। সেটিংস নিজে থেকেই সংরক্ষিত হয়। হার্ডওয়্যারের পাঠ সিস্টেমের অনুমতির উপর নির্ভর করে। PawnIO এবং AIDA64 ডেস্কটপ ইন্টারফেস শুধু Windows-এর জন্য। বিজ্ঞপ্তির বিন্যাস ও লেখার আকার Android নিয়ন্ত্রণ করে।",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "special",
+    "title": "ঘড়ি, নেটওয়ার্ক ও FPS",
+    "summary": "প্রোফাইলের বিশেষ সুবিধা ঠিক করুন।",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "বিশ্ব ঘড়ি → UTC\nনেটওয়ার্ক → Mbps / MB/s\nনেটওয়ার্ক পরীক্ষা → ICMP / TCP / UDP",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "ডিভাইস ও সিস্টেম প্রকৃতপক্ষে যে পাঠ দেয় তা দেখায়। অনুপলব্ধ ক্ষেত্রে -- ও কারণ দেখায়।\n\nAndroid-এ অন্য অ্যাপের উপর দেখানো ও বিজ্ঞপ্তির অনুমতি দিন, তারপর হোম থেকে HUD চালু করুন। সেটিংস নিজে থেকেই সংরক্ষিত হয়। হার্ডওয়্যারের পাঠ সিস্টেমের অনুমতির উপর নির্ভর করে। PawnIO এবং AIDA64 ডেস্কটপ ইন্টারফেস শুধু Windows-এর জন্য। বিজ্ঞপ্তির বিন্যাস ও লেখার আকার Android নিয়ন্ত্রণ করে।",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "media",
+    "title": "মিডিয়া ও অগ্রগতি",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "মিডিয়া ও অগ্রগতি · Unsupported\n\nAndroid-এ অন্য অ্যাপের উপর দেখানো ও বিজ্ঞপ্তির অনুমতি দিন, তারপর হোম থেকে HUD চালু করুন। সেটিংস নিজে থেকেই সংরক্ষিত হয়। হার্ডওয়্যারের পাঠ সিস্টেমের অনুমতির উপর নির্ভর করে। PawnIO এবং AIDA64 ডেস্কটপ ইন্টারফেস শুধু Windows-এর জন্য। বিজ্ঞপ্তির বিন্যাস ও লেখার আকার Android নিয়ন্ত্রণ করে।",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "instances",
+    "title": "পরীক্ষামূলক একাধিক HUD",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "পরীক্ষামূলক একাধিক HUD · Unsupported\n\nAndroid-এ অন্য অ্যাপের উপর দেখানো ও বিজ্ঞপ্তির অনুমতি দিন, তারপর হোম থেকে HUD চালু করুন। সেটিংস নিজে থেকেই সংরক্ষিত হয়। হার্ডওয়্যারের পাঠ সিস্টেমের অনুমতির উপর নির্ভর করে। PawnIO এবং AIDA64 ডেস্কটপ ইন্টারফেস শুধু Windows-এর জন্য। বিজ্ঞপ্তির বিন্যাস ও লেখার আকার Android নিয়ন্ত্রণ করে।",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "maintenance",
+    "title": "সেটিং ও রক্ষণাবেক্ষণ",
+    "summary": "ব্যাকআপ রাখুন ও রোগনির্ণয় দেখুন।",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "পরীক্ষামূলক সুবিধা → রপ্তানি / আমদানি\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "advanced"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android-এ অন্য অ্যাপের উপর দেখানো ও বিজ্ঞপ্তির অনুমতি দিন, তারপর হোম থেকে HUD চালু করুন। সেটিংস নিজে থেকেই সংরক্ষিত হয়। হার্ডওয়্যারের পাঠ সিস্টেমের অনুমতির উপর নির্ভর করে। PawnIO এবং AIDA64 ডেস্কটপ ইন্টারফেস শুধু Windows-এর জন্য। বিজ্ঞপ্তির বিন্যাস ও লেখার আকার Android নিয়ন্ত্রণ করে।",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "troubleshooting",
+    "title": "সমস্যা ও সতর্কতা",
+    "summary": "প্রদর্শন ও তথ্য উৎস পরীক্ষা করুন।",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Home → Permissions\nপ্রদর্শন ও অবস্থান → সবসময় দেখান\nডেটা ব্যবস্থাপনা → হার্ডওয়্যার ডেটা\n\nAndroid-এ অন্য অ্যাপের উপর দেখানো ও বিজ্ঞপ্তির অনুমতি দিন, তারপর হোম থেকে HUD চালু করুন। সেটিংস নিজে থেকেই সংরক্ষিত হয়। হার্ডওয়্যারের পাঠ সিস্টেমের অনুমতির উপর নির্ভর করে। PawnIO এবং AIDA64 ডেস্কটপ ইন্টারফেস শুধু Windows-এর জন্য। বিজ্ঞপ্তির বিন্যাস ও লেখার আকার Android নিয়ন্ত্রণ করে।",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  }
+]

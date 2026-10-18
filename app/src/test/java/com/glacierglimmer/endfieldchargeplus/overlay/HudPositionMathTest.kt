@@ -12,6 +12,19 @@ import org.junit.Test
  */
 class HudPositionMathTest {
 
+    @Test
+    fun `global font and UI scale fit the measured content in both orientations`() {
+        for(display in listOf(HudDisplayFrame(1080,2400),HudDisplayFrame(2400,1080),HudDisplayFrame(320,200)))
+            for(font in listOf(.75,1.0,1.25,2.0))
+                for(ui in listOf(.75,1.0,2.0)) {
+                    val geometry=HudPositionMath.geometry(AppConfig(globalFontScale=font,globalUiScale=ui),display,3f,1120f)
+                    assertTrue(geometry.width<=display.safeWidth)
+                    assertTrue(geometry.height<=display.safeHeight)
+                    assertTrue(geometry.position.x>=0 && geometry.position.x+geometry.width<=display.safeRight)
+                    assertTrue(geometry.position.y>=0 && geometry.position.y+geometry.height<=display.safeBottom)
+                }
+    }
+
     private val frame = HudDisplayFrame(
         widthPx = 1080,
         heightPx = 2400,

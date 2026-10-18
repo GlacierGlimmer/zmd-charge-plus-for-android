@@ -1,0 +1,380 @@
+[
+  {
+    "id": "start",
+    "title": "Primi passi",
+    "summary": "Home → HUD",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Su Android, consenti la visualizzazione sopra altre app e le notifiche, poi avvia l’HUD dalla pagina iniziale. Le impostazioni vengono salvate automaticamente. Le letture hardware dipendono dall’accesso al sistema. PawnIO e l’interfaccia desktop di AIDA64 sono disponibili solo su Windows. Android controlla disposizione e dimensione del testo delle notifiche.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Contenuto HUD → Built-in Profiles → Salva",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      }
+    ]
+  },
+  {
+    "id": "display",
+    "title": "Visualizzazione, posizione e aspetto",
+    "summary": "Scegli lo schermo e la modalità di visualizzazione.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Visualizzazione e posizione → Sempre visibile / Modalità di visualizzazione / Posizione / Opacity",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Dimensione del testo e scala globale dell’interfaccia",
+        "body": "Si applica a tutte le impostazioni e a tutti gli HUD. Le dimensioni di ogni HUD vengono moltiplicate per la scala globale dell’interfaccia.",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Su Android, consenti la visualizzazione sopra altre app e le notifiche, poi avvia l’HUD dalla pagina iniziale. Le impostazioni vengono salvate automaticamente. Le letture hardware dipendono dall’accesso al sistema. PawnIO e l’interfaccia desktop di AIDA64 sono disponibili solo su Windows. Android controlla disposizione e dimensione del testo delle notifiche.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "profiles",
+    "title": "Profili e contenuto HUD",
+    "summary": "Configura testi, icone e anello.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "Procedura",
+        "body": "Crea un profilo o modifica una copia di quello integrato.\nInserisci titolo, valori principali e secondari, suffisso, icone e colore.\nScegli variabile e limiti dell'anello, controlla l'anteprima e applica.",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "Spiegazioni e parametri",
+        "body": "Il testo può includere variabili tra parentesi graffe. L'anello converte l'intervallo in 0–100% senza cambiare il valore scritto. Le condizioni di colore usano l'unità originale. Eliminare un profilo personalizzato non elimina quelli integrati.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "progress",
+        "title": "Esempio 1",
+        "body": "Copia l'esempio e adatta i valori. I nomi di variabili e funzioni e la sintassi del codice non vengono tradotti.",
+        "kind": "text",
+        "code": "cpu.usage\n= (cpu.usage + gpu.usage) / 2",
+        "target": null
+      },
+      {
+        "id": "color-rules",
+        "title": "Esempio 2",
+        "body": "Copia l'esempio e adatta i valori. I nomi di variabili e funzioni e la sintassi del codice non vengono tradotti.",
+        "kind": "text",
+        "code": "cpu.usage >= 90 => #FF4D4F\ncpu.usage >= 75 => #FFB84D",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "variables",
+    "title": "Variabili, modelli ed espressioni",
+    "summary": "Trova i dati e scegli come presentarli.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "Procedura",
+        "body": "Cerca una variabile in Gestione dati e leggi descrizione e unità.\nCopia il nome per regole e anelli, il modello per i testi.\nConsulta gli esempi e il riferimento seguente.",
+        "kind": "steps",
+        "code": "",
+        "target": "variables"
+      },
+      {
+        "id": "details",
+        "title": "Spiegazioni e parametri",
+        "body": "I formati vengono eseguiti da sinistra a destra. 0.0 mostra un decimale; auto:1 sceglie l'unità, che non va aggiunta nuovamente. I nomi delle funzioni restano uguali e i vecchi nomi delle variabili funzionano. I duplicati sono nascosti, gli indicatori riepilogativi restano. -- indica una lettura non disponibile.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "format",
+        "title": "Esempio 1",
+        "body": "Copia l'esempio e adatta i valori. I nomi di variabili e funzioni e la sintassi del codice non vengono tradotti.",
+        "kind": "text",
+        "code": "CPU {cpu.usage|0.0}%\n{cpu.frequency_ghz|0.00} GHz\n{= (cpu.usage + gpu.usage) / 2 |0.0}%",
+        "target": null
+      },
+      {
+        "id": "pipelines",
+        "title": "Esempio 2",
+        "body": "Copia l'esempio e adatta i valori. I nomi di variabili e funzioni e la sintassi del codice non vengono tradotti.",
+        "kind": "text",
+        "code": "{network.download_bps|auto:1}\n{cpu.usage|math:round:1|0.0}",
+        "target": null
+      },
+      {
+        "id": "operators",
+        "title": "Esempio 3",
+        "body": "Copia l'esempio e adatta i valori. I nomi di variabili e funzioni e la sintassi del codice non vengono tradotti.",
+        "kind": "text",
+        "code": "{= cpu.usage >= 90 ? 'HIGH' : 'NORMAL'}\n{= clamp(cpu.usage, 0, 100)|0.0}",
+        "target": null
+      },
+      {
+        "id": "numeric-functions",
+        "title": "Esempio 4",
+        "body": "Copia l'esempio e adatta i valori. I nomi di variabili e funzioni e la sintassi del codice non vengono tradotti.",
+        "kind": "text",
+        "code": "{= avg(cpu.usage, gpu.usage)|0.0}\n{= percent(memory.used_bytes, memory.total_bytes)|0.0}",
+        "target": null
+      },
+      {
+        "id": "text-functions",
+        "title": "Esempio 5",
+        "body": "Copia l'esempio e adatta i valori. I nomi di variabili e funzioni e la sintassi del codice non vengono tradotti.",
+        "kind": "text",
+        "code": "{media.title|sub:0:24}\n{cpu.usage|math:div:100|0.00}",
+        "target": null
+      },
+      {
+        "id": "units-time",
+        "title": "Esempio 6",
+        "body": "Copia l'esempio e adatta i valori. I nomi di variabili e funzioni e la sintassi del codice non vengono tradotti.",
+        "kind": "text",
+        "code": "{memory.used_bytes|gb:2} GiB\n{battery.time_remaining_seconds|duration}",
+        "target": null
+      },
+      {
+        "id": "function-reference",
+        "title": "Riferimento di funzioni e formati",
+        "body": "Copia l'esempio e adatta i valori. I nomi di variabili e funzioni e la sintassi del codice non vengono tradotti.",
+        "kind": "text",
+        "code": "+ - * / % ^    > >= < <= == !=    && || !    ?:    ??\nif(condition, yes, no)     between(value, min, max)\nmin(...) max(...) avg(...) sum(...) clamp(value, min, max)\nround(value, digits) floor(value) ceil(value) abs(value) sign(value)\nsqrt(value) pow(value, exponent) log(value) log10(value) exp(value)\nsin(value) cos(value) tan(value) percent(value, total)\nlen(text) contains(text, part) startswith(text, part) endswith(text, part)\nupper(text) lower(text) concat(...) number(value) string(value) bool(value)\nisnull(value) isempty(value) isnan(value)\n\n0 | 0.0 | 0.00 | auto:1 | bytes | speed | kb:1 | mb:1 | gb:2 | tb:2\nduration | duration-long | time:HH:mm:ss | time:relative\nupper | lower | sub:0:24 | replace:old:new | math:round:1\nmath:add:1 | math:sub:1 | math:mul:2 | math:div:2 | math:floor | math:ceil | math:abs",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "hardware",
+    "title": "Sensori e driver",
+    "summary": "Dati hardware",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Mostra le letture effettivamente fornite dal dispositivo e dal sistema. Le voci non disponibili mostrano -- e il motivo.\n\nSu Android, consenti la visualizzazione sopra altre app e le notifiche, poi avvia l’HUD dalla pagina iniziale. Le impostazioni vengono salvate automaticamente. Le letture hardware dipendono dall’accesso al sistema. PawnIO e l’interfaccia desktop di AIDA64 sono disponibili solo su Windows. Android controlla disposizione e dimensione del testo delle notifiche.",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Gestione dati → Dati hardware → Copia modello",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      }
+    ]
+  },
+  {
+    "id": "sources",
+    "title": "Configurazione delle fonti",
+    "summary": "Configura sorgenti",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Su Android, consenti la visualizzazione sopra altre app e le notifiche, poi avvia l’HUD dalla pagina iniziale. Le impostazioni vengono salvate automaticamente. Le letture hardware dipendono dall’accesso al sistema. PawnIO e l’interfaccia desktop di AIDA64 sono disponibili solo su Windows. Android controlla disposizione e dimensione del testo delle notifiche.\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "guide",
+        "title": "Procedura",
+        "body": "Inserisci la chiave DeepSeek e applica.\nPer HTTP imposta nome, URL GET, intestazioni, intervallo e percorsi JSON, poi abilita la fonte.\nUsa custom.<source>.<variable> nel profilo.",
+        "kind": "steps",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "details",
+        "title": "Spiegazioni e parametri",
+        "body": "",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "http-example",
+        "title": "Esempio 1",
+        "body": "Copia l'esempio e adatta i valori. I nomi di variabili e funzioni e la sintassi del codice non vengono tradotti.",
+        "kind": "text",
+        "code": "[\n  {\n    \"name\": \"demo\",\n    \"enabled\": false,\n    \"url\": \"https://example.com/status\",\n    \"refreshSeconds\": 10,\n    \"headers\": { \"Authorization\": \"Bearer ${env:MY_API_KEY}\" },\n    \"fields\": [\n      { \"variable\": \"value\", \"jsonPath\": \"data.value\" },\n      { \"variable\": \"name\", \"jsonPath\": \"players[0].name\" }\n    ]\n  }\n]",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "cycle",
+    "title": "Rotazione e animazioni",
+    "summary": "Alterna più profili in sequenza.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "Procedura",
+        "body": "Aggiungi profili all'elenco e riordinali.\nSe serve, abilita rotazione automatica e intervallo.\nScegli animazione semplice, completa o scorrimento verso l'alto.\nAbilita il cambio al clic per avanzare manualmente.",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "Spiegazioni e parametri",
+        "body": "Rimuovere dall'elenco non elimina il profilo. Un elenco vuoto usa il profilo attuale; con un solo elemento non passa a un altro profilo. Lo scorrimento muove il contenuto del HUD permanente. Ogni HUD ha il proprio elenco; il clic riavvia il suo timer. I cambi di periodo DeepSeek usano l'animazione completa.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "summons",
+    "title": "Scorciatoie e aree del mouse",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Scorciatoie e aree del mouse · Unsupported\n\nSu Android, consenti la visualizzazione sopra altre app e le notifiche, poi avvia l’HUD dalla pagina iniziale. Le impostazioni vengono salvate automaticamente. Le letture hardware dipendono dall’accesso al sistema. PawnIO e l’interfaccia desktop di AIDA64 sono disponibili solo su Windows. Android controlla disposizione e dimensione del testo delle notifiche.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "triggers",
+    "title": "Regole di attivazione",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Regole di attivazione · Unsupported\n\nSu Android, consenti la visualizzazione sopra altre app e le notifiche, poi avvia l’HUD dalla pagina iniziale. Le impostazioni vengono salvate automaticamente. Le letture hardware dipendono dall’accesso al sistema. PawnIO e l’interfaccia desktop di AIDA64 sono disponibili solo su Windows. Android controlla disposizione e dimensione del testo delle notifiche.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "special",
+    "title": "Orologio, rete e FPS",
+    "summary": "Imposta le funzioni specifiche dei profili.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Orologio mondiale → UTC\nRete → Mbps / MB/s\nSonda di rete → ICMP / TCP / UDP",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Mostra le letture effettivamente fornite dal dispositivo e dal sistema. Le voci non disponibili mostrano -- e il motivo.\n\nSu Android, consenti la visualizzazione sopra altre app e le notifiche, poi avvia l’HUD dalla pagina iniziale. Le impostazioni vengono salvate automaticamente. Le letture hardware dipendono dall’accesso al sistema. PawnIO e l’interfaccia desktop di AIDA64 sono disponibili solo su Windows. Android controlla disposizione e dimensione del testo delle notifiche.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "media",
+    "title": "Media e avanzamento",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Media e avanzamento · Unsupported\n\nSu Android, consenti la visualizzazione sopra altre app e le notifiche, poi avvia l’HUD dalla pagina iniziale. Le impostazioni vengono salvate automaticamente. Le letture hardware dipendono dall’accesso al sistema. PawnIO e l’interfaccia desktop di AIDA64 sono disponibili solo su Windows. Android controlla disposizione e dimensione del testo delle notifiche.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "instances",
+    "title": "HUD multipli sperimentali",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "HUD multipli sperimentali · Unsupported\n\nSu Android, consenti la visualizzazione sopra altre app e le notifiche, poi avvia l’HUD dalla pagina iniziale. Le impostazioni vengono salvate automaticamente. Le letture hardware dipendono dall’accesso al sistema. PawnIO e l’interfaccia desktop di AIDA64 sono disponibili solo su Windows. Android controlla disposizione e dimensione del testo delle notifiche.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "maintenance",
+    "title": "Impostazioni e manutenzione",
+    "summary": "Conserva copie e consulta la diagnostica.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Funzioni sperimentali → Esporta / Importa\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "advanced"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Su Android, consenti la visualizzazione sopra altre app e le notifiche, poi avvia l’HUD dalla pagina iniziale. Le impostazioni vengono salvate automaticamente. Le letture hardware dipendono dall’accesso al sistema. PawnIO e l’interfaccia desktop di AIDA64 sono disponibili solo su Windows. Android controlla disposizione e dimensione del testo delle notifiche.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "troubleshooting",
+    "title": "Problemi e avvisi",
+    "summary": "Controlla visualizzazione e fonti dati.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Home → Permissions\nVisualizzazione e posizione → Sempre visibile\nGestione dati → Dati hardware\n\nSu Android, consenti la visualizzazione sopra altre app e le notifiche, poi avvia l’HUD dalla pagina iniziale. Le impostazioni vengono salvate automaticamente. Le letture hardware dipendono dall’accesso al sistema. PawnIO e l’interfaccia desktop di AIDA64 sono disponibili solo su Windows. Android controlla disposizione e dimensione del testo delle notifiche.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  }
+]

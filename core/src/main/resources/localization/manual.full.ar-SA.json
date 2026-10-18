@@ -1,0 +1,380 @@
+[
+  {
+    "id": "start",
+    "title": "البدء",
+    "summary": "Home → HUD",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "في Android، اسمح بالظهور فوق التطبيقات والإشعارات، ثم شغّل HUD من الصفحة الرئيسية. تُحفظ الإعدادات تلقائيًا. تعتمد قراءات العتاد على صلاحيات النظام. يتوفر PawnIO وواجهة AIDA64 المكتبية على Windows فقط. يتحكم Android في تنسيق الإشعارات وحجم نصها.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "محتوى HUD → Built-in Profiles → حفظ",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      }
+    ]
+  },
+  {
+    "id": "display",
+    "title": "العرض والموضع والمظهر",
+    "summary": "اضبط الشاشة وطريقة ظهور اللوحة.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "العرض والموضع → عرض دائم / وضع العرض / الموضع / Opacity",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "حجم الخط ومقياس الواجهة العام",
+        "body": "يسري على جميع الإعدادات وكل نوافذ HUD. يُضرب حجم كل HUD في مقياس الواجهة العام.",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "في Android، اسمح بالظهور فوق التطبيقات والإشعارات، ثم شغّل HUD من الصفحة الرئيسية. تُحفظ الإعدادات تلقائيًا. تعتمد قراءات العتاد على صلاحيات النظام. يتوفر PawnIO وواجهة AIDA64 المكتبية على Windows فقط. يتحكم Android في تنسيق الإشعارات وحجم نصها.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "profiles",
+    "title": "الملفات ومحتوى HUD",
+    "summary": "اضبط النصوص والأيقونات والحلقة.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "خطوات الاستخدام",
+        "body": "أنشئ ملفاً أو عدّل نسخة من ملف مدمج.\nأدخل العنوان والقيم الأساسية والإضافية واللاحقة والأيقونات واللون.\nاختر متغير الحلقة وحدوده، ثم عاين وطبّق.",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "الشرح والمعلمات",
+        "body": "يمكن مزج النص العادي بالمتغيرات بين أقواس معقوفة. تحوّل الحلقة المجال إلى نسبة بين 0 و100% دون تغيير الرقم النصي. تستخدم شروط اللون الوحدات الأصلية. حذف ملف مخصص لا يحذف الملفات المدمجة.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "progress",
+        "title": "مثال 1",
+        "body": "انسخ المثال وعدّل القيم حسب إعداداتك. تبقى أسماء المتغيرات والدوال وصياغة الشيفرة كما هي.",
+        "kind": "text",
+        "code": "cpu.usage\n= (cpu.usage + gpu.usage) / 2",
+        "target": null
+      },
+      {
+        "id": "color-rules",
+        "title": "مثال 2",
+        "body": "انسخ المثال وعدّل القيم حسب إعداداتك. تبقى أسماء المتغيرات والدوال وصياغة الشيفرة كما هي.",
+        "kind": "text",
+        "code": "cpu.usage >= 90 => #FF4D4F\ncpu.usage >= 75 => #FFB84D",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "variables",
+    "title": "المتغيرات والقوالب والتعبيرات",
+    "summary": "ابحث عن البيانات واختر تنسيقها.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "خطوات الاستخدام",
+        "body": "ابحث عن المتغير في إدارة البيانات واقرأ الوصف والوحدة.\nانسخ الاسم للقواعد والحلقة، والقالب لحقول النص.\nراجع الأمثلة ومرجع الدوال أدناه.",
+        "kind": "steps",
+        "code": "",
+        "target": "variables"
+      },
+      {
+        "id": "details",
+        "title": "الشرح والمعلمات",
+        "body": "تُنفذ مراحل التنسيق من اليسار إلى اليمين. يعرض 0.0 منزلة عشرية واحدة ويختار auto:1 الوحدة تلقائياً، فلا تضف الوحدة ثانية. لا تتغير أسماء الدوال، وتظل الأسماء القديمة صالحة. تُخفى العناصر المكررة مع الإبقاء على المؤشرات المجمعة. تعني -- عدم وجود قراءة صالحة.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "format",
+        "title": "مثال 1",
+        "body": "انسخ المثال وعدّل القيم حسب إعداداتك. تبقى أسماء المتغيرات والدوال وصياغة الشيفرة كما هي.",
+        "kind": "text",
+        "code": "CPU {cpu.usage|0.0}%\n{cpu.frequency_ghz|0.00} GHz\n{= (cpu.usage + gpu.usage) / 2 |0.0}%",
+        "target": null
+      },
+      {
+        "id": "pipelines",
+        "title": "مثال 2",
+        "body": "انسخ المثال وعدّل القيم حسب إعداداتك. تبقى أسماء المتغيرات والدوال وصياغة الشيفرة كما هي.",
+        "kind": "text",
+        "code": "{network.download_bps|auto:1}\n{cpu.usage|math:round:1|0.0}",
+        "target": null
+      },
+      {
+        "id": "operators",
+        "title": "مثال 3",
+        "body": "انسخ المثال وعدّل القيم حسب إعداداتك. تبقى أسماء المتغيرات والدوال وصياغة الشيفرة كما هي.",
+        "kind": "text",
+        "code": "{= cpu.usage >= 90 ? 'HIGH' : 'NORMAL'}\n{= clamp(cpu.usage, 0, 100)|0.0}",
+        "target": null
+      },
+      {
+        "id": "numeric-functions",
+        "title": "مثال 4",
+        "body": "انسخ المثال وعدّل القيم حسب إعداداتك. تبقى أسماء المتغيرات والدوال وصياغة الشيفرة كما هي.",
+        "kind": "text",
+        "code": "{= avg(cpu.usage, gpu.usage)|0.0}\n{= percent(memory.used_bytes, memory.total_bytes)|0.0}",
+        "target": null
+      },
+      {
+        "id": "text-functions",
+        "title": "مثال 5",
+        "body": "انسخ المثال وعدّل القيم حسب إعداداتك. تبقى أسماء المتغيرات والدوال وصياغة الشيفرة كما هي.",
+        "kind": "text",
+        "code": "{media.title|sub:0:24}\n{cpu.usage|math:div:100|0.00}",
+        "target": null
+      },
+      {
+        "id": "units-time",
+        "title": "مثال 6",
+        "body": "انسخ المثال وعدّل القيم حسب إعداداتك. تبقى أسماء المتغيرات والدوال وصياغة الشيفرة كما هي.",
+        "kind": "text",
+        "code": "{memory.used_bytes|gb:2} GiB\n{battery.time_remaining_seconds|duration}",
+        "target": null
+      },
+      {
+        "id": "function-reference",
+        "title": "مرجع الدوال والتنسيقات",
+        "body": "انسخ المثال وعدّل القيم حسب إعداداتك. تبقى أسماء المتغيرات والدوال وصياغة الشيفرة كما هي.",
+        "kind": "text",
+        "code": "+ - * / % ^    > >= < <= == !=    && || !    ?:    ??\nif(condition, yes, no)     between(value, min, max)\nmin(...) max(...) avg(...) sum(...) clamp(value, min, max)\nround(value, digits) floor(value) ceil(value) abs(value) sign(value)\nsqrt(value) pow(value, exponent) log(value) log10(value) exp(value)\nsin(value) cos(value) tan(value) percent(value, total)\nlen(text) contains(text, part) startswith(text, part) endswith(text, part)\nupper(text) lower(text) concat(...) number(value) string(value) bool(value)\nisnull(value) isempty(value) isnan(value)\n\n0 | 0.0 | 0.00 | auto:1 | bytes | speed | kb:1 | mb:1 | gb:2 | tb:2\nduration | duration-long | time:HH:mm:ss | time:relative\nupper | lower | sub:0:24 | replace:old:new | math:round:1\nmath:add:1 | math:sub:1 | math:mul:2 | math:div:2 | math:floor | math:ceil | math:abs",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "hardware",
+    "title": "المستشعرات وبرامج التشغيل",
+    "summary": "بيانات العتاد",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "يعرض القراءات التي يوفرها الجهاز والنظام فعليًا. تظهر -- والعلة للعناصر غير المتاحة.\n\nفي Android، اسمح بالظهور فوق التطبيقات والإشعارات، ثم شغّل HUD من الصفحة الرئيسية. تُحفظ الإعدادات تلقائيًا. تعتمد قراءات العتاد على صلاحيات النظام. يتوفر PawnIO وواجهة AIDA64 المكتبية على Windows فقط. يتحكم Android في تنسيق الإشعارات وحجم نصها.",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "إدارة البيانات → بيانات العتاد → نسخ القالب",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      }
+    ]
+  },
+  {
+    "id": "sources",
+    "title": "إعداد مصادر البيانات",
+    "summary": "إعداد مصادر البيانات",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "في Android، اسمح بالظهور فوق التطبيقات والإشعارات، ثم شغّل HUD من الصفحة الرئيسية. تُحفظ الإعدادات تلقائيًا. تعتمد قراءات العتاد على صلاحيات النظام. يتوفر PawnIO وواجهة AIDA64 المكتبية على Windows فقط. يتحكم Android في تنسيق الإشعارات وحجم نصها.\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "guide",
+        "title": "خطوات الاستخدام",
+        "body": "أدخل مفتاح DeepSeek وطبّق.\nلـ HTTP، حدد الاسم وعنوان GET والترويسات والفترة ومسارات JSON، ثم فعّل المصدر.\nاستخدم custom.<source>.<variable> في الملف.",
+        "kind": "steps",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "details",
+        "title": "الشرح والمعلمات",
+        "body": "",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "http-example",
+        "title": "مثال 1",
+        "body": "انسخ المثال وعدّل القيم حسب إعداداتك. تبقى أسماء المتغيرات والدوال وصياغة الشيفرة كما هي.",
+        "kind": "text",
+        "code": "[\n  {\n    \"name\": \"demo\",\n    \"enabled\": false,\n    \"url\": \"https://example.com/status\",\n    \"refreshSeconds\": 10,\n    \"headers\": { \"Authorization\": \"Bearer ${env:MY_API_KEY}\" },\n    \"fields\": [\n      { \"variable\": \"value\", \"jsonPath\": \"data.value\" },\n      { \"variable\": \"name\", \"jsonPath\": \"players[0].name\" }\n    ]\n  }\n]",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "cycle",
+    "title": "التناوب والحركات",
+    "summary": "بدّل الملفات بالتسلسل.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "خطوات الاستخدام",
+        "body": "أضف الملفات إلى القائمة ورتبها.\nفعّل التبديل التلقائي وحدد فترته عند الحاجة.\nاختر حركة بسيطة أو كاملة أو تمريراً للأعلى.\nفعّل التبديل بالنقر للانتقال يدوياً.",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "الشرح والمعلمات",
+        "body": "الإزالة من القائمة لا تحذف الملف. القائمة الفارغة تستخدم الملف الحالي، والعنصر الوحيد لا ينتقل إلى ملف آخر. التمرير يحرك محتوى اللوحة الدائمة. لكل HUD قائمته؛ النقر يعيد مؤقته من البداية. تغيّر فترة DeepSeek يستخدم الحركة الكاملة.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "summons",
+    "title": "الاختصارات ومناطق الفأرة",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "الاختصارات ومناطق الفأرة · Unsupported\n\nفي Android، اسمح بالظهور فوق التطبيقات والإشعارات، ثم شغّل HUD من الصفحة الرئيسية. تُحفظ الإعدادات تلقائيًا. تعتمد قراءات العتاد على صلاحيات النظام. يتوفر PawnIO وواجهة AIDA64 المكتبية على Windows فقط. يتحكم Android في تنسيق الإشعارات وحجم نصها.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "triggers",
+    "title": "قواعد الاستدعاء",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "قواعد الاستدعاء · Unsupported\n\nفي Android، اسمح بالظهور فوق التطبيقات والإشعارات، ثم شغّل HUD من الصفحة الرئيسية. تُحفظ الإعدادات تلقائيًا. تعتمد قراءات العتاد على صلاحيات النظام. يتوفر PawnIO وواجهة AIDA64 المكتبية على Windows فقط. يتحكم Android في تنسيق الإشعارات وحجم نصها.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "special",
+    "title": "الوقت والشبكة وFPS",
+    "summary": "اضبط وظائف الملفات الخاصة.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "الساعة العالمية → UTC\nالشبكة → Mbps / MB/s\nفحص الشبكة → ICMP / TCP / UDP",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "يعرض القراءات التي يوفرها الجهاز والنظام فعليًا. تظهر -- والعلة للعناصر غير المتاحة.\n\nفي Android، اسمح بالظهور فوق التطبيقات والإشعارات، ثم شغّل HUD من الصفحة الرئيسية. تُحفظ الإعدادات تلقائيًا. تعتمد قراءات العتاد على صلاحيات النظام. يتوفر PawnIO وواجهة AIDA64 المكتبية على Windows فقط. يتحكم Android في تنسيق الإشعارات وحجم نصها.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "media",
+    "title": "الوسائط وتقدم التشغيل",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "الوسائط وتقدم التشغيل · Unsupported\n\nفي Android، اسمح بالظهور فوق التطبيقات والإشعارات، ثم شغّل HUD من الصفحة الرئيسية. تُحفظ الإعدادات تلقائيًا. تعتمد قراءات العتاد على صلاحيات النظام. يتوفر PawnIO وواجهة AIDA64 المكتبية على Windows فقط. يتحكم Android في تنسيق الإشعارات وحجم نصها.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "instances",
+    "title": "لوحات متعددة تجريبية",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "لوحات متعددة تجريبية · Unsupported\n\nفي Android، اسمح بالظهور فوق التطبيقات والإشعارات، ثم شغّل HUD من الصفحة الرئيسية. تُحفظ الإعدادات تلقائيًا. تعتمد قراءات العتاد على صلاحيات النظام. يتوفر PawnIO وواجهة AIDA64 المكتبية على Windows فقط. يتحكم Android في تنسيق الإشعارات وحجم نصها.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "maintenance",
+    "title": "الإعدادات والصيانة",
+    "summary": "احفظ النسخ وافحص التشخيص.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "ميزات تجريبية → تصدير / استيراد\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "advanced"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "في Android، اسمح بالظهور فوق التطبيقات والإشعارات، ثم شغّل HUD من الصفحة الرئيسية. تُحفظ الإعدادات تلقائيًا. تعتمد قراءات العتاد على صلاحيات النظام. يتوفر PawnIO وواجهة AIDA64 المكتبية على Windows فقط. يتحكم Android في تنسيق الإشعارات وحجم نصها.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "troubleshooting",
+    "title": "حل المشكلات والتنبيهات",
+    "summary": "راجع العرض ومصادر البيانات.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Home → Permissions\nالعرض والموضع → عرض دائم\nإدارة البيانات → بيانات العتاد\n\nفي Android، اسمح بالظهور فوق التطبيقات والإشعارات، ثم شغّل HUD من الصفحة الرئيسية. تُحفظ الإعدادات تلقائيًا. تعتمد قراءات العتاد على صلاحيات النظام. يتوفر PawnIO وواجهة AIDA64 المكتبية على Windows فقط. يتحكم Android في تنسيق الإشعارات وحجم نصها.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  }
+]

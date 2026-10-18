@@ -173,7 +173,7 @@ fun ContentScreen(
 @Composable
 private fun OutputPreviewCard(data: HudRenderData, config: AppConfig, title: String, subtitle: String) {
     if (DisplayMode.fromWire(config.android.displayMode) == DisplayMode.OVERLAY) {
-        HudPreviewCard(data = data, title = title, subtitle = subtitle)
+        HudPreviewCard(data = data, title = title, subtitle = subtitle,fontScale=config.globalFontScale.toFloat())
         return
     }
     val content = remember(data) { IslandHudMapper.mapLiveUpdate(data) }

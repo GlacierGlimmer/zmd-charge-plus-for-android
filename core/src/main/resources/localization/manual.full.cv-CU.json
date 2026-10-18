@@ -1,0 +1,508 @@
+[
+  {
+    "id": "start",
+    "title": "Getting started",
+    "summary": "Get a HUD on screen, then customize it.",
+    "blocks": [
+      {
+        "id": "first-hud",
+        "title": "Show your first HUD",
+        "body": "Enable the HUD Master Switch under Display & Position; turn on Always Visible for a persistent HUD.\nChoose a built-in profile under HUD Content → HUD Configuration and preview it.\nClick Save & Apply at the top right to apply the settings to the running HUD.",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "save-levels",
+        "title": "Profile Save vs. Save & Apply",
+        "body": "Save beside the profile records the edited profile; editing a built-in creates a custom copy. Preview shows the current edit. Save & Apply at the top right saves the full settings and applies them to the running HUD.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "navigation",
+        "title": "Find the right page",
+        "body": "Display & Position: visibility, placement, appearance and sampling. HUD Content: profiles, cycling and trigger rules. Data Management: Variable Library, Hardware Data and Data Source Configuration. Experimental Features: multiple HUDs. About: updates, backup and maintenance.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "display",
+    "title": "Display, position & appearance",
+    "summary": "Understand display modes and screen coordinates.",
+    "blocks": [
+      {
+        "id": "language",
+        "title": "Interface language and system default",
+        "body": "Choose a language in the top bar, or select Follow system. The language preference is saved immediately; other pending edits still require Save & Apply. Unsupported system languages fall back to English. Settings, built-in profiles, data warnings and this manual follow the language. Variable keys, formulas and API JSON remain unchanged.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "modes",
+        "title": "Persistent and transient modes",
+        "body": "Always Visible keeps the HUD on screen with an Always on Top or Desktop layer. With it off, power events, the mouse hot zone or trigger rules summon it temporarily, then retract it after the display duration. Turning off the Master Switch stops display for the session; the switch is re-enabled on the next app launch.",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "coordinates",
+        "title": "Work area vs. full screen",
+        "body": "Work-area presets avoid taskbars, Docks and reserved regions. Screen presets use full display bounds. Offsets move a preset; custom coordinates specify the position directly. Select the target display first. Negative coordinates are normal for displays left of or above the primary display.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "appearance",
+        "title": "Size, opacity, fonts and motion",
+        "body": "Global Scale changes the whole HUD size; opacity controls its visibility. Font selection changes text rendering, with system fallback for missing glyphs. Display duration controls transient hold time; bounce and ripple controls change motion appearance. Reset Size & Animation restores this group of values; use Save & Apply afterwards.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "sampling",
+        "title": "Sampling and freshness",
+        "body": "All HUDs share one sampling interval; shorter intervals use more resources. Clocks update by seconds, while HTTP and balance sources keep their own refresh/cache intervals. Faster global sampling does not bypass a source's cache.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "profiles",
+    "title": "Profiles & HUD content",
+    "summary": "Choose what the HUD shows and how it looks.",
+    "blocks": [
+      {
+        "id": "profile-actions",
+        "title": "Create, save, delete and preview",
+        "body": "Start from a built-in profile and Save to create a custom copy, or create a new profile. Delete removes custom profiles while original presets remain. Preview uses the current edit and real data; Save & Apply commits it to the running HUD.",
+        "kind": "text",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "text-fields",
+        "title": "Text regions and icons",
+        "body": "Tagline, title, primary/secondary text and the right-side value can mix literal text and variable tokens. Use the right suffix for units such as %, °C or GHz. Icons identify the content; the accent color sets the capsule and ring color.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "progress",
+        "title": "Ring variable and range",
+        "body": "The ring maps (value − minimum) over the configured range, clamped to 0–100%. Use a variable key or a numeric expression beginning with =. Set a sensible full-scale value for temperature, traffic or FPS. The range does not change the raw text reading.",
+        "kind": "text",
+        "code": "cpu.usage\n= (cpu.usage + gpu.usage) / 2",
+        "target": null
+      },
+      {
+        "id": "color-rules",
+        "title": "Conditional colors",
+        "body": "Add one variable/operator/threshold => color rule per line. Rules change the accent based on load, temperature and other values. Thresholds use the variable's original unit. Use valid color values; missing measurements are not treated as zero.",
+        "kind": "text",
+        "code": "cpu.usage >= 90 => #FF4D4F\ncpu.usage >= 75 => #FFB84D",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "variables",
+    "title": "Variables, tokens & expressions",
+    "summary": "Copy from the library, then build readable HUD text.",
+    "blocks": [
+      {
+        "id": "library",
+        "title": "Find and copy a variable",
+        "body": "Search by name, key or category under Data Management → Variable Library. Select a variable to see its meaning, type, unit and formats. Copy Variable Key is useful for rings and rules; Copy Template includes braces for text fields.",
+        "kind": "text",
+        "code": "",
+        "target": "variables"
+      },
+      {
+        "id": "format",
+        "title": "Common token formats",
+        "body": "Place the key in braces, followed by | and a display format. Use 0 for integers and 0.0 / 0.00 for fixed decimals. Literal text may surround tokens. Formatting changes display only.",
+        "kind": "text",
+        "code": "CPU {cpu.usage|0.0}%\n{cpu.frequency_ghz|0.00} GHz\n{= (cpu.usage + gpu.usage) / 2 |0.0}%",
+        "target": null
+      },
+      {
+        "id": "pipelines",
+        "title": "Automatic units and pipelines",
+        "body": "auto:1 chooses units based on the variable; avoid adding the same unit twice. Format pipelines run left to right and can transform numbers or shorten text. Use {= ...} for inline expressions, or start a ring expression with =.",
+        "kind": "text",
+        "code": "{network.download_bps|auto:1}\n{cpu.usage|math:round:1|0.0}",
+        "target": null
+      },
+      {
+        "id": "operators",
+        "title": "Operators and conditions",
+        "body": "Use +, -, *, /, % remainder, ^ power and parentheses. Comparisons support >, >=, <, <=, == and !=. Boolean operators include &&, ||, ! and and/or/not. Conditions use test ? yes : no or if(test, yes, no). ?? supplies a fallback for null/empty values.",
+        "kind": "text",
+        "code": "{= cpu.usage >= 90 ? 'HIGH' : 'NORMAL'}\n{= clamp(cpu.usage, 0, 100)|0.0}",
+        "target": null
+      },
+      {
+        "id": "numeric-functions",
+        "title": "Numeric function reference",
+        "body": "Aggregates: min, max, avg and sum. Range/precision: clamp(value, min, max), round(value, digits), floor, ceil, abs and sign. Math: sqrt, pow, log, log10, exp, sin, cos and tan. percent(value, total) returns a percentage; between(value, min, max) tests an inclusive range.",
+        "kind": "text",
+        "code": "{= avg(cpu.usage, gpu.usage)|0.0}\n{= percent(memory.used_bytes, memory.total_bytes)|0.0}",
+        "target": null
+      },
+      {
+        "id": "text-functions",
+        "title": "Text, types and pipeline reference",
+        "body": "Expression functions: len, contains, startswith, endswith, upper, lower and concat. Convert types with number, string or bool; inspect them with isnull, isempty and isnan. Token pipelines support upper/lower, zero-based sub:start:length, replace:old:new and math:add/sub/mul/div/round/floor/ceil/abs.",
+        "kind": "text",
+        "code": "{media.title|sub:0:24}\n{cpu.usage|math:div:100|0.00}",
+        "target": null
+      },
+      {
+        "id": "units-time",
+        "title": "Capacity and time formats",
+        "body": "bytes / speed add automatic byte-size or byte-rate units. kb:n, mb:n, gb:n and tb:n divide by powers of 1024 with n decimals; add the desired unit in the profile. duration / duration-long format seconds. Date/time fields support time:<date format>; time:relative formats relative time or duration.",
+        "kind": "text",
+        "code": "{memory.used_bytes|gb:2} GiB\n{battery.time_remaining_seconds|duration}",
+        "target": null
+      },
+      {
+        "id": "duplicates",
+        "title": "Hardware variables and legacy keys",
+        "body": "Once equivalent hardware fields are discovered, duplicate legacy entries leave the library while existing profiles keep working. New keys identify a specific device and sensor. Highest/average summaries have different meanings and remain separate. -- means no valid value is currently available.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "hardware",
+    "title": "Hardware sensors & drivers",
+    "summary": "Inspect real readings and resolve driver issues.",
+    "blocks": [
+      {
+        "id": "hardware-page",
+        "title": "Inspect, search, copy and export",
+        "body": "Use Data Management → Hardware Data to inspect sensors and firmware fields. Search by temperature, memory module, device name or original ID. Select a row to copy its token. Export Diagnostics saves a local JSON snapshot of the current status and readings.",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      },
+      {
+        "id": "pawnio",
+        "title": "CPU temperature still shows --",
+        "body": "Read the driver status at the top. If PawnIO is missing, install/update it and complete Windows UAC; fully exit ECP afterwards.\nRestart ECP as administrator and check again. The restart button waits for the old process to exit.\nIf it remains unavailable, distinguish inaccessible-driver status from hardware returning no data, then export diagnostics.",
+        "kind": "steps",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "raw-sensors",
+        "title": "Individual sensors and summaries",
+        "body": "One CPU/GPU may expose package, core, hotspot, memory and multiple power channels. Similar names can represent different measurements. Sensor min/max values are session history, not hardware limits. SMBIOS module information comes from firmware and is not a complete SPD/XMP/EXPO timing table.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "sources",
+    "title": "Data source configuration",
+    "summary": "Connect DeepSeek, HTTP JSON and AIDA64.",
+    "blocks": [
+      {
+        "id": "deepseek",
+        "title": "DeepSeek balance and peak periods",
+        "body": "Enter a DeepSeek API key under Data Management → Data Source Configuration, then Save & Apply. Keys are encrypted for the current Windows user and may need re-entry for another account or machine. Peak windows use Beijing time and the Chinese holiday calendar; weekend make-up workdays remain off-peak.",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "http",
+        "title": "Configure HTTP / JSON",
+        "body": "Enter an HTTP/HTTPS GET URL that returns JSON and name the source.\nMap response paths such as data.value or players[0].name to variable names.\nSet required headers and refresh seconds, enable the source, then Save & Apply.\nFind custom.<source>.<variable> in the library and use it in a profile.",
+        "kind": "steps",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "http-example",
+        "title": "Copyable JSON structure",
+        "body": "This structure is disabled. Replace the URL with your real endpoint, adjust paths to the response and set enabled to true when ready. ${env:MY_API_KEY} reads a process environment variable instead of putting a secret directly in JSON.",
+        "kind": "text",
+        "code": "[\n  {\n    \"name\": \"demo\",\n    \"enabled\": false,\n    \"url\": \"https://example.com/status\",\n    \"refreshSeconds\": 10,\n    \"headers\": { \"Authorization\": \"Bearer ${env:MY_API_KEY}\" },\n    \"fields\": [\n      { \"variable\": \"value\", \"jsonPath\": \"data.value\" },\n      { \"variable\": \"name\", \"jsonPath\": \"players[0].name\" }\n    ]\n  }\n]",
+        "target": null
+      },
+      {
+        "id": "http-errors",
+        "title": "Status, cache and errors",
+        "body": "Use custom.<source>.status / error for source state and failures. The refresh interval controls caching, even with faster global sampling. For 401/403, check authentication and access. JSON paths must match the actual response structure.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "aida64",
+        "title": "AIDA64 external applications",
+        "body": "In AIDA64 Preferences → Hardware Monitoring → External Applications, select the items and enable shared memory, Registry or WMI. Keep AIDA64 running, then refresh ECP Hardware Data. ECP reads all actual exports, including numbers, timings and text; unexported or license-limited fields remain unavailable.",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      }
+    ]
+  },
+  {
+    "id": "cycle",
+    "title": "Cycling, clicks & animations",
+    "summary": "Control how profiles alternate.",
+    "blocks": [
+      {
+        "id": "queue",
+        "title": "Build a carousel queue",
+        "body": "Add profiles to the queue and use Move Up/Down to order them. Removing from the queue does not delete the profile. Automatic cycling advances at the configured interval. An empty queue uses the active profile; a single-item queue cannot switch to a different item.",
+        "kind": "text",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "animation",
+        "title": "Three cycle animations",
+        "body": "Simple shortens the presentation; Full uses the complete summon. Roll Up moves icons, values and the ring inside a persistent capsule while retaining its window and layer. Roll applies to persistent switches; initial and transient presentations keep their normal show/retract lifecycle. DeepSeek peak transitions keep Full animation.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "click-cycle",
+        "title": "Click a persistent HUD to switch",
+        "body": "Enable click cycling to advance through the queue even with automatic cycling off. Each HUD advances its own instance and resets its cycle timer. Transparent areas remain click-through. Empty or single-item queues do not switch.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "summons",
+    "title": "Shortcuts & mouse hot zones",
+    "summary": "Summon or temporarily hide the HUD.",
+    "blocks": [
+      {
+        "id": "shortcut",
+        "title": "Set a show/hide shortcut",
+        "body": "Focus the shortcut box and press Ctrl or Alt with a letter, digit or function key, then Save & Apply. F12 and reserved combinations are rejected. If registration conflicts, the previous shortcut remains active. Clear and save to disable it.",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "shortcut-animation",
+        "title": "Visibility animation and scope",
+        "body": "Choose Full or Simple reveal animation for the shortcut; hiding plays a retract animation. It affects all HUDs while retaining their profiles and positions. In transient mode it summons once, then resumes event behavior. The latest rapid request wins. Shortcut suppression lasts for the session.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "hot-zone",
+        "title": "Configure hot-zone position and dwell",
+        "body": "Hot zones are available with Always Visible off. Set the anchor, size, offsets and dwell time. The region uses full target-display bounds and is clamped to the screen. Dwell for the chosen interval to summon; leave and re-enter to re-arm. You may advance the carousel on each summon.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "triggers",
+    "title": "Event trigger rules",
+    "summary": "Summon a HUD when data meets a rule.",
+    "blocks": [
+      {
+        "id": "create-rule",
+        "title": "Add a rule",
+        "body": "Add and enable a rule under HUD Content → Trigger Rules.\nEnter a variable key and choose Threshold, Change or Becomes True; configure the operator and value for thresholds.\nSet a cooldown, turn Always Visible off, then Save & Apply.",
+        "kind": "steps",
+        "code": "",
+        "target": "rules"
+      },
+      {
+        "id": "rule-semantics",
+        "title": "Baselines, cooldown and queue",
+        "body": "Initial and recovered samples establish a baseline without popping up. Each rule has its own cooldown; a sustained threshold can trigger again after it expires. Matching rules summon the next item in that instance's queue, or the active profile for an empty queue. Rules work only in transient mode.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "rule-examples",
+        "title": "Two useful examples",
+        "body": "High load: cpu.usage, Threshold >= 90, cooldown 30 seconds. Track changes: media.title with Change mode and a suitable cooldown. Confirm that the variable returns valid data before relying on a trigger.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "special",
+    "title": "Time, network & FPS profiles",
+    "summary": "Adjust the options specific to each profile.",
+    "blocks": [
+      {
+        "id": "time",
+        "title": "Time zone and daily target",
+        "body": "Ordinary clocks use local time. World Clock uses a fixed UTC offset without automatic DST. Daily-target mode shows the remaining fraction until the next target time in the chosen zone; with it off, it shows elapsed day progress.",
+        "kind": "text",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "network",
+        "title": "Traffic units and ring reference",
+        "body": "Network profiles can use automatic byte units or Mbps; 1 MB/s equals 8 Mbps. The ring compares total, download, upload or the larger direction with your reference bandwidth. The reference sets the 100% scale and does not limit or benchmark the network.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "probe",
+        "title": "Probe targets and protocols",
+        "body": "Targets may be hostnames, IPv4 or IPv6. ICMP ignores the port; TCP/UDP use it. Failure means that target/protocol did not respond successfully, not necessarily that the whole PC is offline. Servers may block ICMP or not reply to UDP.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "fps",
+        "title": "FPS and GPU targets",
+        "body": "Refresh and select a window/display target, then set the full-scale FPS. Window FPS uses the process's dominant swap chain; display FPS uses its dominant presentation stream, not the fixed refresh rate. Missing events or permissions produce status information; administrator access may be needed. Ordinary GPU profiles can select an adapter, while raw sensor keys identify their stated device.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "media",
+    "title": "Media information & progress",
+    "summary": "Display a Windows media session in the HUD.",
+    "blocks": [
+      {
+        "id": "media-template",
+        "title": "A media HUD template",
+        "body": "Windows media variables read sessions registered by a player. Use title/artist as the primary text, times as secondary text, and media.progress for a 0–100 ring.",
+        "kind": "text",
+        "code": "{media.title_artist}\n{media.position_text} / {media.duration_text}\n{media.status}",
+        "target": "variables"
+      },
+      {
+        "id": "media-state",
+        "title": "Paused, live and missing fields",
+        "body": "Playing progress follows the reported timeline and rate; paused timelines do not extrapolate. Live sessions without a duration have no valid percentage and show --. Players without registered sessions or missing artist/album metadata leave those fields unavailable.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "instances",
+    "title": "Experimental multiple HUDs",
+    "summary": "Give each HUD its own content and position.",
+    "blocks": [
+      {
+        "id": "instances-create",
+        "title": "Enable and select instances",
+        "body": "Enable multiple HUDs under Experimental Features, add/name a secondary HUD and select it for editing. The selected HUD is highlighted. Save & Apply a new instance before previewing it. Removing a secondary instance does not remove the primary HUD.",
+        "kind": "text",
+        "code": "",
+        "target": "experimental"
+      },
+      {
+        "id": "instances-scope",
+        "title": "Independent and shared settings",
+        "body": "Profiles, positions, queues, trigger rules and hot zones belong to each instance. Clicking a HUD advances only its queue. Sampling interval, global shortcut and the click-cycling master setting are shared. Save & Apply commits the whole configuration.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "maintenance",
+    "title": "Configuration, backup & maintenance",
+    "summary": "Keep your configuration and inspect failures.",
+    "blocks": [
+      {
+        "id": "backup",
+        "title": "Export, import and backup",
+        "body": "Export settings or create a backup under About → Configuration & Maintenance. Import restores a complete setup. Back up before substantial edits. Secrets encrypted for the current user may need re-entry on a different machine or account.",
+        "kind": "text",
+        "code": "",
+        "target": "about"
+      },
+      {
+        "id": "logs",
+        "title": "Logs and reset",
+        "body": "Open the config folder from the top bar and the logs folder from About. Keep source status or hardware diagnostics when troubleshooting. Reset loads first-run defaults; Save & Apply commits them to the running app.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "updates",
+        "title": "Check for updates",
+        "body": "About shows the version, architecture and update-check result. A network failure or unavailable remote version does not confirm that you are up to date. Check the status and retry. Development packages may retain the public version number; use their delivery notes to identify them.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "troubleshooting",
+    "title": "Troubleshooting & warnings",
+    "summary": "Use the symptom to find the right setting.",
+    "blocks": [
+      {
+        "id": "not-visible",
+        "title": "Why the HUD is not visible",
+        "body": "Check the Master Switch and shortcut suppression, then confirm persistent vs. transient mode. Transient mode needs an event, hot zone or rule. Check the target display, coordinates, opacity and hot-zone switch. Saving a profile without Save & Apply can leave the running HUD on its old settings.",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "missing-data",
+        "title": "--, invalid expressions and units",
+        "body": "-- means no valid reading or an expression failure. Check meaning and units in the library, then the driver, API authentication, JSON path or FPS status. Formatting cannot turn missing data into a real measurement. Keep MB/s, Mbps, GiB and °C distinct.",
+        "kind": "text",
+        "code": "",
+        "target": "variables"
+      },
+      {
+        "id": "ignore-warning",
+        "title": "Scope of Don't warn about this data again",
+        "body": "The checkbox permanently silences only the variables already listed in the current warning window. Other variables still warn. Closing normally acknowledges that incident. Multiple HUDs can share one warning window; expression faults are distinguished by profile and expression. Suppression does not repair or stop collection.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  }
+]

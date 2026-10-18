@@ -1,0 +1,380 @@
+[
+  {
+    "id": "start",
+    "title": "Premiers pas",
+    "summary": "Home → HUD",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Sur Android, autorisez la superposition et les notifications, puis démarrez le HUD depuis l’accueil. Les réglages sont enregistrés automatiquement. Les mesures matérielles dépendent des accès système. PawnIO et l’interface de bureau AIDA64 sont réservés à Windows. Android contrôle la disposition et la taille du texte des notifications.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Contenu du HUD → Built-in Profiles → Enregistrer",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      }
+    ]
+  },
+  {
+    "id": "display",
+    "title": "Affichage, position et apparence",
+    "summary": "Régler la visibilité, l’écran et l’apparence.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Affichage et position → Toujours visible / Mode d’affichage / Position / Opacity",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Taille du texte et échelle globale de l’interface",
+        "body": "S’applique à tous les réglages et à tous les HUD. La taille propre à chaque HUD est multipliée par l’échelle globale de l’interface.",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Sur Android, autorisez la superposition et les notifications, puis démarrez le HUD depuis l’accueil. Les réglages sont enregistrés automatiquement. Les mesures matérielles dépendent des accès système. PawnIO et l’interface de bureau AIDA64 sont réservés à Windows. Android contrôle la disposition et la taille du texte des notifications.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "profiles",
+    "title": "Profils et contenu du HUD",
+    "summary": "Définir les textes, les icônes et l’anneau.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "Étapes",
+        "body": "Créez un profil ou modifiez une copie d’un profil prédéfini.\nRenseignez le titre, les valeurs, le suffixe, les icônes et la couleur.\nChoisissez la variable de l’anneau et ses limites, puis prévisualisez et appliquez.",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "Explications et paramètres",
+        "body": "Le texte peut mélanger des mots et des variables entre accolades. L’anneau représente la valeur entre le minimum et le maximum, limitée à 0–100 %. Cette échelle ne modifie pas la valeur affichée. Les règles de couleur utilisent les unités brutes ; supprimer un profil personnalisé ne supprime pas les profils prédéfinis.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "progress",
+        "title": "Exemple 1",
+        "body": "Copiez cet exemple, puis adaptez les valeurs à votre configuration. Les noms de variables, les fonctions et la syntaxe du code restent inchangés.",
+        "kind": "text",
+        "code": "cpu.usage\n= (cpu.usage + gpu.usage) / 2",
+        "target": null
+      },
+      {
+        "id": "color-rules",
+        "title": "Exemple 2",
+        "body": "Copiez cet exemple, puis adaptez les valeurs à votre configuration. Les noms de variables, les fonctions et la syntaxe du code restent inchangés.",
+        "kind": "text",
+        "code": "cpu.usage >= 90 => #FF4D4F\ncpu.usage >= 75 => #FFB84D",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "variables",
+    "title": "Variables, modèles et expressions",
+    "summary": "Composer des textes avec les données disponibles.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "Étapes",
+        "body": "Recherchez une variable dans Gestion des données, puis consultez son unité et sa description.\nCopiez sa clé pour une règle ou un anneau ; copiez son modèle pour un champ de texte.\nUtilisez les exemples ci-dessous pour les nombres, les expressions et les formats.",
+        "kind": "steps",
+        "code": "",
+        "target": "variables"
+      },
+      {
+        "id": "details",
+        "title": "Explications et paramètres",
+        "body": "Les formats s’exécutent de gauche à droite. 0.0 conserve une décimale ; auto:1 choisit l’unité. Ne répétez pas le suffixe fourni automatiquement. Les noms de fonctions restent inchangés. Les anciennes clés restent compatibles ; les doublons quittent la bibliothèque, mais les valeurs de synthèse conservent leur sens distinct. -- signifie qu’aucune donnée valide n’est disponible.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "format",
+        "title": "Exemple 1",
+        "body": "Copiez cet exemple, puis adaptez les valeurs à votre configuration. Les noms de variables, les fonctions et la syntaxe du code restent inchangés.",
+        "kind": "text",
+        "code": "CPU {cpu.usage|0.0}%\n{cpu.frequency_ghz|0.00} GHz\n{= (cpu.usage + gpu.usage) / 2 |0.0}%",
+        "target": null
+      },
+      {
+        "id": "pipelines",
+        "title": "Exemple 2",
+        "body": "Copiez cet exemple, puis adaptez les valeurs à votre configuration. Les noms de variables, les fonctions et la syntaxe du code restent inchangés.",
+        "kind": "text",
+        "code": "{network.download_bps|auto:1}\n{cpu.usage|math:round:1|0.0}",
+        "target": null
+      },
+      {
+        "id": "operators",
+        "title": "Exemple 3",
+        "body": "Copiez cet exemple, puis adaptez les valeurs à votre configuration. Les noms de variables, les fonctions et la syntaxe du code restent inchangés.",
+        "kind": "text",
+        "code": "{= cpu.usage >= 90 ? 'HIGH' : 'NORMAL'}\n{= clamp(cpu.usage, 0, 100)|0.0}",
+        "target": null
+      },
+      {
+        "id": "numeric-functions",
+        "title": "Exemple 4",
+        "body": "Copiez cet exemple, puis adaptez les valeurs à votre configuration. Les noms de variables, les fonctions et la syntaxe du code restent inchangés.",
+        "kind": "text",
+        "code": "{= avg(cpu.usage, gpu.usage)|0.0}\n{= percent(memory.used_bytes, memory.total_bytes)|0.0}",
+        "target": null
+      },
+      {
+        "id": "text-functions",
+        "title": "Exemple 5",
+        "body": "Copiez cet exemple, puis adaptez les valeurs à votre configuration. Les noms de variables, les fonctions et la syntaxe du code restent inchangés.",
+        "kind": "text",
+        "code": "{media.title|sub:0:24}\n{cpu.usage|math:div:100|0.00}",
+        "target": null
+      },
+      {
+        "id": "units-time",
+        "title": "Exemple 6",
+        "body": "Copiez cet exemple, puis adaptez les valeurs à votre configuration. Les noms de variables, les fonctions et la syntaxe du code restent inchangés.",
+        "kind": "text",
+        "code": "{memory.used_bytes|gb:2} GiB\n{battery.time_remaining_seconds|duration}",
+        "target": null
+      },
+      {
+        "id": "function-reference",
+        "title": "Référence des fonctions et formats",
+        "body": "Copiez cet exemple, puis adaptez les valeurs à votre configuration. Les noms de variables, les fonctions et la syntaxe du code restent inchangés.",
+        "kind": "text",
+        "code": "+ - * / % ^    > >= < <= == !=    && || !    ?:    ??\nif(condition, yes, no)     between(value, min, max)\nmin(...) max(...) avg(...) sum(...) clamp(value, min, max)\nround(value, digits) floor(value) ceil(value) abs(value) sign(value)\nsqrt(value) pow(value, exponent) log(value) log10(value) exp(value)\nsin(value) cos(value) tan(value) percent(value, total)\nlen(text) contains(text, part) startswith(text, part) endswith(text, part)\nupper(text) lower(text) concat(...) number(value) string(value) bool(value)\nisnull(value) isempty(value) isnan(value)\n\n0 | 0.0 | 0.00 | auto:1 | bytes | speed | kb:1 | mb:1 | gb:2 | tb:2\nduration | duration-long | time:HH:mm:ss | time:relative\nupper | lower | sub:0:24 | replace:old:new | math:round:1\nmath:add:1 | math:sub:1 | math:mul:2 | math:div:2 | math:floor | math:ceil | math:abs",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "hardware",
+    "title": "Capteurs matériels et pilotes",
+    "summary": "Données matérielles",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Affiche les valeurs réellement fournies par l’appareil et le système. Les éléments indisponibles affichent -- et leur motif.\n\nSur Android, autorisez la superposition et les notifications, puis démarrez le HUD depuis l’accueil. Les réglages sont enregistrés automatiquement. Les mesures matérielles dépendent des accès système. PawnIO et l’interface de bureau AIDA64 sont réservés à Windows. Android contrôle la disposition et la taille du texte des notifications.",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Gestion des données → Données matérielles → Copier le modèle",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      }
+    ]
+  },
+  {
+    "id": "sources",
+    "title": "Configuration des sources de données",
+    "summary": "Configuration des sources",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Sur Android, autorisez la superposition et les notifications, puis démarrez le HUD depuis l’accueil. Les réglages sont enregistrés automatiquement. Les mesures matérielles dépendent des accès système. PawnIO et l’interface de bureau AIDA64 sont réservés à Windows. Android contrôle la disposition et la taille du texte des notifications.\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "guide",
+        "title": "Étapes",
+        "body": "Renseignez la clé DeepSeek, puis appliquez les réglages.\nPour HTTP, définissez le nom, l’URL GET, les en-têtes, l’intervalle et les chemins JSON. Activez la source quand elle est prête.\nUtilisez ensuite custom.<source>.<variable> dans le HUD.",
+        "kind": "steps",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "details",
+        "title": "Explications et paramètres",
+        "body": "",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "http-example",
+        "title": "Exemple 1",
+        "body": "Copiez cet exemple, puis adaptez les valeurs à votre configuration. Les noms de variables, les fonctions et la syntaxe du code restent inchangés.",
+        "kind": "text",
+        "code": "[\n  {\n    \"name\": \"demo\",\n    \"enabled\": false,\n    \"url\": \"https://example.com/status\",\n    \"refreshSeconds\": 10,\n    \"headers\": { \"Authorization\": \"Bearer ${env:MY_API_KEY}\" },\n    \"fields\": [\n      { \"variable\": \"value\", \"jsonPath\": \"data.value\" },\n      { \"variable\": \"name\", \"jsonPath\": \"players[0].name\" }\n    ]\n  }\n]",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "cycle",
+    "title": "Défilement, clics et animations",
+    "summary": "Faire alterner plusieurs profils.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "Étapes",
+        "body": "Ajoutez les profils à la liste de défilement et ajustez leur ordre.\nActivez le défilement automatique et réglez son intervalle si nécessaire.\nChoisissez une animation simple, complète ou un défilement vers le haut.\nActivez le changement au clic pour avancer manuellement.",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "Explications et paramètres",
+        "body": "Retirer un élément de la liste ne supprime pas le profil. Une liste vide utilise le profil actuel ; une liste d’un seul élément ne change pas de profil. Le défilement vers le haut agit dans le HUD permanent. Chaque HUD avance sa propre liste et réinitialise son minuteur au clic. Les événements de période DeepSeek gardent l’animation complète.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "summons",
+    "title": "Raccourcis et zones de souris",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Raccourcis et zones de souris · Unsupported\n\nSur Android, autorisez la superposition et les notifications, puis démarrez le HUD depuis l’accueil. Les réglages sont enregistrés automatiquement. Les mesures matérielles dépendent des accès système. PawnIO et l’interface de bureau AIDA64 sont réservés à Windows. Android contrôle la disposition et la taille du texte des notifications.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "triggers",
+    "title": "Règles de déclenchement",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Règles de déclenchement · Unsupported\n\nSur Android, autorisez la superposition et les notifications, puis démarrez le HUD depuis l’accueil. Les réglages sont enregistrés automatiquement. Les mesures matérielles dépendent des accès système. PawnIO et l’interface de bureau AIDA64 sont réservés à Windows. Android contrôle la disposition et la taille du texte des notifications.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "special",
+    "title": "Heure, réseau et FPS",
+    "summary": "Régler les options propres à chaque profil.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Horloge mondiale → UTC\nRéseau → Mbps / MB/s\nSonde réseau → ICMP / TCP / UDP",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Affiche les valeurs réellement fournies par l’appareil et le système. Les éléments indisponibles affichent -- et leur motif.\n\nSur Android, autorisez la superposition et les notifications, puis démarrez le HUD depuis l’accueil. Les réglages sont enregistrés automatiquement. Les mesures matérielles dépendent des accès système. PawnIO et l’interface de bureau AIDA64 sont réservés à Windows. Android contrôle la disposition et la taille du texte des notifications.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "media",
+    "title": "Médias et progression de lecture",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Médias et progression de lecture · Unsupported\n\nSur Android, autorisez la superposition et les notifications, puis démarrez le HUD depuis l’accueil. Les réglages sont enregistrés automatiquement. Les mesures matérielles dépendent des accès système. PawnIO et l’interface de bureau AIDA64 sont réservés à Windows. Android contrôle la disposition et la taille du texte des notifications.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "instances",
+    "title": "Plusieurs HUD expérimentaux",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Plusieurs HUD expérimentaux · Unsupported\n\nSur Android, autorisez la superposition et les notifications, puis démarrez le HUD depuis l’accueil. Les réglages sont enregistrés automatiquement. Les mesures matérielles dépendent des accès système. PawnIO et l’interface de bureau AIDA64 sont réservés à Windows. Android contrôle la disposition et la taille du texte des notifications.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "maintenance",
+    "title": "Configuration, sauvegarde et maintenance",
+    "summary": "Conserver ses réglages et consulter les diagnostics.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Fonctions expérimentales → Exporter / Importer\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "advanced"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Sur Android, autorisez la superposition et les notifications, puis démarrez le HUD depuis l’accueil. Les réglages sont enregistrés automatiquement. Les mesures matérielles dépendent des accès système. PawnIO et l’interface de bureau AIDA64 sont réservés à Windows. Android contrôle la disposition et la taille du texte des notifications.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "troubleshooting",
+    "title": "Dépannage et avertissements",
+    "summary": "Vérifier le mode d’affichage et l’origine des données.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Home → Permissions\nAffichage et position → Toujours visible\nGestion des données → Données matérielles\n\nSur Android, autorisez la superposition et les notifications, puis démarrez le HUD depuis l’accueil. Les réglages sont enregistrés automatiquement. Les mesures matérielles dépendent des accès système. PawnIO et l’interface de bureau AIDA64 sont réservés à Windows. Android contrôle la disposition et la taille du texte des notifications.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  }
+]

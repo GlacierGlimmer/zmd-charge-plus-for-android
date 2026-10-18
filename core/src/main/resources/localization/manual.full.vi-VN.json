@@ -1,0 +1,380 @@
+[
+  {
+    "id": "start",
+    "title": "Bắt đầu",
+    "summary": "Home → HUD",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Trên Android, cho phép hiển thị trên ứng dụng khác và thông báo, rồi khởi động HUD từ Trang chủ. Cài đặt được lưu tự động. Số đo phần cứng phụ thuộc vào quyền truy cập hệ thống. PawnIO và giao diện AIDA64 trên máy tính chỉ dành cho Windows. Android kiểm soát bố cục và cỡ chữ thông báo.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Nội dung HUD → Built-in Profiles → Lưu",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      }
+    ]
+  },
+  {
+    "id": "display",
+    "title": "Hiển thị, vị trí và giao diện",
+    "summary": "Chọn màn hình và cách xuất hiện.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Hiển thị và vị trí → Luôn hiển thị / Chế độ hiển thị / Vị trí / Opacity",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Cỡ chữ và tỷ lệ giao diện toàn cục",
+        "body": "Áp dụng cho toàn bộ cài đặt và mọi HUD. Kích thước riêng của từng HUD được nhân với tỷ lệ giao diện toàn cục.",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Trên Android, cho phép hiển thị trên ứng dụng khác và thông báo, rồi khởi động HUD từ Trang chủ. Cài đặt được lưu tự động. Số đo phần cứng phụ thuộc vào quyền truy cập hệ thống. PawnIO và giao diện AIDA64 trên máy tính chỉ dành cho Windows. Android kiểm soát bố cục và cỡ chữ thông báo.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "profiles",
+    "title": "Cấu hình và nội dung HUD",
+    "summary": "Thiết lập chữ, biểu tượng và vòng chỉ báo.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "Cách thực hiện",
+        "body": "Tạo cấu hình hoặc sửa bản sao của cấu hình tích hợp.\nNhập tiêu đề, giá trị chính/phụ, hậu tố, biểu tượng và màu.\nChọn biến và giới hạn vòng, xem trước rồi áp dụng.",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "Giải thích và tham số",
+        "body": "Có thể trộn văn bản với biến trong dấu ngoặc nhọn. Vòng đổi khoảng giá trị sang 0–100%, không đổi số trong phần chữ. Điều kiện màu dùng đơn vị gốc. Xóa cấu hình tùy chỉnh không xóa cấu hình tích hợp.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "progress",
+        "title": "Ví dụ 1",
+        "body": "Sao chép ví dụ rồi thay giá trị cho phù hợp. Giữ nguyên tên biến, tên hàm và cú pháp mã.",
+        "kind": "text",
+        "code": "cpu.usage\n= (cpu.usage + gpu.usage) / 2",
+        "target": null
+      },
+      {
+        "id": "color-rules",
+        "title": "Ví dụ 2",
+        "body": "Sao chép ví dụ rồi thay giá trị cho phù hợp. Giữ nguyên tên biến, tên hàm và cú pháp mã.",
+        "kind": "text",
+        "code": "cpu.usage >= 90 => #FF4D4F\ncpu.usage >= 75 => #FFB84D",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "variables",
+    "title": "Biến, mẫu và biểu thức",
+    "summary": "Tìm dữ liệu và chọn cách trình bày.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "Cách thực hiện",
+        "body": "Tìm biến trong Quản lý dữ liệu, đọc mô tả và đơn vị.\nSao chép tên cho quy tắc hoặc vòng; sao chép mẫu cho văn bản.\nTham khảo các ví dụ và bảng tra cứu bên dưới.",
+        "kind": "steps",
+        "code": "",
+        "target": "variables"
+      },
+      {
+        "id": "details",
+        "title": "Giải thích và tham số",
+        "body": "Các bước định dạng chạy từ trái sang phải. 0.0 giữ một chữ số thập phân; auto:1 tự chọn đơn vị, không cần thêm đơn vị lần nữa. Tên hàm giữ nguyên. Tên biến cũ vẫn dùng được. Mục trùng bị ẩn nhưng chỉ số tổng hợp được giữ lại. -- nghĩa là chưa có giá trị hợp lệ.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "format",
+        "title": "Ví dụ 1",
+        "body": "Sao chép ví dụ rồi thay giá trị cho phù hợp. Giữ nguyên tên biến, tên hàm và cú pháp mã.",
+        "kind": "text",
+        "code": "CPU {cpu.usage|0.0}%\n{cpu.frequency_ghz|0.00} GHz\n{= (cpu.usage + gpu.usage) / 2 |0.0}%",
+        "target": null
+      },
+      {
+        "id": "pipelines",
+        "title": "Ví dụ 2",
+        "body": "Sao chép ví dụ rồi thay giá trị cho phù hợp. Giữ nguyên tên biến, tên hàm và cú pháp mã.",
+        "kind": "text",
+        "code": "{network.download_bps|auto:1}\n{cpu.usage|math:round:1|0.0}",
+        "target": null
+      },
+      {
+        "id": "operators",
+        "title": "Ví dụ 3",
+        "body": "Sao chép ví dụ rồi thay giá trị cho phù hợp. Giữ nguyên tên biến, tên hàm và cú pháp mã.",
+        "kind": "text",
+        "code": "{= cpu.usage >= 90 ? 'HIGH' : 'NORMAL'}\n{= clamp(cpu.usage, 0, 100)|0.0}",
+        "target": null
+      },
+      {
+        "id": "numeric-functions",
+        "title": "Ví dụ 4",
+        "body": "Sao chép ví dụ rồi thay giá trị cho phù hợp. Giữ nguyên tên biến, tên hàm và cú pháp mã.",
+        "kind": "text",
+        "code": "{= avg(cpu.usage, gpu.usage)|0.0}\n{= percent(memory.used_bytes, memory.total_bytes)|0.0}",
+        "target": null
+      },
+      {
+        "id": "text-functions",
+        "title": "Ví dụ 5",
+        "body": "Sao chép ví dụ rồi thay giá trị cho phù hợp. Giữ nguyên tên biến, tên hàm và cú pháp mã.",
+        "kind": "text",
+        "code": "{media.title|sub:0:24}\n{cpu.usage|math:div:100|0.00}",
+        "target": null
+      },
+      {
+        "id": "units-time",
+        "title": "Ví dụ 6",
+        "body": "Sao chép ví dụ rồi thay giá trị cho phù hợp. Giữ nguyên tên biến, tên hàm và cú pháp mã.",
+        "kind": "text",
+        "code": "{memory.used_bytes|gb:2} GiB\n{battery.time_remaining_seconds|duration}",
+        "target": null
+      },
+      {
+        "id": "function-reference",
+        "title": "Tra cứu hàm và định dạng",
+        "body": "Sao chép ví dụ rồi thay giá trị cho phù hợp. Giữ nguyên tên biến, tên hàm và cú pháp mã.",
+        "kind": "text",
+        "code": "+ - * / % ^    > >= < <= == !=    && || !    ?:    ??\nif(condition, yes, no)     between(value, min, max)\nmin(...) max(...) avg(...) sum(...) clamp(value, min, max)\nround(value, digits) floor(value) ceil(value) abs(value) sign(value)\nsqrt(value) pow(value, exponent) log(value) log10(value) exp(value)\nsin(value) cos(value) tan(value) percent(value, total)\nlen(text) contains(text, part) startswith(text, part) endswith(text, part)\nupper(text) lower(text) concat(...) number(value) string(value) bool(value)\nisnull(value) isempty(value) isnan(value)\n\n0 | 0.0 | 0.00 | auto:1 | bytes | speed | kb:1 | mb:1 | gb:2 | tb:2\nduration | duration-long | time:HH:mm:ss | time:relative\nupper | lower | sub:0:24 | replace:old:new | math:round:1\nmath:add:1 | math:sub:1 | math:mul:2 | math:div:2 | math:floor | math:ceil | math:abs",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "hardware",
+    "title": "Cảm biến và trình điều khiển",
+    "summary": "Dữ liệu phần cứng",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Hiển thị số liệu thực sự do thiết bị và hệ thống cung cấp. Mục không khả dụng hiện -- và lý do.\n\nTrên Android, cho phép hiển thị trên ứng dụng khác và thông báo, rồi khởi động HUD từ Trang chủ. Cài đặt được lưu tự động. Số đo phần cứng phụ thuộc vào quyền truy cập hệ thống. PawnIO và giao diện AIDA64 trên máy tính chỉ dành cho Windows. Android kiểm soát bố cục và cỡ chữ thông báo.",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Quản lý dữ liệu → Dữ liệu phần cứng → Sao chép mẫu",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      }
+    ]
+  },
+  {
+    "id": "sources",
+    "title": "Thiết lập nguồn dữ liệu",
+    "summary": "Cấu hình nguồn dữ liệu",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Trên Android, cho phép hiển thị trên ứng dụng khác và thông báo, rồi khởi động HUD từ Trang chủ. Cài đặt được lưu tự động. Số đo phần cứng phụ thuộc vào quyền truy cập hệ thống. PawnIO và giao diện AIDA64 trên máy tính chỉ dành cho Windows. Android kiểm soát bố cục và cỡ chữ thông báo.\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "guide",
+        "title": "Cách thực hiện",
+        "body": "Nhập khóa DeepSeek rồi áp dụng.\nVới HTTP, đặt tên, URL GET, tiêu đề, chu kỳ và đường dẫn JSON, sau đó bật nguồn.\nDùng custom.<source>.<variable> trong cấu hình.",
+        "kind": "steps",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "details",
+        "title": "Giải thích và tham số",
+        "body": "",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "http-example",
+        "title": "Ví dụ 1",
+        "body": "Sao chép ví dụ rồi thay giá trị cho phù hợp. Giữ nguyên tên biến, tên hàm và cú pháp mã.",
+        "kind": "text",
+        "code": "[\n  {\n    \"name\": \"demo\",\n    \"enabled\": false,\n    \"url\": \"https://example.com/status\",\n    \"refreshSeconds\": 10,\n    \"headers\": { \"Authorization\": \"Bearer ${env:MY_API_KEY}\" },\n    \"fields\": [\n      { \"variable\": \"value\", \"jsonPath\": \"data.value\" },\n      { \"variable\": \"name\", \"jsonPath\": \"players[0].name\" }\n    ]\n  }\n]",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "cycle",
+    "title": "Luân phiên và hoạt ảnh",
+    "summary": "Chuyển giữa nhiều cấu hình theo thứ tự.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "Cách thực hiện",
+        "body": "Thêm cấu hình vào danh sách và sắp xếp thứ tự.\nBật chuyển tự động và chu kỳ nếu cần.\nChọn hoạt ảnh đơn giản, đầy đủ hoặc cuộn lên.\nBật chuyển bằng nhấp chuột để chuyển thủ công.",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "Giải thích và tham số",
+        "body": "Bỏ khỏi danh sách không xóa cấu hình. Danh sách rỗng dùng cấu hình hiện tại; một mục không chuyển sang cấu hình khác. Cuộn lên di chuyển nội dung HUD thường trực. Mỗi HUD có danh sách riêng; nhấp sẽ khởi động lại bộ đếm. Đổi khung giờ DeepSeek dùng hoạt ảnh đầy đủ.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "summons",
+    "title": "Phím tắt và vùng chuột",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Phím tắt và vùng chuột · Unsupported\n\nTrên Android, cho phép hiển thị trên ứng dụng khác và thông báo, rồi khởi động HUD từ Trang chủ. Cài đặt được lưu tự động. Số đo phần cứng phụ thuộc vào quyền truy cập hệ thống. PawnIO và giao diện AIDA64 trên máy tính chỉ dành cho Windows. Android kiểm soát bố cục và cỡ chữ thông báo.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "triggers",
+    "title": "Quy tắc kích hoạt",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Quy tắc kích hoạt · Unsupported\n\nTrên Android, cho phép hiển thị trên ứng dụng khác và thông báo, rồi khởi động HUD từ Trang chủ. Cài đặt được lưu tự động. Số đo phần cứng phụ thuộc vào quyền truy cập hệ thống. PawnIO và giao diện AIDA64 trên máy tính chỉ dành cho Windows. Android kiểm soát bố cục và cỡ chữ thông báo.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "special",
+    "title": "Đồng hồ, mạng và FPS",
+    "summary": "Thiết lập chức năng riêng của từng cấu hình.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Đồng hồ thế giới → UTC\nMạng → Mbps / MB/s\nKiểm tra mạng → ICMP / TCP / UDP",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Hiển thị số liệu thực sự do thiết bị và hệ thống cung cấp. Mục không khả dụng hiện -- và lý do.\n\nTrên Android, cho phép hiển thị trên ứng dụng khác và thông báo, rồi khởi động HUD từ Trang chủ. Cài đặt được lưu tự động. Số đo phần cứng phụ thuộc vào quyền truy cập hệ thống. PawnIO và giao diện AIDA64 trên máy tính chỉ dành cho Windows. Android kiểm soát bố cục và cỡ chữ thông báo.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "media",
+    "title": "Thông tin phương tiện và tiến độ",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Thông tin phương tiện và tiến độ · Unsupported\n\nTrên Android, cho phép hiển thị trên ứng dụng khác và thông báo, rồi khởi động HUD từ Trang chủ. Cài đặt được lưu tự động. Số đo phần cứng phụ thuộc vào quyền truy cập hệ thống. PawnIO và giao diện AIDA64 trên máy tính chỉ dành cho Windows. Android kiểm soát bố cục và cỡ chữ thông báo.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "instances",
+    "title": "Nhiều HUD thử nghiệm",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Nhiều HUD thử nghiệm · Unsupported\n\nTrên Android, cho phép hiển thị trên ứng dụng khác và thông báo, rồi khởi động HUD từ Trang chủ. Cài đặt được lưu tự động. Số đo phần cứng phụ thuộc vào quyền truy cập hệ thống. PawnIO và giao diện AIDA64 trên máy tính chỉ dành cho Windows. Android kiểm soát bố cục và cỡ chữ thông báo.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "maintenance",
+    "title": "Thiết lập và bảo trì",
+    "summary": "Sao lưu và xem chẩn đoán.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Tính năng thử nghiệm → Xuất / Nhập\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "advanced"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Trên Android, cho phép hiển thị trên ứng dụng khác và thông báo, rồi khởi động HUD từ Trang chủ. Cài đặt được lưu tự động. Số đo phần cứng phụ thuộc vào quyền truy cập hệ thống. PawnIO và giao diện AIDA64 trên máy tính chỉ dành cho Windows. Android kiểm soát bố cục và cỡ chữ thông báo.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "troubleshooting",
+    "title": "Khắc phục lỗi và cảnh báo",
+    "summary": "Kiểm tra hiển thị và nguồn dữ liệu.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Home → Permissions\nHiển thị và vị trí → Luôn hiển thị\nQuản lý dữ liệu → Dữ liệu phần cứng\n\nTrên Android, cho phép hiển thị trên ứng dụng khác và thông báo, rồi khởi động HUD từ Trang chủ. Cài đặt được lưu tự động. Số đo phần cứng phụ thuộc vào quyền truy cập hệ thống. PawnIO và giao diện AIDA64 trên máy tính chỉ dành cho Windows. Android kiểm soát bố cục và cỡ chữ thông báo.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  }
+]

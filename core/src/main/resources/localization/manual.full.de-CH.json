@@ -1,0 +1,380 @@
+[
+  {
+    "id": "start",
+    "title": "Erste Schritte",
+    "summary": "Home → HUD",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Erlaube unter Android das Einblenden über anderen Apps und Benachrichtigungen. Starte danach das HUD auf der Startseite. Einstellungen werden automatisch gespeichert. Hardwarewerte hängen vom Systemzugriff ab. PawnIO und die AIDA64-Desktopschnittstelle sind nur für Windows verfügbar. Android bestimmt das Layout und die Schriftgrösse von Benachrichtigungen.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "HUD-Inhalte → Built-in Profiles → Speichern",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      }
+    ]
+  },
+  {
+    "id": "display",
+    "title": "Anzeige, Position und Aussehen",
+    "summary": "Sichtbarkeit, Bildschirm und Darstellung einstellen.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Anzeige & Position → Immer sichtbar / Anzeigemodus / Position / Opacity",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Globale Schriftgrösse und UI-Skalierung",
+        "body": "Gilt für alle Einstellungen und sämtliche HUDs. Die Grösse jedes HUDs wird mit der globalen UI-Skalierung multipliziert.",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Erlaube unter Android das Einblenden über anderen Apps und Benachrichtigungen. Starte danach das HUD auf der Startseite. Einstellungen werden automatisch gespeichert. Hardwarewerte hängen vom Systemzugriff ab. PawnIO und die AIDA64-Desktopschnittstelle sind nur für Windows verfügbar. Android bestimmt das Layout und die Schriftgrösse von Benachrichtigungen.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "profiles",
+    "title": "Profile und HUD-Inhalte",
+    "summary": "Texte, Symbole und Fortschrittsring festlegen.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "Schritte",
+        "body": "Erstellen Sie ein Profil oder bearbeiten Sie eine Kopie eines integrierten Profils.\nGeben Sie Titel, Haupt- und Nebenwerte, Suffix, Symbole und Farbe ein.\nWählen Sie die Ringvariable und ihren Wertebereich, prüfen Sie die Vorschau und übernehmen Sie das Ergebnis.",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "Hinweise und Einstellungen",
+        "body": "Textfelder können normalen Text und Variablen in geschweiften Klammern enthalten. Der Ring bildet den eingestellten Bereich auf 0–100 % ab; der angezeigte Rohwert bleibt unverändert. Farbregeln verwenden die ursprünglichen Einheiten. Nur eigene Profile können entfernt werden; die integrierten Vorlagen bleiben erhalten.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "progress",
+        "title": "Beispiel 1",
+        "body": "Kopieren Sie das Beispiel und passen Sie die Werte an. Variablennamen, Funktionsnamen und die Syntax bleiben unverändert.",
+        "kind": "text",
+        "code": "cpu.usage\n= (cpu.usage + gpu.usage) / 2",
+        "target": null
+      },
+      {
+        "id": "color-rules",
+        "title": "Beispiel 2",
+        "body": "Kopieren Sie das Beispiel und passen Sie die Werte an. Variablennamen, Funktionsnamen und die Syntax bleiben unverändert.",
+        "kind": "text",
+        "code": "cpu.usage >= 90 => #FF4D4F\ncpu.usage >= 75 => #FFB84D",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "variables",
+    "title": "Variablen, Vorlagen und Ausdrücke",
+    "summary": "Verfügbare Daten zu lesbaren Texten kombinieren.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "Schritte",
+        "body": "Suchen Sie in der Datenverwaltung nach einer Variablen und lesen Sie Beschreibung und Einheit.\nKopieren Sie den Schlüssel für Regeln oder den Ring und die Vorlage für Textfelder.\nVerwenden Sie die Beispiele und die Funktionsübersicht zur Formatierung.",
+        "kind": "steps",
+        "code": "",
+        "target": "variables"
+      },
+      {
+        "id": "details",
+        "title": "Hinweise und Einstellungen",
+        "body": "Formatstufen werden von links nach rechts ausgeführt. 0.0 zeigt eine Nachkommastelle; auto:1 wählt eine passende Einheit. Ergänzen Sie automatisch ausgegebene Einheiten nicht doppelt. Funktionsnamen bleiben unverändert. Alte Schlüssel bleiben kompatibel, doppelte Einträge verschwinden aus der Bibliothek. Zusammenfassungen behalten ihre eigene Bedeutung. -- kennzeichnet fehlende gültige Daten.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "format",
+        "title": "Beispiel 1",
+        "body": "Kopieren Sie das Beispiel und passen Sie die Werte an. Variablennamen, Funktionsnamen und die Syntax bleiben unverändert.",
+        "kind": "text",
+        "code": "CPU {cpu.usage|0.0}%\n{cpu.frequency_ghz|0.00} GHz\n{= (cpu.usage + gpu.usage) / 2 |0.0}%",
+        "target": null
+      },
+      {
+        "id": "pipelines",
+        "title": "Beispiel 2",
+        "body": "Kopieren Sie das Beispiel und passen Sie die Werte an. Variablennamen, Funktionsnamen und die Syntax bleiben unverändert.",
+        "kind": "text",
+        "code": "{network.download_bps|auto:1}\n{cpu.usage|math:round:1|0.0}",
+        "target": null
+      },
+      {
+        "id": "operators",
+        "title": "Beispiel 3",
+        "body": "Kopieren Sie das Beispiel und passen Sie die Werte an. Variablennamen, Funktionsnamen und die Syntax bleiben unverändert.",
+        "kind": "text",
+        "code": "{= cpu.usage >= 90 ? 'HIGH' : 'NORMAL'}\n{= clamp(cpu.usage, 0, 100)|0.0}",
+        "target": null
+      },
+      {
+        "id": "numeric-functions",
+        "title": "Beispiel 4",
+        "body": "Kopieren Sie das Beispiel und passen Sie die Werte an. Variablennamen, Funktionsnamen und die Syntax bleiben unverändert.",
+        "kind": "text",
+        "code": "{= avg(cpu.usage, gpu.usage)|0.0}\n{= percent(memory.used_bytes, memory.total_bytes)|0.0}",
+        "target": null
+      },
+      {
+        "id": "text-functions",
+        "title": "Beispiel 5",
+        "body": "Kopieren Sie das Beispiel und passen Sie die Werte an. Variablennamen, Funktionsnamen und die Syntax bleiben unverändert.",
+        "kind": "text",
+        "code": "{media.title|sub:0:24}\n{cpu.usage|math:div:100|0.00}",
+        "target": null
+      },
+      {
+        "id": "units-time",
+        "title": "Beispiel 6",
+        "body": "Kopieren Sie das Beispiel und passen Sie die Werte an. Variablennamen, Funktionsnamen und die Syntax bleiben unverändert.",
+        "kind": "text",
+        "code": "{memory.used_bytes|gb:2} GiB\n{battery.time_remaining_seconds|duration}",
+        "target": null
+      },
+      {
+        "id": "function-reference",
+        "title": "Funktionen und Formatierung",
+        "body": "Kopieren Sie das Beispiel und passen Sie die Werte an. Variablennamen, Funktionsnamen und die Syntax bleiben unverändert.",
+        "kind": "text",
+        "code": "+ - * / % ^    > >= < <= == !=    && || !    ?:    ??\nif(condition, yes, no)     between(value, min, max)\nmin(...) max(...) avg(...) sum(...) clamp(value, min, max)\nround(value, digits) floor(value) ceil(value) abs(value) sign(value)\nsqrt(value) pow(value, exponent) log(value) log10(value) exp(value)\nsin(value) cos(value) tan(value) percent(value, total)\nlen(text) contains(text, part) startswith(text, part) endswith(text, part)\nupper(text) lower(text) concat(...) number(value) string(value) bool(value)\nisnull(value) isempty(value) isnan(value)\n\n0 | 0.0 | 0.00 | auto:1 | bytes | speed | kb:1 | mb:1 | gb:2 | tb:2\nduration | duration-long | time:HH:mm:ss | time:relative\nupper | lower | sub:0:24 | replace:old:new | math:round:1\nmath:add:1 | math:sub:1 | math:mul:2 | math:div:2 | math:floor | math:ceil | math:abs",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "hardware",
+    "title": "Hardwaresensoren und Treiber",
+    "summary": "Hardwaredaten",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Zeigt tatsächlich vom Gerät und System bereitgestellte Werte. Nicht verfügbare Einträge zeigen -- und den Grund an.\n\nErlaube unter Android das Einblenden über anderen Apps und Benachrichtigungen. Starte danach das HUD auf der Startseite. Einstellungen werden automatisch gespeichert. Hardwarewerte hängen vom Systemzugriff ab. PawnIO und die AIDA64-Desktopschnittstelle sind nur für Windows verfügbar. Android bestimmt das Layout und die Schriftgrösse von Benachrichtigungen.",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Datenverwaltung → Hardwaredaten → Vorlage kopieren",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      }
+    ]
+  },
+  {
+    "id": "sources",
+    "title": "Datenquellen einrichten",
+    "summary": "Datenquellen",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Erlaube unter Android das Einblenden über anderen Apps und Benachrichtigungen. Starte danach das HUD auf der Startseite. Einstellungen werden automatisch gespeichert. Hardwarewerte hängen vom Systemzugriff ab. PawnIO und die AIDA64-Desktopschnittstelle sind nur für Windows verfügbar. Android bestimmt das Layout und die Schriftgrösse von Benachrichtigungen.\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "guide",
+        "title": "Schritte",
+        "body": "Tragen Sie den DeepSeek-Schlüssel ein und übernehmen Sie die Einstellungen.\nDefinieren Sie für HTTP Name, GET-Adresse, Header, Intervall und JSON-Pfade. Aktivieren Sie die fertige Quelle.\nVerwenden Sie anschließend custom.<source>.<variable> im HUD.",
+        "kind": "steps",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "details",
+        "title": "Hinweise und Einstellungen",
+        "body": "",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "http-example",
+        "title": "Beispiel 1",
+        "body": "Kopieren Sie das Beispiel und passen Sie die Werte an. Variablennamen, Funktionsnamen und die Syntax bleiben unverändert.",
+        "kind": "text",
+        "code": "[\n  {\n    \"name\": \"demo\",\n    \"enabled\": false,\n    \"url\": \"https://example.com/status\",\n    \"refreshSeconds\": 10,\n    \"headers\": { \"Authorization\": \"Bearer ${env:MY_API_KEY}\" },\n    \"fields\": [\n      { \"variable\": \"value\", \"jsonPath\": \"data.value\" },\n      { \"variable\": \"name\", \"jsonPath\": \"players[0].name\" }\n    ]\n  }\n]",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "cycle",
+    "title": "Profilwechsel, Klicks und Animationen",
+    "summary": "Mehrere Profile der Reihe nach anzeigen.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "Schritte",
+        "body": "Fügen Sie Profile zur Wechselliste hinzu und ordnen Sie sie an.\nAktivieren Sie bei Bedarf den automatischen Wechsel und stellen Sie das Intervall ein.\nWählen Sie eine einfache, vollständige oder nach oben rollende Animation.\nAktivieren Sie den Profilwechsel per Klick für die manuelle Bedienung.",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "Hinweise und Einstellungen",
+        "body": "Das Entfernen aus der Liste löscht kein Profil. Eine leere Liste verwendet das aktuelle Profil; ein einzelner Eintrag wechselt nicht zu einem anderen Profil. Die Rollanimation bewegt den Inhalt eines dauerhaft sichtbaren HUDs. Jeder HUD verwendet seine eigene Liste und startet seinen Timer beim Klick neu. DeepSeek-Zeitwechsel behalten die vollständige Animation.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "summons",
+    "title": "Tastenkürzel und Mausbereiche",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Tastenkürzel und Mausbereiche · Unsupported\n\nErlaube unter Android das Einblenden über anderen Apps und Benachrichtigungen. Starte danach das HUD auf der Startseite. Einstellungen werden automatisch gespeichert. Hardwarewerte hängen vom Systemzugriff ab. PawnIO und die AIDA64-Desktopschnittstelle sind nur für Windows verfügbar. Android bestimmt das Layout und die Schriftgrösse von Benachrichtigungen.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "triggers",
+    "title": "Auslöseregeln",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Auslöseregeln · Unsupported\n\nErlaube unter Android das Einblenden über anderen Apps und Benachrichtigungen. Starte danach das HUD auf der Startseite. Einstellungen werden automatisch gespeichert. Hardwarewerte hängen vom Systemzugriff ab. PawnIO und die AIDA64-Desktopschnittstelle sind nur für Windows verfügbar. Android bestimmt das Layout und die Schriftgrösse von Benachrichtigungen.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "special",
+    "title": "Zeit, Netzwerk und FPS",
+    "summary": "Profilspezifische Einstellungen verstehen.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Weltuhr → UTC\nNetzwerk → Mbps / MB/s\nPaketprüfung → ICMP / TCP / UDP",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Zeigt tatsächlich vom Gerät und System bereitgestellte Werte. Nicht verfügbare Einträge zeigen -- und den Grund an.\n\nErlaube unter Android das Einblenden über anderen Apps und Benachrichtigungen. Starte danach das HUD auf der Startseite. Einstellungen werden automatisch gespeichert. Hardwarewerte hängen vom Systemzugriff ab. PawnIO und die AIDA64-Desktopschnittstelle sind nur für Windows verfügbar. Android bestimmt das Layout und die Schriftgrösse von Benachrichtigungen.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "media",
+    "title": "Medieninformationen und Wiedergabe",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Medieninformationen und Wiedergabe · Unsupported\n\nErlaube unter Android das Einblenden über anderen Apps und Benachrichtigungen. Starte danach das HUD auf der Startseite. Einstellungen werden automatisch gespeichert. Hardwarewerte hängen vom Systemzugriff ab. PawnIO und die AIDA64-Desktopschnittstelle sind nur für Windows verfügbar. Android bestimmt das Layout und die Schriftgrösse von Benachrichtigungen.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "instances",
+    "title": "Experimentell: mehrere HUDs",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Experimentell: mehrere HUDs · Unsupported\n\nErlaube unter Android das Einblenden über anderen Apps und Benachrichtigungen. Starte danach das HUD auf der Startseite. Einstellungen werden automatisch gespeichert. Hardwarewerte hängen vom Systemzugriff ab. PawnIO und die AIDA64-Desktopschnittstelle sind nur für Windows verfügbar. Android bestimmt das Layout und die Schriftgrösse von Benachrichtigungen.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "maintenance",
+    "title": "Konfiguration, Sicherung und Wartung",
+    "summary": "Einstellungen sichern und Fehler untersuchen.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Experimentell → Exportieren / Importieren\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "advanced"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Erlaube unter Android das Einblenden über anderen Apps und Benachrichtigungen. Starte danach das HUD auf der Startseite. Einstellungen werden automatisch gespeichert. Hardwarewerte hängen vom Systemzugriff ab. PawnIO und die AIDA64-Desktopschnittstelle sind nur für Windows verfügbar. Android bestimmt das Layout und die Schriftgrösse von Benachrichtigungen.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "troubleshooting",
+    "title": "Fehlersuche und Warnungen",
+    "summary": "Anzeigemodus und Datenquellen gezielt prüfen.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Home → Permissions\nAnzeige & Position → Immer sichtbar\nDatenverwaltung → Hardwaredaten\n\nErlaube unter Android das Einblenden über anderen Apps und Benachrichtigungen. Starte danach das HUD auf der Startseite. Einstellungen werden automatisch gespeichert. Hardwarewerte hängen vom Systemzugriff ab. PawnIO und die AIDA64-Desktopschnittstelle sind nur für Windows verfügbar. Android bestimmt das Layout und die Schriftgrösse von Benachrichtigungen.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  }
+]

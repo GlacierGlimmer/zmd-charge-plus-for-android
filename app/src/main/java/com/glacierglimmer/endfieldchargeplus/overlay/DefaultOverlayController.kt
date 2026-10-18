@@ -198,7 +198,8 @@ class DefaultOverlayController @JvmOverloads constructor(
 
         val frame = displayFrame()
         if (frame.widthPx <= 0 || frame.heightPx <= 0) return
-        val geometry = HudPositionMath.geometry(config, frame, positions.density())
+        hudView.setGlobalFontScale(config.globalFontScale.toFloat())
+        val geometry = HudPositionMath.geometry(config, frame, positions.density(),hudView.requiredDesignWidth())
         hudView.setScaledDensity(geometry.scale, geometry.density)
         val alpha = config.hudOpacity.coerceIn(MIN_OPACITY, MAX_OPACITY).toFloat()
         val flags = windowFlags(isDragging = dragging)
@@ -292,6 +293,7 @@ class DefaultOverlayController @JvmOverloads constructor(
         created.onGeometryChanged = {
             if (view === created) { dragging = false; scheduleLayoutRefresh() }
         }
+        created.setGlobalFontScale(config.globalFontScale.toFloat())
         created.setScaledDensity(effectiveScale())
         created.setRenderData(currentData ?: HudRenderData())
         created.applyAnimationState(HudAnimationStates.initial())
@@ -302,7 +304,8 @@ class DefaultOverlayController @JvmOverloads constructor(
     }
 
     private fun buildLayoutParams(hudView: OverlayHudView): WindowManager.LayoutParams {
-        val geometry = HudPositionMath.geometry(config, displayFrame(), positions.density())
+        hudView.setGlobalFontScale(config.globalFontScale.toFloat())
+        val geometry = HudPositionMath.geometry(config, displayFrame(), positions.density(),hudView.requiredDesignWidth())
         hudView.setScaledDensity(geometry.scale, geometry.density)
         val size = intArrayOf(geometry.width, geometry.height)
         val position = geometry.position
@@ -414,16 +417,18 @@ class DefaultOverlayController @JvmOverloads constructor(
     private fun displayFrame(): HudDisplayFrame = positions.displayFrame(config, view?.rootWindowInsets)
 
     private fun effectiveScale(): Float = HudPositionMath.fitScale(
-        rawScale = config.globalScale * config.android.hudScale,
+        rawScale = config.globalScale * config.android.hudScale * config.globalUiScale,
         frame = displayFrame(),
         density = positions.density(),
+        designWidth = view?.requiredDesignWidth() ?: OverlayHudView.DESIGN_VIEW_WIDTH,
+        designHeight = OverlayHudView.DESIGN_VIEW_HEIGHT * maxOf(1.0,config.globalFontScale).toFloat(),
     )
 
     private fun hudSizePx(scale: Float): IntArray {
         val density = positions.density()
         return intArrayOf(
-            OverlayHudView.hudWidthPx(density, scale),
-            (OverlayHudView.DESIGN_VIEW_HEIGHT * density * scale).roundToInt(),
+            ((view?.requiredDesignWidth() ?: OverlayHudView.DESIGN_VIEW_WIDTH) * density * scale).roundToInt(),
+            (OverlayHudView.DESIGN_VIEW_HEIGHT * density * scale * maxOf(1.0,config.globalFontScale)).roundToInt(),
         )
     }
 

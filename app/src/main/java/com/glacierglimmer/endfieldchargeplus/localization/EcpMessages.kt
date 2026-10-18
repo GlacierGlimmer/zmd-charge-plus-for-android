@@ -22,7 +22,7 @@ val LocalUiLanguage = compositionLocalOf { UiLanguage.ZH_CN }
 /** Bilingual text through the shared core table, recomposing when the language changes. */
 @Composable
 fun t(zh: String, en: String): String {
-    return if (LocalUiLanguage.current == UiLanguage.EN) en else zh
+    return Strings.t(zh,en,LocalUiLanguage.current)
 }
 
 /**
@@ -48,8 +48,7 @@ fun keyedText(key: String): String = EcpMessages.t(key)
  */
 @Composable
 fun keyed(key: String): String {
-    return if (LocalUiLanguage.current == UiLanguage.EN) EcpMessages.en(key) ?: EcpMessages.t(key)
-        else EcpMessages.zh(key) ?: EcpMessages.t(key)
+    return Strings.t(EcpMessages.zh(key) ?: key,EcpMessages.en(key) ?: key,LocalUiLanguage.current)
 }
 
 /**

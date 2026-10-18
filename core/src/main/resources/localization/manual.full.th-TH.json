@@ -1,0 +1,380 @@
+[
+  {
+    "id": "start",
+    "title": "เริ่มต้นใช้งาน",
+    "summary": "Home → HUD",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "บน Android ให้อนุญาตการแสดงทับแอปอื่นและการแจ้งเตือน แล้วเริ่ม HUD จากหน้าแรก การตั้งค่าจะบันทึกอัตโนมัติ ค่าฮาร์ดแวร์ขึ้นอยู่กับสิทธิ์เข้าถึงระบบ PawnIO และอินเทอร์เฟซเดสก์ท็อป AIDA64 ใช้ได้เฉพาะ Windows ส่วนรูปแบบและขนาดข้อความการแจ้งเตือนควบคุมโดย Android",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "เนื้อหา HUD → Built-in Profiles → บันทึก",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      }
+    ]
+  },
+  {
+    "id": "display",
+    "title": "การแสดงผล ตำแหน่ง และรูปลักษณ์",
+    "summary": "เลือกจอและวิธีแสดงผล",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "การแสดงผลและตำแหน่ง → แสดงตลอดเวลา / โหมดแสดงผล / ตำแหน่ง / Opacity",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "ขนาดตัวอักษรและมาตราส่วน UI ทั้งหมด",
+        "body": "ใช้กับการตั้งค่าทั้งหมดและ HUD ทุกชุด ขนาดของ HUD แต่ละชุดจะคูณด้วยมาตราส่วน UI ส่วนกลาง",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "บน Android ให้อนุญาตการแสดงทับแอปอื่นและการแจ้งเตือน แล้วเริ่ม HUD จากหน้าแรก การตั้งค่าจะบันทึกอัตโนมัติ ค่าฮาร์ดแวร์ขึ้นอยู่กับสิทธิ์เข้าถึงระบบ PawnIO และอินเทอร์เฟซเดสก์ท็อป AIDA64 ใช้ได้เฉพาะ Windows ส่วนรูปแบบและขนาดข้อความการแจ้งเตือนควบคุมโดย Android",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "profiles",
+    "title": "โปรไฟล์และเนื้อหา HUD",
+    "summary": "ตั้งค่าข้อความ ไอคอน และวงแหวน",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "ขั้นตอนใช้งาน",
+        "body": "สร้างโปรไฟล์หรือแก้สำเนาของโปรไฟล์ในตัว\nกรอกชื่อเรื่อง ค่าหลัก/รอง คำต่อท้าย ไอคอน และสี\nเลือกตัวแปรกับขอบเขตวงแหวน ดูตัวอย่าง แล้วนำไปใช้",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "คำอธิบายและพารามิเตอร์",
+        "body": "ผสมข้อความกับตัวแปรในวงเล็บปีกกาได้ วงแหวนแปลงช่วงค่าเป็น 0–100% โดยไม่เปลี่ยนตัวเลขในข้อความ เงื่อนไขสีใช้หน่วยเดิม การลบโปรไฟล์กำหนดเองไม่ลบโปรไฟล์ในตัว",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "progress",
+        "title": "ตัวอย่าง 1",
+        "body": "คัดลอกตัวอย่างแล้วแก้ค่าตามการตั้งค่าของคุณ ชื่อตัวแปร ชื่อฟังก์ชัน และไวยากรณ์โค้ดคงเดิม",
+        "kind": "text",
+        "code": "cpu.usage\n= (cpu.usage + gpu.usage) / 2",
+        "target": null
+      },
+      {
+        "id": "color-rules",
+        "title": "ตัวอย่าง 2",
+        "body": "คัดลอกตัวอย่างแล้วแก้ค่าตามการตั้งค่าของคุณ ชื่อตัวแปร ชื่อฟังก์ชัน และไวยากรณ์โค้ดคงเดิม",
+        "kind": "text",
+        "code": "cpu.usage >= 90 => #FF4D4F\ncpu.usage >= 75 => #FFB84D",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "variables",
+    "title": "ตัวแปร แม่แบบ และนิพจน์",
+    "summary": "ค้นหาข้อมูลและกำหนดรูปแบบ",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "ขั้นตอนใช้งาน",
+        "body": "ค้นหาตัวแปรในการจัดการข้อมูล แล้วอ่านคำอธิบายและหน่วย\nคัดลอกชื่อสำหรับกฎหรือวงแหวน คัดลอกแม่แบบสำหรับข้อความ\nดูตัวอย่างและตารางอ้างอิงด้านล่าง",
+        "kind": "steps",
+        "code": "",
+        "target": "variables"
+      },
+      {
+        "id": "details",
+        "title": "คำอธิบายและพารามิเตอร์",
+        "body": "รูปแบบทำงานจากซ้ายไปขวา 0.0 แสดงทศนิยมหนึ่งตำแหน่ง auto:1 เลือกหน่วยอัตโนมัติ จึงไม่ต้องเติมหน่วยซ้ำ ชื่อฟังก์ชันไม่เปลี่ยนและชื่อตัวแปรเก่ายังใช้ได้ รายการซ้ำถูกซ่อนแต่ค่าสรุปยังอยู่ -- หมายถึงไม่มีค่าที่ใช้ได้",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "format",
+        "title": "ตัวอย่าง 1",
+        "body": "คัดลอกตัวอย่างแล้วแก้ค่าตามการตั้งค่าของคุณ ชื่อตัวแปร ชื่อฟังก์ชัน และไวยากรณ์โค้ดคงเดิม",
+        "kind": "text",
+        "code": "CPU {cpu.usage|0.0}%\n{cpu.frequency_ghz|0.00} GHz\n{= (cpu.usage + gpu.usage) / 2 |0.0}%",
+        "target": null
+      },
+      {
+        "id": "pipelines",
+        "title": "ตัวอย่าง 2",
+        "body": "คัดลอกตัวอย่างแล้วแก้ค่าตามการตั้งค่าของคุณ ชื่อตัวแปร ชื่อฟังก์ชัน และไวยากรณ์โค้ดคงเดิม",
+        "kind": "text",
+        "code": "{network.download_bps|auto:1}\n{cpu.usage|math:round:1|0.0}",
+        "target": null
+      },
+      {
+        "id": "operators",
+        "title": "ตัวอย่าง 3",
+        "body": "คัดลอกตัวอย่างแล้วแก้ค่าตามการตั้งค่าของคุณ ชื่อตัวแปร ชื่อฟังก์ชัน และไวยากรณ์โค้ดคงเดิม",
+        "kind": "text",
+        "code": "{= cpu.usage >= 90 ? 'HIGH' : 'NORMAL'}\n{= clamp(cpu.usage, 0, 100)|0.0}",
+        "target": null
+      },
+      {
+        "id": "numeric-functions",
+        "title": "ตัวอย่าง 4",
+        "body": "คัดลอกตัวอย่างแล้วแก้ค่าตามการตั้งค่าของคุณ ชื่อตัวแปร ชื่อฟังก์ชัน และไวยากรณ์โค้ดคงเดิม",
+        "kind": "text",
+        "code": "{= avg(cpu.usage, gpu.usage)|0.0}\n{= percent(memory.used_bytes, memory.total_bytes)|0.0}",
+        "target": null
+      },
+      {
+        "id": "text-functions",
+        "title": "ตัวอย่าง 5",
+        "body": "คัดลอกตัวอย่างแล้วแก้ค่าตามการตั้งค่าของคุณ ชื่อตัวแปร ชื่อฟังก์ชัน และไวยากรณ์โค้ดคงเดิม",
+        "kind": "text",
+        "code": "{media.title|sub:0:24}\n{cpu.usage|math:div:100|0.00}",
+        "target": null
+      },
+      {
+        "id": "units-time",
+        "title": "ตัวอย่าง 6",
+        "body": "คัดลอกตัวอย่างแล้วแก้ค่าตามการตั้งค่าของคุณ ชื่อตัวแปร ชื่อฟังก์ชัน และไวยากรณ์โค้ดคงเดิม",
+        "kind": "text",
+        "code": "{memory.used_bytes|gb:2} GiB\n{battery.time_remaining_seconds|duration}",
+        "target": null
+      },
+      {
+        "id": "function-reference",
+        "title": "ตารางฟังก์ชันและรูปแบบ",
+        "body": "คัดลอกตัวอย่างแล้วแก้ค่าตามการตั้งค่าของคุณ ชื่อตัวแปร ชื่อฟังก์ชัน และไวยากรณ์โค้ดคงเดิม",
+        "kind": "text",
+        "code": "+ - * / % ^    > >= < <= == !=    && || !    ?:    ??\nif(condition, yes, no)     between(value, min, max)\nmin(...) max(...) avg(...) sum(...) clamp(value, min, max)\nround(value, digits) floor(value) ceil(value) abs(value) sign(value)\nsqrt(value) pow(value, exponent) log(value) log10(value) exp(value)\nsin(value) cos(value) tan(value) percent(value, total)\nlen(text) contains(text, part) startswith(text, part) endswith(text, part)\nupper(text) lower(text) concat(...) number(value) string(value) bool(value)\nisnull(value) isempty(value) isnan(value)\n\n0 | 0.0 | 0.00 | auto:1 | bytes | speed | kb:1 | mb:1 | gb:2 | tb:2\nduration | duration-long | time:HH:mm:ss | time:relative\nupper | lower | sub:0:24 | replace:old:new | math:round:1\nmath:add:1 | math:sub:1 | math:mul:2 | math:div:2 | math:floor | math:ceil | math:abs",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "hardware",
+    "title": "เซ็นเซอร์และไดรเวอร์",
+    "summary": "ข้อมูลฮาร์ดแวร์",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "แสดงค่าที่อุปกรณ์และระบบให้มาจริง รายการที่อ่านไม่ได้จะแสดง -- พร้อมเหตุผล\n\nบน Android ให้อนุญาตการแสดงทับแอปอื่นและการแจ้งเตือน แล้วเริ่ม HUD จากหน้าแรก การตั้งค่าจะบันทึกอัตโนมัติ ค่าฮาร์ดแวร์ขึ้นอยู่กับสิทธิ์เข้าถึงระบบ PawnIO และอินเทอร์เฟซเดสก์ท็อป AIDA64 ใช้ได้เฉพาะ Windows ส่วนรูปแบบและขนาดข้อความการแจ้งเตือนควบคุมโดย Android",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "การจัดการข้อมูล → ข้อมูลฮาร์ดแวร์ → คัดลอกแม่แบบ",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      }
+    ]
+  },
+  {
+    "id": "sources",
+    "title": "ตั้งค่าแหล่งข้อมูล",
+    "summary": "ตั้งค่าแหล่งข้อมูล",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "บน Android ให้อนุญาตการแสดงทับแอปอื่นและการแจ้งเตือน แล้วเริ่ม HUD จากหน้าแรก การตั้งค่าจะบันทึกอัตโนมัติ ค่าฮาร์ดแวร์ขึ้นอยู่กับสิทธิ์เข้าถึงระบบ PawnIO และอินเทอร์เฟซเดสก์ท็อป AIDA64 ใช้ได้เฉพาะ Windows ส่วนรูปแบบและขนาดข้อความการแจ้งเตือนควบคุมโดย Android\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "guide",
+        "title": "ขั้นตอนใช้งาน",
+        "body": "ใส่คีย์ DeepSeek แล้วนำไปใช้\nสำหรับ HTTP กำหนดชื่อ URL แบบ GET ส่วนหัว ช่วงเวลา และเส้นทาง JSON แล้วเปิดแหล่งข้อมูล\nใช้ custom.<source>.<variable> ในโปรไฟล์",
+        "kind": "steps",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "details",
+        "title": "คำอธิบายและพารามิเตอร์",
+        "body": "",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "http-example",
+        "title": "ตัวอย่าง 1",
+        "body": "คัดลอกตัวอย่างแล้วแก้ค่าตามการตั้งค่าของคุณ ชื่อตัวแปร ชื่อฟังก์ชัน และไวยากรณ์โค้ดคงเดิม",
+        "kind": "text",
+        "code": "[\n  {\n    \"name\": \"demo\",\n    \"enabled\": false,\n    \"url\": \"https://example.com/status\",\n    \"refreshSeconds\": 10,\n    \"headers\": { \"Authorization\": \"Bearer ${env:MY_API_KEY}\" },\n    \"fields\": [\n      { \"variable\": \"value\", \"jsonPath\": \"data.value\" },\n      { \"variable\": \"name\", \"jsonPath\": \"players[0].name\" }\n    ]\n  }\n]",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "cycle",
+    "title": "การสลับและภาพเคลื่อนไหว",
+    "summary": "แสดงโปรไฟล์ตามลำดับ",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "ขั้นตอนใช้งาน",
+        "body": "เพิ่มโปรไฟล์ลงรายการแล้วจัดลำดับ\nเปิดสลับอัตโนมัติและช่วงเวลาหากต้องการ\nเลือกแบบเรียบง่าย แบบเต็ม หรือเลื่อนขึ้น\nเปิดสลับเมื่อคลิกเพื่อเลื่อนไปรายการถัดไปเอง",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "คำอธิบายและพารามิเตอร์",
+        "body": "เอาออกจากรายการไม่ได้ลบโปรไฟล์ รายการว่างใช้โปรไฟล์ปัจจุบัน รายการเดียวไม่สลับไปโปรไฟล์อื่น การเลื่อนขยับเนื้อหาของ HUD ถาวร แต่ละ HUD มีรายการของตัวเอง คลิกจะเริ่มจับเวลาใหม่ การเปลี่ยนช่วง DeepSeek ใช้ภาพเคลื่อนไหวแบบเต็ม",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "summons",
+    "title": "ปุ่มลัดและพื้นที่เมาส์",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "ปุ่มลัดและพื้นที่เมาส์ · Unsupported\n\nบน Android ให้อนุญาตการแสดงทับแอปอื่นและการแจ้งเตือน แล้วเริ่ม HUD จากหน้าแรก การตั้งค่าจะบันทึกอัตโนมัติ ค่าฮาร์ดแวร์ขึ้นอยู่กับสิทธิ์เข้าถึงระบบ PawnIO และอินเทอร์เฟซเดสก์ท็อป AIDA64 ใช้ได้เฉพาะ Windows ส่วนรูปแบบและขนาดข้อความการแจ้งเตือนควบคุมโดย Android",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "triggers",
+    "title": "กฎการเรียกแสดง",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "กฎการเรียกแสดง · Unsupported\n\nบน Android ให้อนุญาตการแสดงทับแอปอื่นและการแจ้งเตือน แล้วเริ่ม HUD จากหน้าแรก การตั้งค่าจะบันทึกอัตโนมัติ ค่าฮาร์ดแวร์ขึ้นอยู่กับสิทธิ์เข้าถึงระบบ PawnIO และอินเทอร์เฟซเดสก์ท็อป AIDA64 ใช้ได้เฉพาะ Windows ส่วนรูปแบบและขนาดข้อความการแจ้งเตือนควบคุมโดย Android",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "special",
+    "title": "นาฬิกา เครือข่าย และ FPS",
+    "summary": "ตั้งค่าฟังก์ชันเฉพาะโปรไฟล์",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "นาฬิกาโลก → UTC\nเครือข่าย → Mbps / MB/s\nตรวจสอบเครือข่าย → ICMP / TCP / UDP",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "แสดงค่าที่อุปกรณ์และระบบให้มาจริง รายการที่อ่านไม่ได้จะแสดง -- พร้อมเหตุผล\n\nบน Android ให้อนุญาตการแสดงทับแอปอื่นและการแจ้งเตือน แล้วเริ่ม HUD จากหน้าแรก การตั้งค่าจะบันทึกอัตโนมัติ ค่าฮาร์ดแวร์ขึ้นอยู่กับสิทธิ์เข้าถึงระบบ PawnIO และอินเทอร์เฟซเดสก์ท็อป AIDA64 ใช้ได้เฉพาะ Windows ส่วนรูปแบบและขนาดข้อความการแจ้งเตือนควบคุมโดย Android",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "media",
+    "title": "สื่อและความคืบหน้า",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "สื่อและความคืบหน้า · Unsupported\n\nบน Android ให้อนุญาตการแสดงทับแอปอื่นและการแจ้งเตือน แล้วเริ่ม HUD จากหน้าแรก การตั้งค่าจะบันทึกอัตโนมัติ ค่าฮาร์ดแวร์ขึ้นอยู่กับสิทธิ์เข้าถึงระบบ PawnIO และอินเทอร์เฟซเดสก์ท็อป AIDA64 ใช้ได้เฉพาะ Windows ส่วนรูปแบบและขนาดข้อความการแจ้งเตือนควบคุมโดย Android",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "instances",
+    "title": "หลาย HUD แบบทดลอง",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "หลาย HUD แบบทดลอง · Unsupported\n\nบน Android ให้อนุญาตการแสดงทับแอปอื่นและการแจ้งเตือน แล้วเริ่ม HUD จากหน้าแรก การตั้งค่าจะบันทึกอัตโนมัติ ค่าฮาร์ดแวร์ขึ้นอยู่กับสิทธิ์เข้าถึงระบบ PawnIO และอินเทอร์เฟซเดสก์ท็อป AIDA64 ใช้ได้เฉพาะ Windows ส่วนรูปแบบและขนาดข้อความการแจ้งเตือนควบคุมโดย Android",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "maintenance",
+    "title": "การตั้งค่าและบำรุงรักษา",
+    "summary": "สำรองและดูการวินิจฉัย",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "คุณสมบัติทดลอง → ส่งออก / นำเข้า\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "advanced"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "บน Android ให้อนุญาตการแสดงทับแอปอื่นและการแจ้งเตือน แล้วเริ่ม HUD จากหน้าแรก การตั้งค่าจะบันทึกอัตโนมัติ ค่าฮาร์ดแวร์ขึ้นอยู่กับสิทธิ์เข้าถึงระบบ PawnIO และอินเทอร์เฟซเดสก์ท็อป AIDA64 ใช้ได้เฉพาะ Windows ส่วนรูปแบบและขนาดข้อความการแจ้งเตือนควบคุมโดย Android",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "troubleshooting",
+    "title": "ปัญหาและคำเตือนข้อมูล",
+    "summary": "ตรวจการแสดงผลและแหล่งข้อมูล",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Home → Permissions\nการแสดงผลและตำแหน่ง → แสดงตลอดเวลา\nการจัดการข้อมูล → ข้อมูลฮาร์ดแวร์\n\nบน Android ให้อนุญาตการแสดงทับแอปอื่นและการแจ้งเตือน แล้วเริ่ม HUD จากหน้าแรก การตั้งค่าจะบันทึกอัตโนมัติ ค่าฮาร์ดแวร์ขึ้นอยู่กับสิทธิ์เข้าถึงระบบ PawnIO และอินเทอร์เฟซเดสก์ท็อป AIDA64 ใช้ได้เฉพาะ Windows ส่วนรูปแบบและขนาดข้อความการแจ้งเตือนควบคุมโดย Android",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  }
+]

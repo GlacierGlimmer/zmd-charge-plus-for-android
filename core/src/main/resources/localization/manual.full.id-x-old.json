@@ -1,0 +1,380 @@
+[
+  {
+    "id": "start",
+    "title": "Moelai menggoenakan ETJP",
+    "summary": "Home → HUD",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Di Android, izinkan tampilan di atas aplikasi lain dan notifikasi, laloe moelai HUD dari Beranda. Pengatoeran tersimpan otomatis. Pembatjaan perangkat keras bergantoeng pada akses sistem. PawnIO dan antarmoeka desktop AIDA64 hanja tersedia di Windows. Android mengatoer tata letak dan oekoeran teks notifikasi.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Konten HUD → Built-in Profiles → Simpan",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      }
+    ]
+  },
+  {
+    "id": "display",
+    "title": "Tampilan, posisi, dan roepa",
+    "summary": "Atoer monitor serta mode tampilan.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Tampilan dan posisi → Selaloe tampil / Mode tampilan / Posisi / Opacity",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Oekoeran font dan skala UI global",
+        "body": "Berlakoe oentoek semoea pengatoeran dan setiap HUD. Oekoeran masing-masing HUD dikalikan dengan skala UI global.",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Di Android, izinkan tampilan di atas aplikasi lain dan notifikasi, laloe moelai HUD dari Beranda. Pengatoeran tersimpan otomatis. Pembatjaan perangkat keras bergantoeng pada akses sistem. PawnIO dan antarmoeka desktop AIDA64 hanja tersedia di Windows. Android mengatoer tata letak dan oekoeran teks notifikasi.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "profiles",
+    "title": "Profil dan isi HUD",
+    "summary": "Atoer teks, ikon, dan tjintjin.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "Langkah penggoenaan",
+        "body": "Boeat profil ataoe edit salinan profil bawaan.\nIsi djoedoel, nilai oetama dan tambahan, achiran, ikon, serta warna.\nPilih variabel dan batas tjintjin, periksa pratindjaoe, laloe terapkan.",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "Keterangan dan parameter",
+        "body": "Teks biasa dapat digaboengkan dengan variabel dalam koeroeng koerawal. Tjintjin memetakan rentang ke 0–100% tanpa mengoebah angka teks. Atoeran warna memakai satoean asli. Menghapoes profil choesoes tidak menghapoes profil bawaan.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "progress",
+        "title": "Tjontoh 1",
+        "body": "Salin tjontoh laloe sesoeaikan nilainja. Nama variabel, foengsi, dan sintaks kode tidak diterdjemahkan.",
+        "kind": "text",
+        "code": "cpu.usage\n= (cpu.usage + gpu.usage) / 2",
+        "target": null
+      },
+      {
+        "id": "color-rules",
+        "title": "Tjontoh 2",
+        "body": "Salin tjontoh laloe sesoeaikan nilainja. Nama variabel, foengsi, dan sintaks kode tidak diterdjemahkan.",
+        "kind": "text",
+        "code": "cpu.usage >= 90 => #FF4D4F\ncpu.usage >= 75 => #FFB84D",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "variables",
+    "title": "Variabel, templat, dan ekspresi",
+    "summary": "Tjari data dan tentoekan formatnja.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "Langkah penggoenaan",
+        "body": "Tjari variabel di Manadjemen data dan batja deskripsi serta satoeannja.\nSalin nama oentoek atoeran ataoe tjintjin; salin templat oentoek teks.\nGoenakan tjontoh dan referensi berikoet.",
+        "kind": "steps",
+        "code": "",
+        "target": "variables"
+      },
+      {
+        "id": "details",
+        "title": "Keterangan dan parameter",
+        "body": "Format didjalankan dari kiri ke kanan. 0.0 menampilkan satoe desimal; auto:1 memilih satoean otomatis, djadi djangan menambahkan satoean lagi. Nama foengsi tetap. Nama variabel lama tetap berfoengsi. Doeplikat disemboenjikan, indikator ringkasan tetap tersedia. -- berarti tidak ada nilai jang valid.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "format",
+        "title": "Tjontoh 1",
+        "body": "Salin tjontoh laloe sesoeaikan nilainja. Nama variabel, foengsi, dan sintaks kode tidak diterdjemahkan.",
+        "kind": "text",
+        "code": "CPU {cpu.usage|0.0}%\n{cpu.frequency_ghz|0.00} GHz\n{= (cpu.usage + gpu.usage) / 2 |0.0}%",
+        "target": null
+      },
+      {
+        "id": "pipelines",
+        "title": "Tjontoh 2",
+        "body": "Salin tjontoh laloe sesoeaikan nilainja. Nama variabel, foengsi, dan sintaks kode tidak diterdjemahkan.",
+        "kind": "text",
+        "code": "{network.download_bps|auto:1}\n{cpu.usage|math:round:1|0.0}",
+        "target": null
+      },
+      {
+        "id": "operators",
+        "title": "Tjontoh 3",
+        "body": "Salin tjontoh laloe sesoeaikan nilainja. Nama variabel, foengsi, dan sintaks kode tidak diterdjemahkan.",
+        "kind": "text",
+        "code": "{= cpu.usage >= 90 ? 'HIGH' : 'NORMAL'}\n{= clamp(cpu.usage, 0, 100)|0.0}",
+        "target": null
+      },
+      {
+        "id": "numeric-functions",
+        "title": "Tjontoh 4",
+        "body": "Salin tjontoh laloe sesoeaikan nilainja. Nama variabel, foengsi, dan sintaks kode tidak diterdjemahkan.",
+        "kind": "text",
+        "code": "{= avg(cpu.usage, gpu.usage)|0.0}\n{= percent(memory.used_bytes, memory.total_bytes)|0.0}",
+        "target": null
+      },
+      {
+        "id": "text-functions",
+        "title": "Tjontoh 5",
+        "body": "Salin tjontoh laloe sesoeaikan nilainja. Nama variabel, foengsi, dan sintaks kode tidak diterdjemahkan.",
+        "kind": "text",
+        "code": "{media.title|sub:0:24}\n{cpu.usage|math:div:100|0.00}",
+        "target": null
+      },
+      {
+        "id": "units-time",
+        "title": "Tjontoh 6",
+        "body": "Salin tjontoh laloe sesoeaikan nilainja. Nama variabel, foengsi, dan sintaks kode tidak diterdjemahkan.",
+        "kind": "text",
+        "code": "{memory.used_bytes|gb:2} GiB\n{battery.time_remaining_seconds|duration}",
+        "target": null
+      },
+      {
+        "id": "function-reference",
+        "title": "Referensi foengsi dan format",
+        "body": "Salin tjontoh laloe sesoeaikan nilainja. Nama variabel, foengsi, dan sintaks kode tidak diterdjemahkan.",
+        "kind": "text",
+        "code": "+ - * / % ^    > >= < <= == !=    && || !    ?:    ??\nif(condition, yes, no)     between(value, min, max)\nmin(...) max(...) avg(...) sum(...) clamp(value, min, max)\nround(value, digits) floor(value) ceil(value) abs(value) sign(value)\nsqrt(value) pow(value, exponent) log(value) log10(value) exp(value)\nsin(value) cos(value) tan(value) percent(value, total)\nlen(text) contains(text, part) startswith(text, part) endswith(text, part)\nupper(text) lower(text) concat(...) number(value) string(value) bool(value)\nisnull(value) isempty(value) isnan(value)\n\n0 | 0.0 | 0.00 | auto:1 | bytes | speed | kb:1 | mb:1 | gb:2 | tb:2\nduration | duration-long | time:HH:mm:ss | time:relative\nupper | lower | sub:0:24 | replace:old:new | math:round:1\nmath:add:1 | math:sub:1 | math:mul:2 | math:div:2 | math:floor | math:ceil | math:abs",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "hardware",
+    "title": "Sensor dan driver",
+    "summary": "Data perangkat keras",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Menampilkan pembatjaan jang benar-benar disediakan perangkat dan sistem. Item jang tidak tersedia menampilkan -- beserta alasannja.\n\nDi Android, izinkan tampilan di atas aplikasi lain dan notifikasi, laloe moelai HUD dari Beranda. Pengatoeran tersimpan otomatis. Pembatjaan perangkat keras bergantoeng pada akses sistem. PawnIO dan antarmoeka desktop AIDA64 hanja tersedia di Windows. Android mengatoer tata letak dan oekoeran teks notifikasi.",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Pengelolaan data → Data perangkat keras → Salin templat",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      }
+    ]
+  },
+  {
+    "id": "sources",
+    "title": "Konfigoerasi soember data",
+    "summary": "Konfigoerasi soember data",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Di Android, izinkan tampilan di atas aplikasi lain dan notifikasi, laloe moelai HUD dari Beranda. Pengatoeran tersimpan otomatis. Pembatjaan perangkat keras bergantoeng pada akses sistem. PawnIO dan antarmoeka desktop AIDA64 hanja tersedia di Windows. Android mengatoer tata letak dan oekoeran teks notifikasi.\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "guide",
+        "title": "Langkah penggoenaan",
+        "body": "Masoekkan koentji DeepSeek laloe terapkan.\nOentoek HTTP, atoer nama, OERL GET, header, interval, dan djaloer JSON; aktifkan soember.\nGoenakan custom.<source>.<variable> dalam profil.",
+        "kind": "steps",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "details",
+        "title": "Keterangan dan parameter",
+        "body": "",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "http-example",
+        "title": "Tjontoh 1",
+        "body": "Salin tjontoh laloe sesoeaikan nilainja. Nama variabel, foengsi, dan sintaks kode tidak diterdjemahkan.",
+        "kind": "text",
+        "code": "[\n  {\n    \"name\": \"demo\",\n    \"enabled\": false,\n    \"url\": \"https://example.com/status\",\n    \"refreshSeconds\": 10,\n    \"headers\": { \"Authorization\": \"Bearer ${env:MY_API_KEY}\" },\n    \"fields\": [\n      { \"variable\": \"value\", \"jsonPath\": \"data.value\" },\n      { \"variable\": \"name\", \"jsonPath\": \"players[0].name\" }\n    ]\n  }\n]",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "cycle",
+    "title": "Rotasi dan animasi",
+    "summary": "Ganti beberapa profil setjara beroeroetan.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "Langkah penggoenaan",
+        "body": "Tambahkan profil ke daftar dan atoer oeroetannja.\nAktifkan rotasi otomatis beserta interval djika diperloekan.\nPilih animasi sederhana, lengkap, ataoe goelir ke atas.\nAktifkan pergantian dengan klik oentoek madjoe setjara manoeal.",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "Keterangan dan parameter",
+        "body": "Mengeloearkan dari daftar tidak menghapoes profil. Daftar kosong memakai profil saat ini; satoe item tidak berpindah ke profil lain. Goelir menggerakkan isi HUD tetap. Setiap HUD memiliki daftar sendiri; klik memoelai oelang waktoenja. Pergantian periode DeepSeek memakai animasi lengkap.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "summons",
+    "title": "Pintasan dan area mooese",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Pintasan dan area mooese · Unsupported\n\nDi Android, izinkan tampilan di atas aplikasi lain dan notifikasi, laloe moelai HUD dari Beranda. Pengatoeran tersimpan otomatis. Pembatjaan perangkat keras bergantoeng pada akses sistem. PawnIO dan antarmoeka desktop AIDA64 hanja tersedia di Windows. Android mengatoer tata letak dan oekoeran teks notifikasi.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "triggers",
+    "title": "Atoeran pemitjoe",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Atoeran pemitjoe · Unsupported\n\nDi Android, izinkan tampilan di atas aplikasi lain dan notifikasi, laloe moelai HUD dari Beranda. Pengatoeran tersimpan otomatis. Pembatjaan perangkat keras bergantoeng pada akses sistem. PawnIO dan antarmoeka desktop AIDA64 hanja tersedia di Windows. Android mengatoer tata letak dan oekoeran teks notifikasi.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "special",
+    "title": "Djam, djaringan, dan FPS",
+    "summary": "Atoer fitoer choesoes setiap profil.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Djam doenia → UTC\nDjaringan → Mbps / MB/s\nPemeriksaan djaringan → ICMP / TCP / UDP",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Menampilkan pembatjaan jang benar-benar disediakan perangkat dan sistem. Item jang tidak tersedia menampilkan -- beserta alasannja.\n\nDi Android, izinkan tampilan di atas aplikasi lain dan notifikasi, laloe moelai HUD dari Beranda. Pengatoeran tersimpan otomatis. Pembatjaan perangkat keras bergantoeng pada akses sistem. PawnIO dan antarmoeka desktop AIDA64 hanja tersedia di Windows. Android mengatoer tata letak dan oekoeran teks notifikasi.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "media",
+    "title": "Media dan kemadjoean",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Media dan kemadjoean · Unsupported\n\nDi Android, izinkan tampilan di atas aplikasi lain dan notifikasi, laloe moelai HUD dari Beranda. Pengatoeran tersimpan otomatis. Pembatjaan perangkat keras bergantoeng pada akses sistem. PawnIO dan antarmoeka desktop AIDA64 hanja tersedia di Windows. Android mengatoer tata letak dan oekoeran teks notifikasi.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "instances",
+    "title": "Beberapa HUD eksperimental",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Beberapa HUD eksperimental · Unsupported\n\nDi Android, izinkan tampilan di atas aplikasi lain dan notifikasi, laloe moelai HUD dari Beranda. Pengatoeran tersimpan otomatis. Pembatjaan perangkat keras bergantoeng pada akses sistem. PawnIO dan antarmoeka desktop AIDA64 hanja tersedia di Windows. Android mengatoer tata letak dan oekoeran teks notifikasi.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "maintenance",
+    "title": "Pengatoeran dan pemeliharaan",
+    "summary": "Tjadangkan pengatoeran dan periksa diagnosis.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Fitoer eksperimental → Ekspor / Impor\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "advanced"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Di Android, izinkan tampilan di atas aplikasi lain dan notifikasi, laloe moelai HUD dari Beranda. Pengatoeran tersimpan otomatis. Pembatjaan perangkat keras bergantoeng pada akses sistem. PawnIO dan antarmoeka desktop AIDA64 hanja tersedia di Windows. Android mengatoer tata letak dan oekoeran teks notifikasi.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "troubleshooting",
+    "title": "Masalah dan peringatan data",
+    "summary": "Periksa tampilan dan soembernja.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Home → Permissions\nTampilan dan posisi → Selaloe tampil\nPengelolaan data → Data perangkat keras\n\nDi Android, izinkan tampilan di atas aplikasi lain dan notifikasi, laloe moelai HUD dari Beranda. Pengatoeran tersimpan otomatis. Pembatjaan perangkat keras bergantoeng pada akses sistem. PawnIO dan antarmoeka desktop AIDA64 hanja tersedia di Windows. Android mengatoer tata letak dan oekoeran teks notifikasi.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  }
+]

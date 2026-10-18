@@ -1,0 +1,388 @@
+[
+  {
+    "id": "start",
+    "title": "快速開始",
+    "summary": "Home → HUD",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android 需允許懸浮視窗和通知，再於首頁啟動 HUD。設定自動儲存；硬體讀數取決於系統權限。PawnIO 和 AIDA64 桌面介面僅適用於 Windows。通知的版面與字級由 Android 系統控制。",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "HUD顯示內容 → Built-in Profiles → 儲存",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      }
+    ]
+  },
+  {
+    "id": "display",
+    "title": "顯示、位置與外觀",
+    "summary": "理解兩種顯示模式及屏幕坐標。",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "顯示與位置 → 持續顯示 / 顯示模式 / 位置 / Opacity",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "全域字體大小與UI縮放",
+        "body": "套用至整個設定介面和所有 HUD。個別 HUD 的大小設定會與全域 UI 縮放相乘。",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android 需允許懸浮視窗和通知，再於首頁啟動 HUD。設定自動儲存；硬體讀數取決於系統權限。PawnIO 和 AIDA64 桌面介面僅適用於 Windows。通知的版面與字級由 Android 系統控制。",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "profiles",
+    "title": "方案與 HUD 內容",
+    "summary": "決定 HUD 顯示什么，以及如何呈現。",
+    "blocks": [
+      {
+        "id": "profile-actions",
+        "title": "新建、儲存、刪除與預覽",
+        "body": "選擇內置方案作為起點，修改后點擊方案旁的“儲存”會建立自定義副本。也可新建空白方案。刪除用于清理自定義方案；內置原始預設保留。預覽使用目前編輯內容和真實資料；儲存后實際 HUD 才采用新設定。",
+        "kind": "text",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "text-fields",
+        "title": "文字區域與圖標",
+        "body": "頂部標記、標題、左側主值/次值和右側數值都可以混合普通文字與變數模板。右側后綴適合放 %、°C、GHz 等單位。左右圖標用于標識內容；強調色控制膠囊與圓環的主題顏色。",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "progress",
+        "title": "圓環的變數與量程",
+        "body": "圓環按“目前值 − 最小值”相對整個量程計算比例，并限制在 0–100%。變數本身可使用原始變數名或 = 開頭的數值表達式。溫度、網速、幀率等應設置適合自己的最大值；量程不會改變文字顯示的原始讀數。",
+        "kind": "text",
+        "code": "cpu.usage\n= (cpu.usage + gpu.usage) / 2",
+        "target": null
+      },
+      {
+        "id": "color-rules",
+        "title": "條件變色",
+        "body": "每行設定一個“變數 運算符 閾值 => 顏色”。規則用于按負載、溫度等改變強調色；閾值使用該變數的原始單位。顏色必須是有效色值；缺失資料不會被當作 0 來匹配條件。",
+        "kind": "text",
+        "code": "cpu.usage >= 90 => #FF4D4F\ncpu.usage >= 75 => #FFB84D",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "variables",
+    "title": "變數、模板與表達式",
+    "summary": "從變數庫復制，再組合成可讀的 HUD。",
+    "blocks": [
+      {
+        "id": "library",
+        "title": "查找與復制變數",
+        "body": "在“資料管理 → 變數庫”按名稱、變數名或分類搜索。選擇后查看含義、類型、單位和格式建議。“復制變數名”適合圓環變數或觸發規則；“復制模板”得到帶花括號的寫法，適合文字區域。",
+        "kind": "text",
+        "code": "",
+        "target": "variables"
+      },
+      {
+        "id": "format",
+        "title": "常用模板格式",
+        "body": "花括號中寫變數名；豎線后接顯示格式。0 表示整數，0.0 / 0.00 表示固定小數位。普通文字可寫在模板兩側。數字格式只改變顯示，不會改動資料來源。",
+        "kind": "text",
+        "code": "CPU {cpu.usage|0.0}%\n{cpu.frequency_ghz|0.00} GHz\n{= (cpu.usage + gpu.usage) / 2 |0.0}%",
+        "target": null
+      },
+      {
+        "id": "pipelines",
+        "title": "自動單位與格式管道",
+        "body": "auto:1 根據變數含義選擇單位；不要再重復添加同一單位。格式管道從左到右執行，既可轉換數值，也可裁剪文字。進階公式在 {= ...} 內使用，圓環公式則直接以 = 開頭。",
+        "kind": "text",
+        "code": "{network.download_bps|auto:1}\n{cpu.usage|math:round:1|0.0}",
+        "target": null
+      },
+      {
+        "id": "operators",
+        "title": "運算、比較與條件",
+        "body": "支持 +、-、*、/、% 取余、^ 乘方和括號；比較可用 >、>=、<、<=、==、!=。邏輯可用 &&、||、!，也支持 and/or/not。條件表達式寫作 條件 ? 成立值 : 否則值，或 if(條件, 成立值, 否則值)。用 ?? 為缺失/空值指定回退內容。",
+        "kind": "text",
+        "code": "{= cpu.usage >= 90 ? 'HIGH' : 'NORMAL'}\n{= clamp(cpu.usage, 0, 100)|0.0}",
+        "target": null
+      },
+      {
+        "id": "numeric-functions",
+        "title": "數值函數速查",
+        "body": "聚合：min、max、avg、sum。范圍與精度：clamp(值, 下限, 上限)、round(值, 小數位)、floor、ceil、abs、sign。數學：sqrt、pow、log、log10、exp、sin、cos、tan。percent(目前值, 總量) 計算百分比；between(值, 下限, 上限) 判斷閉區間。",
+        "kind": "text",
+        "code": "{= avg(cpu.usage, gpu.usage)|0.0}\n{= percent(memory.used_bytes, memory.total_bytes)|0.0}",
+        "target": null
+      },
+      {
+        "id": "text-functions",
+        "title": "文字、類型與格式管道速查",
+        "body": "表達式函數：len、contains、startswith、endswith、upper、lower、concat；類型轉換：number、string、bool；檢查：isnull、isempty、isnan。模板管道可用 upper/lower、sub:起點:長度（起點從 0 開始）、replace:原文:新文，以及 math:add/sub/mul/div/round/floor/ceil/abs。",
+        "kind": "text",
+        "code": "{media.title|sub:0:24}\n{cpu.usage|math:div:100|0.00}",
+        "target": null
+      },
+      {
+        "id": "units-time",
+        "title": "容量與時間格式",
+        "body": "bytes / speed 自動顯示字節容量或每秒速率；kb:n、mb:n、gb:n、tb:n 按 1024 換算并保留 n 位小數，單位后綴由你在方案中決定。duration 與 duration-long 將秒數轉為時長。日期時間字段可用 time:日期格式；time:relative 可顯示相對時間/時長。",
+        "kind": "text",
+        "code": "{memory.used_bytes|gb:2} GiB\n{battery.time_remaining_seconds|duration}",
+        "target": null
+      },
+      {
+        "id": "duplicates",
+        "title": "硬體變數與舊變數",
+        "body": "發現對應硬體項目后，重復的舊變數會從變數庫移除，舊方案中的變數名仍可讀取。新硬體變數指向明確設備和傳感器；“最高溫度”“平均溫度”等彙總值具有不同含義，會單獨保留。變數顯示 -- 表示目前未取得有效資料。",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "hardware",
+    "title": "硬體傳感器與驅動程式",
+    "summary": "硬體資料",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "顯示裝置和系統實際提供的讀數；無法使用的項目顯示 --，並說明原因。\n\nAndroid 需允許懸浮視窗和通知，再於首頁啟動 HUD。設定自動儲存；硬體讀數取決於系統權限。PawnIO 和 AIDA64 桌面介面僅適用於 Windows。通知的版面與字級由 Android 系統控制。",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "資料管理 → 硬體資料 → 複製模板",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      }
+    ]
+  },
+  {
+    "id": "sources",
+    "title": "資料來源設定",
+    "summary": "資料來源設定",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android 需允許懸浮視窗和通知，再於首頁啟動 HUD。設定自動儲存；硬體讀數取決於系統權限。PawnIO 和 AIDA64 桌面介面僅適用於 Windows。通知的版面與字級由 Android 系統控制。\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "deepseek",
+        "title": "DeepSeek API 余額與峰谷",
+        "body": "在“資料管理 → 資料來源設定”填寫 DeepSeek API Key，再儲存並套用。Key 使用 Android 目前用戶加密存儲；跨用戶或換機器后可能需要重新填寫。高峰視窗按北京時間顯示，結合中國節假日日歷判斷；周末補班仍為低谷。",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "http",
+        "title": "HTTP / JSON 的設定步驟",
+        "body": "填寫返回 JSON 的 HTTP/HTTPS GET 地址，給資料來源一個名稱。\n把響應中的字段路徑映射到變數名；例如 data.value 或 players[0].name。\n按接口要求設置請求頭與刷新秒數，啟用資料來源后儲存並套用。\n在變數庫找到 custom.<資料來源名>.<變數名>，復制到方案。",
+        "kind": "steps",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "http-example",
+        "title": "可復制的 JSON 結構",
+        "body": "下面是未啟用的結構示例。將地址替換為自己的真實接口，并按實際響應調整字段路徑；確認后將 enabled 改為 true。${env:MY_API_KEY} 從進程環境變數讀取，不需要把敏感值直接寫進 JSON。",
+        "kind": "text",
+        "code": "[\n  {\n    \"name\": \"demo\",\n    \"enabled\": false,\n    \"url\": \"https://example.com/status\",\n    \"refreshSeconds\": 10,\n    \"headers\": { \"Authorization\": \"Bearer ${env:MY_API_KEY}\" },\n    \"fields\": [\n      { \"variable\": \"value\", \"jsonPath\": \"data.value\" },\n      { \"variable\": \"name\", \"jsonPath\": \"players[0].name\" }\n    ]\n  }\n]",
+        "target": null
+      },
+      {
+        "id": "http-errors",
+        "title": "狀態、緩存與故障",
+        "body": "custom.<源名>.status / error 用于查看來源狀態或錯誤。刷新間隔決定緩存多久；全局采樣更快不代表接口會每次重查。401/403 通常需要檢查鑒權或訪問權限；JSON 路徑必須與真實返回結構一致。",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "cycle",
+    "title": "輪播、點擊與動畫",
+    "summary": "控制多個方案如何輪流顯示。",
+    "blocks": [
+      {
+        "id": "queue",
+        "title": "建立自己的輪播隊列",
+        "body": "將需要的方案加入隊列，用上移/下移調整順序；移出隊列不會刪除方案。開啟自動輪播后按間隔切換。隊列為空時使用目前方案；只有一個項目時不會切換到另一個方案。",
+        "kind": "text",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "animation",
+        "title": "三種輪播動畫",
+        "body": "簡潔：縮短顯示過程。完整：播放完整呼出過程。向上翻滾：在常駐膠囊內部滾動圖標、數值、圓環等內容，保持視窗與層級。翻滾適用于常駐切換；首次顯示和臨時呼出仍保留正常顯示/收回生命周期。DeepSeek 峰谷事件保留完整動畫。",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "click-cycle",
+        "title": "點擊常駐 HUD 切換",
+        "body": "開啟點擊切換后，即使沒有開啟自動輪播，也能按隊列點擊切換。點擊哪個 HUD 就切換哪個實例，且重置它的自動輪播計時。透明區域仍允許滑鼠操作后方應用。空隊列或單項隊列不會切換。",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "summons",
+    "title": "快捷鍵與滑鼠熱區",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "快捷鍵與滑鼠熱區 · Unsupported\n\nAndroid 需允許懸浮視窗和通知，再於首頁啟動 HUD。設定自動儲存；硬體讀數取決於系統權限。PawnIO 和 AIDA64 桌面介面僅適用於 Windows。通知的版面與字級由 Android 系統控制。",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "triggers",
+    "title": "事件觸發規則",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "事件觸發規則 · Unsupported\n\nAndroid 需允許懸浮視窗和通知，再於首頁啟動 HUD。設定自動儲存；硬體讀數取決於系統權限。PawnIO 和 AIDA64 桌面介面僅適用於 Windows。通知的版面與字級由 Android 系統控制。",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "special",
+    "title": "時間、網路與幀率方案",
+    "summary": "按方案類型調整專用參數。",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "世界時鐘 → UTC\n網路 → Mbps / MB/s\n網路封包探測 → ICMP / TCP / UDP",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "顯示裝置和系統實際提供的讀數；無法使用的項目顯示 --，並說明原因。\n\nAndroid 需允許懸浮視窗和通知，再於首頁啟動 HUD。設定自動儲存；硬體讀數取決於系統權限。PawnIO 和 AIDA64 桌面介面僅適用於 Windows。通知的版面與字級由 Android 系統控制。",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "media",
+    "title": "媒體資訊與播放進度",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "媒體資訊與播放進度 · Unsupported\n\nAndroid 需允許懸浮視窗和通知，再於首頁啟動 HUD。設定自動儲存；硬體讀數取決於系統權限。PawnIO 和 AIDA64 桌面介面僅適用於 Windows。通知的版面與字級由 Android 系統控制。",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "instances",
+    "title": "實驗性多 HUD",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "實驗性多 HUD · Unsupported\n\nAndroid 需允許懸浮視窗和通知，再於首頁啟動 HUD。設定自動儲存；硬體讀數取決於系統權限。PawnIO 和 AIDA64 桌面介面僅適用於 Windows。通知的版面與字級由 Android 系統控制。",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "maintenance",
+    "title": "設定、備份與維護",
+    "summary": "儲存自己的設定，并在出錯時定位原因。",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "實驗性功能 → 匯出 / 匯入\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "advanced"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android 需允許懸浮視窗和通知，再於首頁啟動 HUD。設定自動儲存；硬體讀數取決於系統權限。PawnIO 和 AIDA64 桌面介面僅適用於 Windows。通知的版面與字級由 Android 系統控制。",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "troubleshooting",
+    "title": "常見問題與提示",
+    "summary": "按現象快速定位到對應設置。",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Home → Permissions\n顯示與位置 → 持續顯示\n資料管理 → 硬體資料\n\nAndroid 需允許懸浮視窗和通知，再於首頁啟動 HUD。設定自動儲存；硬體讀數取決於系統權限。PawnIO 和 AIDA64 桌面介面僅適用於 Windows。通知的版面與字級由 Android 系統控制。",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  }
+]

@@ -4,6 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.LayoutDirection
+import com.glacierglimmer.endfieldchargeplus.core.i18n.LanguageCatalog
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -58,8 +64,12 @@ class MainActivity : ComponentActivity() {
             LaunchedEffect(config.uiLanguage) {
                 languageController.applyPreference(config.uiLanguage)
             }
-            EcpTheme {
-                EcpApp(container = container, languageController = languageController)
+            val density=LocalDensity.current
+            CompositionLocalProvider(
+                LocalDensity provides Density(density.density*config.globalUiScale.toFloat(),density.fontScale*config.globalFontScale.toFloat()),
+                LocalLayoutDirection provides if(LanguageCatalog.info(languageController.language).rightToLeft) LayoutDirection.Rtl else LayoutDirection.Ltr,
+            ) {
+                EcpTheme { EcpApp(container=container,languageController=languageController) }
             }
         }
     }

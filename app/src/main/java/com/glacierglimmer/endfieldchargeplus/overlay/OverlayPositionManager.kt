@@ -85,10 +85,12 @@ data class HudWindowGeometry(val scale: Float, val density: Float, val width: In
  */
 object HudPositionMath {
 
-    fun geometry(config: AppConfig, frame: HudDisplayFrame, density: Float): HudWindowGeometry {
-        val scale = fitScale(config.globalScale * config.android.hudScale, frame, density)
-        val width = (OverlayHudView.DESIGN_VIEW_WIDTH * density * scale).roundToInt()
-        val height = (OverlayHudView.DESIGN_VIEW_HEIGHT * density * scale).roundToInt()
+    fun geometry(config: AppConfig, frame: HudDisplayFrame, density: Float,
+                 designWidth:Float=OverlayHudView.DESIGN_VIEW_WIDTH): HudWindowGeometry {
+        val designHeight=OverlayHudView.DESIGN_VIEW_HEIGHT * maxOf(1.0,config.globalFontScale).toFloat()
+        val scale = fitScale(config.globalScale * config.android.hudScale * config.globalUiScale, frame, density,designWidth,designHeight)
+        val width = (designWidth * density * scale).roundToInt()
+        val height = (designHeight * density * scale).roundToInt()
         return HudWindowGeometry(scale, density, width, height,
             resolve(config, frame, frame.widthPx > frame.heightPx, width, height))
     }
@@ -182,6 +184,7 @@ object HudPositionMath {
         frame: HudDisplayFrame,
         density: Float,
         designWidth: Float = OverlayHudView.DESIGN_PILL_WIDTH,
+        designHeight: Float = OverlayHudView.DESIGN_VIEW_HEIGHT,
     ): Float {
         var scale = (rawScale.takeIf { it.isFinite() } ?: 1.0).coerceIn(MIN_SCALE.toDouble(), MAX_SCALE.toDouble()).toFloat()
         // Portrait can use the phone width. Landscape leaves more of the shorter game viewport free.
@@ -193,7 +196,7 @@ object HudPositionMath {
             if (width > maxWidth) scale *= maxWidth / width
         }
         val maxHeight = frame.safeHeight * MAX_WIDTH_FRACTION
-        val height = OverlayHudView.DESIGN_VIEW_HEIGHT * density * scale
+        val height = designHeight * density * scale
         if (maxHeight > 0f && height > maxHeight) scale *= maxHeight / height
         return scale
     }

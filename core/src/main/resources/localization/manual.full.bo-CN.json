@@ -1,0 +1,380 @@
+[
+  {
+    "id": "start",
+    "title": "འགོ་རྩོམ།",
+    "summary": "Home → HUD",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android ནང་འཆར་ངོས་དང་བརྡ་ཐོའི་དབང་ཆ་སྤྲད་ནས་གཙོ་ངོས་ནས HUD འགོ་འཛུགས་བྱེད། སྒྲིག་འགོད་རང་འགུལ་ཉར་ཚགས་བྱེད། སྲ་ཆས་གྱི་གཞི་གྲངས་མ་ལག་གི་དབང་ཆར་རག་ལས། PawnIO དང AIDA64 གྱི་ཅོག་ངོས་མཐུད་ཁ་ནི Windows ཁོ་ནར་ཡོད། བརྡ་ཐོའི་བཀོད་པ་དང་ཡིག་གཟུགས་ཆེ་ཆུང་ Android ཡིས་ཚོད་འཛིན་བྱེད།",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "HUD ནང་དོན། → Built-in Profiles → ཉར།",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      }
+    ]
+  },
+  {
+    "id": "display",
+    "title": "འཆར་སྟངས་དང་གནས་ས།",
+    "summary": "འཆར་ཆས། རིམ་པ། གནས་ས་དང་འགུལ་རིས་སྒྲིག",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "འཆར་སྟངས་དང་གནས་ས། → རྒྱུན་དུ་སྟོན། / འཆར་སྟོན་རྣམ་པ། / གནས་ས། / Opacity",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "སྤྱི་ཡོངས་ཡིག་གཟུགས་ཆེ་ཆུང་དང་UI་སྐྱེད་སྐུམ།",
+        "body": "སྒྲིག་འགོད་ངོས་ཡོངས་དང་HUD་ཚང་མར་འཇུག །HUD་རེ་རེའི་ཆེ་ཆུང་དང་སྤྱི་ཡོངས་UI་སྐྱེད་སྐུམ་གྱི་བསྡུར་ཚད་བསྒྱུར་ནས་སྟོན།",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android ནང་འཆར་ངོས་དང་བརྡ་ཐོའི་དབང་ཆ་སྤྲད་ནས་གཙོ་ངོས་ནས HUD འགོ་འཛུགས་བྱེད། སྒྲིག་འགོད་རང་འགུལ་ཉར་ཚགས་བྱེད། སྲ་ཆས་གྱི་གཞི་གྲངས་མ་ལག་གི་དབང་ཆར་རག་ལས། PawnIO དང AIDA64 གྱི་ཅོག་ངོས་མཐུད་ཁ་ནི Windows ཁོ་ནར་ཡོད། བརྡ་ཐོའི་བཀོད་པ་དང་ཡིག་གཟུགས་ཆེ་ཆུང་ Android ཡིས་ཚོད་འཛིན་བྱེད།",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "profiles",
+    "title": "འཆར་གཞི་དང་ནང་དོན།",
+    "summary": "ནང་འཁོད་འཆར་གཞི་འདེམས་པ་དང་རང་བཟོས་ནང་དོན་བཅོས་པ།",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "བྱ་རིམ།",
+        "body": "1. HUD སྒྲིག་འགོད་ནང་འཆར་གཞི་འདེམས་སམ་གསར་བཟོ་བྱོས།\n2. ཁ་བྱང་། གཙོ་བོའི་གཞི་གྲངས། མཆན་དང་གཡས་ཀྱི་གནས་ཚུལ་བཅོས།\n3. རིས་རྟགས། ཁ་དོག་དང་འཕེལ་ཚད་སྒྲིག་ནས་སྔོན་ལྟ་བྱོས། འཆར་གཞི་ཉར་ཞིང་ཉར་ནས་སྤྱོད་ལ་མནན།",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "ཞིབ་བཤད།",
+        "body": "ནང་འཁོད་འཆར་གཞི་སུབ་མི་ཐུབ། ནང་དོན་བཅོས་ན་འདྲ་དཔེ་གསར་པ་བཟོ། འཆར་གཞི་ནང་གི་སྒྲིག་འགོད་དང་སྤྱི་ཡོངས་སྒྲིག་འགོད་ལོགས་སུ་ཡིན།",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "progress",
+        "title": "དཔེ་མཚོན། 1",
+        "body": "དཔེ་མཚོན་འདྲ་བཤུས་བྱས་ནས་དགོས་པ་ལྟར་བཅོས། འགྱུར་ཚད་མིང་། རྩིས་རྟགས་དང་རྣམ་གཞག་མ་བརྗེ།",
+        "kind": "text",
+        "code": "cpu.usage\n= (cpu.usage + gpu.usage) / 2",
+        "target": null
+      },
+      {
+        "id": "color-rules",
+        "title": "དཔེ་མཚོན། 2",
+        "body": "དཔེ་མཚོན་འདྲ་བཤུས་བྱས་ནས་དགོས་པ་ལྟར་བཅོས། འགྱུར་ཚད་མིང་། རྩིས་རྟགས་དང་རྣམ་གཞག་མ་བརྗེ།",
+        "kind": "text",
+        "code": "cpu.usage >= 90 => #FF4D4F\ncpu.usage >= 75 => #FFB84D",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "variables",
+    "title": "འགྱུར་ཚད་དང་རྩིས་ཚུལ།",
+    "summary": "དུས་ཐོག་གཞི་གྲངས་འཚོལ་བ་དང་དཔེ་གཞིའི་ནང་སྤྱོད་པ།",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "བྱ་རིམ།",
+        "body": "1. གཞི་གྲངས་དོ་དམ་གྱི་འགྱུར་ཚད་མཛོད་ནང་མིང་ངམ་འགྱུར་ཚད་མིང་འཚོལ།\n2. བདམས་ནས་འཇལ་བྱེད་དང་བེད་སྤྱོད་གྲོས་འདེབས་ལ་ལྟོས། མིང་ངམ་དཔེ་གཞི་འདྲ་བཤུས།\n3. དཔེ་གཞི་ནང་སྦྱར། མགོར་ = བཞག་ན་རྩིས་ཚུལ་སྤྱོད་ཐུབ།",
+        "kind": "steps",
+        "code": "",
+        "target": "variables"
+      },
+      {
+        "id": "details",
+        "title": "ཞིབ་བཤད།",
+        "body": "འགྱུར་ཚད་མིང་དང་བྱེད་ནུས་མིང་མ་བསྒྱུར། རྣམ་གཞག་གིས་སིལ་གྲངས། ཡིག་ཚིགས། མྱུར་ཚད་དང་དུས་ཡུན་སྟོན་ཐུབ། དཔེ་མཚོན་དང་མྱུར་ལྟའི་རྟགས་ཇི་བཞིན་སྤྱོད།",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "format",
+        "title": "དཔེ་མཚོན། 1",
+        "body": "དཔེ་མཚོན་འདྲ་བཤུས་བྱས་ནས་དགོས་པ་ལྟར་བཅོས། འགྱུར་ཚད་མིང་། རྩིས་རྟགས་དང་རྣམ་གཞག་མ་བརྗེ།",
+        "kind": "text",
+        "code": "CPU {cpu.usage|0.0}%\n{cpu.frequency_ghz|0.00} GHz\n{= (cpu.usage + gpu.usage) / 2 |0.0}%",
+        "target": null
+      },
+      {
+        "id": "pipelines",
+        "title": "དཔེ་མཚོན། 2",
+        "body": "དཔེ་མཚོན་འདྲ་བཤུས་བྱས་ནས་དགོས་པ་ལྟར་བཅོས། འགྱུར་ཚད་མིང་། རྩིས་རྟགས་དང་རྣམ་གཞག་མ་བརྗེ།",
+        "kind": "text",
+        "code": "{network.download_bps|auto:1}\n{cpu.usage|math:round:1|0.0}",
+        "target": null
+      },
+      {
+        "id": "operators",
+        "title": "དཔེ་མཚོན། 3",
+        "body": "དཔེ་མཚོན་འདྲ་བཤུས་བྱས་ནས་དགོས་པ་ལྟར་བཅོས། འགྱུར་ཚད་མིང་། རྩིས་རྟགས་དང་རྣམ་གཞག་མ་བརྗེ།",
+        "kind": "text",
+        "code": "{= cpu.usage >= 90 ? 'HIGH' : 'NORMAL'}\n{= clamp(cpu.usage, 0, 100)|0.0}",
+        "target": null
+      },
+      {
+        "id": "numeric-functions",
+        "title": "དཔེ་མཚོན། 4",
+        "body": "དཔེ་མཚོན་འདྲ་བཤུས་བྱས་ནས་དགོས་པ་ལྟར་བཅོས། འགྱུར་ཚད་མིང་། རྩིས་རྟགས་དང་རྣམ་གཞག་མ་བརྗེ།",
+        "kind": "text",
+        "code": "{= avg(cpu.usage, gpu.usage)|0.0}\n{= percent(memory.used_bytes, memory.total_bytes)|0.0}",
+        "target": null
+      },
+      {
+        "id": "text-functions",
+        "title": "དཔེ་མཚོན། 5",
+        "body": "དཔེ་མཚོན་འདྲ་བཤུས་བྱས་ནས་དགོས་པ་ལྟར་བཅོས། འགྱུར་ཚད་མིང་། རྩིས་རྟགས་དང་རྣམ་གཞག་མ་བརྗེ།",
+        "kind": "text",
+        "code": "{media.title|sub:0:24}\n{cpu.usage|math:div:100|0.00}",
+        "target": null
+      },
+      {
+        "id": "units-time",
+        "title": "དཔེ་མཚོན། 6",
+        "body": "དཔེ་མཚོན་འདྲ་བཤུས་བྱས་ནས་དགོས་པ་ལྟར་བཅོས། འགྱུར་ཚད་མིང་། རྩིས་རྟགས་དང་རྣམ་གཞག་མ་བརྗེ།",
+        "kind": "text",
+        "code": "{memory.used_bytes|gb:2} GiB\n{battery.time_remaining_seconds|duration}",
+        "target": null
+      },
+      {
+        "id": "function-reference",
+        "title": "བྱེད་ནུས་དང་རྣམ་གཞག་མྱུར་ལྟ།",
+        "body": "དཔེ་མཚོན་འདྲ་བཤུས་བྱས་ནས་དགོས་པ་ལྟར་བཅོས། འགྱུར་ཚད་མིང་། རྩིས་རྟགས་དང་རྣམ་གཞག་མ་བརྗེ།",
+        "kind": "text",
+        "code": "+ - * / % ^    > >= < <= == !=    && || !    ?:    ??\nif(condition, yes, no)     between(value, min, max)\nmin(...) max(...) avg(...) sum(...) clamp(value, min, max)\nround(value, digits) floor(value) ceil(value) abs(value) sign(value)\nsqrt(value) pow(value, exponent) log(value) log10(value) exp(value)\nsin(value) cos(value) tan(value) percent(value, total)\nlen(text) contains(text, part) startswith(text, part) endswith(text, part)\nupper(text) lower(text) concat(...) number(value) string(value) bool(value)\nisnull(value) isempty(value) isnan(value)\n\n0 | 0.0 | 0.00 | auto:1 | bytes | speed | kb:1 | mb:1 | gb:2 | tb:2\nduration | duration-long | time:HH:mm:ss | time:relative\nupper | lower | sub:0:24 | replace:old:new | math:round:1\nmath:add:1 | math:sub:1 | math:mul:2 | math:div:2 | math:floor | math:ceil | math:abs",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "hardware",
+    "title": "སྲ་ཆས་གཞི་གྲངས།",
+    "summary": "སྲ་ཆས་གཞི་གྲངས།",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "སྒྲིག་ཆས་དང་མ་ལག་གིས་དངོས་སུ་སྤྲོད་པའི་གྲངས་ཐང་སྟོན། མི་རག་པའི་རྣམ་གྲངས་ལ་--་དང་རྒྱུ་མཚན་སྟོན།\n\nAndroid ནང་འཆར་ངོས་དང་བརྡ་ཐོའི་དབང་ཆ་སྤྲད་ནས་གཙོ་ངོས་ནས HUD འགོ་འཛུགས་བྱེད། སྒྲིག་འགོད་རང་འགུལ་ཉར་ཚགས་བྱེད། སྲ་ཆས་གྱི་གཞི་གྲངས་མ་ལག་གི་དབང་ཆར་རག་ལས། PawnIO དང AIDA64 གྱི་ཅོག་ངོས་མཐུད་ཁ་ནི Windows ཁོ་ནར་ཡོད། བརྡ་ཐོའི་བཀོད་པ་དང་ཡིག་གཟུགས་ཆེ་ཆུང་ Android ཡིས་ཚོད་འཛིན་བྱེད།",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "གཞི་གྲངས་དོ་དམ། → སྲ་ཆས་གཞི་གྲངས། → དཔེ་གཞི་འདྲ་བཤུས།",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      }
+    ]
+  },
+  {
+    "id": "sources",
+    "title": "གཞི་གྲངས་འབྱུང་ཁུངས།",
+    "summary": "གཞི་གྲངས་འབྱུང་ཁུངས་སྒྲིག་འགོད།",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android ནང་འཆར་ངོས་དང་བརྡ་ཐོའི་དབང་ཆ་སྤྲད་ནས་གཙོ་ངོས་ནས HUD འགོ་འཛུགས་བྱེད། སྒྲིག་འགོད་རང་འགུལ་ཉར་ཚགས་བྱེད། སྲ་ཆས་གྱི་གཞི་གྲངས་མ་ལག་གི་དབང་ཆར་རག་ལས། PawnIO དང AIDA64 གྱི་ཅོག་ངོས་མཐུད་ཁ་ནི Windows ཁོ་ནར་ཡོད། བརྡ་ཐོའི་བཀོད་པ་དང་ཡིག་གཟུགས་ཆེ་ཆུང་ Android ཡིས་ཚོད་འཛིན་བྱེད།\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "guide",
+        "title": "བྱ་རིམ།",
+        "body": "1. གཞི་གྲངས་དོ་དམ་གྱི་འབྱུང་ཁུངས་སྒྲིག་འགོད་ཁ་ཕྱེ།\n2. DeepSeek གསང་ལྡེ་འཇུག་གམ་ HTTP འབྱུང་ཁུངས་ཀྱི་ JSON བཅོས། དཔེ་མཚོན་ནས་འགོ་རྩོམ་ཐུབ།\n3. འབྱུང་ཁུངས་ ID དང་མཐུད་པའི་འགྱུར་ཚད་མིང་ཞིབ་བཤེར་ནས་ཉར་ནས་སྤྱོད་ལ་མནན།",
+        "kind": "steps",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "details",
+        "title": "ཞིབ་བཤད།",
+        "body": "HTTP ཡིས་ GET བྱས་ནས་ JSON ལེན། ཁོར་ཡུག་འགྱུར་ཚད་མགོ་བརྗོད་ནང་སྤྱོད་ཐུབ། API གསང་ལྡེ་ད་ལྟའི་ Android སྤྱོད་མཁན་གྱི་གསང་སྒྲིལ་གྱིས་ཉར་བས་གློག་ཀླད་གཞན་ལ་སྤོས་ན་བསྐྱར་འཇུག་དགོས་སྲིད།",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "http-example",
+        "title": "དཔེ་མཚོན། 1",
+        "body": "དཔེ་མཚོན་འདྲ་བཤུས་བྱས་ནས་དགོས་པ་ལྟར་བཅོས། འགྱུར་ཚད་མིང་། རྩིས་རྟགས་དང་རྣམ་གཞག་མ་བརྗེ།",
+        "kind": "text",
+        "code": "[\n  {\n    \"name\": \"demo\",\n    \"enabled\": false,\n    \"url\": \"https://example.com/status\",\n    \"refreshSeconds\": 10,\n    \"headers\": { \"Authorization\": \"Bearer ${env:MY_API_KEY}\" },\n    \"fields\": [\n      { \"variable\": \"value\", \"jsonPath\": \"data.value\" },\n      { \"variable\": \"name\", \"jsonPath\": \"players[0].name\" }\n    ]\n  }\n]",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "cycle",
+    "title": "བརྗེ་སྐོར་གོ་རིམ།",
+    "summary": "འཆར་གཞི་མང་པོ་རང་འགུལ་བརྗེ་བ།",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "བྱ་རིམ།",
+        "body": "1. HUD སྒྲིག་འགོད་ནང་འཆར་གཞི་གོ་རིམ་ནང་སྣོན།\n2. གོང་སྤོ་དང་འོག་སྤོ་ཡིས་གོ་རིམ་བཅོས།\n3. རང་འགུལ་བརྗེ་སྐོར་སྒོ་ཕྱེ་ནས་བར་ཐག་དང་འགུལ་རིས་སྒྲིག་ཅིང་ཉར།",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "ཞིབ་བཤད།",
+        "body": "གོ་རིམ་སྟོང་པ་ཡིན་ན་མི་བརྗེ། གཅིག་ཁོ་ན་ཡོད་ན་དེ་རང་སྟོན། རྒྱུན་སྟོན་ HUD མནན་ནས་བརྗེ་བ་སྒོ་ཕྱེ་ཐུབ། མནན་ན་རང་འགུལ་བརྗེ་སྐོར་དུས་ཚད་བསྐྱར་འགོ་རྩོམ།",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "summons",
+    "title": "མྱུར་མཐེབ་དང་སློང་ས།",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "མྱུར་མཐེབ་དང་སློང་ས། · Unsupported\n\nAndroid ནང་འཆར་ངོས་དང་བརྡ་ཐོའི་དབང་ཆ་སྤྲད་ནས་གཙོ་ངོས་ནས HUD འགོ་འཛུགས་བྱེད། སྒྲིག་འགོད་རང་འགུལ་ཉར་ཚགས་བྱེད། སྲ་ཆས་གྱི་གཞི་གྲངས་མ་ལག་གི་དབང་ཆར་རག་ལས། PawnIO དང AIDA64 གྱི་ཅོག་ངོས་མཐུད་ཁ་ནི Windows ཁོ་ནར་ཡོད། བརྡ་ཐོའི་བཀོད་པ་དང་ཡིག་གཟུགས་ཆེ་ཆུང་ Android ཡིས་ཚོད་འཛིན་བྱེད།",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "triggers",
+    "title": "སློང་བའི་སྒྲིག་སྲོལ།",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "སློང་བའི་སྒྲིག་སྲོལ། · Unsupported\n\nAndroid ནང་འཆར་ངོས་དང་བརྡ་ཐོའི་དབང་ཆ་སྤྲད་ནས་གཙོ་ངོས་ནས HUD འགོ་འཛུགས་བྱེད། སྒྲིག་འགོད་རང་འགུལ་ཉར་ཚགས་བྱེད། སྲ་ཆས་གྱི་གཞི་གྲངས་མ་ལག་གི་དབང་ཆར་རག་ལས། PawnIO དང AIDA64 གྱི་ཅོག་ངོས་མཐུད་ཁ་ནི Windows ཁོ་ནར་ཡོད། བརྡ་ཐོའི་བཀོད་པ་དང་ཡིག་གཟུགས་ཆེ་ཆུང་ Android ཡིས་ཚོད་འཛིན་བྱེད།",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "special",
+    "title": "དམིགས་བསལ་འཆར་གཞི།",
+    "summary": "འཛམ་གླིང་ཆུ་ཚོད། དྲ་རྒྱ་དང་ལྡེབ་ཚད་སྒྲིག",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "འཛམ་གླིང་ཆུ་ཚོད། → UTC\nདྲ་རྒྱ། → Mbps / MB/s\nདྲ་རྒྱའི་ཚོད་ལྟ། → ICMP / TCP / UDP",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "སྒྲིག་ཆས་དང་མ་ལག་གིས་དངོས་སུ་སྤྲོད་པའི་གྲངས་ཐང་སྟོན། མི་རག་པའི་རྣམ་གྲངས་ལ་--་དང་རྒྱུ་མཚན་སྟོན།\n\nAndroid ནང་འཆར་ངོས་དང་བརྡ་ཐོའི་དབང་ཆ་སྤྲད་ནས་གཙོ་ངོས་ནས HUD འགོ་འཛུགས་བྱེད། སྒྲིག་འགོད་རང་འགུལ་ཉར་ཚགས་བྱེད། སྲ་ཆས་གྱི་གཞི་གྲངས་མ་ལག་གི་དབང་ཆར་རག་ལས། PawnIO དང AIDA64 གྱི་ཅོག་ངོས་མཐུད་ཁ་ནི Windows ཁོ་ནར་ཡོད། བརྡ་ཐོའི་བཀོད་པ་དང་ཡིག་གཟུགས་ཆེ་ཆུང་ Android ཡིས་ཚོད་འཛིན་བྱེད།",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "media",
+    "title": "བརྒྱུད་གཟུགས།",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "བརྒྱུད་གཟུགས། · Unsupported\n\nAndroid ནང་འཆར་ངོས་དང་བརྡ་ཐོའི་དབང་ཆ་སྤྲད་ནས་གཙོ་ངོས་ནས HUD འགོ་འཛུགས་བྱེད། སྒྲིག་འགོད་རང་འགུལ་ཉར་ཚགས་བྱེད། སྲ་ཆས་གྱི་གཞི་གྲངས་མ་ལག་གི་དབང་ཆར་རག་ལས། PawnIO དང AIDA64 གྱི་ཅོག་ངོས་མཐུད་ཁ་ནི Windows ཁོ་ནར་ཡོད། བརྡ་ཐོའི་བཀོད་པ་དང་ཡིག་གཟུགས་ཆེ་ཆུང་ Android ཡིས་ཚོད་འཛིན་བྱེད།",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "instances",
+    "title": "HUD དཔེ་ཚན་མང་པོ།",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "HUD དཔེ་ཚན་མང་པོ། · Unsupported\n\nAndroid ནང་འཆར་ངོས་དང་བརྡ་ཐོའི་དབང་ཆ་སྤྲད་ནས་གཙོ་ངོས་ནས HUD འགོ་འཛུགས་བྱེད། སྒྲིག་འགོད་རང་འགུལ་ཉར་ཚགས་བྱེད། སྲ་ཆས་གྱི་གཞི་གྲངས་མ་ལག་གི་དབང་ཆར་རག་ལས། PawnIO དང AIDA64 གྱི་ཅོག་ངོས་མཐུད་ཁ་ནི Windows ཁོ་ནར་ཡོད། བརྡ་ཐོའི་བཀོད་པ་དང་ཡིག་གཟུགས་ཆེ་ཆུང་ Android ཡིས་ཚོད་འཛིན་བྱེད།",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "maintenance",
+    "title": "བདག་སྐྱོང་དང་གྲབས་ཉར།",
+    "summary": "སྒྲིག་འགོད་ཕྱིར་འདྲེན། ནང་འདྲེན་དང་སོར་ཆུད།",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "ཚོད་ལྟའི་བྱེད་ནུས། → ཕྱིར་འདྲེན། / ནང་འདྲེན།\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "advanced"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android ནང་འཆར་ངོས་དང་བརྡ་ཐོའི་དབང་ཆ་སྤྲད་ནས་གཙོ་ངོས་ནས HUD འགོ་འཛུགས་བྱེད། སྒྲིག་འགོད་རང་འགུལ་ཉར་ཚགས་བྱེད། སྲ་ཆས་གྱི་གཞི་གྲངས་མ་ལག་གི་དབང་ཆར་རག་ལས། PawnIO དང AIDA64 གྱི་ཅོག་ངོས་མཐུད་ཁ་ནི Windows ཁོ་ནར་ཡོད། བརྡ་ཐོའི་བཀོད་པ་དང་ཡིག་གཟུགས་ཆེ་ཆུང་ Android ཡིས་ཚོད་འཛིན་བྱེད།",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "troubleshooting",
+    "title": "སྐྱོན་འཚོལ།",
+    "summary": "གཞི་གྲངས་མེད་པ་དང་སྤྱོད་མི་ཐུབ་པའི་གནད་དོན་བཅོས་པ།",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Home → Permissions\nའཆར་སྟངས་དང་གནས་ས། → རྒྱུན་དུ་སྟོན།\nགཞི་གྲངས་དོ་དམ། → སྲ་ཆས་གཞི་གྲངས།\n\nAndroid ནང་འཆར་ངོས་དང་བརྡ་ཐོའི་དབང་ཆ་སྤྲད་ནས་གཙོ་ངོས་ནས HUD འགོ་འཛུགས་བྱེད། སྒྲིག་འགོད་རང་འགུལ་ཉར་ཚགས་བྱེད། སྲ་ཆས་གྱི་གཞི་གྲངས་མ་ལག་གི་དབང་ཆར་རག་ལས། PawnIO དང AIDA64 གྱི་ཅོག་ངོས་མཐུད་ཁ་ནི Windows ཁོ་ནར་ཡོད། བརྡ་ཐོའི་བཀོད་པ་དང་ཡིག་གཟུགས་ཆེ་ཆུང་ Android ཡིས་ཚོད་འཛིན་བྱེད།",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  }
+]

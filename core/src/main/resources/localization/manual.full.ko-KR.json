@@ -1,0 +1,380 @@
+[
+  {
+    "id": "start",
+    "title": "시작하기",
+    "summary": "Home → HUD",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android에서는 다른 앱 위에 표시와 알림을 허용한 다음 홈에서 HUD를 시작하세요. 설정은 자동 저장됩니다. 하드웨어 값은 시스템 접근 권한에 따라 달라집니다. PawnIO와 AIDA64 데스크톱 인터페이스는 Windows 전용입니다. 알림 배치와 글자 크기는 Android가 관리합니다.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "HUD 표시 내용 → Built-in Profiles → 저장",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      }
+    ]
+  },
+  {
+    "id": "display",
+    "title": "표시, 위치, 모양",
+    "summary": "화면과 표시 방식을 설정합니다.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "표시 및 위치 → 항상 표시 / 표시 모드 / 위치 / Opacity",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "전체 글꼴 크기 및 UI 배율",
+        "body": "전체 설정 화면과 모든 HUD에 적용합니다. 각 HUD의 크기에 전체 UI 배율을 곱합니다.",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android에서는 다른 앱 위에 표시와 알림을 허용한 다음 홈에서 HUD를 시작하세요. 설정은 자동 저장됩니다. 하드웨어 값은 시스템 접근 권한에 따라 달라집니다. PawnIO와 AIDA64 데스크톱 인터페이스는 Windows 전용입니다. 알림 배치와 글자 크기는 Android가 관리합니다.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "profiles",
+    "title": "프로필과 HUD 내용",
+    "summary": "문자, 아이콘, 원형 표시를 구성합니다.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "사용 순서",
+        "body": "프로필을 만들거나 기본 프로필의 복사본을 편집합니다.\n제목, 주요 값, 보조 값, 접미사, 아이콘, 색을 입력합니다.\n원형 표시의 변수와 최솟값·최댓값을 정하고 미리 본 뒤 적용합니다.",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "설명과 주의 사항",
+        "body": "일반 문장과 중괄호 안의 변수를 함께 쓸 수 있습니다. 원형 표시는 설정한 범위에 대한 비율을 0~100%로 제한합니다. 이 범위는 문자로 표시하는 측정값을 바꾸지 않습니다. 색 조건은 원래 단위를 사용합니다. 사용자 프로필을 삭제해도 기본 프로필은 남습니다.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "progress",
+        "title": "예제 1",
+        "body": "예제를 복사한 뒤 자신의 설정에 맞게 값을 바꾸세요. 변수 이름, 함수 이름, 코드 문법은 번역하지 않습니다.",
+        "kind": "text",
+        "code": "cpu.usage\n= (cpu.usage + gpu.usage) / 2",
+        "target": null
+      },
+      {
+        "id": "color-rules",
+        "title": "예제 2",
+        "body": "예제를 복사한 뒤 자신의 설정에 맞게 값을 바꾸세요. 변수 이름, 함수 이름, 코드 문법은 번역하지 않습니다.",
+        "kind": "text",
+        "code": "cpu.usage >= 90 => #FF4D4F\ncpu.usage >= 75 => #FFB84D",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "variables",
+    "title": "변수, 템플릿, 수식",
+    "summary": "데이터를 찾아 원하는 형식으로 표시합니다.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "사용 순서",
+        "body": "데이터 관리의 변수 목록에서 설명과 단위를 확인합니다.\n규칙과 원형 표시에는 변수 이름을, 텍스트에는 템플릿을 복사합니다.\n아래 예제와 참고표로 서식을 지정합니다.",
+        "kind": "steps",
+        "code": "",
+        "target": "variables"
+      },
+      {
+        "id": "details",
+        "title": "설명과 주의 사항",
+        "body": "서식 단계는 왼쪽부터 실행됩니다. 0.0은 소수 한 자리이고 auto:1은 단위를 자동으로 선택합니다. 자동 단위 뒤에 같은 단위를 덧붙이지 마세요. 함수 이름은 그대로 유지합니다. 예전 변수 이름은 계속 작동합니다. 중복 항목은 숨기되 집계 지표는 유지합니다. --는 유효한 값이 없다는 뜻입니다.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "format",
+        "title": "예제 1",
+        "body": "예제를 복사한 뒤 자신의 설정에 맞게 값을 바꾸세요. 변수 이름, 함수 이름, 코드 문법은 번역하지 않습니다.",
+        "kind": "text",
+        "code": "CPU {cpu.usage|0.0}%\n{cpu.frequency_ghz|0.00} GHz\n{= (cpu.usage + gpu.usage) / 2 |0.0}%",
+        "target": null
+      },
+      {
+        "id": "pipelines",
+        "title": "예제 2",
+        "body": "예제를 복사한 뒤 자신의 설정에 맞게 값을 바꾸세요. 변수 이름, 함수 이름, 코드 문법은 번역하지 않습니다.",
+        "kind": "text",
+        "code": "{network.download_bps|auto:1}\n{cpu.usage|math:round:1|0.0}",
+        "target": null
+      },
+      {
+        "id": "operators",
+        "title": "예제 3",
+        "body": "예제를 복사한 뒤 자신의 설정에 맞게 값을 바꾸세요. 변수 이름, 함수 이름, 코드 문법은 번역하지 않습니다.",
+        "kind": "text",
+        "code": "{= cpu.usage >= 90 ? 'HIGH' : 'NORMAL'}\n{= clamp(cpu.usage, 0, 100)|0.0}",
+        "target": null
+      },
+      {
+        "id": "numeric-functions",
+        "title": "예제 4",
+        "body": "예제를 복사한 뒤 자신의 설정에 맞게 값을 바꾸세요. 변수 이름, 함수 이름, 코드 문법은 번역하지 않습니다.",
+        "kind": "text",
+        "code": "{= avg(cpu.usage, gpu.usage)|0.0}\n{= percent(memory.used_bytes, memory.total_bytes)|0.0}",
+        "target": null
+      },
+      {
+        "id": "text-functions",
+        "title": "예제 5",
+        "body": "예제를 복사한 뒤 자신의 설정에 맞게 값을 바꾸세요. 변수 이름, 함수 이름, 코드 문법은 번역하지 않습니다.",
+        "kind": "text",
+        "code": "{media.title|sub:0:24}\n{cpu.usage|math:div:100|0.00}",
+        "target": null
+      },
+      {
+        "id": "units-time",
+        "title": "예제 6",
+        "body": "예제를 복사한 뒤 자신의 설정에 맞게 값을 바꾸세요. 변수 이름, 함수 이름, 코드 문법은 번역하지 않습니다.",
+        "kind": "text",
+        "code": "{memory.used_bytes|gb:2} GiB\n{battery.time_remaining_seconds|duration}",
+        "target": null
+      },
+      {
+        "id": "function-reference",
+        "title": "함수 및 서식 참고표",
+        "body": "예제를 복사한 뒤 자신의 설정에 맞게 값을 바꾸세요. 변수 이름, 함수 이름, 코드 문법은 번역하지 않습니다.",
+        "kind": "text",
+        "code": "+ - * / % ^    > >= < <= == !=    && || !    ?:    ??\nif(condition, yes, no)     between(value, min, max)\nmin(...) max(...) avg(...) sum(...) clamp(value, min, max)\nround(value, digits) floor(value) ceil(value) abs(value) sign(value)\nsqrt(value) pow(value, exponent) log(value) log10(value) exp(value)\nsin(value) cos(value) tan(value) percent(value, total)\nlen(text) contains(text, part) startswith(text, part) endswith(text, part)\nupper(text) lower(text) concat(...) number(value) string(value) bool(value)\nisnull(value) isempty(value) isnan(value)\n\n0 | 0.0 | 0.00 | auto:1 | bytes | speed | kb:1 | mb:1 | gb:2 | tb:2\nduration | duration-long | time:HH:mm:ss | time:relative\nupper | lower | sub:0:24 | replace:old:new | math:round:1\nmath:add:1 | math:sub:1 | math:mul:2 | math:div:2 | math:floor | math:ceil | math:abs",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "hardware",
+    "title": "센서와 드라이버",
+    "summary": "하드웨어 데이터",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "기기와 시스템이 실제로 제공하는 값을 표시합니다. 사용할 수 없는 항목은 --와 그 이유를 표시합니다.\n\nAndroid에서는 다른 앱 위에 표시와 알림을 허용한 다음 홈에서 HUD를 시작하세요. 설정은 자동 저장됩니다. 하드웨어 값은 시스템 접근 권한에 따라 달라집니다. PawnIO와 AIDA64 데스크톱 인터페이스는 Windows 전용입니다. 알림 배치와 글자 크기는 Android가 관리합니다.",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "데이터 관리 → 하드웨어 데이터 → 템플릿 복사",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      }
+    ]
+  },
+  {
+    "id": "sources",
+    "title": "데이터 소스 설정",
+    "summary": "데이터 소스 설정",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android에서는 다른 앱 위에 표시와 알림을 허용한 다음 홈에서 HUD를 시작하세요. 설정은 자동 저장됩니다. 하드웨어 값은 시스템 접근 권한에 따라 달라집니다. PawnIO와 AIDA64 데스크톱 인터페이스는 Windows 전용입니다. 알림 배치와 글자 크기는 Android가 관리합니다.\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "guide",
+        "title": "사용 순서",
+        "body": "DeepSeek 키를 입력하고 적용합니다.\nHTTP에는 이름, GET 주소, 헤더, 갱신 간격, JSON 경로를 지정하고 소스를 켭니다.\n프로필에서 custom.<source>.<variable>을 사용합니다.",
+        "kind": "steps",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "details",
+        "title": "설명과 주의 사항",
+        "body": "",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "http-example",
+        "title": "예제 1",
+        "body": "예제를 복사한 뒤 자신의 설정에 맞게 값을 바꾸세요. 변수 이름, 함수 이름, 코드 문법은 번역하지 않습니다.",
+        "kind": "text",
+        "code": "[\n  {\n    \"name\": \"demo\",\n    \"enabled\": false,\n    \"url\": \"https://example.com/status\",\n    \"refreshSeconds\": 10,\n    \"headers\": { \"Authorization\": \"Bearer ${env:MY_API_KEY}\" },\n    \"fields\": [\n      { \"variable\": \"value\", \"jsonPath\": \"data.value\" },\n      { \"variable\": \"name\", \"jsonPath\": \"players[0].name\" }\n    ]\n  }\n]",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "cycle",
+    "title": "순환, 클릭, 애니메이션",
+    "summary": "프로필을 차례로 전환합니다.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "사용 순서",
+        "body": "목록에 프로필을 추가하고 순서를 조정합니다.\n필요하면 자동 전환과 간격을 켭니다.\n간단한 애니메이션, 전체 애니메이션, 위로 스크롤 중에서 선택합니다.\n클릭 전환을 켜면 수동으로 다음 항목을 볼 수 있습니다.",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "설명과 주의 사항",
+        "body": "목록에서 빼도 프로필 자체는 삭제되지 않습니다. 빈 목록은 현재 프로필을 사용하고 한 개뿐인 목록은 다른 프로필로 넘어가지 않습니다. 위로 스크롤은 항상 표시 모드의 내용을 움직입니다. 각 HUD의 목록은 독립적이며 클릭하면 타이머를 다시 시작합니다. DeepSeek 시간대 변경은 전체 애니메이션을 사용합니다.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "summons",
+    "title": "단축키와 마우스 영역",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "단축키와 마우스 영역 · Unsupported\n\nAndroid에서는 다른 앱 위에 표시와 알림을 허용한 다음 홈에서 HUD를 시작하세요. 설정은 자동 저장됩니다. 하드웨어 값은 시스템 접근 권한에 따라 달라집니다. PawnIO와 AIDA64 데스크톱 인터페이스는 Windows 전용입니다. 알림 배치와 글자 크기는 Android가 관리합니다.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "triggers",
+    "title": "트리거 규칙",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "트리거 규칙 · Unsupported\n\nAndroid에서는 다른 앱 위에 표시와 알림을 허용한 다음 홈에서 HUD를 시작하세요. 설정은 자동 저장됩니다. 하드웨어 값은 시스템 접근 권한에 따라 달라집니다. PawnIO와 AIDA64 데스크톱 인터페이스는 Windows 전용입니다. 알림 배치와 글자 크기는 Android가 관리합니다.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "special",
+    "title": "시계, 네트워크, FPS",
+    "summary": "프로필별 특수 기능을 설정합니다.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "세계 시계 → UTC\n네트워크 → Mbps / MB/s\n패킷 검사 → ICMP / TCP / UDP",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "기기와 시스템이 실제로 제공하는 값을 표시합니다. 사용할 수 없는 항목은 --와 그 이유를 표시합니다.\n\nAndroid에서는 다른 앱 위에 표시와 알림을 허용한 다음 홈에서 HUD를 시작하세요. 설정은 자동 저장됩니다. 하드웨어 값은 시스템 접근 권한에 따라 달라집니다. PawnIO와 AIDA64 데스크톱 인터페이스는 Windows 전용입니다. 알림 배치와 글자 크기는 Android가 관리합니다.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "media",
+    "title": "미디어 정보와 진행률",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "미디어 정보와 진행률 · Unsupported\n\nAndroid에서는 다른 앱 위에 표시와 알림을 허용한 다음 홈에서 HUD를 시작하세요. 설정은 자동 저장됩니다. 하드웨어 값은 시스템 접근 권한에 따라 달라집니다. PawnIO와 AIDA64 데스크톱 인터페이스는 Windows 전용입니다. 알림 배치와 글자 크기는 Android가 관리합니다.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "instances",
+    "title": "실험적 다중 HUD",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "실험적 다중 HUD · Unsupported\n\nAndroid에서는 다른 앱 위에 표시와 알림을 허용한 다음 홈에서 HUD를 시작하세요. 설정은 자동 저장됩니다. 하드웨어 값은 시스템 접근 권한에 따라 달라집니다. PawnIO와 AIDA64 데스크톱 인터페이스는 Windows 전용입니다. 알림 배치와 글자 크기는 Android가 관리합니다.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "maintenance",
+    "title": "설정, 백업, 유지 관리",
+    "summary": "설정을 보관하고 진단 정보를 확인합니다.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "실험적 기능 → 내보내기 / 가져오기\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "advanced"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android에서는 다른 앱 위에 표시와 알림을 허용한 다음 홈에서 HUD를 시작하세요. 설정은 자동 저장됩니다. 하드웨어 값은 시스템 접근 권한에 따라 달라집니다. PawnIO와 AIDA64 데스크톱 인터페이스는 Windows 전용입니다. 알림 배치와 글자 크기는 Android가 관리합니다.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "troubleshooting",
+    "title": "문제 해결과 데이터 경고",
+    "summary": "표시 방식과 데이터 소스를 확인합니다.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Home → Permissions\n표시 및 위치 → 항상 표시\n데이터 관리 → 하드웨어 데이터\n\nAndroid에서는 다른 앱 위에 표시와 알림을 허용한 다음 홈에서 HUD를 시작하세요. 설정은 자동 저장됩니다. 하드웨어 값은 시스템 접근 권한에 따라 달라집니다. PawnIO와 AIDA64 데스크톱 인터페이스는 Windows 전용입니다. 알림 배치와 글자 크기는 Android가 관리합니다.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  }
+]

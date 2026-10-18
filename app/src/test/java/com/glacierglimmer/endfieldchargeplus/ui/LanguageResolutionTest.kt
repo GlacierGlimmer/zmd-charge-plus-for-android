@@ -9,19 +9,16 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-/**
- * Language resolution is a product rule: `Auto` follows the system locale, any `zh*` tag resolves to
- * Simplified Chinese, everything else to English, and an explicit choice always wins.
- */
+/** Automatic and explicit selections use the same offline catalog as the real selector. */
 class LanguageResolutionTest {
 
     @Test
     fun automaticFollowsTheSystemLocale() {
         assertEquals(UiLanguage.ZH_CN, Strings.resolve("Auto", "zh-Hans-CN"))
-        assertEquals(UiLanguage.ZH_CN, Strings.resolve("Auto", "zh-Hant-TW"))
+        assertEquals(UiLanguage.ZH_TW, Strings.resolve("Auto", "zh-Hant-TW"))
         assertEquals(UiLanguage.ZH_CN, Strings.resolve("Auto", "zh"))
-        assertEquals(UiLanguage.EN, Strings.resolve("Auto", "en-GB"))
-        assertEquals(UiLanguage.EN, Strings.resolve("Auto", "ja-JP"))
+        assertEquals(UiLanguage.EN_GB, Strings.resolve("Auto", "en-GB"))
+        assertEquals(UiLanguage.JA_JP, Strings.resolve("Auto", "ja-JP"))
     }
 
     @Test
@@ -33,7 +30,7 @@ class LanguageResolutionTest {
     @Test
     fun unknownPreferenceFallsBackToTheSystemLocale() {
         assertEquals(UiLanguage.ZH_CN, Strings.resolve("", "zh-CN"))
-        assertEquals(UiLanguage.EN, Strings.resolve("de-DE", "en-US"))
+        assertEquals(UiLanguage.ZH_CN, Strings.resolve("nonsense", "zh-CN"))
     }
 
     @Test
@@ -57,10 +54,8 @@ class LanguageResolutionTest {
 
     @Test
     fun theSelectorOffersEveryPreferenceExactlyOnce() {
-        assertEquals(
-            listOf(AppLanguage.AUTO, AppLanguage.SIMPLIFIED_CHINESE, AppLanguage.ENGLISH),
-            LanguageController.preferences,
-        )
-        assertEquals(LanguageController.preferences.size, LanguageController.preferences.distinct().size)
+        assertEquals(147,LanguageController.preferenceCodes.size)
+        assertEquals("Auto",LanguageController.preferenceCodes.first())
+        assertEquals(LanguageController.preferenceCodes.size,LanguageController.preferenceCodes.distinct().size)
     }
 }

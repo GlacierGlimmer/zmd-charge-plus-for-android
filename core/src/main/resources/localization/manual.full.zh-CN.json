@@ -1,0 +1,388 @@
+[
+  {
+    "id": "start",
+    "title": "快速开始",
+    "summary": "Home → HUD",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "安卓需允许悬浮窗和通知，然后在首页启动 HUD。设置自动保存；硬件读数取决于系统权限。PawnIO 和 AIDA64 桌面接口仅适用于 Windows。通知的布局和字号由安卓系统控制。",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "HUD显示内容 → Built-in Profiles → 保存",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      }
+    ]
+  },
+  {
+    "id": "display",
+    "title": "显示、位置与外观",
+    "summary": "理解两种显示模式及屏幕坐标。",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "显示与位置 → 一直显示 / 显示方式 / 位置 / Opacity",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "全局字体大小和UI缩放",
+        "body": "应用于整个设置界面和所有 HUD。单个 HUD 的大小设置会与全局 UI 缩放相乘。",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "安卓需允许悬浮窗和通知，然后在首页启动 HUD。设置自动保存；硬件读数取决于系统权限。PawnIO 和 AIDA64 桌面接口仅适用于 Windows。通知的布局和字号由安卓系统控制。",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "profiles",
+    "title": "方案与 HUD 内容",
+    "summary": "决定 HUD 显示什么，以及如何呈现。",
+    "blocks": [
+      {
+        "id": "profile-actions",
+        "title": "新建、保存、删除与预览",
+        "body": "选择内置方案作为起点，修改后点击方案旁的“保存”会建立自定义副本。也可新建空白方案。删除用于清理自定义方案；内置原始预设保留。预览使用当前编辑内容和真实数据；保存后实际 HUD 才采用新配置。",
+        "kind": "text",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "text-fields",
+        "title": "文字区域与图标",
+        "body": "顶部标记、标题、左侧主值/次值和右侧数值都可以混合普通文字与变量模板。右侧后缀适合放 %、°C、GHz 等单位。左右图标用于标识内容；强调色控制胶囊与圆环的主题颜色。",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "progress",
+        "title": "圆环的变量与量程",
+        "body": "圆环按“当前值 − 最小值”相对整个量程计算比例，并限制在 0–100%。变量本身可使用原始变量名或 = 开头的数值表达式。温度、网速、帧率等应设置适合自己的最大值；量程不会改变文字显示的原始读数。",
+        "kind": "text",
+        "code": "cpu.usage\n= (cpu.usage + gpu.usage) / 2",
+        "target": null
+      },
+      {
+        "id": "color-rules",
+        "title": "条件变色",
+        "body": "每行配置一个“变量 运算符 阈值 => 颜色”。规则用于按负载、温度等改变强调色；阈值使用该变量的原始单位。颜色必须是有效色值；缺失数据不会被当作 0 来匹配条件。",
+        "kind": "text",
+        "code": "cpu.usage >= 90 => #FF4D4F\ncpu.usage >= 75 => #FFB84D",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "variables",
+    "title": "变量、模板与表达式",
+    "summary": "从变量库复制，再组合成可读的 HUD。",
+    "blocks": [
+      {
+        "id": "library",
+        "title": "查找与复制变量",
+        "body": "在“数据管理 → 变量库”按名称、变量名或分类搜索。选择后查看含义、类型、单位和格式建议。“复制变量名”适合圆环变量或触发规则；“复制模板”得到带花括号的写法，适合文字区域。",
+        "kind": "text",
+        "code": "",
+        "target": "variables"
+      },
+      {
+        "id": "format",
+        "title": "常用模板格式",
+        "body": "花括号中写变量名；竖线后接显示格式。0 表示整数，0.0 / 0.00 表示固定小数位。普通文字可写在模板两侧。数字格式只改变显示，不会改动数据源。",
+        "kind": "text",
+        "code": "CPU {cpu.usage|0.0}%\n{cpu.frequency_ghz|0.00} GHz\n{= (cpu.usage + gpu.usage) / 2 |0.0}%",
+        "target": null
+      },
+      {
+        "id": "pipelines",
+        "title": "自动单位与格式管道",
+        "body": "auto:1 根据变量含义选择单位；不要再重复添加同一单位。格式管道从左到右执行，既可转换数值，也可裁剪文字。进阶公式在 {= ...} 内使用，圆环公式则直接以 = 开头。",
+        "kind": "text",
+        "code": "{network.download_bps|auto:1}\n{cpu.usage|math:round:1|0.0}",
+        "target": null
+      },
+      {
+        "id": "operators",
+        "title": "运算、比较与条件",
+        "body": "支持 +、-、*、/、% 取余、^ 乘方和括号；比较可用 >、>=、<、<=、==、!=。逻辑可用 &&、||、!，也支持 and/or/not。条件表达式写作 条件 ? 成立值 : 否则值，或 if(条件, 成立值, 否则值)。用 ?? 为缺失/空值指定回退内容。",
+        "kind": "text",
+        "code": "{= cpu.usage >= 90 ? 'HIGH' : 'NORMAL'}\n{= clamp(cpu.usage, 0, 100)|0.0}",
+        "target": null
+      },
+      {
+        "id": "numeric-functions",
+        "title": "数值函数速查",
+        "body": "聚合：min、max、avg、sum。范围与精度：clamp(值, 下限, 上限)、round(值, 小数位)、floor、ceil、abs、sign。数学：sqrt、pow、log、log10、exp、sin、cos、tan。percent(当前值, 总量) 计算百分比；between(值, 下限, 上限) 判断闭区间。",
+        "kind": "text",
+        "code": "{= avg(cpu.usage, gpu.usage)|0.0}\n{= percent(memory.used_bytes, memory.total_bytes)|0.0}",
+        "target": null
+      },
+      {
+        "id": "text-functions",
+        "title": "文字、类型与格式管道速查",
+        "body": "表达式函数：len、contains、startswith、endswith、upper、lower、concat；类型转换：number、string、bool；检查：isnull、isempty、isnan。模板管道可用 upper/lower、sub:起点:长度（起点从 0 开始）、replace:原文:新文，以及 math:add/sub/mul/div/round/floor/ceil/abs。",
+        "kind": "text",
+        "code": "{media.title|sub:0:24}\n{cpu.usage|math:div:100|0.00}",
+        "target": null
+      },
+      {
+        "id": "units-time",
+        "title": "容量与时间格式",
+        "body": "bytes / speed 自动显示字节容量或每秒速率；kb:n、mb:n、gb:n、tb:n 按 1024 换算并保留 n 位小数，单位后缀由你在方案中决定。duration 与 duration-long 将秒数转为时长。日期时间字段可用 time:日期格式；time:relative 可显示相对时间/时长。",
+        "kind": "text",
+        "code": "{memory.used_bytes|gb:2} GiB\n{battery.time_remaining_seconds|duration}",
+        "target": null
+      },
+      {
+        "id": "duplicates",
+        "title": "硬件变量与旧变量",
+        "body": "发现对应硬件项目后，重复的旧变量会从变量库移除，旧方案中的变量名仍可读取。新硬件变量指向明确设备和传感器；“最高温度”“平均温度”等汇总值具有不同含义，会单独保留。变量显示 -- 表示当前未取得有效数据。",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "hardware",
+    "title": "硬件传感器与驱动",
+    "summary": "硬件数据",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "显示设备和系统实际提供的读数；不可用项目显示 --，并说明原因。\n\n安卓需允许悬浮窗和通知，然后在首页启动 HUD。设置自动保存；硬件读数取决于系统权限。PawnIO 和 AIDA64 桌面接口仅适用于 Windows。通知的布局和字号由安卓系统控制。",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "数据管理 → 硬件数据 → 复制模板",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      }
+    ]
+  },
+  {
+    "id": "sources",
+    "title": "数据源配置",
+    "summary": "数据源配置",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "安卓需允许悬浮窗和通知，然后在首页启动 HUD。设置自动保存；硬件读数取决于系统权限。PawnIO 和 AIDA64 桌面接口仅适用于 Windows。通知的布局和字号由安卓系统控制。\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "deepseek",
+        "title": "DeepSeek API 余额与峰谷",
+        "body": "在“数据管理 → 数据源配置”填写 DeepSeek API Key，再保存并应用。Key 使用 Android 当前用户加密存储；跨用户或换机器后可能需要重新填写。高峰窗口按北京时间显示，结合中国节假日日历判断；周末补班仍为低谷。",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "http",
+        "title": "HTTP / JSON 的配置步骤",
+        "body": "填写返回 JSON 的 HTTP/HTTPS GET 地址，给数据源一个名称。\n把响应中的字段路径映射到变量名；例如 data.value 或 players[0].name。\n按接口要求设置请求头与刷新秒数，启用数据源后保存并应用。\n在变量库找到 custom.<数据源名>.<变量名>，复制到方案。",
+        "kind": "steps",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "http-example",
+        "title": "可复制的 JSON 结构",
+        "body": "下面是未启用的结构示例。将地址替换为自己的真实接口，并按实际响应调整字段路径；确认后将 enabled 改为 true。${env:MY_API_KEY} 从进程环境变量读取，不需要把敏感值直接写进 JSON。",
+        "kind": "text",
+        "code": "[\n  {\n    \"name\": \"demo\",\n    \"enabled\": false,\n    \"url\": \"https://example.com/status\",\n    \"refreshSeconds\": 10,\n    \"headers\": { \"Authorization\": \"Bearer ${env:MY_API_KEY}\" },\n    \"fields\": [\n      { \"variable\": \"value\", \"jsonPath\": \"data.value\" },\n      { \"variable\": \"name\", \"jsonPath\": \"players[0].name\" }\n    ]\n  }\n]",
+        "target": null
+      },
+      {
+        "id": "http-errors",
+        "title": "状态、缓存与故障",
+        "body": "custom.<源名>.status / error 用于查看来源状态或错误。刷新间隔决定缓存多久；全局采样更快不代表接口会每次重查。401/403 通常需要检查鉴权或访问权限；JSON 路径必须与真实返回结构一致。",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "cycle",
+    "title": "轮播、点击与动画",
+    "summary": "控制多个方案如何轮流显示。",
+    "blocks": [
+      {
+        "id": "queue",
+        "title": "建立自己的轮播队列",
+        "body": "将需要的方案加入队列，用上移/下移调整顺序；移出队列不会删除方案。开启自动轮播后按间隔切换。队列为空时使用当前方案；只有一个项目时不会切换到另一个方案。",
+        "kind": "text",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "animation",
+        "title": "三种轮播动画",
+        "body": "简洁：缩短显示过程。完整：播放完整呼出过程。向上翻滚：在常驻胶囊内部滚动图标、数值、圆环等内容，保持窗口与层级。翻滚适用于常驻切换；首次显示和临时呼出仍保留正常显示/收回生命周期。DeepSeek 峰谷事件保留完整动画。",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "click-cycle",
+        "title": "点击常驻 HUD 切换",
+        "body": "开启点击切换后，即使没有开启自动轮播，也能按队列点击切换。点击哪个 HUD 就切换哪个实例，且重置它的自动轮播计时。透明区域仍允许鼠标操作后方应用。空队列或单项队列不会切换。",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "summons",
+    "title": "快捷键与鼠标热区",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "快捷键与鼠标热区 · Unsupported\n\n安卓需允许悬浮窗和通知，然后在首页启动 HUD。设置自动保存；硬件读数取决于系统权限。PawnIO 和 AIDA64 桌面接口仅适用于 Windows。通知的布局和字号由安卓系统控制。",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "triggers",
+    "title": "事件触发规则",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "事件触发规则 · Unsupported\n\n安卓需允许悬浮窗和通知，然后在首页启动 HUD。设置自动保存；硬件读数取决于系统权限。PawnIO 和 AIDA64 桌面接口仅适用于 Windows。通知的布局和字号由安卓系统控制。",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "special",
+    "title": "时间、网络与帧率方案",
+    "summary": "按方案类型调整专用参数。",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "世界时钟 → UTC\n网络 → Mbps / MB/s\n网络包探测器 → ICMP / TCP / UDP",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "显示设备和系统实际提供的读数；不可用项目显示 --，并说明原因。\n\n安卓需允许悬浮窗和通知，然后在首页启动 HUD。设置自动保存；硬件读数取决于系统权限。PawnIO 和 AIDA64 桌面接口仅适用于 Windows。通知的布局和字号由安卓系统控制。",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "media",
+    "title": "媒体信息与播放进度",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "媒体信息与播放进度 · Unsupported\n\n安卓需允许悬浮窗和通知，然后在首页启动 HUD。设置自动保存；硬件读数取决于系统权限。PawnIO 和 AIDA64 桌面接口仅适用于 Windows。通知的布局和字号由安卓系统控制。",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "instances",
+    "title": "实验性多 HUD",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "实验性多 HUD · Unsupported\n\n安卓需允许悬浮窗和通知，然后在首页启动 HUD。设置自动保存；硬件读数取决于系统权限。PawnIO 和 AIDA64 桌面接口仅适用于 Windows。通知的布局和字号由安卓系统控制。",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "maintenance",
+    "title": "配置、备份与维护",
+    "summary": "保存自己的配置，并在出错时定位原因。",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "实验性功能 → 导出配置 / 导入配置\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "advanced"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "安卓需允许悬浮窗和通知，然后在首页启动 HUD。设置自动保存；硬件读数取决于系统权限。PawnIO 和 AIDA64 桌面接口仅适用于 Windows。通知的布局和字号由安卓系统控制。",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "troubleshooting",
+    "title": "常见问题与提示",
+    "summary": "按现象快速定位到对应设置。",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Home → Permissions\n显示与位置 → 一直显示\n数据管理 → 硬件数据\n\n安卓需允许悬浮窗和通知，然后在首页启动 HUD。设置自动保存；硬件读数取决于系统权限。PawnIO 和 AIDA64 桌面接口仅适用于 Windows。通知的布局和字号由安卓系统控制。",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  }
+]

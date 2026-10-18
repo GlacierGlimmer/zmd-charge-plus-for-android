@@ -68,7 +68,14 @@ object BuiltInProfileLocalization {
      * profile unchanged; an unknown built-in key is returned unchanged as well (`_ => profile`).
      */
     fun forLanguage(profile: HudProfile, language: UiLanguage): HudProfile {
-        if (language != UiLanguage.EN || profile.builtInKey.isBlank()) return profile
+        if(language.isChineseSource || profile.builtInKey.isBlank())return profile
+        if(!language.isEnglish) {
+            val canonical=forLanguage(profile,UiLanguage.EN)
+            fun text(zh:String,en:String)=Strings.t(zh,en,language)
+            return canonical.copy(category=text(profile.category,canonical.category),name=text(profile.name,canonical.name),
+                taglineTemplate=text(profile.taglineTemplate,canonical.taglineTemplate),titleTemplate=text(profile.titleTemplate,canonical.titleTemplate),
+                rightTemplate=text(profile.rightTemplate,canonical.rightTemplate),rightSuffix=text(profile.rightSuffix,canonical.rightSuffix))
+        }
         return when (profile.builtInKey.lowercase()) {
             "system.display-fps" -> profile.copy(category="System",name="Display FPS",titleTemplate="Display FPS")
             "system.window-fps" -> profile.copy(category="System",name="Window FPS",titleTemplate="Window FPS")
@@ -106,7 +113,7 @@ object BuiltInProfileLocalization {
             return "${localized.category} - ${localized.name}"
         }
         return if (profile.name.isBlank()) {
-            if (language.isEnglish) "Custom Profile" else "自定义方案"
+            Strings.t("自定义方案","Custom Profile",language)
         } else {
             profile.name
         }
@@ -120,7 +127,8 @@ object BuiltInProfileLocalization {
      * for a category that is not in the map.
      */
     fun categoryName(category: String, language: UiLanguage): String {
-        if (language != UiLanguage.EN) return category
+        if(language.isChineseSource)return category
+        if(!language.isEnglish)return Strings.t(category,categoryName(category,UiLanguage.EN),language)
         CATEGORY_MAP[category]?.let { return it }
         return humanizeWords(category)
     }

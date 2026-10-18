@@ -64,9 +64,9 @@ object Strings {
         "波纹强度" to "Ripple Strength",
         "波纹幅度" to "Ripple Spread",
         "终末地风格状态栏 HUD" to "Endfield-style Status HUD",
-        "构建日期  2026.10.13" to "Build  2026.10.13",
+        "构建日期  2026.10.18" to "Build  2026.10.18",
         "检查更新" to "Check Updates",
-        "当前版本：v0.1.2" to "Current: v0.1.2",
+        "当前版本：v0.1.3" to "Current: v0.1.3",
         "最新版本：尚未获取" to "Latest: not checked",
         "状态：尚未检查" to "Status: not checked",
         "项目与协议" to "Project & License",
@@ -227,7 +227,9 @@ object Strings {
     fun isEnglish(): Boolean = language.isEnglish
 
     /** Picks the ECP wording for the current language; the desktop helper is `LocalizationManager.Text`. */
-    fun t(zh: String, en: String): String = if (language.isEnglish) en else zh
+    fun t(zh: String, en: String): String = t(zh,en,language)
+
+    fun t(zh: String,en: String,selected: UiLanguage): String = if(selected.isChineseSource) zh else LanguageCatalog.translate(en,selected)
 
     /**
      * Translates a fixed UI literal both ways, like `LocalizationManager.TranslateLiteral`.
@@ -237,7 +239,7 @@ object Strings {
      */
     fun translateLiteral(text: String?): String {
         if (text.isNullOrEmpty()) return text ?: ""
-        return if (language.isEnglish) zhToEn[text] ?: text else enToZh[text] ?: text
+        return if(language.isChineseSource) enToZh[text] ?: text else LanguageCatalog.translate(zhToEn[text] ?: text,language)
     }
 
     /**

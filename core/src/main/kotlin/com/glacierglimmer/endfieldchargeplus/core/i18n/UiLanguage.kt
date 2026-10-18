@@ -2,52 +2,168 @@ package com.glacierglimmer.endfieldchargeplus.core.i18n
 
 import com.glacierglimmer.endfieldchargeplus.core.model.AppLanguage
 
-/**
- * The resolved user interface language.
- *
- * The product rule (identical on every ECP platform) is: a `Auto` preference resolves any
- * Chinese locale to Simplified Chinese and everything else to English; an explicit choice always
- * wins. [AppLanguage] is the persisted preference (`Auto` / `zh-CN` / `en-US`), this enum is the
- * concrete language the application renders in.
- *
- * This type is declared here (rather than next to the string tables) because it is part of the
- * public contract used by the HUD state builder, the overlay, the notifications, the island
- * providers and the settings UI.
- */
-enum class UiLanguage(val wire: String, val tag: String) {
-    /** 简体中文 */
-    ZH_CN("zh-CN", "zh-Hans"),
-
-    /** English */
-    EN("en-US", "en"),
+/** Offline language selection is independent of the Android system locale picker. */
+enum class UiLanguage(val wire: String) {
+    AF_ZA("af-ZA"),
+    AR_SA("ar-SA"),
+    AST_ES("ast-ES"),
+    AZ_AZ("az-AZ"),
+    BA_RU("ba-RU"),
+    BAR("bar"),
+    BE_BY("be-BY"),
+    BE_LATN("be-Latn"),
+    BG_BG("bg-BG"),
+    BR_FR("br-FR"),
+    BRB("brb"),
+    BS_BA("bs-BA"),
+    CA_ES("ca-ES"),
+    CS_CZ("cs-CZ"),
+    CV_RU("cv-RU"),
+    CY_GB("cy-GB"),
+    DA_DK("da-DK"),
+    DE_AT("de-AT"),
+    DE_CH("de-CH"),
+    DE_DE("de-DE"),
+    EL_GR("el-GR"),
+    EN_AU("en-AU"),
+    EN_CA("en-CA"),
+    EN_GB("en-GB"),
+    EN_NZ("en-NZ"),
+    EN_X_PIRATE("en-x-pirate"),
+    EN_X_UPSIDE_DOWN("en-x-upside-down"),
+    EN("en-US"),
+    EN_X_ANGLISH("en-x-anglish"),
+    EN_X_SHAKESPEARE("en-x-shakespeare"),
+    EO_UY("eo-UY"),
+    ES_AR("es-AR"),
+    ES_CL("es-CL"),
+    ES_EC("es-EC"),
+    ES_ES("es-ES"),
+    ES_MX("es-MX"),
+    ES_UY("es-UY"),
+    ES_VE("es-VE"),
+    ESAN("esan"),
+    ET_EE("et-EE"),
+    EU_ES("eu-ES"),
+    FA_IR("fa-IR"),
+    FI_FI("fi-FI"),
+    FIL_PH("fil-PH"),
+    FO_FO("fo-FO"),
+    FR_CA("fr-CA"),
+    FR_CH("fr-CH"),
+    FR_FR("fr-FR"),
+    FRA_DE("fra-DE"),
+    FUR_IT("fur-IT"),
+    FY_NL("fy-NL"),
+    GA_IE("ga-IE"),
+    GD_GB("gd-GB"),
+    GL_ES("gl-ES"),
+    GO_FR("go-FR"),
+    GOT_DE("got-DE"),
+    HAL_UA("hal-UA"),
+    HAW_US("haw-US"),
+    HE_IL("he-IL"),
+    HI_IN("hi-IN"),
+    HN_NO("hn-NO"),
+    HR_HR("hr-HR"),
+    HU_HU("hu-HU"),
+    HY_AM("hy-AM"),
+    ID_ID("id-ID"),
+    IG_NG("ig-NG"),
+    IO("io"),
+    IS_IS("is-IS"),
+    ISV("isv"),
+    IT_IT("it-IT"),
+    JA_JP("ja-JP"),
+    JBO("jbo"),
+    KA_GE("ka-GE"),
+    KK_KZ("kk-KZ"),
+    KN_IN("kn-IN"),
+    KO_KR("ko-KR"),
+    KSH("ksh"),
+    KW_GB("kw-GB"),
+    KY_KG("ky-KG"),
+    LA_LA("la-LA"),
+    LB_LU("lb-LU"),
+    LI_LI("li-LI"),
+    LMO("lmo"),
+    LO_LA("lo-LA"),
+    EN_X_LOLCAT("en-x-lolcat"),
+    LT_LT("lt-LT"),
+    LV_LV("lv-LV"),
+    LZH("lzh"),
+    MK_MK("mk-MK"),
+    MN_MN("mn-MN"),
+    MS_MY("ms-MY"),
+    MT_MT("mt-MT"),
+    NAH("nah"),
+    NDS_DE("nds-DE"),
+    NL_BE("nl-BE"),
+    NL_NL("nl-NL"),
+    NN_NO("nn-NO"),
+    NO_NO("no-NO"),
+    OC_FR("oc-FR"),
+    OVD("ovd"),
+    PL_PL("pl-PL"),
+    PLS("pls"),
+    PT_BR("pt-BR"),
+    PT_PT("pt-PT"),
+    QCB_ES("qcb-ES"),
+    ID_X_OLD("id-x-old"),
+    QYA("qya"),
+    RO_RO("ro-RO"),
+    RU_X_OLD("ru-x-old"),
+    RU_RU("ru-RU"),
+    RY_UA("ry-UA"),
+    SAH_RU("sah-RU"),
+    SE_NO("se-NO"),
+    SK_SK("sk-SK"),
+    SL_SI("sl-SI"),
+    SO_SO("so-SO"),
+    SQ_AL("sq-AL"),
+    SR_LATN("sr-Latn"),
+    SR_CYRL("sr-Cyrl"),
+    SV_SE("sv-SE"),
+    SXU("sxu"),
+    SZL("szl"),
+    TA_IN("ta-IN"),
+    TH_TH("th-TH"),
+    TL_PH("tl-PH"),
+    TLH("tlh"),
+    TOK("tok"),
+    TR_TR("tr-TR"),
+    TT_RU("tt-RU"),
+    TZO_MX("tzo-MX"),
+    UK_UA("uk-UA"),
+    UZ_UZ("uz-UZ"),
+    VAL_ES("val-ES"),
+    VEC_IT("vec-IT"),
+    VI_VN("vi-VN"),
+    VP_VL("vp-VL"),
+    VRO("vro"),
+    YI_DE("yi-DE"),
+    YO_NG("yo-NG"),
+    ZH_CN("zh-CN"),
+    ZH_HK("zh-HK"),
+    ZH_TW("zh-TW"),
+    MS_ARAB("ms-Arab"),
+    BN_BD("bn-BD"),
+    UR_PK("ur-PK"),
+    BO_CN("bo-CN"),
     ;
-
+    val tag: String get() = wire
     val isEnglish: Boolean get() = this == EN
-
-    /** Localization key suffix used to pick the right field of a bilingual pair. */
-    val key: String get() = if (isEnglish) "en" else "zh"
-
+    val isChineseSource: Boolean get() = this == ZH_CN
+    val key: String get() = if (isChineseSource) "zh" else "en"
     companion object {
-        /**
-         * Resolves the persisted preference plus the device language tag.
-         *
-         * @param preference the persisted `AppConfig.uiLanguage` value (`Auto`, `zh-CN`, `en-US`).
-         * @param systemLanguageTag the device's current language tag, for example `zh-Hant-TW`.
-         */
         fun resolve(preference: String?, systemLanguageTag: String?): UiLanguage {
-            when (preference?.trim()?.lowercase()) {
-                "zh-cn", "zh", "zh-hans" -> return ZH_CN
-                "en-us", "en" -> return EN
-            }
-            val tag = systemLanguageTag.orEmpty().lowercase()
-            return if (tag.startsWith("zh")) ZH_CN else EN
+            val primary=preference.orEmpty().replace('_','-').substringBefore('-')
+            val known=LanguageCatalog.find(preference.orEmpty())!=null ||
+                LanguageCatalog.languages.any {it.code.substringBefore('-').equals(primary,true)} ||
+                primary.lowercase() in setOf("nb","iw","in")
+            return LanguageCatalog.resolve(if (preference.isNullOrBlank() || preference.equals("Auto",true) || !known) systemLanguageTag else preference)
         }
-
-        /** Resolves from the strongly typed preference record. */
-        fun fromAppLanguage(language: AppLanguage?, systemLanguageTag: String?): UiLanguage =
-            resolve(language?.wire, systemLanguageTag)
-
-        /** The persisted preference value that corresponds to this concrete language. */
+        fun fromAppLanguage(language: AppLanguage?, systemLanguageTag: String?): UiLanguage = resolve(language?.wire,systemLanguageTag)
         fun preferenceOf(language: UiLanguage): String = language.wire
     }
 }

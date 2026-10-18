@@ -55,6 +55,13 @@ class OverlayHudView @JvmOverloads constructor(
 
     /** `GlobalScale × HudScale` (or the settings preview's own scale), applied on top of density. */
     private var renderScale: Float = 1f
+    private var fontScale: Float = 1f
+    fun setGlobalFontScale(value:Float) {
+        val next=if(value.isFinite())value.coerceIn(.75f,2f) else 1f
+        if(next==fontScale)return
+        fontScale=next;requestLayout();invalidate();onGeometryChanged?.invoke()
+    }
+
 
     private var data: HudRenderData = HudRenderData()
 
@@ -95,10 +102,31 @@ class OverlayHudView @JvmOverloads constructor(
      * 320 ms with `1 − (1 − t)³`.
      */
     fun setRenderData(data: HudRenderData) {
+        val oldWidth = requiredDesignWidth()
         this.data = data
         accentColor = parseColorOrDefault(data.accentColor, DEFAULT_ACCENT)
         setProgressTarget(data.progress, animate = hasRendered && isShown)
+        if (abs(requiredDesignWidth() - oldWidth) > .5f) {
+            requestLayout();onGeometryChanged?.invoke()
+        }
         invalidate()
+    }
+
+    /** Measure the real strings before fitting the complete HUD into the display. */
+    fun requiredDesignWidth(): Float {
+        textPaint.typeface=numericTypeface
+        textPaint.letterSpacing=0f
+        fun measured(text:String,size:Float):Float {
+            textPaint.textSize=size*fontScale
+            return textPaint.measureText(text)
+        }
+        val values=measured(data.primaryText,DESIGN_PRIMARY)+measured(data.secondaryText,DESIGN_SECONDARY)+
+            measured(data.rightText,DESIGN_RIGHT)+measured(data.rightSuffix,DESIGN_SUFFIX)
+        textPaint.typeface=titleTypeface
+        val title=measured(data.title,DESIGN_TITLE)+data.title.length*DESIGN_TITLE_SPACING*fontScale
+        val tagline=measured(data.tagline,DESIGN_TAGLINE)+data.tagline.length*DESIGN_TAGLINE_SPACING*fontScale
+        return maxOf(DESIGN_VIEW_WIDTH,values+DESIGN_LEFT_INSET+DESIGN_BADGE+DESIGN_BADGE_GAP+DESIGN_RIGHT_GAP+31f,
+            title+64f,tagline+64f)
     }
 
     /** The content currently rendered; used by the settings preview and diagnostics. */
@@ -141,8 +169,8 @@ class OverlayHudView @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val unit = deviceDensity * renderScale
-        val desiredWidth = (DESIGN_VIEW_WIDTH * unit).roundToInt()
-        val desiredHeight = (DESIGN_VIEW_HEIGHT * unit).roundToInt()
+        val desiredWidth = (requiredDesignWidth() * unit).roundToInt()
+        val desiredHeight = (DESIGN_VIEW_HEIGHT * unit * maxOf(1f,fontScale)).roundToInt()
         setMeasuredDimension(
             resolveSize(desiredWidth, widthMeasureSpec),
             resolveSize(desiredHeight, heightMeasureSpec),
@@ -176,13 +204,13 @@ class OverlayHudView @JvmOverloads constructor(
         canvas.scale(scaleHost.scaleX, scaleHost.scaleY, centerX, centerY)
 
         val pill = animationState[HudNode.PILL]
-        val pillWidth = DESIGN_PILL_WIDTH * unit
-        val pillHeight = pill.height * unit
+        val pillWidth = requiredDesignWidth() * unit
+        val pillHeight = pill.height * unit * maxOf(1f,fontScale)
         val pillLeft = centerX - pillWidth / 2f
         val pillTop = centerY - pillHeight / 2f
         val pillRect = scratchRect
         pillRect.set(pillLeft, pillTop, pillLeft + pillWidth, pillTop + pillHeight)
-        val radius = pill.cornerRadius * unit
+        val radius = pill.cornerRadius * unit * maxOf(1f,fontScale)
         val pillOpacity = pill.opacity.coerceIn(0f, 1f)
 
         if (pillOpacity > ALPHA_EPSILON) {
@@ -254,14 +282,14 @@ class OverlayHudView @JvmOverloads constructor(
 
         textPaint.textAlign = Paint.Align.CENTER
 
-        val taglineSize = DESIGN_TAGLINE * unit
+        val taglineSize = DESIGN_TAGLINE * unit * fontScale
         textPaint.typeface = numericTypeface
         textPaint.textSize = taglineSize
         textPaint.letterSpacing = DESIGN_TAGLINE_SPACING / DESIGN_TAGLINE
         val tagMetrics = textPaint.fontMetrics
         val tagLineHeight = tagMetrics.descent - tagMetrics.ascent
 
-        val titleSize = DESIGN_TITLE * unit
+        val titleSize = DESIGN_TITLE * unit * fontScale
         textPaint.typeface = titleTypeface
         textPaint.textSize = titleSize
         textPaint.letterSpacing = DESIGN_TITLE_SPACING / DESIGN_TITLE
@@ -304,8 +332,8 @@ class OverlayHudView @JvmOverloads constructor(
         val badgeCenterX = badgeLeft + badgeSize / 2f
 
         // Left group: primary + secondary, both vertically centred on the pill.
-        val primarySize = DESIGN_PRIMARY * unit
-        val secondarySize = DESIGN_SECONDARY * unit
+        val primarySize = DESIGN_PRIMARY * unit * fontScale
+        val secondarySize = DESIGN_SECONDARY * unit * fontScale
         textPaint.textAlign = Paint.Align.LEFT
         textPaint.typeface = numericTypeface
 
@@ -328,8 +356,8 @@ class OverlayHudView @JvmOverloads constructor(
         )
 
         // Right group: value + suffix, right-aligned against the badge.
-        val rightSize = DESIGN_RIGHT * unit
-        val suffixSize = DESIGN_SUFFIX * unit
+        val rightSize = DESIGN_RIGHT * unit * fontScale
+        val suffixSize = DESIGN_SUFFIX * unit * fontScale
         textPaint.textAlign = Paint.Align.RIGHT
 
         textPaint.textSize = suffixSize
@@ -640,7 +668,7 @@ class OverlayHudView @JvmOverloads constructor(
         private const val ALPHA_EPSILON = 0.001f
         private const val PROGRESS_EPSILON = 0.0005
         private const val PROGRESS_TRANSITION_MS = 320L
-        private const val MIN_RENDER_SCALE = 0.1f
+        private const val MIN_RENDER_SCALE = 0.00001f
         private const val MAX_RENDER_SCALE = 4f
         private const val MAX_CACHED_ICONS = 64
 

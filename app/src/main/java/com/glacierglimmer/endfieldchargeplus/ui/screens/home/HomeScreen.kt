@@ -105,18 +105,7 @@ fun HomeScreen(
                     InfoRow(t("项目网站", "Website"), ProductInfo.WEBSITE)
                     InfoRow(t("开源协议", "License"), ProductInfo.LICENSE_NAME)
                     HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-                    Text(
-                        text = t("语言", "Language"),
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                    )
-                    Spacer(Modifier.height(6.dp))
-                    SegmentedRow(
-                        options = LanguageController.preferences,
-                        selected = AppLanguage.fromWire(config.uiLanguage),
-                        label = { option -> languageLabel(option, language) },
-                        onSelect = { option -> languageController.choose(option, scope) },
-                    )
+                    com.glacierglimmer.endfieldchargeplus.ui.components.LanguageEntry(container,languageController)
                 }
             }
         }

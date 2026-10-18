@@ -1,0 +1,380 @@
+[
+  {
+    "id": "start",
+    "title": "Mulai menggunakan ECP",
+    "summary": "Home → HUD",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Di Android, izinkan tampilan di atas aplikasi lain dan notifikasi, lalu mulai HUD dari Beranda. Pengaturan tersimpan otomatis. Pembacaan perangkat keras bergantung pada akses sistem. PawnIO dan antarmuka desktop AIDA64 hanya tersedia di Windows. Android mengatur tata letak dan ukuran teks notifikasi.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Konten HUD → Built-in Profiles → Simpan",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      }
+    ]
+  },
+  {
+    "id": "display",
+    "title": "Tampilan, posisi, dan rupa",
+    "summary": "Atur monitor serta mode tampilan.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Tampilan dan posisi → Selalu tampil / Mode tampilan / Posisi / Opacity",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Ukuran font dan skala UI global",
+        "body": "Berlaku untuk semua pengaturan dan setiap HUD. Ukuran masing-masing HUD dikalikan dengan skala UI global.",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Di Android, izinkan tampilan di atas aplikasi lain dan notifikasi, lalu mulai HUD dari Beranda. Pengaturan tersimpan otomatis. Pembacaan perangkat keras bergantung pada akses sistem. PawnIO dan antarmuka desktop AIDA64 hanya tersedia di Windows. Android mengatur tata letak dan ukuran teks notifikasi.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "profiles",
+    "title": "Profil dan isi HUD",
+    "summary": "Atur teks, ikon, dan cincin.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "Langkah penggunaan",
+        "body": "Buat profil atau edit salinan profil bawaan.\nIsi judul, nilai utama dan tambahan, akhiran, ikon, serta warna.\nPilih variabel dan batas cincin, periksa pratinjau, lalu terapkan.",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "Keterangan dan parameter",
+        "body": "Teks biasa dapat digabungkan dengan variabel dalam kurung kurawal. Cincin memetakan rentang ke 0–100% tanpa mengubah angka teks. Aturan warna memakai satuan asli. Menghapus profil khusus tidak menghapus profil bawaan.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "progress",
+        "title": "Contoh 1",
+        "body": "Salin contoh lalu sesuaikan nilainya. Nama variabel, fungsi, dan sintaks kode tidak diterjemahkan.",
+        "kind": "text",
+        "code": "cpu.usage\n= (cpu.usage + gpu.usage) / 2",
+        "target": null
+      },
+      {
+        "id": "color-rules",
+        "title": "Contoh 2",
+        "body": "Salin contoh lalu sesuaikan nilainya. Nama variabel, fungsi, dan sintaks kode tidak diterjemahkan.",
+        "kind": "text",
+        "code": "cpu.usage >= 90 => #FF4D4F\ncpu.usage >= 75 => #FFB84D",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "variables",
+    "title": "Variabel, templat, dan ekspresi",
+    "summary": "Cari data dan tentukan formatnya.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "Langkah penggunaan",
+        "body": "Cari variabel di Manajemen data dan baca deskripsi serta satuannya.\nSalin nama untuk aturan atau cincin; salin templat untuk teks.\nGunakan contoh dan referensi berikut.",
+        "kind": "steps",
+        "code": "",
+        "target": "variables"
+      },
+      {
+        "id": "details",
+        "title": "Keterangan dan parameter",
+        "body": "Format dijalankan dari kiri ke kanan. 0.0 menampilkan satu desimal; auto:1 memilih satuan otomatis, jadi jangan menambahkan satuan lagi. Nama fungsi tetap. Nama variabel lama tetap berfungsi. Duplikat disembunyikan, indikator ringkasan tetap tersedia. -- berarti tidak ada nilai yang valid.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "format",
+        "title": "Contoh 1",
+        "body": "Salin contoh lalu sesuaikan nilainya. Nama variabel, fungsi, dan sintaks kode tidak diterjemahkan.",
+        "kind": "text",
+        "code": "CPU {cpu.usage|0.0}%\n{cpu.frequency_ghz|0.00} GHz\n{= (cpu.usage + gpu.usage) / 2 |0.0}%",
+        "target": null
+      },
+      {
+        "id": "pipelines",
+        "title": "Contoh 2",
+        "body": "Salin contoh lalu sesuaikan nilainya. Nama variabel, fungsi, dan sintaks kode tidak diterjemahkan.",
+        "kind": "text",
+        "code": "{network.download_bps|auto:1}\n{cpu.usage|math:round:1|0.0}",
+        "target": null
+      },
+      {
+        "id": "operators",
+        "title": "Contoh 3",
+        "body": "Salin contoh lalu sesuaikan nilainya. Nama variabel, fungsi, dan sintaks kode tidak diterjemahkan.",
+        "kind": "text",
+        "code": "{= cpu.usage >= 90 ? 'HIGH' : 'NORMAL'}\n{= clamp(cpu.usage, 0, 100)|0.0}",
+        "target": null
+      },
+      {
+        "id": "numeric-functions",
+        "title": "Contoh 4",
+        "body": "Salin contoh lalu sesuaikan nilainya. Nama variabel, fungsi, dan sintaks kode tidak diterjemahkan.",
+        "kind": "text",
+        "code": "{= avg(cpu.usage, gpu.usage)|0.0}\n{= percent(memory.used_bytes, memory.total_bytes)|0.0}",
+        "target": null
+      },
+      {
+        "id": "text-functions",
+        "title": "Contoh 5",
+        "body": "Salin contoh lalu sesuaikan nilainya. Nama variabel, fungsi, dan sintaks kode tidak diterjemahkan.",
+        "kind": "text",
+        "code": "{media.title|sub:0:24}\n{cpu.usage|math:div:100|0.00}",
+        "target": null
+      },
+      {
+        "id": "units-time",
+        "title": "Contoh 6",
+        "body": "Salin contoh lalu sesuaikan nilainya. Nama variabel, fungsi, dan sintaks kode tidak diterjemahkan.",
+        "kind": "text",
+        "code": "{memory.used_bytes|gb:2} GiB\n{battery.time_remaining_seconds|duration}",
+        "target": null
+      },
+      {
+        "id": "function-reference",
+        "title": "Referensi fungsi dan format",
+        "body": "Salin contoh lalu sesuaikan nilainya. Nama variabel, fungsi, dan sintaks kode tidak diterjemahkan.",
+        "kind": "text",
+        "code": "+ - * / % ^    > >= < <= == !=    && || !    ?:    ??\nif(condition, yes, no)     between(value, min, max)\nmin(...) max(...) avg(...) sum(...) clamp(value, min, max)\nround(value, digits) floor(value) ceil(value) abs(value) sign(value)\nsqrt(value) pow(value, exponent) log(value) log10(value) exp(value)\nsin(value) cos(value) tan(value) percent(value, total)\nlen(text) contains(text, part) startswith(text, part) endswith(text, part)\nupper(text) lower(text) concat(...) number(value) string(value) bool(value)\nisnull(value) isempty(value) isnan(value)\n\n0 | 0.0 | 0.00 | auto:1 | bytes | speed | kb:1 | mb:1 | gb:2 | tb:2\nduration | duration-long | time:HH:mm:ss | time:relative\nupper | lower | sub:0:24 | replace:old:new | math:round:1\nmath:add:1 | math:sub:1 | math:mul:2 | math:div:2 | math:floor | math:ceil | math:abs",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "hardware",
+    "title": "Sensor dan driver",
+    "summary": "Data perangkat keras",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Menampilkan pembacaan yang benar-benar disediakan perangkat dan sistem. Item yang tidak tersedia menampilkan -- beserta alasannya.\n\nDi Android, izinkan tampilan di atas aplikasi lain dan notifikasi, lalu mulai HUD dari Beranda. Pengaturan tersimpan otomatis. Pembacaan perangkat keras bergantung pada akses sistem. PawnIO dan antarmuka desktop AIDA64 hanya tersedia di Windows. Android mengatur tata letak dan ukuran teks notifikasi.",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Pengelolaan data → Data perangkat keras → Salin templat",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      }
+    ]
+  },
+  {
+    "id": "sources",
+    "title": "Konfigurasi sumber data",
+    "summary": "Konfigurasi sumber data",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Di Android, izinkan tampilan di atas aplikasi lain dan notifikasi, lalu mulai HUD dari Beranda. Pengaturan tersimpan otomatis. Pembacaan perangkat keras bergantung pada akses sistem. PawnIO dan antarmuka desktop AIDA64 hanya tersedia di Windows. Android mengatur tata letak dan ukuran teks notifikasi.\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "guide",
+        "title": "Langkah penggunaan",
+        "body": "Masukkan kunci DeepSeek lalu terapkan.\nUntuk HTTP, atur nama, URL GET, header, interval, dan jalur JSON; aktifkan sumber.\nGunakan custom.<source>.<variable> dalam profil.",
+        "kind": "steps",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "details",
+        "title": "Keterangan dan parameter",
+        "body": "",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "http-example",
+        "title": "Contoh 1",
+        "body": "Salin contoh lalu sesuaikan nilainya. Nama variabel, fungsi, dan sintaks kode tidak diterjemahkan.",
+        "kind": "text",
+        "code": "[\n  {\n    \"name\": \"demo\",\n    \"enabled\": false,\n    \"url\": \"https://example.com/status\",\n    \"refreshSeconds\": 10,\n    \"headers\": { \"Authorization\": \"Bearer ${env:MY_API_KEY}\" },\n    \"fields\": [\n      { \"variable\": \"value\", \"jsonPath\": \"data.value\" },\n      { \"variable\": \"name\", \"jsonPath\": \"players[0].name\" }\n    ]\n  }\n]",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "cycle",
+    "title": "Rotasi dan animasi",
+    "summary": "Ganti beberapa profil secara berurutan.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "Langkah penggunaan",
+        "body": "Tambahkan profil ke daftar dan atur urutannya.\nAktifkan rotasi otomatis beserta interval jika diperlukan.\nPilih animasi sederhana, lengkap, atau gulir ke atas.\nAktifkan pergantian dengan klik untuk maju secara manual.",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "Keterangan dan parameter",
+        "body": "Mengeluarkan dari daftar tidak menghapus profil. Daftar kosong memakai profil saat ini; satu item tidak berpindah ke profil lain. Gulir menggerakkan isi HUD tetap. Setiap HUD memiliki daftar sendiri; klik memulai ulang waktunya. Pergantian periode DeepSeek memakai animasi lengkap.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "summons",
+    "title": "Pintasan dan area mouse",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Pintasan dan area mouse · Unsupported\n\nDi Android, izinkan tampilan di atas aplikasi lain dan notifikasi, lalu mulai HUD dari Beranda. Pengaturan tersimpan otomatis. Pembacaan perangkat keras bergantung pada akses sistem. PawnIO dan antarmuka desktop AIDA64 hanya tersedia di Windows. Android mengatur tata letak dan ukuran teks notifikasi.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "triggers",
+    "title": "Aturan pemicu",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Aturan pemicu · Unsupported\n\nDi Android, izinkan tampilan di atas aplikasi lain dan notifikasi, lalu mulai HUD dari Beranda. Pengaturan tersimpan otomatis. Pembacaan perangkat keras bergantung pada akses sistem. PawnIO dan antarmuka desktop AIDA64 hanya tersedia di Windows. Android mengatur tata letak dan ukuran teks notifikasi.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "special",
+    "title": "Jam, jaringan, dan FPS",
+    "summary": "Atur fitur khusus setiap profil.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Jam dunia → UTC\nJaringan → Mbps / MB/s\nPemeriksaan jaringan → ICMP / TCP / UDP",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Menampilkan pembacaan yang benar-benar disediakan perangkat dan sistem. Item yang tidak tersedia menampilkan -- beserta alasannya.\n\nDi Android, izinkan tampilan di atas aplikasi lain dan notifikasi, lalu mulai HUD dari Beranda. Pengaturan tersimpan otomatis. Pembacaan perangkat keras bergantung pada akses sistem. PawnIO dan antarmuka desktop AIDA64 hanya tersedia di Windows. Android mengatur tata letak dan ukuran teks notifikasi.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "media",
+    "title": "Media dan kemajuan",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Media dan kemajuan · Unsupported\n\nDi Android, izinkan tampilan di atas aplikasi lain dan notifikasi, lalu mulai HUD dari Beranda. Pengaturan tersimpan otomatis. Pembacaan perangkat keras bergantung pada akses sistem. PawnIO dan antarmuka desktop AIDA64 hanya tersedia di Windows. Android mengatur tata letak dan ukuran teks notifikasi.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "instances",
+    "title": "Beberapa HUD eksperimental",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Beberapa HUD eksperimental · Unsupported\n\nDi Android, izinkan tampilan di atas aplikasi lain dan notifikasi, lalu mulai HUD dari Beranda. Pengaturan tersimpan otomatis. Pembacaan perangkat keras bergantung pada akses sistem. PawnIO dan antarmuka desktop AIDA64 hanya tersedia di Windows. Android mengatur tata letak dan ukuran teks notifikasi.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "maintenance",
+    "title": "Pengaturan dan pemeliharaan",
+    "summary": "Cadangkan pengaturan dan periksa diagnosis.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Fitur eksperimental → Ekspor / Impor\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "advanced"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Di Android, izinkan tampilan di atas aplikasi lain dan notifikasi, lalu mulai HUD dari Beranda. Pengaturan tersimpan otomatis. Pembacaan perangkat keras bergantung pada akses sistem. PawnIO dan antarmuka desktop AIDA64 hanya tersedia di Windows. Android mengatur tata letak dan ukuran teks notifikasi.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "troubleshooting",
+    "title": "Masalah dan peringatan data",
+    "summary": "Periksa tampilan dan sumbernya.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Home → Permissions\nTampilan dan posisi → Selalu tampil\nPengelolaan data → Data perangkat keras\n\nDi Android, izinkan tampilan di atas aplikasi lain dan notifikasi, lalu mulai HUD dari Beranda. Pengaturan tersimpan otomatis. Pembacaan perangkat keras bergantung pada akses sistem. PawnIO dan antarmuka desktop AIDA64 hanya tersedia di Windows. Android mengatur tata letak dan ukuran teks notifikasi.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  }
+]

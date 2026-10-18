@@ -21,6 +21,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -80,7 +83,7 @@ fun EcpApp(
                         text = t("设置", "Settings"),
                         modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp),
                     )
-                    EcpDestination.entries.forEach { destination ->
+                    EcpDestination.entries.filter { it != EcpDestination.VARIABLES }.forEach { destination ->
                         NavigationDrawerItem(
                             selected = destination == current,
                             icon = { Icon(destination.icon, contentDescription = null) },
@@ -100,6 +103,7 @@ fun EcpApp(
                 topBar = {
                     TopAppBar(
                         title = { Text(t(current.titleZh, current.titleEn)) },
+                        actions = {com.glacierglimmer.endfieldchargeplus.ui.components.LanguageEntry(container,languageController)},
                         navigationIcon = {
                             if (!wide) {
                                 IconButton(onClick = { scope.launch { drawerState.open() } }) {
@@ -133,7 +137,7 @@ fun EcpApp(
                 Row(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
                     if (wide) {
                         NavigationRail {
-                            EcpDestination.entries.forEach { destination ->
+                            EcpDestination.entries.filter { it != EcpDestination.VARIABLES }.forEach { destination ->
                                 NavigationRailItem(
                                     selected = destination == current,
                                     onClick = { navController.navigateTo(destination) },
@@ -163,6 +167,7 @@ private fun EcpNavGraph(
     languageController: LanguageController,
     modifier: Modifier = Modifier,
 ) {
+    var dataTab by remember {mutableIntStateOf(0)}
     val go: (EcpDestination) -> Unit = { navController.navigateTo(it) }
     NavHost(
         navController = navController,
@@ -178,9 +183,15 @@ private fun EcpNavGraph(
         }
         composable(EcpDestination.DISPLAY.route) { DisplayScreen(container = container, onNavigate = go) }
         composable(EcpDestination.CONTENT.route) { ContentScreen(container = container) }
-        composable(EcpDestination.DATA.route) { DataSourcesScreen(container = container) }
+        composable(EcpDestination.DATA.route) { com.glacierglimmer.endfieldchargeplus.ui.screens.datasources.DataManagementScreen(container,initialTab=dataTab) }
         composable(EcpDestination.ADVANCED.route) { AdvancedScreen(container = container) }
-        composable(EcpDestination.VARIABLES.route) { VariablesScreen(container = container) }
+        composable(EcpDestination.VARIABLES.route) { com.glacierglimmer.endfieldchargeplus.ui.screens.datasources.DataManagementScreen(container) }
+        composable(EcpDestination.MANUAL.route) {
+            com.glacierglimmer.endfieldchargeplus.ui.screens.manual.UserManualScreen { target ->
+                if(target in listOf("variables","hardware","sources"))dataTab=when(target) {"hardware"->1;"sources"->2;else->0}
+                go(when(target) {"home"->EcpDestination.HOME;"display"->EcpDestination.DISPLAY;"content","hud","rules","cycle"->EcpDestination.CONTENT;"variables","hardware","sources"->EcpDestination.DATA;"advanced","experimental"->EcpDestination.ADVANCED;"about"->EcpDestination.ABOUT;else->EcpDestination.MANUAL})
+            }
+        }
         composable(EcpDestination.ABOUT.route) { AboutScreen(container = container) }
     }
 }

@@ -1,0 +1,380 @@
+[
+  {
+    "id": "start",
+    "title": "شروع کار",
+    "summary": "Home → HUD",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "در Android، مجوز نمایش روی برنامه‌ها و اعلان‌ها را بدهید و سپس HUD را از صفحهٔ اصلی اجرا کنید. تنظیمات خودکار ذخیره می‌شوند. داده‌های سخت‌افزار به دسترسی سیستم وابسته‌اند. PawnIO و رابط رومیزی AIDA64 فقط برای Windows هستند. چیدمان و اندازهٔ متن اعلان‌ها را Android کنترل می‌کند.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "محتوای HUD → Built-in Profiles → ذخیره",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      }
+    ]
+  },
+  {
+    "id": "display",
+    "title": "نمایش، موقعیت و ظاهر",
+    "summary": "نمایشگر و شیوهٔ نمایش را تنظیم کنید.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "نمایش و موقعیت → همیشه نمایان / حالت نمایش / موقعیت / Opacity",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "اندازهٔ قلم و مقیاس سراسری رابط",
+        "body": "برای همهٔ تنظیمات و تمام HUDها اعمال می‌شود. اندازهٔ هر HUD در مقیاس سراسری رابط ضرب می‌شود.",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "در Android، مجوز نمایش روی برنامه‌ها و اعلان‌ها را بدهید و سپس HUD را از صفحهٔ اصلی اجرا کنید. تنظیمات خودکار ذخیره می‌شوند. داده‌های سخت‌افزار به دسترسی سیستم وابسته‌اند. PawnIO و رابط رومیزی AIDA64 فقط برای Windows هستند. چیدمان و اندازهٔ متن اعلان‌ها را Android کنترل می‌کند.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "profiles",
+    "title": "نمایه‌ها و محتوای HUD",
+    "summary": "متن، نماد و حلقه را تنظیم کنید.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "مراحل استفاده",
+        "body": "نمایه بسازید یا نسخه‌ای از نمایهٔ داخلی را ویرایش کنید.\nعنوان، مقدار اصلی و فرعی، پسوند، نمادها و رنگ را وارد کنید.\nمتغیر و حدود حلقه را انتخاب، پیش‌نمایش و اعمال کنید.",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "توضیحات و پارامترها",
+        "body": "متن معمولی و متغیرهای داخل آکولاد را می‌توان ترکیب کرد. حلقه بازه را به ۰ تا ۱۰۰ درصد تبدیل می‌کند و عدد متنی را تغییر نمی‌دهد. شرط‌های رنگ از واحد اصلی استفاده می‌کنند. حذف نمایهٔ سفارشی، نمایه‌های داخلی را حذف نمی‌کند.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "progress",
+        "title": "نمونه 1",
+        "body": "نمونه را کپی و مقادیر را متناسب با تنظیمات خود تغییر دهید. نام متغیرها، توابع و دستور زبان کد ترجمه نمی‌شود.",
+        "kind": "text",
+        "code": "cpu.usage\n= (cpu.usage + gpu.usage) / 2",
+        "target": null
+      },
+      {
+        "id": "color-rules",
+        "title": "نمونه 2",
+        "body": "نمونه را کپی و مقادیر را متناسب با تنظیمات خود تغییر دهید. نام متغیرها، توابع و دستور زبان کد ترجمه نمی‌شود.",
+        "kind": "text",
+        "code": "cpu.usage >= 90 => #FF4D4F\ncpu.usage >= 75 => #FFB84D",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "variables",
+    "title": "متغیرها، الگوها و عبارت‌ها",
+    "summary": "داده را پیدا و قالب نمایش را انتخاب کنید.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "مراحل استفاده",
+        "body": "در مدیریت داده متغیر را جست‌وجو و توضیح و واحدش را بخوانید.\nبرای قانون و حلقه نام، و برای متن الگو را کپی کنید.\nاز نمونه‌ها و مرجع زیر استفاده کنید.",
+        "kind": "steps",
+        "code": "",
+        "target": "variables"
+      },
+      {
+        "id": "details",
+        "title": "توضیحات و پارامترها",
+        "body": "قالب‌ها از چپ به راست اجرا می‌شوند. 0.0 یک رقم اعشار دارد؛ auto:1 واحد را خودکار انتخاب می‌کند، پس واحد را دوباره ننویسید. نام تابع‌ها تغییر نمی‌کند. نام‌های قدیمی همچنان کار می‌کنند. موارد تکراری پنهان و شاخص‌های جمع‌بندی حفظ می‌شوند. -- یعنی مقدار معتبر موجود نیست.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "format",
+        "title": "نمونه 1",
+        "body": "نمونه را کپی و مقادیر را متناسب با تنظیمات خود تغییر دهید. نام متغیرها، توابع و دستور زبان کد ترجمه نمی‌شود.",
+        "kind": "text",
+        "code": "CPU {cpu.usage|0.0}%\n{cpu.frequency_ghz|0.00} GHz\n{= (cpu.usage + gpu.usage) / 2 |0.0}%",
+        "target": null
+      },
+      {
+        "id": "pipelines",
+        "title": "نمونه 2",
+        "body": "نمونه را کپی و مقادیر را متناسب با تنظیمات خود تغییر دهید. نام متغیرها، توابع و دستور زبان کد ترجمه نمی‌شود.",
+        "kind": "text",
+        "code": "{network.download_bps|auto:1}\n{cpu.usage|math:round:1|0.0}",
+        "target": null
+      },
+      {
+        "id": "operators",
+        "title": "نمونه 3",
+        "body": "نمونه را کپی و مقادیر را متناسب با تنظیمات خود تغییر دهید. نام متغیرها، توابع و دستور زبان کد ترجمه نمی‌شود.",
+        "kind": "text",
+        "code": "{= cpu.usage >= 90 ? 'HIGH' : 'NORMAL'}\n{= clamp(cpu.usage, 0, 100)|0.0}",
+        "target": null
+      },
+      {
+        "id": "numeric-functions",
+        "title": "نمونه 4",
+        "body": "نمونه را کپی و مقادیر را متناسب با تنظیمات خود تغییر دهید. نام متغیرها، توابع و دستور زبان کد ترجمه نمی‌شود.",
+        "kind": "text",
+        "code": "{= avg(cpu.usage, gpu.usage)|0.0}\n{= percent(memory.used_bytes, memory.total_bytes)|0.0}",
+        "target": null
+      },
+      {
+        "id": "text-functions",
+        "title": "نمونه 5",
+        "body": "نمونه را کپی و مقادیر را متناسب با تنظیمات خود تغییر دهید. نام متغیرها، توابع و دستور زبان کد ترجمه نمی‌شود.",
+        "kind": "text",
+        "code": "{media.title|sub:0:24}\n{cpu.usage|math:div:100|0.00}",
+        "target": null
+      },
+      {
+        "id": "units-time",
+        "title": "نمونه 6",
+        "body": "نمونه را کپی و مقادیر را متناسب با تنظیمات خود تغییر دهید. نام متغیرها، توابع و دستور زبان کد ترجمه نمی‌شود.",
+        "kind": "text",
+        "code": "{memory.used_bytes|gb:2} GiB\n{battery.time_remaining_seconds|duration}",
+        "target": null
+      },
+      {
+        "id": "function-reference",
+        "title": "راهنمای توابع و قالب‌ها",
+        "body": "نمونه را کپی و مقادیر را متناسب با تنظیمات خود تغییر دهید. نام متغیرها، توابع و دستور زبان کد ترجمه نمی‌شود.",
+        "kind": "text",
+        "code": "+ - * / % ^    > >= < <= == !=    && || !    ?:    ??\nif(condition, yes, no)     between(value, min, max)\nmin(...) max(...) avg(...) sum(...) clamp(value, min, max)\nround(value, digits) floor(value) ceil(value) abs(value) sign(value)\nsqrt(value) pow(value, exponent) log(value) log10(value) exp(value)\nsin(value) cos(value) tan(value) percent(value, total)\nlen(text) contains(text, part) startswith(text, part) endswith(text, part)\nupper(text) lower(text) concat(...) number(value) string(value) bool(value)\nisnull(value) isempty(value) isnan(value)\n\n0 | 0.0 | 0.00 | auto:1 | bytes | speed | kb:1 | mb:1 | gb:2 | tb:2\nduration | duration-long | time:HH:mm:ss | time:relative\nupper | lower | sub:0:24 | replace:old:new | math:round:1\nmath:add:1 | math:sub:1 | math:mul:2 | math:div:2 | math:floor | math:ceil | math:abs",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "hardware",
+    "title": "حسگرها و درایورها",
+    "summary": "داده‌های سخت‌افزار",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "مقادیری را نشان می‌دهد که دستگاه و سیستم واقعاً ارائه می‌کنند. موارد ناموجود با -- و دلیل آن مشخص می‌شوند.\n\nدر Android، مجوز نمایش روی برنامه‌ها و اعلان‌ها را بدهید و سپس HUD را از صفحهٔ اصلی اجرا کنید. تنظیمات خودکار ذخیره می‌شوند. داده‌های سخت‌افزار به دسترسی سیستم وابسته‌اند. PawnIO و رابط رومیزی AIDA64 فقط برای Windows هستند. چیدمان و اندازهٔ متن اعلان‌ها را Android کنترل می‌کند.",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "مدیریت داده‌ها → داده‌های سخت‌افزار → کپی الگو",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      }
+    ]
+  },
+  {
+    "id": "sources",
+    "title": "تنظیم منابع داده",
+    "summary": "تنظیم منابع داده",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "در Android، مجوز نمایش روی برنامه‌ها و اعلان‌ها را بدهید و سپس HUD را از صفحهٔ اصلی اجرا کنید. تنظیمات خودکار ذخیره می‌شوند. داده‌های سخت‌افزار به دسترسی سیستم وابسته‌اند. PawnIO و رابط رومیزی AIDA64 فقط برای Windows هستند. چیدمان و اندازهٔ متن اعلان‌ها را Android کنترل می‌کند.\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "guide",
+        "title": "مراحل استفاده",
+        "body": "کلید DeepSeek را وارد و اعمال کنید.\nبرای HTTP نام، نشانی GET، سرآیندها، فاصله و مسیرهای JSON را تنظیم و منبع را فعال کنید.\nدر نمایه از custom.<source>.<variable> استفاده کنید.",
+        "kind": "steps",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "details",
+        "title": "توضیحات و پارامترها",
+        "body": "",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "http-example",
+        "title": "نمونه 1",
+        "body": "نمونه را کپی و مقادیر را متناسب با تنظیمات خود تغییر دهید. نام متغیرها، توابع و دستور زبان کد ترجمه نمی‌شود.",
+        "kind": "text",
+        "code": "[\n  {\n    \"name\": \"demo\",\n    \"enabled\": false,\n    \"url\": \"https://example.com/status\",\n    \"refreshSeconds\": 10,\n    \"headers\": { \"Authorization\": \"Bearer ${env:MY_API_KEY}\" },\n    \"fields\": [\n      { \"variable\": \"value\", \"jsonPath\": \"data.value\" },\n      { \"variable\": \"name\", \"jsonPath\": \"players[0].name\" }\n    ]\n  }\n]",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "cycle",
+    "title": "گردش و پویانمایی",
+    "summary": "نمایه‌ها را به‌ترتیب نمایش دهید.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "مراحل استفاده",
+        "body": "نمایه‌ها را به فهرست افزوده و مرتب کنید.\nدر صورت نیاز گردش خودکار و فاصله‌اش را فعال کنید.\nپویانمایی ساده، کامل یا پیمایش رو به بالا را انتخاب کنید.\nبرای جابه‌جایی دستی، تغییر با کلیک را روشن کنید.",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "توضیحات و پارامترها",
+        "body": "برداشتن از فهرست، نمایه را حذف نمی‌کند. فهرست خالی نمایهٔ فعلی را به‌کار می‌برد؛ یک مورد به نمایهٔ دیگری نمی‌رود. پیمایش، محتوای HUD همیشگی را حرکت می‌دهد. هر HUD فهرست خودش را دارد و کلیک زمان‌سنجش را از نو آغاز می‌کند. تغییر دورهٔ DeepSeek پویانمایی کامل دارد.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "summons",
+    "title": "میان‌برها و ناحیه‌های ماوس",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "میان‌برها و ناحیه‌های ماوس · Unsupported\n\nدر Android، مجوز نمایش روی برنامه‌ها و اعلان‌ها را بدهید و سپس HUD را از صفحهٔ اصلی اجرا کنید. تنظیمات خودکار ذخیره می‌شوند. داده‌های سخت‌افزار به دسترسی سیستم وابسته‌اند. PawnIO و رابط رومیزی AIDA64 فقط برای Windows هستند. چیدمان و اندازهٔ متن اعلان‌ها را Android کنترل می‌کند.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "triggers",
+    "title": "قوانین فراخوانی",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "قوانین فراخوانی · Unsupported\n\nدر Android، مجوز نمایش روی برنامه‌ها و اعلان‌ها را بدهید و سپس HUD را از صفحهٔ اصلی اجرا کنید. تنظیمات خودکار ذخیره می‌شوند. داده‌های سخت‌افزار به دسترسی سیستم وابسته‌اند. PawnIO و رابط رومیزی AIDA64 فقط برای Windows هستند. چیدمان و اندازهٔ متن اعلان‌ها را Android کنترل می‌کند.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "special",
+    "title": "ساعت، شبکه و FPS",
+    "summary": "قابلیت‌های ویژهٔ هر نمایه را تنظیم کنید.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "ساعت جهانی → UTC\nشبکه → Mbps / MB/s\nبررسی شبکه → ICMP / TCP / UDP",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "مقادیری را نشان می‌دهد که دستگاه و سیستم واقعاً ارائه می‌کنند. موارد ناموجود با -- و دلیل آن مشخص می‌شوند.\n\nدر Android، مجوز نمایش روی برنامه‌ها و اعلان‌ها را بدهید و سپس HUD را از صفحهٔ اصلی اجرا کنید. تنظیمات خودکار ذخیره می‌شوند. داده‌های سخت‌افزار به دسترسی سیستم وابسته‌اند. PawnIO و رابط رومیزی AIDA64 فقط برای Windows هستند. چیدمان و اندازهٔ متن اعلان‌ها را Android کنترل می‌کند.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "media",
+    "title": "رسانه و پیشرفت پخش",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "رسانه و پیشرفت پخش · Unsupported\n\nدر Android، مجوز نمایش روی برنامه‌ها و اعلان‌ها را بدهید و سپس HUD را از صفحهٔ اصلی اجرا کنید. تنظیمات خودکار ذخیره می‌شوند. داده‌های سخت‌افزار به دسترسی سیستم وابسته‌اند. PawnIO و رابط رومیزی AIDA64 فقط برای Windows هستند. چیدمان و اندازهٔ متن اعلان‌ها را Android کنترل می‌کند.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "instances",
+    "title": "چند HUD آزمایشی",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "چند HUD آزمایشی · Unsupported\n\nدر Android، مجوز نمایش روی برنامه‌ها و اعلان‌ها را بدهید و سپس HUD را از صفحهٔ اصلی اجرا کنید. تنظیمات خودکار ذخیره می‌شوند. داده‌های سخت‌افزار به دسترسی سیستم وابسته‌اند. PawnIO و رابط رومیزی AIDA64 فقط برای Windows هستند. چیدمان و اندازهٔ متن اعلان‌ها را Android کنترل می‌کند.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "maintenance",
+    "title": "تنظیمات و نگهداری",
+    "summary": "پشتیبان بگیرید و عیب‌یابی را ببینید.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "قابلیت‌های آزمایشی → صدور / ورود\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "advanced"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "در Android، مجوز نمایش روی برنامه‌ها و اعلان‌ها را بدهید و سپس HUD را از صفحهٔ اصلی اجرا کنید. تنظیمات خودکار ذخیره می‌شوند. داده‌های سخت‌افزار به دسترسی سیستم وابسته‌اند. PawnIO و رابط رومیزی AIDA64 فقط برای Windows هستند. چیدمان و اندازهٔ متن اعلان‌ها را Android کنترل می‌کند.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "troubleshooting",
+    "title": "رفع مشکل و هشدارها",
+    "summary": "نمایش و منابع داده را بررسی کنید.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Home → Permissions\nنمایش و موقعیت → همیشه نمایان\nمدیریت داده‌ها → داده‌های سخت‌افزار\n\nدر Android، مجوز نمایش روی برنامه‌ها و اعلان‌ها را بدهید و سپس HUD را از صفحهٔ اصلی اجرا کنید. تنظیمات خودکار ذخیره می‌شوند. داده‌های سخت‌افزار به دسترسی سیستم وابسته‌اند. PawnIO و رابط رومیزی AIDA64 فقط برای Windows هستند. چیدمان و اندازهٔ متن اعلان‌ها را Android کنترل می‌کند.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  }
+]

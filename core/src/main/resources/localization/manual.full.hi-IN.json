@@ -1,0 +1,380 @@
+[
+  {
+    "id": "start",
+    "title": "शुरुआत",
+    "summary": "Home → HUD",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android पर दूसरे ऐप के ऊपर दिखाने और सूचनाओं की अनुमति दें, फिर होम से HUD शुरू करें। सेटिंग अपने आप सहेजी जाती हैं। हार्डवेयर रीडिंग सिस्टम की अनुमति पर निर्भर हैं। PawnIO और AIDA64 का डेस्कटॉप इंटरफ़ेस केवल Windows के लिए है। सूचनाओं की बनावट और अक्षर आकार Android तय करता है।",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "HUD की सामग्री → Built-in Profiles → सहेजें",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      }
+    ]
+  },
+  {
+    "id": "display",
+    "title": "प्रदर्शन, स्थिति और रूप",
+    "summary": "स्क्रीन और दिखने का तरीका चुनें।",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "प्रदर्शन और स्थिति → हमेशा दिखाई दे / प्रदर्शन मोड / स्थिति / Opacity",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "पूरे ऐप का फ़ॉन्ट आकार और UI स्केल",
+        "body": "सभी सेटिंग और हर HUD पर लागू होता है। प्रत्येक HUD के आकार को पूरे ऐप के UI स्केल से गुणा किया जाता है।",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android पर दूसरे ऐप के ऊपर दिखाने और सूचनाओं की अनुमति दें, फिर होम से HUD शुरू करें। सेटिंग अपने आप सहेजी जाती हैं। हार्डवेयर रीडिंग सिस्टम की अनुमति पर निर्भर हैं। PawnIO और AIDA64 का डेस्कटॉप इंटरफ़ेस केवल Windows के लिए है। सूचनाओं की बनावट और अक्षर आकार Android तय करता है।",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "profiles",
+    "title": "प्रोफ़ाइल और HUD सामग्री",
+    "summary": "पाठ, आइकन और वृत्तीय संकेतक बनाएँ।",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "इस्तेमाल के चरण",
+        "body": "नई प्रोफ़ाइल बनाएँ या अंतर्निहित प्रोफ़ाइल की कॉपी बदलें।\nशीर्षक, मुख्य/सहायक मान, प्रत्यय, आइकन और रंग भरें।\nवृत्त का चर और सीमा चुनें, पूर्वावलोकन देखें और लागू करें।",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "विवरण और पैरामीटर",
+        "body": "साधारण पाठ में कर्ली ब्रैकेट वाले चर जोड़ सकते हैं। वृत्त चुनी हुई सीमा को 0–100% में बदलता है; पाठ में लिखा मान नहीं बदलता। रंग की शर्तें मूल इकाई पर काम करती हैं। कस्टम प्रोफ़ाइल हटाने से अंतर्निहित प्रोफ़ाइल नहीं हटती।",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "progress",
+        "title": "उदाहरण 1",
+        "body": "उदाहरण कॉपी करके मान अपनी सेटिंग के अनुसार बदलें। चर और फ़ंक्शन के नाम तथा कोड का सिंटैक्स नहीं बदलता।",
+        "kind": "text",
+        "code": "cpu.usage\n= (cpu.usage + gpu.usage) / 2",
+        "target": null
+      },
+      {
+        "id": "color-rules",
+        "title": "उदाहरण 2",
+        "body": "उदाहरण कॉपी करके मान अपनी सेटिंग के अनुसार बदलें। चर और फ़ंक्शन के नाम तथा कोड का सिंटैक्स नहीं बदलता।",
+        "kind": "text",
+        "code": "cpu.usage >= 90 => #FF4D4F\ncpu.usage >= 75 => #FFB84D",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "variables",
+    "title": "चर, टेम्पलेट और अभिव्यक्तियाँ",
+    "summary": "डेटा खोजें और उसका फ़ॉर्मैट तय करें।",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "इस्तेमाल के चरण",
+        "body": "डेटा प्रबंधन में चर खोजकर विवरण और इकाई पढ़ें।\nनियम या वृत्त के लिए नाम, पाठ के लिए टेम्पलेट कॉपी करें।\nनीचे के उदाहरण और संदर्भ देखें।",
+        "kind": "steps",
+        "code": "",
+        "target": "variables"
+      },
+      {
+        "id": "details",
+        "title": "विवरण और पैरामीटर",
+        "body": "फ़ॉर्मैट बाएँ से दाएँ लागू होते हैं। 0.0 एक दशमलव स्थान देता है; auto:1 इकाई खुद चुनता है, इसलिए इकाई दोबारा न लिखें। फ़ंक्शन नाम स्थिर हैं और पुराने चर नाम चलते रहते हैं। दोहराए गए विकल्प छिपते हैं, सारांश मान बने रहते हैं। -- का अर्थ मान्य रीडिंग उपलब्ध नहीं है।",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "format",
+        "title": "उदाहरण 1",
+        "body": "उदाहरण कॉपी करके मान अपनी सेटिंग के अनुसार बदलें। चर और फ़ंक्शन के नाम तथा कोड का सिंटैक्स नहीं बदलता।",
+        "kind": "text",
+        "code": "CPU {cpu.usage|0.0}%\n{cpu.frequency_ghz|0.00} GHz\n{= (cpu.usage + gpu.usage) / 2 |0.0}%",
+        "target": null
+      },
+      {
+        "id": "pipelines",
+        "title": "उदाहरण 2",
+        "body": "उदाहरण कॉपी करके मान अपनी सेटिंग के अनुसार बदलें। चर और फ़ंक्शन के नाम तथा कोड का सिंटैक्स नहीं बदलता।",
+        "kind": "text",
+        "code": "{network.download_bps|auto:1}\n{cpu.usage|math:round:1|0.0}",
+        "target": null
+      },
+      {
+        "id": "operators",
+        "title": "उदाहरण 3",
+        "body": "उदाहरण कॉपी करके मान अपनी सेटिंग के अनुसार बदलें। चर और फ़ंक्शन के नाम तथा कोड का सिंटैक्स नहीं बदलता।",
+        "kind": "text",
+        "code": "{= cpu.usage >= 90 ? 'HIGH' : 'NORMAL'}\n{= clamp(cpu.usage, 0, 100)|0.0}",
+        "target": null
+      },
+      {
+        "id": "numeric-functions",
+        "title": "उदाहरण 4",
+        "body": "उदाहरण कॉपी करके मान अपनी सेटिंग के अनुसार बदलें। चर और फ़ंक्शन के नाम तथा कोड का सिंटैक्स नहीं बदलता।",
+        "kind": "text",
+        "code": "{= avg(cpu.usage, gpu.usage)|0.0}\n{= percent(memory.used_bytes, memory.total_bytes)|0.0}",
+        "target": null
+      },
+      {
+        "id": "text-functions",
+        "title": "उदाहरण 5",
+        "body": "उदाहरण कॉपी करके मान अपनी सेटिंग के अनुसार बदलें। चर और फ़ंक्शन के नाम तथा कोड का सिंटैक्स नहीं बदलता।",
+        "kind": "text",
+        "code": "{media.title|sub:0:24}\n{cpu.usage|math:div:100|0.00}",
+        "target": null
+      },
+      {
+        "id": "units-time",
+        "title": "उदाहरण 6",
+        "body": "उदाहरण कॉपी करके मान अपनी सेटिंग के अनुसार बदलें। चर और फ़ंक्शन के नाम तथा कोड का सिंटैक्स नहीं बदलता।",
+        "kind": "text",
+        "code": "{memory.used_bytes|gb:2} GiB\n{battery.time_remaining_seconds|duration}",
+        "target": null
+      },
+      {
+        "id": "function-reference",
+        "title": "फ़ंक्शन और फ़ॉर्मैट संदर्भ",
+        "body": "उदाहरण कॉपी करके मान अपनी सेटिंग के अनुसार बदलें। चर और फ़ंक्शन के नाम तथा कोड का सिंटैक्स नहीं बदलता।",
+        "kind": "text",
+        "code": "+ - * / % ^    > >= < <= == !=    && || !    ?:    ??\nif(condition, yes, no)     between(value, min, max)\nmin(...) max(...) avg(...) sum(...) clamp(value, min, max)\nround(value, digits) floor(value) ceil(value) abs(value) sign(value)\nsqrt(value) pow(value, exponent) log(value) log10(value) exp(value)\nsin(value) cos(value) tan(value) percent(value, total)\nlen(text) contains(text, part) startswith(text, part) endswith(text, part)\nupper(text) lower(text) concat(...) number(value) string(value) bool(value)\nisnull(value) isempty(value) isnan(value)\n\n0 | 0.0 | 0.00 | auto:1 | bytes | speed | kb:1 | mb:1 | gb:2 | tb:2\nduration | duration-long | time:HH:mm:ss | time:relative\nupper | lower | sub:0:24 | replace:old:new | math:round:1\nmath:add:1 | math:sub:1 | math:mul:2 | math:div:2 | math:floor | math:ceil | math:abs",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "hardware",
+    "title": "सेंसर और ड्राइवर",
+    "summary": "हार्डवेयर डेटा",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "डिवाइस और सिस्टम द्वारा वास्तव में दी गई रीडिंग दिखाता है। अनुपलब्ध मदों में -- और कारण दिखता है।\n\nAndroid पर दूसरे ऐप के ऊपर दिखाने और सूचनाओं की अनुमति दें, फिर होम से HUD शुरू करें। सेटिंग अपने आप सहेजी जाती हैं। हार्डवेयर रीडिंग सिस्टम की अनुमति पर निर्भर हैं। PawnIO और AIDA64 का डेस्कटॉप इंटरफ़ेस केवल Windows के लिए है। सूचनाओं की बनावट और अक्षर आकार Android तय करता है।",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "डेटा प्रबंधन → हार्डवेयर डेटा → टेम्पलेट कॉपी करें",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      }
+    ]
+  },
+  {
+    "id": "sources",
+    "title": "डेटा स्रोत सेटिंग",
+    "summary": "डेटा स्रोत सेटिंग",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android पर दूसरे ऐप के ऊपर दिखाने और सूचनाओं की अनुमति दें, फिर होम से HUD शुरू करें। सेटिंग अपने आप सहेजी जाती हैं। हार्डवेयर रीडिंग सिस्टम की अनुमति पर निर्भर हैं। PawnIO और AIDA64 का डेस्कटॉप इंटरफ़ेस केवल Windows के लिए है। सूचनाओं की बनावट और अक्षर आकार Android तय करता है।\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "guide",
+        "title": "इस्तेमाल के चरण",
+        "body": "DeepSeek कुंजी भरकर लागू करें।\nHTTP में नाम, GET URL, हेडर, अंतराल और JSON पथ भरें, फिर स्रोत चालू करें।\nप्रोफ़ाइल में custom.<source>.<variable> इस्तेमाल करें।",
+        "kind": "steps",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "details",
+        "title": "विवरण और पैरामीटर",
+        "body": "",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "http-example",
+        "title": "उदाहरण 1",
+        "body": "उदाहरण कॉपी करके मान अपनी सेटिंग के अनुसार बदलें। चर और फ़ंक्शन के नाम तथा कोड का सिंटैक्स नहीं बदलता।",
+        "kind": "text",
+        "code": "[\n  {\n    \"name\": \"demo\",\n    \"enabled\": false,\n    \"url\": \"https://example.com/status\",\n    \"refreshSeconds\": 10,\n    \"headers\": { \"Authorization\": \"Bearer ${env:MY_API_KEY}\" },\n    \"fields\": [\n      { \"variable\": \"value\", \"jsonPath\": \"data.value\" },\n      { \"variable\": \"name\", \"jsonPath\": \"players[0].name\" }\n    ]\n  }\n]",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "cycle",
+    "title": "क्रमिक बदलाव और एनिमेशन",
+    "summary": "प्रोफ़ाइल बारी-बारी दिखाएँ।",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "इस्तेमाल के चरण",
+        "body": "प्रोफ़ाइल सूची में जोड़ें और क्रम बदलें।\nज़रूरत हो तो स्वतः बदलाव और अंतराल चालू करें।\nसरल, पूर्ण या ऊपर स्क्रॉल वाला एनिमेशन चुनें।\nहाथ से आगे जाने के लिए क्लिक से बदलाव चालू करें।",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "विवरण और पैरामीटर",
+        "body": "सूची से निकालना प्रोफ़ाइल हटाना नहीं है। खाली सूची वर्तमान प्रोफ़ाइल इस्तेमाल करती है; एक आइटम दूसरी प्रोफ़ाइल पर नहीं जाता। स्क्रॉल स्थायी HUD की सामग्री हिलाता है। हर HUD की सूची अलग है; क्लिक उसका टाइमर फिर शुरू करता है। DeepSeek समयखंड बदलने पर पूर्ण एनिमेशन होता है।",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "summons",
+    "title": "शॉर्टकट और माउस क्षेत्र",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "शॉर्टकट और माउस क्षेत्र · Unsupported\n\nAndroid पर दूसरे ऐप के ऊपर दिखाने और सूचनाओं की अनुमति दें, फिर होम से HUD शुरू करें। सेटिंग अपने आप सहेजी जाती हैं। हार्डवेयर रीडिंग सिस्टम की अनुमति पर निर्भर हैं। PawnIO और AIDA64 का डेस्कटॉप इंटरफ़ेस केवल Windows के लिए है। सूचनाओं की बनावट और अक्षर आकार Android तय करता है।",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "triggers",
+    "title": "ट्रिगर नियम",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "ट्रिगर नियम · Unsupported\n\nAndroid पर दूसरे ऐप के ऊपर दिखाने और सूचनाओं की अनुमति दें, फिर होम से HUD शुरू करें। सेटिंग अपने आप सहेजी जाती हैं। हार्डवेयर रीडिंग सिस्टम की अनुमति पर निर्भर हैं। PawnIO और AIDA64 का डेस्कटॉप इंटरफ़ेस केवल Windows के लिए है। सूचनाओं की बनावट और अक्षर आकार Android तय करता है।",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "special",
+    "title": "घड़ी, नेटवर्क और FPS",
+    "summary": "प्रोफ़ाइल के विशेष विकल्प चुनें।",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "विश्व घड़ी → UTC\nनेटवर्क → Mbps / MB/s\nनेटवर्क जाँच → ICMP / TCP / UDP",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "डिवाइस और सिस्टम द्वारा वास्तव में दी गई रीडिंग दिखाता है। अनुपलब्ध मदों में -- और कारण दिखता है।\n\nAndroid पर दूसरे ऐप के ऊपर दिखाने और सूचनाओं की अनुमति दें, फिर होम से HUD शुरू करें। सेटिंग अपने आप सहेजी जाती हैं। हार्डवेयर रीडिंग सिस्टम की अनुमति पर निर्भर हैं। PawnIO और AIDA64 का डेस्कटॉप इंटरफ़ेस केवल Windows के लिए है। सूचनाओं की बनावट और अक्षर आकार Android तय करता है।",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "media",
+    "title": "मीडिया और प्रगति",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "मीडिया और प्रगति · Unsupported\n\nAndroid पर दूसरे ऐप के ऊपर दिखाने और सूचनाओं की अनुमति दें, फिर होम से HUD शुरू करें। सेटिंग अपने आप सहेजी जाती हैं। हार्डवेयर रीडिंग सिस्टम की अनुमति पर निर्भर हैं। PawnIO और AIDA64 का डेस्कटॉप इंटरफ़ेस केवल Windows के लिए है। सूचनाओं की बनावट और अक्षर आकार Android तय करता है।",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "instances",
+    "title": "प्रयोगात्मक कई HUD",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "प्रयोगात्मक कई HUD · Unsupported\n\nAndroid पर दूसरे ऐप के ऊपर दिखाने और सूचनाओं की अनुमति दें, फिर होम से HUD शुरू करें। सेटिंग अपने आप सहेजी जाती हैं। हार्डवेयर रीडिंग सिस्टम की अनुमति पर निर्भर हैं। PawnIO और AIDA64 का डेस्कटॉप इंटरफ़ेस केवल Windows के लिए है। सूचनाओं की बनावट और अक्षर आकार Android तय करता है।",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "maintenance",
+    "title": "सेटिंग और रखरखाव",
+    "summary": "बैकअप रखें और निदान देखें।",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "प्रयोगात्मक सुविधाएँ → निर्यात / आयात\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "advanced"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android पर दूसरे ऐप के ऊपर दिखाने और सूचनाओं की अनुमति दें, फिर होम से HUD शुरू करें। सेटिंग अपने आप सहेजी जाती हैं। हार्डवेयर रीडिंग सिस्टम की अनुमति पर निर्भर हैं। PawnIO और AIDA64 का डेस्कटॉप इंटरफ़ेस केवल Windows के लिए है। सूचनाओं की बनावट और अक्षर आकार Android तय करता है।",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "troubleshooting",
+    "title": "समस्याएँ और चेतावनियाँ",
+    "summary": "प्रदर्शन और डेटा स्रोत जाँचें।",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Home → Permissions\nप्रदर्शन और स्थिति → हमेशा दिखाई दे\nडेटा प्रबंधन → हार्डवेयर डेटा\n\nAndroid पर दूसरे ऐप के ऊपर दिखाने और सूचनाओं की अनुमति दें, फिर होम से HUD शुरू करें। सेटिंग अपने आप सहेजी जाती हैं। हार्डवेयर रीडिंग सिस्टम की अनुमति पर निर्भर हैं। PawnIO और AIDA64 का डेस्कटॉप इंटरफ़ेस केवल Windows के लिए है। सूचनाओं की बनावट और अक्षर आकार Android तय करता है।",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  }
+]

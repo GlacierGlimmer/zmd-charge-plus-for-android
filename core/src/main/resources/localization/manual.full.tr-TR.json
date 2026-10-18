@@ -1,0 +1,380 @@
+[
+  {
+    "id": "start",
+    "title": "Başlarken",
+    "summary": "Home → HUD",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android'de diğer uygulamaların üzerinde gösterme ve bildirim izinlerini verin, ardından Ana Sayfa'dan HUD'yi başlatın. Ayarlar otomatik kaydedilir. Donanım okumaları sistem erişimine bağlıdır. PawnIO ve AIDA64 masaüstü arayüzü yalnızca Windows içindir. Bildirim düzenini ve yazı boyutunu Android yönetir.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "HUD içeriği → Built-in Profiles → Kaydet",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      }
+    ]
+  },
+  {
+    "id": "display",
+    "title": "Görünüm, konum ve biçim",
+    "summary": "Ekranı ve gösterim yöntemini seçin.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Görünüm ve konum → Her zaman görünür / Görünüm modu / Konum / Opacity",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Genel yazı boyutu ve arayüz ölçeği",
+        "body": "Tüm ayarlara ve bütün HUD’lara uygulanır. Her HUD’un boyutu genel arayüz ölçeğiyle çarpılır.",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android'de diğer uygulamaların üzerinde gösterme ve bildirim izinlerini verin, ardından Ana Sayfa'dan HUD'yi başlatın. Ayarlar otomatik kaydedilir. Donanım okumaları sistem erişimine bağlıdır. PawnIO ve AIDA64 masaüstü arayüzü yalnızca Windows içindir. Bildirim düzenini ve yazı boyutunu Android yönetir.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "profiles",
+    "title": "Profiller ve HUD içeriği",
+    "summary": "Metinleri, simgeleri ve halkayı düzenleyin.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "Kullanım adımları",
+        "body": "Profil oluşturun veya yerleşik profilin kopyasını düzenleyin.\nBaşlık, ana/yardımcı değer, son ek, simge ve renk girin.\nHalka değişkeni ve sınırlarını seçip önizleyin ve uygulayın.",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "Açıklamalar ve parametreler",
+        "body": "Düz metinle süslü parantez içindeki değişkenler birlikte kullanılabilir. Halka aralığı %0–100'e dönüştürür; yazılı sayıyı değiştirmez. Renk koşulları özgün birimi kullanır. Özel profil silinince yerleşik profiller silinmez.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "progress",
+        "title": "Örnek 1",
+        "body": "Örneği kopyalayıp değerleri kendi ayarlarınıza uyarlayın. Değişken ve işlev adları ile kod söz dizimi çevrilmez.",
+        "kind": "text",
+        "code": "cpu.usage\n= (cpu.usage + gpu.usage) / 2",
+        "target": null
+      },
+      {
+        "id": "color-rules",
+        "title": "Örnek 2",
+        "body": "Örneği kopyalayıp değerleri kendi ayarlarınıza uyarlayın. Değişken ve işlev adları ile kod söz dizimi çevrilmez.",
+        "kind": "text",
+        "code": "cpu.usage >= 90 => #FF4D4F\ncpu.usage >= 75 => #FFB84D",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "variables",
+    "title": "Değişkenler, şablonlar ve ifadeler",
+    "summary": "Veriyi bulun ve biçimini seçin.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "Kullanım adımları",
+        "body": "Veri yönetiminde değişken arayın, açıklamasını ve birimini okuyun.\nKural veya halka için adı, metin için şablonu kopyalayın.\nAşağıdaki örnek ve başvurudan yararlanın.",
+        "kind": "steps",
+        "code": "",
+        "target": "variables"
+      },
+      {
+        "id": "details",
+        "title": "Açıklamalar ve parametreler",
+        "body": "Biçimler soldan sağa çalışır. 0.0 tek ondalık basamak gösterir; auto:1 birimi seçer, tekrar birim eklemeyin. İşlev adları değişmez ve eski değişken adları çalışır. Yinelenenler gizlenir, özetler korunur. -- geçerli ölçüm olmadığını belirtir.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "format",
+        "title": "Örnek 1",
+        "body": "Örneği kopyalayıp değerleri kendi ayarlarınıza uyarlayın. Değişken ve işlev adları ile kod söz dizimi çevrilmez.",
+        "kind": "text",
+        "code": "CPU {cpu.usage|0.0}%\n{cpu.frequency_ghz|0.00} GHz\n{= (cpu.usage + gpu.usage) / 2 |0.0}%",
+        "target": null
+      },
+      {
+        "id": "pipelines",
+        "title": "Örnek 2",
+        "body": "Örneği kopyalayıp değerleri kendi ayarlarınıza uyarlayın. Değişken ve işlev adları ile kod söz dizimi çevrilmez.",
+        "kind": "text",
+        "code": "{network.download_bps|auto:1}\n{cpu.usage|math:round:1|0.0}",
+        "target": null
+      },
+      {
+        "id": "operators",
+        "title": "Örnek 3",
+        "body": "Örneği kopyalayıp değerleri kendi ayarlarınıza uyarlayın. Değişken ve işlev adları ile kod söz dizimi çevrilmez.",
+        "kind": "text",
+        "code": "{= cpu.usage >= 90 ? 'HIGH' : 'NORMAL'}\n{= clamp(cpu.usage, 0, 100)|0.0}",
+        "target": null
+      },
+      {
+        "id": "numeric-functions",
+        "title": "Örnek 4",
+        "body": "Örneği kopyalayıp değerleri kendi ayarlarınıza uyarlayın. Değişken ve işlev adları ile kod söz dizimi çevrilmez.",
+        "kind": "text",
+        "code": "{= avg(cpu.usage, gpu.usage)|0.0}\n{= percent(memory.used_bytes, memory.total_bytes)|0.0}",
+        "target": null
+      },
+      {
+        "id": "text-functions",
+        "title": "Örnek 5",
+        "body": "Örneği kopyalayıp değerleri kendi ayarlarınıza uyarlayın. Değişken ve işlev adları ile kod söz dizimi çevrilmez.",
+        "kind": "text",
+        "code": "{media.title|sub:0:24}\n{cpu.usage|math:div:100|0.00}",
+        "target": null
+      },
+      {
+        "id": "units-time",
+        "title": "Örnek 6",
+        "body": "Örneği kopyalayıp değerleri kendi ayarlarınıza uyarlayın. Değişken ve işlev adları ile kod söz dizimi çevrilmez.",
+        "kind": "text",
+        "code": "{memory.used_bytes|gb:2} GiB\n{battery.time_remaining_seconds|duration}",
+        "target": null
+      },
+      {
+        "id": "function-reference",
+        "title": "İşlev ve biçim başvurusu",
+        "body": "Örneği kopyalayıp değerleri kendi ayarlarınıza uyarlayın. Değişken ve işlev adları ile kod söz dizimi çevrilmez.",
+        "kind": "text",
+        "code": "+ - * / % ^    > >= < <= == !=    && || !    ?:    ??\nif(condition, yes, no)     between(value, min, max)\nmin(...) max(...) avg(...) sum(...) clamp(value, min, max)\nround(value, digits) floor(value) ceil(value) abs(value) sign(value)\nsqrt(value) pow(value, exponent) log(value) log10(value) exp(value)\nsin(value) cos(value) tan(value) percent(value, total)\nlen(text) contains(text, part) startswith(text, part) endswith(text, part)\nupper(text) lower(text) concat(...) number(value) string(value) bool(value)\nisnull(value) isempty(value) isnan(value)\n\n0 | 0.0 | 0.00 | auto:1 | bytes | speed | kb:1 | mb:1 | gb:2 | tb:2\nduration | duration-long | time:HH:mm:ss | time:relative\nupper | lower | sub:0:24 | replace:old:new | math:round:1\nmath:add:1 | math:sub:1 | math:mul:2 | math:div:2 | math:floor | math:ceil | math:abs",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "hardware",
+    "title": "Sensörler ve sürücüler",
+    "summary": "Donanım verileri",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Cihaz ve sistem tarafından gerçekten sağlanan okumaları gösterir. Kullanılamayan öğelerde -- ve nedeni görüntülenir.\n\nAndroid'de diğer uygulamaların üzerinde gösterme ve bildirim izinlerini verin, ardından Ana Sayfa'dan HUD'yi başlatın. Ayarlar otomatik kaydedilir. Donanım okumaları sistem erişimine bağlıdır. PawnIO ve AIDA64 masaüstü arayüzü yalnızca Windows içindir. Bildirim düzenini ve yazı boyutunu Android yönetir.",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Veri yönetimi → Donanım verileri → Şablonu kopyala",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      }
+    ]
+  },
+  {
+    "id": "sources",
+    "title": "Veri kaynağı ayarları",
+    "summary": "Veri kaynağı ayarları",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android'de diğer uygulamaların üzerinde gösterme ve bildirim izinlerini verin, ardından Ana Sayfa'dan HUD'yi başlatın. Ayarlar otomatik kaydedilir. Donanım okumaları sistem erişimine bağlıdır. PawnIO ve AIDA64 masaüstü arayüzü yalnızca Windows içindir. Bildirim düzenini ve yazı boyutunu Android yönetir.\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "guide",
+        "title": "Kullanım adımları",
+        "body": "DeepSeek anahtarını girip uygulayın.\nHTTP için ad, GET URL'si, üstbilgi, aralık ve JSON yollarını girip kaynağı açın.\nProfilde custom.<source>.<variable> kullanın.",
+        "kind": "steps",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "details",
+        "title": "Açıklamalar ve parametreler",
+        "body": "",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "http-example",
+        "title": "Örnek 1",
+        "body": "Örneği kopyalayıp değerleri kendi ayarlarınıza uyarlayın. Değişken ve işlev adları ile kod söz dizimi çevrilmez.",
+        "kind": "text",
+        "code": "[\n  {\n    \"name\": \"demo\",\n    \"enabled\": false,\n    \"url\": \"https://example.com/status\",\n    \"refreshSeconds\": 10,\n    \"headers\": { \"Authorization\": \"Bearer ${env:MY_API_KEY}\" },\n    \"fields\": [\n      { \"variable\": \"value\", \"jsonPath\": \"data.value\" },\n      { \"variable\": \"name\", \"jsonPath\": \"players[0].name\" }\n    ]\n  }\n]",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "cycle",
+    "title": "Döngü ve animasyonlar",
+    "summary": "Profilleri sırayla gösterin.",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "Kullanım adımları",
+        "body": "Listeye profil ekleyip sıralayın.\nGerekirse otomatik geçişi ve aralığını açın.\nBasit, tam veya yukarı kaydırma animasyonu seçin.\nElle ilerlemek için tıklayarak geçişi açın.",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "Açıklamalar ve parametreler",
+        "body": "Listeden çıkarma profili silmez. Boş liste mevcut profili kullanır; tek öğe başka profile geçmez. Kaydırma sürekli HUD'ın içeriğini hareket ettirir. Her HUD'ın listesi ayrıdır; tıklama zamanlayıcısını yeniden başlatır. DeepSeek dönem değişimleri tam animasyon kullanır.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "summons",
+    "title": "Kısayollar ve fare alanları",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Kısayollar ve fare alanları · Unsupported\n\nAndroid'de diğer uygulamaların üzerinde gösterme ve bildirim izinlerini verin, ardından Ana Sayfa'dan HUD'yi başlatın. Ayarlar otomatik kaydedilir. Donanım okumaları sistem erişimine bağlıdır. PawnIO ve AIDA64 masaüstü arayüzü yalnızca Windows içindir. Bildirim düzenini ve yazı boyutunu Android yönetir.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "triggers",
+    "title": "Tetikleme kuralları",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Tetikleme kuralları · Unsupported\n\nAndroid'de diğer uygulamaların üzerinde gösterme ve bildirim izinlerini verin, ardından Ana Sayfa'dan HUD'yi başlatın. Ayarlar otomatik kaydedilir. Donanım okumaları sistem erişimine bağlıdır. PawnIO ve AIDA64 masaüstü arayüzü yalnızca Windows içindir. Bildirim düzenini ve yazı boyutunu Android yönetir.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "special",
+    "title": "Saat, ağ ve FPS",
+    "summary": "Profile özel işlevleri ayarlayın.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Dünya saati → UTC\nAğ → Mbps / MB/s\nAğ yoklaması → ICMP / TCP / UDP",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Cihaz ve sistem tarafından gerçekten sağlanan okumaları gösterir. Kullanılamayan öğelerde -- ve nedeni görüntülenir.\n\nAndroid'de diğer uygulamaların üzerinde gösterme ve bildirim izinlerini verin, ardından Ana Sayfa'dan HUD'yi başlatın. Ayarlar otomatik kaydedilir. Donanım okumaları sistem erişimine bağlıdır. PawnIO ve AIDA64 masaüstü arayüzü yalnızca Windows içindir. Bildirim düzenini ve yazı boyutunu Android yönetir.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "media",
+    "title": "Medya ve oynatma ilerlemesi",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Medya ve oynatma ilerlemesi · Unsupported\n\nAndroid'de diğer uygulamaların üzerinde gösterme ve bildirim izinlerini verin, ardından Ana Sayfa'dan HUD'yi başlatın. Ayarlar otomatik kaydedilir. Donanım okumaları sistem erişimine bağlıdır. PawnIO ve AIDA64 masaüstü arayüzü yalnızca Windows içindir. Bildirim düzenini ve yazı boyutunu Android yönetir.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "instances",
+    "title": "Deneysel çoklu HUD",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Deneysel çoklu HUD · Unsupported\n\nAndroid'de diğer uygulamaların üzerinde gösterme ve bildirim izinlerini verin, ardından Ana Sayfa'dan HUD'yi başlatın. Ayarlar otomatik kaydedilir. Donanım okumaları sistem erişimine bağlıdır. PawnIO ve AIDA64 masaüstü arayüzü yalnızca Windows içindir. Bildirim düzenini ve yazı boyutunu Android yönetir.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "maintenance",
+    "title": "Ayarlar ve bakım",
+    "summary": "Yedek alın ve tanılamayı inceleyin.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Deneysel özellikler → Dışa aktar / İçe aktar\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "advanced"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android'de diğer uygulamaların üzerinde gösterme ve bildirim izinlerini verin, ardından Ana Sayfa'dan HUD'yi başlatın. Ayarlar otomatik kaydedilir. Donanım okumaları sistem erişimine bağlıdır. PawnIO ve AIDA64 masaüstü arayüzü yalnızca Windows içindir. Bildirim düzenini ve yazı boyutunu Android yönetir.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "troubleshooting",
+    "title": "Sorunlar ve uyarılar",
+    "summary": "Görünümü ve veri kaynaklarını denetleyin.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Home → Permissions\nGörünüm ve konum → Her zaman görünür\nVeri yönetimi → Donanım verileri\n\nAndroid'de diğer uygulamaların üzerinde gösterme ve bildirim izinlerini verin, ardından Ana Sayfa'dan HUD'yi başlatın. Ayarlar otomatik kaydedilir. Donanım okumaları sistem erişimine bağlıdır. PawnIO ve AIDA64 masaüstü arayüzü yalnızca Windows içindir. Bildirim düzenini ve yazı boyutunu Android yönetir.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  }
+]

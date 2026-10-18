@@ -37,7 +37,7 @@ object WorldClockValues {
         val remainingSeconds = java.time.Duration.between(local, nextTarget).toNanos() / 1_000_000_000.0
         val remainingPercent = (remainingSeconds / 86400.0 * 100).coerceIn(0.0, 100.0)
         val roundedRemaining = floor(remainingPercent + 0.5).toInt()
-        val remainingText = if (language.isEnglish) "Left $roundedRemaining%" else "剩余$roundedRemaining%"
+        val remainingText = com.glacierglimmer.endfieldchargeplus.core.i18n.Strings.t("剩余$roundedRemaining%","Left $roundedRemaining%",language)
         val status = if (profile.timeTargetEnabled) remainingText else "${floor(dayProgress + 0.5).toInt()}%"
         fun text(value: String) = MetricValue.Text(value)
         fun number(value: Double) = MetricValue.Number(value)
@@ -46,7 +46,7 @@ object WorldClockValues {
             Variables.TIME_UTC_OFFSET to text(WorldClockTimeZones.offsetText(minutes)),
             Variables.TIME_DATE to text(dateFormat.format(now)),
             Variables.TIME_WEEKDAY to text(now.dayOfWeek.getDisplayName(TextStyle.FULL,
-                if (language.isEnglish) Locale.ENGLISH else Locale.SIMPLIFIED_CHINESE)),
+                Locale.forLanguageTag(language.tag))),
             Variables.TIME_TIMESTAMP to number(instant.epochSecond.toDouble()),
             Variables.TIME_DAY_PROGRESS to number(dayProgress),
             Variables.TIME_TARGET to text(clockFormat.format(target)),

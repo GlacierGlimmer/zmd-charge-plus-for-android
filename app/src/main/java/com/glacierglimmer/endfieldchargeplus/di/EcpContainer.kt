@@ -81,8 +81,8 @@ class EcpContainer private constructor(private val appContext: Context) {
     val dataWarnings by lazy { com.glacierglimmer.endfieldchargeplus.service.HudDataWarnings(appContext) { foregroundUiActive } }
     val updateChecker by lazy {
         UpdateChecker(applicationScope, BuildConfig.VERSION_NAME, GitHubUpdateClient()::check) { result ->
-            val english = UiLanguage.fromAppLanguage(configRepository.config.value.language, LanguageController.systemLanguageTag()).isEnglish
-            UpdateNotification.post(appContext, result, english)
+            val language = UiLanguage.resolve(configRepository.config.value.uiLanguage, LanguageController.systemLanguageTag())
+            UpdateNotification.post(appContext, result, language)
         }
     }
 

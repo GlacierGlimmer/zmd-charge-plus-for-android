@@ -1,0 +1,380 @@
+[
+  {
+    "id": "start",
+    "title": "はじめに",
+    "summary": "Home → HUD",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android では重ねて表示する権限と通知を許可し、ホームから HUD を開始します。設定は自動保存されます。ハードウェアの取得はシステムの権限に依存します。PawnIO と AIDA64 のデスクトップ接続は Windows 専用です。通知の配置と文字サイズは Android が管理します。",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "HUD の内容 → Built-in Profiles → 保存",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      }
+    ]
+  },
+  {
+    "id": "display",
+    "title": "表示、位置、外観",
+    "summary": "表示モードと画面内の位置を設定します。",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "表示と位置 → 常に表示 / 表示モード / 位置 / Opacity",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "全体の文字サイズとUI倍率",
+        "body": "設定画面全体とすべての HUD に適用します。各 HUD のサイズに全体の UI 倍率を掛けた大きさになります。",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android では重ねて表示する権限と通知を許可し、ホームから HUD を開始します。設定は自動保存されます。ハードウェアの取得はシステムの権限に依存します。PawnIO と AIDA64 のデスクトップ接続は Windows 専用です。通知の配置と文字サイズは Android が管理します。",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "profiles",
+    "title": "プロファイルと表示内容",
+    "summary": "文字、アイコン、リングを組み合わせます。",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "操作手順",
+        "body": "プロファイルを作成するか、内蔵プロファイルのコピーを編集します。\nタイトル、主表示、補助表示、接尾辞、アイコン、色を設定します。\nリングの変数と上下限を選び、プレビューして適用します。",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "説明と注意点",
+        "body": "文字欄では通常の文章と波括弧で囲んだ変数を併用できます。リングは上下限に対する割合を 0～100 % に収めて表示します。リングの範囲は数値の本文を変更しません。色の条件は元の単位で判定します。内蔵プロファイルは削除されません。",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "progress",
+        "title": "例 1",
+        "body": "例をコピーし、自分の設定に合わせて値を変更してください。変数名、関数名、コードの構文は翻訳しません。",
+        "kind": "text",
+        "code": "cpu.usage\n= (cpu.usage + gpu.usage) / 2",
+        "target": null
+      },
+      {
+        "id": "color-rules",
+        "title": "例 2",
+        "body": "例をコピーし、自分の設定に合わせて値を変更してください。変数名、関数名、コードの構文は翻訳しません。",
+        "kind": "text",
+        "code": "cpu.usage >= 90 => #FF4D4F\ncpu.usage >= 75 => #FFB84D",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "variables",
+    "title": "変数、テンプレート、式",
+    "summary": "データを探し、読みやすい形に整えます。",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "操作手順",
+        "body": "「データ管理」の変数一覧で説明と単位を確認します。\nルールやリングには変数名を、文字欄にはテンプレートをコピーします。\n以下の例と早見表を参考に書式を指定します。",
+        "kind": "steps",
+        "code": "",
+        "target": "variables"
+      },
+      {
+        "id": "details",
+        "title": "説明と注意点",
+        "body": "書式は左から順に処理されます。0.0 は小数 1 桁、auto:1 は単位の自動選択です。自動単位を使った場合は単位を重ねて付けないでください。関数名は翻訳しません。旧変数名には互換性があります。重複項目は非表示になりますが、集計値は残ります。-- は有効な値がないことを示します。",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "format",
+        "title": "例 1",
+        "body": "例をコピーし、自分の設定に合わせて値を変更してください。変数名、関数名、コードの構文は翻訳しません。",
+        "kind": "text",
+        "code": "CPU {cpu.usage|0.0}%\n{cpu.frequency_ghz|0.00} GHz\n{= (cpu.usage + gpu.usage) / 2 |0.0}%",
+        "target": null
+      },
+      {
+        "id": "pipelines",
+        "title": "例 2",
+        "body": "例をコピーし、自分の設定に合わせて値を変更してください。変数名、関数名、コードの構文は翻訳しません。",
+        "kind": "text",
+        "code": "{network.download_bps|auto:1}\n{cpu.usage|math:round:1|0.0}",
+        "target": null
+      },
+      {
+        "id": "operators",
+        "title": "例 3",
+        "body": "例をコピーし、自分の設定に合わせて値を変更してください。変数名、関数名、コードの構文は翻訳しません。",
+        "kind": "text",
+        "code": "{= cpu.usage >= 90 ? 'HIGH' : 'NORMAL'}\n{= clamp(cpu.usage, 0, 100)|0.0}",
+        "target": null
+      },
+      {
+        "id": "numeric-functions",
+        "title": "例 4",
+        "body": "例をコピーし、自分の設定に合わせて値を変更してください。変数名、関数名、コードの構文は翻訳しません。",
+        "kind": "text",
+        "code": "{= avg(cpu.usage, gpu.usage)|0.0}\n{= percent(memory.used_bytes, memory.total_bytes)|0.0}",
+        "target": null
+      },
+      {
+        "id": "text-functions",
+        "title": "例 5",
+        "body": "例をコピーし、自分の設定に合わせて値を変更してください。変数名、関数名、コードの構文は翻訳しません。",
+        "kind": "text",
+        "code": "{media.title|sub:0:24}\n{cpu.usage|math:div:100|0.00}",
+        "target": null
+      },
+      {
+        "id": "units-time",
+        "title": "例 6",
+        "body": "例をコピーし、自分の設定に合わせて値を変更してください。変数名、関数名、コードの構文は翻訳しません。",
+        "kind": "text",
+        "code": "{memory.used_bytes|gb:2} GiB\n{battery.time_remaining_seconds|duration}",
+        "target": null
+      },
+      {
+        "id": "function-reference",
+        "title": "関数と書式の早見表",
+        "body": "例をコピーし、自分の設定に合わせて値を変更してください。変数名、関数名、コードの構文は翻訳しません。",
+        "kind": "text",
+        "code": "+ - * / % ^    > >= < <= == !=    && || !    ?:    ??\nif(condition, yes, no)     between(value, min, max)\nmin(...) max(...) avg(...) sum(...) clamp(value, min, max)\nround(value, digits) floor(value) ceil(value) abs(value) sign(value)\nsqrt(value) pow(value, exponent) log(value) log10(value) exp(value)\nsin(value) cos(value) tan(value) percent(value, total)\nlen(text) contains(text, part) startswith(text, part) endswith(text, part)\nupper(text) lower(text) concat(...) number(value) string(value) bool(value)\nisnull(value) isempty(value) isnan(value)\n\n0 | 0.0 | 0.00 | auto:1 | bytes | speed | kb:1 | mb:1 | gb:2 | tb:2\nduration | duration-long | time:HH:mm:ss | time:relative\nupper | lower | sub:0:24 | replace:old:new | math:round:1\nmath:add:1 | math:sub:1 | math:mul:2 | math:div:2 | math:floor | math:ceil | math:abs",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "hardware",
+    "title": "センサーとドライバー",
+    "summary": "ハードウェアデータ",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "機器とシステムが実際に提供する値を表示します。取得できない項目には -- と理由を表示します。\n\nAndroid では重ねて表示する権限と通知を許可し、ホームから HUD を開始します。設定は自動保存されます。ハードウェアの取得はシステムの権限に依存します。PawnIO と AIDA64 のデスクトップ接続は Windows 専用です。通知の配置と文字サイズは Android が管理します。",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "データ管理 → ハードウェアデータ → テンプレートをコピー",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      }
+    ]
+  },
+  {
+    "id": "sources",
+    "title": "データソースの設定",
+    "summary": "データソース設定",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android では重ねて表示する権限と通知を許可し、ホームから HUD を開始します。設定は自動保存されます。ハードウェアの取得はシステムの権限に依存します。PawnIO と AIDA64 のデスクトップ接続は Windows 専用です。通知の配置と文字サイズは Android が管理します。\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "guide",
+        "title": "操作手順",
+        "body": "DeepSeek のキーを入力して適用します。\nHTTP では名前、GET の URL、ヘッダー、間隔、JSON パスを指定して有効にします。\nプロファイルでは custom.<source>.<variable> を使います。",
+        "kind": "steps",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "details",
+        "title": "説明と注意点",
+        "body": "",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "http-example",
+        "title": "例 1",
+        "body": "例をコピーし、自分の設定に合わせて値を変更してください。変数名、関数名、コードの構文は翻訳しません。",
+        "kind": "text",
+        "code": "[\n  {\n    \"name\": \"demo\",\n    \"enabled\": false,\n    \"url\": \"https://example.com/status\",\n    \"refreshSeconds\": 10,\n    \"headers\": { \"Authorization\": \"Bearer ${env:MY_API_KEY}\" },\n    \"fields\": [\n      { \"variable\": \"value\", \"jsonPath\": \"data.value\" },\n      { \"variable\": \"name\", \"jsonPath\": \"players[0].name\" }\n    ]\n  }\n]",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "cycle",
+    "title": "切り替えとアニメーション",
+    "summary": "複数のプロファイルを順番に表示します。",
+    "blocks": [
+      {
+        "id": "guide",
+        "title": "操作手順",
+        "body": "切り替えリストにプロファイルを追加し、順序を調整します。\n必要なら自動切り替えと間隔を有効にします。\n簡易、完全、上方向スクロールのアニメーションを選びます。\nクリックで次へ進める設定も利用できます。",
+        "kind": "steps",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "details",
+        "title": "説明と注意点",
+        "body": "リストから外してもプロファイル本体は消えません。空のリストでは現在のプロファイルを使い、1 件だけなら別の表示には切り替わりません。上方向スクロールは常時表示の内容を動かします。各 HUD は独自のリストを持ち、クリックでタイマーを再開します。DeepSeek の時間帯変更は完全なアニメーションで通知します。",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "summons",
+    "title": "ショートカットとマウス領域",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "ショートカットとマウス領域 · Unsupported\n\nAndroid では重ねて表示する権限と通知を許可し、ホームから HUD を開始します。設定は自動保存されます。ハードウェアの取得はシステムの権限に依存します。PawnIO と AIDA64 のデスクトップ接続は Windows 専用です。通知の配置と文字サイズは Android が管理します。",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "triggers",
+    "title": "トリガールール",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "トリガールール · Unsupported\n\nAndroid では重ねて表示する権限と通知を許可し、ホームから HUD を開始します。設定は自動保存されます。ハードウェアの取得はシステムの権限に依存します。PawnIO と AIDA64 のデスクトップ接続は Windows 専用です。通知の配置と文字サイズは Android が管理します。",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "special",
+    "title": "時計、ネットワーク、FPS",
+    "summary": "個別の機能に必要な項目を設定します。",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "世界時計 → UTC\nネットワーク → Mbps / MB/s\nパケット疎通確認 → ICMP / TCP / UDP",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "機器とシステムが実際に提供する値を表示します。取得できない項目には -- と理由を表示します。\n\nAndroid では重ねて表示する権限と通知を許可し、ホームから HUD を開始します。設定は自動保存されます。ハードウェアの取得はシステムの権限に依存します。PawnIO と AIDA64 のデスクトップ接続は Windows 専用です。通知の配置と文字サイズは Android が管理します。",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "media",
+    "title": "メディア情報と再生位置",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "メディア情報と再生位置 · Unsupported\n\nAndroid では重ねて表示する権限と通知を許可し、ホームから HUD を開始します。設定は自動保存されます。ハードウェアの取得はシステムの権限に依存します。PawnIO と AIDA64 のデスクトップ接続は Windows 専用です。通知の配置と文字サイズは Android が管理します。",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "instances",
+    "title": "実験的な複数 HUD",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "実験的な複数 HUD · Unsupported\n\nAndroid では重ねて表示する権限と通知を許可し、ホームから HUD を開始します。設定は自動保存されます。ハードウェアの取得はシステムの権限に依存します。PawnIO と AIDA64 のデスクトップ接続は Windows 専用です。通知の配置と文字サイズは Android が管理します。",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "maintenance",
+    "title": "設定の保存と保守",
+    "summary": "バックアップと診断機能を使います。",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "実験的機能 → 書き出す / 読み込む\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "advanced"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Android では重ねて表示する権限と通知を許可し、ホームから HUD を開始します。設定は自動保存されます。ハードウェアの取得はシステムの権限に依存します。PawnIO と AIDA64 のデスクトップ接続は Windows 専用です。通知の配置と文字サイズは Android が管理します。",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "troubleshooting",
+    "title": "問題の確認とデータ警告",
+    "summary": "表示モードと取得元を順に確認します。",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Home → Permissions\n表示と位置 → 常に表示\nデータ管理 → ハードウェアデータ\n\nAndroid では重ねて表示する権限と通知を許可し、ホームから HUD を開始します。設定は自動保存されます。ハードウェアの取得はシステムの権限に依存します。PawnIO と AIDA64 のデスクトップ接続は Windows 専用です。通知の配置と文字サイズは Android が管理します。",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  }
+]

@@ -30,6 +30,7 @@ fun HudPreviewCard(
     title: String,
     subtitle: String? = null,
     heightDp: Int = 168,
+    fontScale: Float = 1f,
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
@@ -62,13 +63,15 @@ fun HudPreviewCard(
                             ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT,
                         )
-                        setScaledDensity(previewScale)
+                        setGlobalFontScale(fontScale)
                         setRenderData(data)
+                        setScaledDensity(previewScale * OverlayHudView.DESIGN_VIEW_WIDTH / requiredDesignWidth())
                     }
                 },
                 update = { view ->
-                    view.setScaledDensity(previewScale)
+                    view.setGlobalFontScale(fontScale)
                     view.setRenderData(data)
+                    view.setScaledDensity(previewScale * OverlayHudView.DESIGN_VIEW_WIDTH / view.requiredDesignWidth())
                 },
             )
             }

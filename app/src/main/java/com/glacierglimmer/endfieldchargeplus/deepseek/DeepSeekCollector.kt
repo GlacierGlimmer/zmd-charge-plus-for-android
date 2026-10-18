@@ -194,11 +194,10 @@ class DeepSeekCollector(
     private fun formatTimestamp(epochMs: Long): String =
         SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(Date(epochMs))
 
-    private fun useEnglish(config: AppConfig): Boolean = when (config.language) {
-        AppLanguage.ENGLISH -> true
-        AppLanguage.SIMPLIFIED_CHINESE -> false
-        AppLanguage.AUTO -> Locale.getDefault().language.equals("en", ignoreCase = true)
-    }
+    private fun useEnglish(config: AppConfig): Boolean =
+        !com.glacierglimmer.endfieldchargeplus.core.i18n.UiLanguage.resolve(config.uiLanguage,
+            com.glacierglimmer.endfieldchargeplus.localization.LanguageController.systemLanguageTag()).isChineseSource
+
 
     companion object {
         const val TAG = "DeepSeekCollector"

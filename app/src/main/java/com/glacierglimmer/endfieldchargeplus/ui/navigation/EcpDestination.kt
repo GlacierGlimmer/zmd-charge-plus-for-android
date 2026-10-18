@@ -5,6 +5,7 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Cloud
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Smartphone
 import androidx.compose.material.icons.filled.Tune
@@ -26,11 +27,12 @@ enum class EcpDestination(
     val inBottomBar: Boolean,
 ) {
     HOME("home", "首页", "Home", Icons.Filled.Home, true),
-    DISPLAY("display", "显示", "Display", Icons.Filled.Smartphone, true),
-    CONTENT("content", "HUD 内容", "HUD Content", Icons.Filled.Dashboard, true),
-    DATA("datasources", "数据源", "Data sources", Icons.Filled.Cloud, true),
-    ADVANCED("advanced", "高级", "Advanced", Icons.Filled.Tune, false),
+    DISPLAY("display", "显示与位置", "Display & Position", Icons.Filled.Smartphone, true),
+    CONTENT("content", "HUD显示内容", "HUD Content", Icons.Filled.Dashboard, true),
+    DATA("datasources", "数据管理", "Data Management", Icons.Filled.Cloud, true),
+    ADVANCED("advanced", "实验性功能", "Experimental Features", Icons.Filled.Tune, false),
     VARIABLES("variables", "变量库", "Variables", Icons.AutoMirrored.Filled.List, false),
+    MANUAL("manual", "使用手册", "User Manual", Icons.Filled.MenuBook, false),
     ABOUT("about", "关于", "About", Icons.Filled.Info, false),
     ;
 

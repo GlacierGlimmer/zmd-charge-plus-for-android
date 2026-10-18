@@ -55,6 +55,10 @@ class LanguageController(private val container: EcpContainer) {
         }
     }
 
+    fun chooseCode(code: String,scope: CoroutineScope) {
+        scope.launch {container.configRepository.update {it.copy(uiLanguage=code)}}
+    }
+
     /**
      * "Auto" is stored as a distinct preference: it is not the same as "the language we happen to
      * resolve to right now", so the selector can show it as its own choice.
@@ -66,12 +70,8 @@ class LanguageController(private val container: EcpContainer) {
             Resources.getSystem().configuration.locales.get(0)?.toLanguageTag()
                 ?: Locale.getDefault().toLanguageTag()
 
-        /** Preferences offered by the selector, in display order. */
-        val preferences: List<AppLanguage> = listOf(
-            AppLanguage.AUTO,
-            AppLanguage.SIMPLIFIED_CHINESE,
-            AppLanguage.ENGLISH,
-        )
+        /** Auto plus the same persisted codes as the language page. */
+        val preferenceCodes:List<String> get()=listOf("Auto")+com.glacierglimmer.endfieldchargeplus.core.i18n.LanguageCatalog.languages.map {it.code}
 
         /** True when [preference] means "follow the system language". */
         fun isFollowingSystem(preference: String?): Boolean =

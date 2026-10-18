@@ -7,11 +7,11 @@ import org.junit.Test
 
 class ProductVersionContractTest {
     @Test fun `installed version shared product metadata and updates agree without build suffixes`() {
-        assertEquals("v0.1.2", BuildConfig.VERSION_NAME)
+        assertEquals("v0.1.3", BuildConfig.VERSION_NAME)
         assertEquals(ProductInfo.VERSION_NAME, BuildConfig.VERSION_NAME)
         assertEquals(ProductInfo.VERSION_CODE, BuildConfig.VERSION_CODE)
-        assertEquals(3, BuildConfig.VERSION_CODE)
-        assertEquals(UpdateStatus.UP_TO_DATE, UpdateVersions.compare(BuildConfig.VERSION_NAME, "v0.1.2").status)
-        assertEquals(UpdateStatus.UPDATE_AVAILABLE, UpdateVersions.compare(BuildConfig.VERSION_NAME, "v0.1.3").status)
+        assertEquals(4, BuildConfig.VERSION_CODE)
+        assertEquals(UpdateStatus.UP_TO_DATE, UpdateVersions.compare(BuildConfig.VERSION_NAME, "v0.1.3").status)
+        assertEquals(UpdateStatus.UPDATE_AVAILABLE, UpdateVersions.compare(BuildConfig.VERSION_NAME, "v0.1.4").status)
     }
 }

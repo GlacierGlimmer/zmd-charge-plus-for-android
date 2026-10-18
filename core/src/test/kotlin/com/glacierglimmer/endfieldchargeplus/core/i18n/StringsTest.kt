@@ -16,19 +16,19 @@ class StringsTest {
     }
 
     @Test
-    fun `resolve follows the ECP rule unchanged`() {
+    fun `resolve follows the expanded catalog and explicit preference`() {
         assertEquals(UiLanguage.ZH_CN, Strings.resolve("Auto", "zh-Hans-CN"))
-        assertEquals(UiLanguage.ZH_CN, Strings.resolve("Auto", "zh-Hant-TW"))
-        assertEquals(UiLanguage.ZH_CN, Strings.resolve("Auto", "zh-TW"))
+        assertEquals(UiLanguage.ZH_TW, Strings.resolve("Auto", "zh-Hant-TW"))
+        assertEquals(UiLanguage.ZH_TW, Strings.resolve("Auto", "zh-TW"))
         assertEquals(UiLanguage.ZH_CN, Strings.resolve("Auto", "zh"))
         assertEquals(UiLanguage.EN, Strings.resolve("Auto", "en-US"))
-        assertEquals(UiLanguage.EN, Strings.resolve("Auto", "ja-JP"))
+        assertEquals(UiLanguage.JA_JP, Strings.resolve("Auto", "ja-JP"))
         assertEquals(UiLanguage.EN, Strings.resolve("Auto", ""))
         // An explicit preference always wins over the device language.
         assertEquals(UiLanguage.ZH_CN, Strings.resolve("zh-CN", "ja-JP"))
         assertEquals(UiLanguage.EN, Strings.resolve("en-US", "zh-CN"))
         assertEquals(UiLanguage.ZH_CN, Strings.resolve("zh", "en-US"))
-        assertEquals(UiLanguage.EN, Strings.resolve("Auto", "EN-GB"))
+        assertEquals(UiLanguage.EN_GB, Strings.resolve("Auto", "EN-GB"))
     }
 
     @Test

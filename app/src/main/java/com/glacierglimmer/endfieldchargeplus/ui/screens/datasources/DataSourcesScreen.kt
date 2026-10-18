@@ -388,10 +388,11 @@ private fun DeepSeekCard(viewModel: DataSourcesViewModel, config: com.glaciergli
 private fun HttpSourcesCard(viewModel: DataSourcesViewModel, sources: List<CustomHttpSource>) {
     SectionCard(
         title = t("HTTP / JSON 数据源", "HTTP / JSON sources"),
-        subtitle = t(
-            "GET 一个返回 JSON 的接口，把字段映射为 custom.数据源.字段 变量。",
-            "GET a JSON endpoint and map its fields to custom.source.field variables.",
-        ),
+        subtitle = when(com.glacierglimmer.endfieldchargeplus.localization.LocalUiLanguage.current.wire) {
+            "zh-CN" -> "GET 一个返回 JSON 的接口，把字段映射为 custom.数据源.字段 变量。"
+            "zh-TW", "zh-HK" -> "GET 一個回傳 JSON 的介面，將欄位對應為 custom.資料來源.欄位 變數。"
+            else -> "GET a JSON endpoint and map its fields to custom.source.field variables."
+        },
         trailing = {
             TextButton(onClick = viewModel::addHttpSource) { Text(t("添加", "Add")) }
         },

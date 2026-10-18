@@ -224,7 +224,7 @@ object EcpJson {
         }
         // AppConfig
         put(
-            "SchemaVersion", "HudEnabled", "UiLanguage", "GlobalScale", "DisplayDurationSeconds",
+            "SchemaVersion", "HudEnabled", "UiLanguage", "GlobalFontScale", "GlobalUiScale", "GlobalScale", "DisplayDurationSeconds",
             "BounceStrength", "RippleIntensity", "RippleSpread", "HudOpacity", "PositionMode",
             "HudPosition", "HudOffsetX", "HudOffsetY", "HudCustomX", "HudCustomY", "CustomHud",
             "Android",
@@ -279,7 +279,7 @@ object EcpJson {
         "NetworkDisplayUnit" to listOf("AutoBytes", "Mbps"),
         "NetworkPercentMode" to listOf("Total", "Download", "Upload", "Max"),
         "IslandProvider" to listOf("Auto", "AndroidSystem", "XiaomiHyperIsland", "None"),
-        "UiLanguage" to listOf("Auto", "zh-CN", "en-US"),
+        "UiLanguage" to listOf("Auto") + com.glacierglimmer.endfieldchargeplus.core.i18n.UiLanguage.entries.map { it.wire },
     )
 
     private val BOOLEAN_KEYS: Set<String> = setOf(

@@ -45,7 +45,14 @@ class HudStateBuilderImpl(private val clock: Clock = Clock.systemUTC()) : HudSta
     ): HudRenderData {
         val localized = BuiltInProfileLocalization.forLanguage(profile, language)
         val effective = WorldClockValues.effectiveSnapshot(profile, snapshot, language, clock.instant())
-        val resolver = resolverFor(effective)
+        val rawResolver=resolverFor(effective)
+        val resolver:(String)->MetricValue?={name ->
+            val value=rawResolver(name)
+            if(value is MetricValue.Text && !name.startsWith("custom.") &&
+                (name.endsWith(".status") || name.endsWith(".state") || name=="deepseek.period.name"))
+                MetricValue.Text(com.glacierglimmer.endfieldchargeplus.core.i18n.LanguageCatalog.translate(value.value,language))
+            else value
+        }
         return HudRenderData(
             tagline = TemplateEngine.render(localized.taglineTemplate, resolver),
             title = TemplateEngine.render(localized.titleTemplate, resolver),

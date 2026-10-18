@@ -95,6 +95,8 @@ object ConfigNormalizer {
         return config.copy(
             schemaVersion = AppConfig.CURRENT_SCHEMA_VERSION,
             uiLanguage = normalizeLanguage(config.uiLanguage, note),
+            globalFontScale = clampDouble(config.globalFontScale,0.75,2.0,1.0),
+            globalUiScale = clampDouble(config.globalUiScale,0.75,2.0,1.0),
             globalScale = clampDouble(config.globalScale, 0.4, 1.4, AppConfig.DEFAULT_GLOBAL_SCALE),
             displayDurationSeconds = clampDouble(
                 config.displayDurationSeconds, 3.0, 10.0, AppConfig.DEFAULT_DISPLAY_DURATION_SECONDS,
@@ -121,9 +123,11 @@ object ConfigNormalizer {
     private fun normalizeLanguage(raw: String?, note: (String) -> Unit): String {
         val value = raw?.trim().orEmpty()
         if (value.isEmpty()) return AppLanguage.AUTO.wire
-        EcpJson.matchWord(value, listOf("Auto", "zh-CN", "en-US"))?.let { return AppLanguage.fromWire(it).wire }
+        com.glacierglimmer.endfieldchargeplus.core.i18n.LanguageCatalog.find(value)?.let { return it.code }
+        if(value.equals("Auto",true))return "Auto"
         val mapped = when (EcpJson.normalizeWord(value)) {
-            "zh", "zhcn", "zhhans", "zhhant", "chinese", "simplifiedchinese", "中文", "简体中文" -> "zh-CN"
+            "zh", "zhcn", "zhhans", "chinese", "simplifiedchinese", "中文", "简体中文" -> "zh-CN"
+            "zhhant", "traditionalchinese", "繁體中文" -> "zh-TW"
             "en", "enus", "english", "英文" -> "en-US"
             "system", "followsystem", "跟随系统" -> "Auto"
             else -> null
@@ -132,7 +136,7 @@ object ConfigNormalizer {
             note("unknown UiLanguage '$value' -> ${AppLanguage.AUTO.wire}")
             return AppLanguage.AUTO.wire
         }
-        return AppLanguage.fromWire(mapped).wire
+        return mapped
     }
 
     /**

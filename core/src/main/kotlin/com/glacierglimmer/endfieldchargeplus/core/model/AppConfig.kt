@@ -20,6 +20,8 @@ data class AppConfig(
     /** `Auto`, `zh-CN` or `en-US`. `Auto` follows the Android system locale. */
     @SerialName("UiLanguage") val uiLanguage: String = "Auto",
 
+    @SerialName("GlobalFontScale") val globalFontScale: Double = 1.0,
+    @SerialName("GlobalUiScale") val globalUiScale: Double = 1.0,
     @SerialName("GlobalScale") val globalScale: Double = DEFAULT_GLOBAL_SCALE,
     @SerialName("DisplayDurationSeconds") val displayDurationSeconds: Double = DEFAULT_DISPLAY_DURATION_SECONDS,
     @SerialName("BounceStrength") val bounceStrength: Double = DEFAULT_BOUNCE_STRENGTH,

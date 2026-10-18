@@ -43,8 +43,8 @@ android {
         applicationId = "com.glacierglimmer.endfieldchargeplus"
         minSdk = 26
         targetSdk = 36
-        versionCode = 3
-        versionName = "v0.1.2"
+        versionCode = 4
+        versionName = "v0.1.3"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -67,7 +67,8 @@ android {
     }
 
     androidResources {
-        // The product ships Simplified Chinese and English only (Chinese locales fall back to zh).
+        // Android platform resources use official locale qualifiers. The independent
+        // offline ECP catalog also supports regional and fictional language tags.
         localeFilters += listOf("en", "zh")
     }
 

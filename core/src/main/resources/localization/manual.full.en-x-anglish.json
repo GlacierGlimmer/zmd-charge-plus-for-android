@@ -1,0 +1,388 @@
+[
+  {
+    "id": "start",
+    "title": "Getting started",
+    "summary": "Home → HUD",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "On Android, allow overlays and notifications, then start the HUD from Home. Set-up save by itself. Hardware readings depend on workframe access. PawnIO and the AIDA64 desktop workface are Windows-only. Android controls notification layout and text size.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "HUD Content → Built-in Profiles → Save",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      }
+    ]
+  },
+  {
+    "id": "display",
+    "title": "Showing, stead & appearance",
+    "summary": "Understand showing modes and screen coordinates.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Showing & Stead → Always Visible / Showing mode / Stead / Opacity",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Whole-app font size and UI size-step",
+        "body": "Applies to all set-up and every HUD. Individual HUD size is multiplied by whole-app UI size-step.",
+        "kind": "text",
+        "code": "",
+        "target": "display"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "On Android, allow overlays and notifications, then start the HUD from Home. Set-up save by itself. Hardware readings depend on workframe access. PawnIO and the AIDA64 desktop workface are Windows-only. Android controls notification layout and text size.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "profiles",
+    "title": "Sets & HUD content",
+    "summary": "Choose what the HUD shows and how it looks.",
+    "blocks": [
+      {
+        "id": "profile-actions",
+        "title": "Create, save, wipe and preview",
+        "body": "Start from a built-in set and Save to create a own-made copy, or create a new set. Wipe removes own-made sets while original presets remain. Preview uses the now edit and real facts; Save commits it to the running HUD.",
+        "kind": "text",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "text-fields",
+        "title": "Text regions and icons",
+        "body": "Tagline, title, primary/secondary text and the right-side value can mix literal text and shiftword tokens. Use the right suffix for units such as %, °C or GHz. Icons identify the content; the accent color sets the capsule and ring color.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "progress",
+        "title": "Ring shiftword and range",
+        "body": "The ring maps (value − minimum) over the configured range, clamped to 0–100%. Use a shiftword key or a numeric expression beginning with =. Set a sensible full-size-step value for temperature, traffic or FPS. The range does not change the raw text reading.",
+        "kind": "text",
+        "code": "cpu.usage\n= (cpu.usage + gpu.usage) / 2",
+        "target": null
+      },
+      {
+        "id": "color-rules",
+        "title": "Conditional colors",
+        "body": "Add one shiftword/operator/threshold => color rule per line. Rules change the accent based on load, temperature and other values. Thresholds use the shiftword's original unit. Use valid color values; missing measurements are not treated as zero.",
+        "kind": "text",
+        "code": "cpu.usage >= 90 => #FF4D4F\ncpu.usage >= 75 => #FFB84D",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "variables",
+    "title": "Shiftwords, tokens & expressions",
+    "summary": "Copy from the library, then build readable HUD text.",
+    "blocks": [
+      {
+        "id": "library",
+        "title": "Find and copy a shiftword",
+        "body": "Search by name, key or category under Facts Keeping → Shiftword Library. Choose a shiftword to see its meaning, type, unit and formats. Copy Shiftword Key is useful for rings and rules; Copy Template includes braces for text fields.",
+        "kind": "text",
+        "code": "",
+        "target": "variables"
+      },
+      {
+        "id": "format",
+        "title": "Common token formats",
+        "body": "Place the key in braces, followed by | and a showing format. Use 0 for integers and 0.0 / 0.00 for fixed decimals. Literal text may surround tokens. Formatting changes showing only.",
+        "kind": "text",
+        "code": "CPU {cpu.usage|0.0}%\n{cpu.frequency_ghz|0.00} GHz\n{= (cpu.usage + gpu.usage) / 2 |0.0}%",
+        "target": null
+      },
+      {
+        "id": "pipelines",
+        "title": "Self-working units and pipelines",
+        "body": "auto:1 chooses units based on the shiftword; avoid adding the same unit twice. Format pipelines run left to right and can transform numbers or shorten text. Use {= ...} for inline expressions, or start a ring expression with =.",
+        "kind": "text",
+        "code": "{network.download_bps|auto:1}\n{cpu.usage|math:round:1|0.0}",
+        "target": null
+      },
+      {
+        "id": "operators",
+        "title": "Operators and conditions",
+        "body": "Use +, -, *, /, % remainder, ^ power and parentheses. Comparisons support >, >=, <, <=, == and !=. Boolean operators include &&, ||, ! and and/or/not. Conditions use test ? yes : no or if(test, yes, no). ?? supplies a fallback for null/empty values.",
+        "kind": "text",
+        "code": "{= cpu.usage >= 90 ? 'HIGH' : 'NORMAL'}\n{= clamp(cpu.usage, 0, 100)|0.0}",
+        "target": null
+      },
+      {
+        "id": "numeric-functions",
+        "title": "Numeric function reference",
+        "body": "Aggregates: min, max, avg and sum. Range/precision: clamp(value, min, max), round(value, digits), floor, ceil, abs and sign. Math: sqrt, pow, log, log10, exp, sin, cos and tan. in a hundred(value, total) returns a share in a hundred; between(value, min, max) tests an inclusive range.",
+        "kind": "text",
+        "code": "{= avg(cpu.usage, gpu.usage)|0.0}\n{= percent(memory.used_bytes, memory.total_bytes)|0.0}",
+        "target": null
+      },
+      {
+        "id": "text-functions",
+        "title": "Text, types and pipeline reference",
+        "body": "Expression functions: len, contains, startswith, endswith, upper, lower and concat. Convert types with number, string or bool; inspect them with isnull, isempty and isnan. Token pipelines support upper/lower, zero-based sub:start:length, replace:old:new and math:add/sub/mul/div/round/floor/ceil/abs.",
+        "kind": "text",
+        "code": "{media.title|sub:0:24}\n{cpu.usage|math:div:100|0.00}",
+        "target": null
+      },
+      {
+        "id": "units-time",
+        "title": "Capacity and time formats",
+        "body": "bytes / speed add self-working byte-size or byte-rate units. kb:n, mb:n, gb:n and tb:n divide by powers of 1024 with n decimals; add the desired unit in the set. duration / duration-long format seconds. Date/time fields support time:<date format>; time:relative formats relative time or duration.",
+        "kind": "text",
+        "code": "{memory.used_bytes|gb:2} GiB\n{battery.time_remaining_seconds|duration}",
+        "target": null
+      },
+      {
+        "id": "duplicates",
+        "title": "Hardware shiftwords and legacy keys",
+        "body": "Once equivalent hardware fields are discovered, duplicate legacy entries leave the library while existing sets keep working. New keys identify a specific device and sensor. Highest/average summaries have different meanings and remain separate. -- means no valid value is currently available.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "hardware",
+    "title": "Hardware sensors & drivers",
+    "summary": "Hardware Facts",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Shows readings actually provided by the device and workframe. Unavailable items show -- and their reason.\n\nOn Android, allow overlays and notifications, then start the HUD from Home. Set-up save by itself. Hardware readings depend on workframe access. PawnIO and the AIDA64 desktop workface are Windows-only. Android controls notification layout and text size.",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Facts Keeping → Hardware Facts → Copy template",
+        "kind": "text",
+        "code": "",
+        "target": "hardware"
+      }
+    ]
+  },
+  {
+    "id": "sources",
+    "title": "Facts well set-up",
+    "summary": "Facts Well Set-up",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "On Android, allow overlays and notifications, then start the HUD from Home. Set-up save by itself. Hardware readings depend on workframe access. PawnIO and the AIDA64 desktop workface are Windows-only. Android controls notification layout and text size.\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "deepseek",
+        "title": "DeepSeek balance and peak periods",
+        "body": "Enter a DeepSeek API key under Facts Keeping → Facts Well Set-up, then Save & Apply. Keys are encrypted for the now Android user and may need re-entry for another account or machine. Peak windows use Beijing time and the Chinese holiday calendar; weekend make-up workdays remain off-peak.",
+        "kind": "text",
+        "code": "",
+        "target": "sources"
+      },
+      {
+        "id": "http",
+        "title": "Set up HTTP / JSON",
+        "body": "Enter an HTTP/HTTPS GET URL that returns JSON and name the well.\nMap response paths such as data.value or players[0].name to shiftword names.\nSet needed headers and refresh seconds, turn on the well, then Save & Apply.\nFind custom.<source>.<variable> in the library and use it in a set.",
+        "kind": "steps",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "http-example",
+        "title": "Copyable JSON structure",
+        "body": "This structure is off. Replace the URL with your real endpoint, adjust paths to the response and set on to true when ready. ${env:MY_API_KEY} reads a process environment shiftword instead of putting a secret directly in JSON.",
+        "kind": "text",
+        "code": "[\n  {\n    \"name\": \"demo\",\n    \"enabled\": false,\n    \"url\": \"https://example.com/status\",\n    \"refreshSeconds\": 10,\n    \"headers\": { \"Authorization\": \"Bearer ${env:MY_API_KEY}\" },\n    \"fields\": [\n      { \"variable\": \"value\", \"jsonPath\": \"data.value\" },\n      { \"variable\": \"name\", \"jsonPath\": \"players[0].name\" }\n    ]\n  }\n]",
+        "target": null
+      },
+      {
+        "id": "http-errors",
+        "title": "Status, cache and errors",
+        "body": "Use custom.<source>.status / fault for well state and failures. The refresh interval controls caching, even with faster whole-app sampling. For 401/403, check authentication and access. JSON paths must match the actual response structure.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "cycle",
+    "title": "Cycling, clicks & animations",
+    "summary": "Control how sets alternate.",
+    "blocks": [
+      {
+        "id": "queue",
+        "title": "Build a carousel queue",
+        "body": "Add sets to the queue and use Move Up/Down to order them. Removing from the queue does not wipe the set. Self-working cycling advances at the configured interval. An empty queue uses the active set; a single-item queue cannot switch to a different item.",
+        "kind": "text",
+        "code": "",
+        "target": "hud"
+      },
+      {
+        "id": "animation",
+        "title": "Three cycle animations",
+        "body": "Simple shortens the presentation; Full uses the complete summon. Roll Up moves icons, values and the ring inside a persistent capsule while retaining its window and layer. Roll applies to persistent switches; initial and transient presentations keep their normal show/retract lifecycle. DeepSeek peak transitions keep Full moving show.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      },
+      {
+        "id": "click-cycle",
+        "title": "Click a persistent HUD to switch",
+        "body": "Turn on click cycling to advance through the queue even with self-working cycling off. Each HUD advances its own instance and resets its cycle timer. Transparent areas remain click-through. Empty or single-item queues do not switch.",
+        "kind": "text",
+        "code": "",
+        "target": null
+      }
+    ]
+  },
+  {
+    "id": "summons",
+    "title": "Shortcuts & mouse hot zones",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Shortcuts & mouse hot zones · Unsupported\n\nOn Android, allow overlays and notifications, then start the HUD from Home. Set-up save by itself. Hardware readings depend on workframe access. PawnIO and the AIDA64 desktop workface are Windows-only. Android controls notification layout and text size.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "triggers",
+    "title": "Event trigger rules",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Event trigger rules · Unsupported\n\nOn Android, allow overlays and notifications, then start the HUD from Home. Set-up save by itself. Hardware readings depend on workframe access. PawnIO and the AIDA64 desktop workface are Windows-only. Android controls notification layout and text size.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "special",
+    "title": "Time, webwork & FPS sets",
+    "summary": "Adjust the options specific to each set.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "World Clock → UTC\nWebwork → Mbps / MB/s\nPacket Probe → ICMP / TCP / UDP",
+        "kind": "text",
+        "code": "",
+        "target": "content"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Shows readings actually provided by the device and workframe. Unavailable items show -- and their reason.\n\nOn Android, allow overlays and notifications, then start the HUD from Home. Set-up save by itself. Hardware readings depend on workframe access. PawnIO and the AIDA64 desktop workface are Windows-only. Android controls notification layout and text size.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "media",
+    "title": "Media knowledge & headway",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Media knowledge & headway · Unsupported\n\nOn Android, allow overlays and notifications, then start the HUD from Home. Set-up save by itself. Hardware readings depend on workframe access. PawnIO and the AIDA64 desktop workface are Windows-only. Android controls notification layout and text size.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "instances",
+    "title": "Try-out multiple HUDs",
+    "summary": "Unsupported · Android",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Try-out multiple HUDs · Unsupported\n\nOn Android, allow overlays and notifications, then start the HUD from Home. Set-up save by itself. Hardware readings depend on workframe access. PawnIO and the AIDA64 desktop workface are Windows-only. Android controls notification layout and text size.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  },
+  {
+    "id": "maintenance",
+    "title": "Set-up, backup & maintenance",
+    "summary": "Keep your set-up and inspect failures.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Try-out Crafts → Send out / Bring in\nAndroid Keystore",
+        "kind": "text",
+        "code": "",
+        "target": "advanced"
+      },
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "On Android, allow overlays and notifications, then start the HUD from Home. Set-up save by itself. Hardware readings depend on workframe access. PawnIO and the AIDA64 desktop workface are Windows-only. Android controls notification layout and text size.",
+        "kind": "text",
+        "code": "",
+        "target": ""
+      }
+    ]
+  },
+  {
+    "id": "troubleshooting",
+    "title": "Troubleshooting & warnings",
+    "summary": "Use the symptom to find the right setting.",
+    "blocks": [
+      {
+        "id": "android-guide",
+        "title": "Details",
+        "body": "Home → Permissions\nShowing & Stead → Always Visible\nFacts Keeping → Hardware Facts\n\nOn Android, allow overlays and notifications, then start the HUD from Home. Set-up save by itself. Hardware readings depend on workframe access. PawnIO and the AIDA64 desktop workface are Windows-only. Android controls notification layout and text size.",
+        "kind": "text",
+        "code": "",
+        "target": "home"
+      }
+    ]
+  }
+]
