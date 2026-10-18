@@ -24,6 +24,7 @@ import com.glacierglimmer.endfieldchargeplus.localization.LanguageController
 import com.glacierglimmer.endfieldchargeplus.localization.LocalUiLanguage
 import com.glacierglimmer.endfieldchargeplus.localization.t
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 @Composable
 fun LanguageEntry(container:EcpContainer,controller:LanguageController) {
@@ -79,9 +80,9 @@ private fun LanguageSelector(container:EcpContainer,controller:LanguageControlle
         AlertDialog(onDismissRequest={if(!saving)appearance=false},
             title={Text(t("全局字体大小和UI缩放","Global font size and UI scale"))},
             text={Column(Modifier.verticalScroll(rememberScrollState())) {
-                Text(t("字体缩放","Font scale")+" · ${(font*100).toInt()}%")
+                Text(t("字体缩放","Font scale")+" · ${(font*100).roundToInt()}%")
                 Slider(value=font,onValueChange={font=it},valueRange=.75f..2f,steps=24)
-                Text(t("UI 缩放","UI scale")+" · ${(ui*100).toInt()}%")
+                Text(t("UI 缩放","UI scale")+" · ${(ui*100).roundToInt()}%")
                 Slider(value=ui,onValueChange={ui=it},valueRange=.75f..2f,steps=24)
                 Text(t("应用于整个设置界面和所有 HUD。单个 HUD 的大小设置会与全局 UI 缩放相乘。","Applies to all settings and every HUD. Individual HUD size is multiplied by global UI scale."))
                 TextButton(onClick={font=1f;ui=1f}) {Text(t("恢复 100%","Reset to 100%"))}

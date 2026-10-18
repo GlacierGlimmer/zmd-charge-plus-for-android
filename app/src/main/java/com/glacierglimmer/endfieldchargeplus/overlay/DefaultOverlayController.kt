@@ -290,8 +290,11 @@ class DefaultOverlayController @JvmOverloads constructor(
             if (view === created) scheduleLayoutRefresh()
             insets
         }
-        created.onGeometryChanged = {
-            if (view === created) { dragging = false; scheduleLayoutRefresh() }
+        created.onGeometryChanged = { configurationChanged ->
+            if (view === created) {
+                if(configurationChanged)dragging=false
+                if(!dragging)scheduleLayoutRefresh()
+            }
         }
         created.setGlobalFontScale(config.globalFontScale.toFloat())
         created.setScaledDensity(effectiveScale())
@@ -365,6 +368,7 @@ class DefaultOverlayController @JvmOverloads constructor(
                     // Accessibility: a tap that did not move the HUD is reported as a click so
                     // assistive technology and the platform see a consistent interaction.
                     if (wasTap) touched.performClick()
+                    scheduleLayoutRefresh()
                 }
             }
             true

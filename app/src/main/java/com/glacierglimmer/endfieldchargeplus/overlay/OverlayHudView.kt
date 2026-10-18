@@ -51,7 +51,7 @@ class OverlayHudView @JvmOverloads constructor(
 
     private var deviceDensity: Float = resources.displayMetrics.density
 
-    internal var onGeometryChanged: (() -> Unit)? = null
+    internal var onGeometryChanged: ((configurationChanged:Boolean) -> Unit)? = null
 
     /** `GlobalScale × HudScale` (or the settings preview's own scale), applied on top of density. */
     private var renderScale: Float = 1f
@@ -59,7 +59,7 @@ class OverlayHudView @JvmOverloads constructor(
     fun setGlobalFontScale(value:Float) {
         val next=if(value.isFinite())value.coerceIn(.75f,2f) else 1f
         if(next==fontScale)return
-        fontScale=next;requestLayout();invalidate();onGeometryChanged?.invoke()
+        fontScale=next;requestLayout();invalidate();onGeometryChanged?.invoke(false)
     }
 
 
@@ -107,7 +107,7 @@ class OverlayHudView @JvmOverloads constructor(
         accentColor = parseColorOrDefault(data.accentColor, DEFAULT_ACCENT)
         setProgressTarget(data.progress, animate = hasRendered && isShown)
         if (abs(requiredDesignWidth() - oldWidth) > .5f) {
-            requestLayout();onGeometryChanged?.invoke()
+            requestLayout();onGeometryChanged?.invoke(false)
         }
         invalidate()
     }
@@ -155,7 +155,7 @@ class OverlayHudView @JvmOverloads constructor(
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         setScaledDensity(renderScale)
-        onGeometryChanged?.invoke()
+        onGeometryChanged?.invoke(true)
     }
 
     /** Applies one sampled animation frame. Called on the main thread by [HudAnimator]. */
