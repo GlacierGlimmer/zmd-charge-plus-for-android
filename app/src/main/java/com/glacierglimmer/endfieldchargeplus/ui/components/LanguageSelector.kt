@@ -57,7 +57,7 @@ private fun LanguageSelector(container:EcpContainer,controller:LanguageControlle
                 OutlinedTextField(value=search,onValueChange={search=it},singleLine=true,
                     label={Text(t("搜索语言、地区或语言代码","Search languages, regions or language codes"))},
                     modifier=Modifier.fillMaxWidth().widthIn(max=760.dp).padding(vertical=12.dp))
-                LazyColumn(Modifier.height(listHeight).fillMaxWidth().widthIn(max=760.dp)) {
+                LazyColumn(Modifier.widthIn(max=560.dp).fillMaxWidth().height(listHeight)) {
                     if(search.isBlank() || "Auto System 跟随系统".contains(search,true)) item(key="Auto") {
                         LanguageRow(t("跟随系统","Follow system"),config.uiLanguage=="Auto") {controller.chooseCode("Auto",scope)}
                     }
@@ -65,6 +65,10 @@ private fun LanguageSelector(container:EcpContainer,controller:LanguageControlle
                         LanguageRow(language.displayName,config.uiLanguage==language.code) {controller.chooseCode(language.code,scope)}
                     }
                 }
+                Text(t("（语言翻译不一定100%准确）","(Language translations may not be 100% accurate)"),
+                    modifier=Modifier.fillMaxWidth().padding(top=12.dp),
+                    textAlign=TextAlign.Center,color=MaterialTheme.colorScheme.onSurfaceVariant,
+                    style=MaterialTheme.typography.bodySmall)
                 Row(Modifier.fillMaxWidth().padding(top=12.dp),horizontalArrangement=Arrangement.spacedBy(10.dp)) {
                     OutlinedButton(onClick={appearance=true},modifier=Modifier.weight(1f)) {Text(t("全局字体大小和UI缩放","Global font size and UI scale"),textAlign=TextAlign.Center)}
                     Button(onClick=onClose,modifier=Modifier.weight(1f)) {Text(t("完成","Done"))}
@@ -97,9 +101,9 @@ private fun LanguageSelector(container:EcpContainer,controller:LanguageControlle
 
 @Composable
 private fun LanguageRow(label:String,selected:Boolean,onClick:()->Unit) {
-    Surface(modifier=Modifier.fillMaxWidth().padding(vertical=2.dp).clickable(onClick=onClick),
+    Surface(modifier=Modifier.fillMaxWidth().heightIn(min=36.dp).clickable(onClick=onClick),
         border=if(selected)BorderStroke(1.dp,MaterialTheme.colorScheme.primary) else null,
         color=if(selected)MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface) {
-        Text(label,modifier=Modifier.fillMaxWidth().padding(12.dp),textAlign=TextAlign.Center,style=MaterialTheme.typography.bodyLarge)
+        Text(label,modifier=Modifier.fillMaxWidth().padding(horizontal=12.dp,vertical=6.dp),textAlign=TextAlign.Center,style=MaterialTheme.typography.bodyLarge)
     }
 }
